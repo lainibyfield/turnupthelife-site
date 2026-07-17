@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>The Planner — Build a Day</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;800;900&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FFF7EA;--card:#FFFFFF;--line:#EADFCB;--ink:#26140A;--ink-2:#7E6A54;
+    --sun:#FFB300;--aqua:#12A14B;--pink:#D62828;--lime:#93D500;--coral:#E8500F;
+    --display:'Archivo',system-ui,sans-serif;--body:'Newsreader',Georgia,serif;--mono:'JetBrains Mono',ui-monospace,monospace;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.5;-webkit-font-smoothing:antialiased;}
+  .wrap{max-width:820px;margin:0 auto;padding:0 18px 80px;}
+  .stripe{height:5px;border:0;margin:0;background:linear-gradient(90deg,var(--sun),var(--coral) 28%,var(--pink) 52%,var(--aqua) 76%,var(--lime));}
+  .shine{background:linear-gradient(100deg,var(--sun),var(--coral) 28%,var(--pink) 55%,var(--aqua) 85%);background-size:220% auto;-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent;animation:sh 7s linear infinite;}
+  @keyframes sh{to{background-position:220% center;}}
+  header{padding:36px 0 10px;}
+  .kick{font-family:var(--mono);font-size:11.5px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--coral);}
+  h1{font-family:var(--display);font-weight:900;font-size:clamp(38px,9vw,68px);line-height:.86;letter-spacing:-.03em;margin:10px 0 14px;text-transform:uppercase;}
+  .lead{max-width:600px;font-size:17px;color:var(--ink);margin:0 0 4px;}
+  .prototype{display:inline-block;margin-top:10px;font-family:var(--mono);font-size:10.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;background:var(--sun);border:2px solid var(--ink);padding:4px 10px;}
+
+  .daytype{display:flex;gap:8px;margin:22px 0 18px;}
+  .daytype button{flex:1;font-family:var(--mono);font-size:12px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;border:2px solid var(--ink);background:var(--card);color:var(--ink);padding:12px;cursor:pointer;line-height:1.3;}
+  .daytype button small{display:block;font-weight:400;color:var(--ink-2);text-transform:none;letter-spacing:0;margin-top:3px;}
+  .daytype button.on{background:var(--sun);border-color:var(--sun);}
+
+  /* tally dashboard */
+  .tally{position:sticky;top:0;z-index:20;background:var(--paper);border-bottom:2px solid var(--ink);padding:12px 0;margin-bottom:8px;}
+  .bars{display:flex;gap:16px;}
+  .barwrap{flex:1;}
+  .barwrap .lab{display:flex;justify-content:space-between;font-family:var(--mono);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;margin-bottom:5px;}
+  .barwrap .lab .now{color:var(--ink);} .barwrap .lab .goal{color:var(--ink-2);}
+  .track{height:12px;background:var(--line);border:1.5px solid var(--ink);overflow:hidden;}
+  .fill{height:100%;width:0;background:var(--aqua);transition:width .25s ease;}
+  .fill.protein{background:var(--aqua);} .fill.kcal{background:var(--sun);}
+  .fill.over{background:var(--pink);}
+
+  .flags{margin:10px 0 0;min-height:8px;}
+  .flag{font-family:var(--mono);font-size:12px;line-height:1.5;padding:7px 11px;margin-top:7px;border-left:3px solid var(--sun);background:rgba(255,179,0,.14);}
+  .flag.good{border-left-color:var(--aqua);background:rgba(18,161,75,.10);color:#0B5C2E;}
+  .flag.warn{border-left-color:var(--pink);background:rgba(214,40,40,.09);color:var(--pink);}
+
+  /* slots */
+  .slots{margin-top:20px;}
+  .slot{border:1.5px solid var(--ink);background:var(--card);margin-top:12px;}
+  .slot-head{display:flex;align-items:center;gap:12px;padding:13px 16px;cursor:pointer;}
+  .slot-badge{font-family:var(--display);font-weight:900;font-size:20px;width:44px;height:44px;display:flex;align-items:center;justify-content:center;border:2px solid var(--ink);flex:0 0 auto;}
+  .slot-badge.B{background:var(--lime);} .slot-badge.L{background:var(--sun);}
+  .slot-badge.D{background:var(--coral);color:#fff;} .slot-badge.M{background:var(--aqua);color:#fff;}
+  .slot-info{flex:1;min-width:0;}
+  .slot-role{font-family:var(--mono);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--ink-2);}
+  .slot-pick{font-family:var(--display);font-weight:800;font-size:18px;text-transform:uppercase;letter-spacing:-.01em;line-height:1.1;margin-top:2px;}
+  .slot-pick.empty{color:var(--ink-2);font-style:normal;font-weight:600;font-size:15px;text-transform:none;font-family:var(--body);}
+  .slot-meta{font-family:var(--mono);font-size:11px;color:var(--ink-2);margin-top:3px;}
+  .slot-x{font-family:var(--mono);font-size:18px;color:var(--ink-2);padding:4px 8px;cursor:pointer;flex:0 0 auto;}
+  .slot-x:hover{color:var(--pink);}
+  .chev{flex:0 0 auto;font-size:14px;color:var(--ink-2);}
+
+  .picker{border-top:1.5px solid var(--line);padding:8px;display:none;max-height:340px;overflow-y:auto;}
+  .picker.open{display:block;}
+  .opt{display:flex;align-items:center;gap:10px;padding:9px 10px;border-bottom:1px solid var(--line);cursor:pointer;}
+  .opt:last-child{border-bottom:none;}
+  .opt:hover{background:rgba(255,179,0,.10);}
+  .opt-cls{font-family:var(--mono);font-weight:700;font-size:11px;border:1.5px solid var(--ink);padding:2px 6px;flex:0 0 auto;}
+  .opt-name{flex:1;font-size:15.5px;line-height:1.2;}
+  .opt-fam{font-family:var(--mono);font-size:10.5px;color:var(--ink-2);text-transform:uppercase;letter-spacing:.03em;flex:0 0 auto;}
+  .opt-fam .dupe{color:var(--pink);}
+
+  .dplus-note{font-family:var(--mono);font-size:11px;color:var(--ink-2);padding:10px 16px;border-top:1px dashed var(--line);display:none;}
+  .slot.disabled{opacity:.5;}
+  .slot.disabled .slot-head{cursor:not-allowed;}
+
+  .reset{margin-top:22px;font-family:var(--mono);font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;background:none;border:2px solid var(--ink);padding:11px 16px;cursor:pointer;}
+  .reset:hover{background:var(--ink);color:var(--paper);}
+  .footnote{margin-top:24px;font-size:13px;color:var(--ink-2);line-height:1.5;border-top:1px solid var(--line);padding-top:16px;}
+</style>
+</head>
+<body>
+<hr class="stripe"/>
+<div class="wrap">
+  <header>
+    <span class="kick">The Livitarian Way · The Planner</span>
+    <h1>Build a <span class="shine">Day.</span></h1>
+    <p class="lead">No recipe — and no plate size — belongs to a time of day. Pick three anchors by <b>weight class</b> plus a module; eat them whenever your day wants them. The Planner watches protein, calories, and rotation. Aim for at least three protein families.</p>
+    <p class="lead" style="font-size:15px;color:var(--ink-2);margin-top:8px;">A common rhythm puts the <b>heavy anchor at midday</b> and something lighter at night — but that is a suggestion, not a rule. Want a light day? Build three lighter anchors. It is your day.</p>
+    <span class="prototype">Planning estimates · from the Matrix</span>
+  </header>
+
+  <div class="daytype" id="daytype">
+    <button data-day="low" class="on">Low-movement day<small>~1,500–1,600 kcal · 130–140 g protein</small></button>
+    <button data-day="active">Active day<small>~1,700–1,850 kcal · 140–150 g protein</small></button>
+  </div>
+
+  <div class="tally">
+    <div class="bars">
+      <div class="barwrap">
+        <div class="lab"><span class="now" id="pnow">0 g</span><span class="goal" id="pgoal">/ 130–140 g protein</span></div>
+        <div class="track"><div class="fill protein" id="pfill"></div></div>
+      </div>
+      <div class="barwrap">
+        <div class="lab"><span class="now" id="know">0</span><span class="goal" id="kgoal">/ 1,500–1,600 kcal</span></div>
+        <div class="track"><div class="fill kcal" id="kfill"></div></div>
+      </div>
+    </div>
+    <div class="flags" id="flags"></div>
+  </div>
+
+  <div class="slots" id="slots"></div>
+
+  <button class="reset" id="reset">Clear the day</button>
+
+  <p class="footnote"><b>How the numbers work.</b> Protein and calories come straight from the Matrix (v3.2) — real per-recipe planning estimates, not class averages. They stay estimates until each recipe is kitchen-tested and earns its <b>✓ tested</b> mark; the label on the product you buy always wins. The rules engine — weight-class anchors, the three-family rotation rule, the D+ shortcut — is exact.</p>
+</div>
+
+<script>
+var RECIPES = [{"name": "Pumpkin Festival Soup", "cls": "D", "classraw": "D", "g": 42, "kcal": 500, "fams": ["beans", "soy"], "chapter": "Soup", "cost": "$", "isl": "native"}, {"name": "Pepper Pot Soup", "cls": "L", "classraw": "L", "g": 36, "kcal": 430, "fams": ["soy"], "chapter": "Soup", "cost": "$", "isl": "native"}, {"name": "Classic Corn Soup", "cls": "L", "classraw": "L", "g": 38, "kcal": 480, "fams": ["lentils", "peas", "soy"], "chapter": "Soup", "cost": "$", "isl": "native"}, {"name": "Stew Peas", "cls": "D", "classraw": "D", "g": 42, "kcal": 520, "fams": ["peas", "soy"], "chapter": "Soup", "cost": "$", "isl": "native"}, {"name": "Three Bean Chili", "cls": "D", "classraw": "D", "g": 40, "kcal": 480, "fams": ["beans", "soy"], "chapter": "Soup", "cost": "$", "isl": "swap"}, {"name": "Split Pea Soup", "cls": "L", "classraw": "L", "g": 35, "kcal": 400, "fams": ["peas", "soy"], "chapter": "Soup", "cost": "$", "isl": "swap"}, {"name": "Rundown", "cls": "L", "classraw": "B/L", "g": 34, "kcal": 440, "fams": ["chickpeas", "fish", "peas"], "chapter": "Soup", "cost": "$$", "isl": "native"}, {"name": "Doubles Chickpea Soup", "cls": "L", "classraw": "L", "g": 36, "kcal": 450, "fams": ["chickpeas", "peas", "soy"], "chapter": "Soup", "cost": "$", "isl": "native"}, {"name": "Pakasa / Soloby", "cls": "L", "classraw": "B/L", "g": 28, "kcal": 580, "fams": ["beans"], "chapter": "Soup", "cost": "$", "isl": "native"}, {"name": "Brown Stew Soy Curls, beans & rice", "cls": "D+", "classraw": "D+", "g": 50, "kcal": 680, "fams": ["peas", "soy"], "chapter": "Soup", "cost": "$$", "isl": "swap"}, {"name": "Signature Protein Salad", "cls": "B", "classraw": "B", "g": 34, "kcal": 410, "fams": ["soy"], "chapter": "Bowl", "cost": "$$$", "isl": "swap"}, {"name": "Burrito Bowl", "cls": "L", "classraw": "L", "g": 38, "kcal": 500, "fams": ["beans", "soy"], "chapter": "Bowl", "cost": "$$", "isl": "native"}, {"name": "Jerk Bowl", "cls": "D", "classraw": "D", "g": 42, "kcal": 540, "fams": ["beans", "soy"], "chapter": "Bowl", "cost": "$$", "isl": "native"}, {"name": "Jamaican Fried Rice", "cls": "L", "classraw": "L", "g": 36, "kcal": 520, "fams": ["soy"], "chapter": "Bowl", "cost": "$$", "isl": "native"}, {"name": "Jamaican-Chinese Stir Fry Bowl", "cls": "L", "classraw": "B/L", "g": 34, "kcal": 440, "fams": ["soy"], "chapter": "Bowl", "cost": "$$", "isl": "native"}, {"name": "Shepherd's Pie Bowl (cauliflower)", "cls": "D", "classraw": "D", "g": 40, "kcal": 450, "fams": ["lentils", "soy"], "chapter": "Bowl", "cost": "$", "isl": "native"}, {"name": "Plantain & Black Bean Bowl", "cls": "L", "classraw": "L", "g": 38, "kcal": 560, "fams": ["beans", "soy"], "chapter": "Bowl", "cost": "$$", "isl": "native"}, {"name": "Loaded Potato Bowl", "cls": "L", "classraw": "L", "g": 37, "kcal": 480, "fams": ["soy"], "chapter": "Bowl", "cost": "$", "isl": "swap"}, {"name": "Breakfast Hash Bowl", "cls": "B", "classraw": "B", "g": 33, "kcal": 430, "fams": ["soy"], "chapter": "Bowl", "cost": "$$", "isl": "native"}, {"name": "Mediterranean Bowl", "cls": "B", "classraw": "B", "g": 30, "kcal": 450, "fams": ["lentils"], "chapter": "Bowl", "cost": "$$", "isl": "swap"}, {"name": "Breakfast Wrap", "cls": "B", "classraw": "B", "g": 32, "kcal": 420, "fams": ["beans", "soy"], "chapter": "Wrap", "cost": "$$", "isl": "swap"}, {"name": "Jerk Tofu Wrap", "cls": "B", "classraw": "B", "g": 33, "kcal": 430, "fams": ["soy"], "chapter": "Wrap", "cost": "$$", "isl": "native"}, {"name": "Scotch Bonnet Wrap", "cls": "B", "classraw": "B", "g": 33, "kcal": 430, "fams": ["soy"], "chapter": "Wrap", "cost": "$$", "isl": "native"}, {"name": "Chickpea Salad Wrap", "cls": "B", "classraw": "B", "g": 28, "kcal": 420, "fams": ["chickpeas", "peas"], "chapter": "Wrap", "cost": "$", "isl": "native"}, {"name": "Fish Wrap", "cls": "L", "classraw": "B/L", "g": 34, "kcal": 420, "fams": ["fish"], "chapter": "Wrap", "cost": "$$", "isl": "native"}, {"name": "Breakfast Sandwich", "cls": "B", "classraw": "B", "g": 30, "kcal": 400, "fams": ["soy"], "chapter": "Sandwich", "cost": "$$", "isl": "swap"}, {"name": "Tofu BLT", "cls": "B", "classraw": "B", "g": 30, "kcal": 430, "fams": ["soy"], "chapter": "Sandwich", "cost": "$$", "isl": "swap"}, {"name": "Lentil Smash Burger (2 sliders)", "cls": "B", "classraw": "B/M", "g": 26, "kcal": 380, "fams": ["lentils"], "chapter": "Sandwich", "cost": "$", "isl": "native"}, {"name": "Potato Skins", "cls": "L", "classraw": "L", "g": 36, "kcal": 460, "fams": ["soy"], "chapter": "Comfort", "cost": "$", "isl": "swap"}, {"name": "Pizza", "cls": "D", "classraw": "D", "g": 40, "kcal": 620, "fams": ["soy"], "chapter": "Comfort", "cost": "$$", "isl": "swap"}, {"name": "Macaroni Pie", "cls": "L", "classraw": "L", "g": 35, "kcal": 520, "fams": ["soy"], "chapter": "Comfort", "cost": "$$", "isl": "swap"}, {"name": "Stuffed Peppers", "cls": "L", "classraw": "L", "g": 34, "kcal": 440, "fams": ["beans", "soy"], "chapter": "Comfort", "cost": "$$", "isl": "native"}, {"name": "High-Protein Patties (2)", "cls": "D", "classraw": "D", "g": 38, "kcal": 650, "fams": ["lentils", "soy"], "chapter": "Comfort", "cost": "$$", "isl": "native"}, {"name": "Curried \"Scallops\" over rice", "cls": "D", "classraw": "D", "g": 40, "kcal": 520, "fams": ["soy"], "chapter": "Comfort", "cost": "$$", "isl": "native"}, {"name": "Loaded Baked Potato", "cls": "L", "classraw": "L", "g": 36, "kcal": 480, "fams": ["soy"], "chapter": "Comfort", "cost": "$", "isl": "swap"}, {"name": "Chickpea Fries", "cls": "M", "classraw": "M", "g": 20, "kcal": 350, "fams": ["chickpeas", "peas"], "chapter": "Comfort", "cost": "$", "isl": "native"}, {"name": "Meatballs (tofu-lentil)", "cls": "L", "classraw": "L", "g": 36, "kcal": 480, "fams": ["lentils", "soy"], "chapter": "Comfort", "cost": "$", "isl": "native"}, {"name": "Potato Pudding Chia Cup", "cls": "M", "classraw": "M", "g": 12, "kcal": 290, "fams": ["milk", "seeds"], "chapter": "Dessert", "cost": "$", "isl": "native"}, {"name": "Peanut Punch (PB measured)", "cls": "M", "classraw": "M", "g": 17, "kcal": 330, "fams": ["peanut", "peas"], "chapter": "Drink", "cost": "$", "isl": "native"}, {"name": "Irish Moss Punch", "cls": "M", "classraw": "M", "g": 9, "kcal": 160, "fams": ["milk", "seamoss"], "chapter": "Drink", "cost": "$$", "isl": "native"}, {"name": "Smoothie (milk + fruit + flax)", "cls": "M", "classraw": "M", "g": 16, "kcal": 280, "fams": ["milk", "seeds"], "chapter": "Drink", "cost": "$$", "isl": "swap"}]; optional fish", "chapter": "Soups & Stews", "classraw": "D"}, {"name": "Doubles-Inspired Chickpea Soup", "cls": "D", "g": 42, "kcal": 640, "fams": ["chickpeas", "peas", "soy"], "famraw": "Chickpea + soy", "chapter": "Soups & Stews", "classraw": "L-D"}, {"name": "Pakasa (Soloby)", "cls": "M", "g": 22, "kcal": 230, "fams": ["beans", "soy"], "famraw": "Butter bean + tofu", "chapter": "Soups & Stews", "classraw": "Treat"}, {"name": "Brown Stew Soy Curls with Kidney Beans & Rice", "cls": "D+", "g": 50, "kcal": 760, "fams": ["beans", "soy"], "famraw": "Soy + kidney bean", "chapter": "Soups & Stews", "classraw": "D+"}, {"name": "Signature Protein Salad", "cls": "L", "g": 37, "kcal": 520, "fams": ["soy"], "famraw": "Soy", "chapter": "Bowls", "classraw": "B-L"}, {"name": "Burrito Bowl", "cls": "L", "g": 37, "kcal": 520, "fams": ["beans", "soy"], "famraw": "Soy + black bean", "chapter": "Bowls", "classraw": "L"}, {"name": "Jerk Bowl", "cls": "D", "g": 42, "kcal": 640, "fams": ["beans", "soy"], "famraw": "Soy + legume", "chapter": "Bowls", "classraw": "L-D"}, {"name": "Jamaican Fried Rice", "cls": "D", "g": 42, "kcal": 640, "fams": ["soy"], "famraw": "Soy", "chapter": "Bowls", "classraw": "L-D"}, {"name": "Jamaican-Chinese Stir Fry Bowl", "cls": "D", "g": 42, "kcal": 640, "fams": ["soy"], "famraw": "Soy", "chapter": "Bowls", "classraw": "L-D"}, {"name": "Shepherd's Pie Bowl", "cls": "D", "g": 42, "kcal": 640, "fams": ["lentils", "soy"], "famraw": "Lentil + soy", "chapter": "Bowls", "classraw": "L-D"}, {"name": "Plantain & Black Bean Bowl", "cls": "D", "g": 42, "kcal": 640, "fams": ["beans", "soy"], "famraw": "Soy + black bean", "chapter": "Bowls", "classraw": "L-D"}, {"name": "Loaded Potato Bowl", "cls": "D", "g": 42, "kcal": 640, "fams": ["soy"], "famraw": "Soy", "chapter": "Bowls", "classraw": "L-D"}, {"name": "Breakfast Hash Bowl", "cls": "L", "g": 37, "kcal": 520, "fams": ["soy"], "famraw": "Soy", "chapter": "Bowls", "classraw": "B-L"}, {"name": "Breakfast Wrap", "cls": "B", "g": 32, "kcal": 420, "fams": ["beans", "soy"], "famraw": "Soy + black bean", "chapter": "Wraps & Sandwiches", "classraw": "B"}, {"name": "Jerk Tofu Wrap", "cls": "L", "g": 37, "kcal": 520, "fams": ["soy"], "famraw": "Soy", "chapter": "Wraps & Sandwiches", "classraw": "L"}, {"name": "Scotch Bonnet Wrap", "cls": "L", "g": 37, "kcal": 520, "fams": ["soy"], "famraw": "Soy", "chapter": "Wraps & Sandwiches", "classraw": "L"}, {"name": "Chickpea Salad Wrap", "cls": "L", "g": 37, "kcal": 520, "fams": ["chickpeas", "peas", "soy"], "famraw": "Chickpea + soy sauce", "chapter": "Wraps & Sandwiches", "classraw": "B-L"}, {"name": "Certified Small-Fish Wrap", "cls": "L", "g": 37, "kcal": 520, "fams": ["beans", "fish"], "famraw": "Fish + bean", "chapter": "Wraps & Sandwiches", "classraw": "L"}, {"name": "Tofu Breakfast Sandwich", "cls": "B", "g": 32, "kcal": 420, "fams": ["soy"], "famraw": "Soy", "chapter": "Wraps & Sandwiches", "classraw": "B"}, {"name": "Tofu BLT", "cls": "L", "g": 37, "kcal": 520, "fams": ["soy"], "famraw": "Soy", "chapter": "Wraps & Sandwiches", "classraw": "L"}, {"name": "Lentil Smash Burger", "cls": "L", "g": 37, "kcal": 520, "fams": ["lentils"], "famraw": "Lentil + oat", "chapter": "Wraps & Sandwiches", "classraw": "L"}, {"name": "Smoky Tofu-Bacon Potato Skins", "cls": "L", "g": 37, "kcal": 520, "fams": ["soy"], "famraw": "Soy", "chapter": "Comfort Food", "classraw": "B-L"}, {"name": "Livity Pizza", "cls": "D", "g": 42, "kcal": 640, "fams": ["soy"], "famraw": "Soy + grain", "chapter": "Comfort Food", "classraw": "D"}, {"name": "Caribbean Macaroni Pie", "cls": "D", "g": 42, "kcal": 640, "fams": ["soy"], "famraw": "Soy + pasta", "chapter": "Comfort Food", "classraw": "D"}, {"name": "Protein-Stuffed Peppers", "cls": "D", "g": 42, "kcal": 640, "fams": ["lentils", "soy"], "famraw": "Lentil + soy", "chapter": "Comfort Food", "classraw": "D"}, {"name": "Patty Loaf", "cls": "D", "g": 42, "kcal": 640, "fams": ["lentils", "soy"], "famraw": "Lentil + soy", "chapter": "Comfort Food", "classraw": "D"}, {"name": "High-Protein Patties: Rice-Paper Version", "cls": "D", "g": 42, "kcal": 640, "fams": ["lentils", "soy"], "famraw": "Lentil + soy", "chapter": "Comfort Food", "classraw": "L-D"}, {"name": "High-Protein Patties: Phyllo Triangles", "cls": "D", "g": 42, "kcal": 640, "fams": ["lentils", "soy"], "famraw": "Lentil + soy", "chapter": "Comfort Food", "classraw": "L-D"}, {"name": "High-Protein Patties: Whole-Wheat Crust", "cls": "D", "g": 42, "kcal": 640, "fams": ["lentils", "soy"], "famraw": "Lentil + soy", "chapter": "Comfort Food", "classraw": "D"}, {"name": "Curried TVP “Scallops”", "cls": "D", "g": 42, "kcal": 640, "fams": ["soy"], "famraw": "Soy", "chapter": "Comfort Food", "classraw": "D"}, {"name": "Loaded Baked Potato", "cls": "D", "g": 42, "kcal": 640, "fams": ["soy"], "famraw": "Soy", "chapter": "Comfort Food", "classraw": "L-D"}, {"name": "Baked Chickpea Fries", "cls": "L", "g": 37, "kcal": 520, "fams": ["chickpeas", "peas"], "famraw": "Chickpea", "chapter": "Comfort Food", "classraw": "M-L"}, {"name": "Tofu-Lentil Meatballs", "cls": "D", "g": 42, "kcal": 640, "fams": ["lentils", "soy"], "famraw": "Lentil + soy", "chapter": "Comfort Food", "classraw": "D"}, {"name": "Potato Pudding Chia Cup", "cls": "M", "g": 22, "kcal": 230, "fams": ["other"], "famraw": "Seed + plant milk", "chapter": "Desserts", "classraw": "M"}, {"name": "Measured Peanut Punch", "cls": "M", "g": 22, "kcal": 230, "fams": ["peanut", "peas", "soy"], "famraw": "Peanut + soy milk", "chapter": "Tonics & Drinks", "classraw": "M"}, {"name": "Irish Moss Protein Punch", "cls": "M", "g": 22, "kcal": 230, "fams": ["soy"], "famraw": "Soy milk + sea vegetable", "chapter": "Tonics & Drinks", "classraw": "M"}];
+
+var DAY = {
+  low:    {pMin:130,pMax:140,kMin:1500,kMax:1600,pGoal:"/ 130–140 g protein",kGoal:"/ 1,500–1,600 kcal"},
+  active: {pMin:140,pMax:150,kMin:1700,kMax:1850,pGoal:"/ 140–150 g protein",kGoal:"/ 1,700–1,850 kcal"}
+};
+var SLOTS = [
+  {id:'B', role:'Light anchor',   hint:'the lightest plate · class B', accept:['B','L']},
+  {id:'L', role:'Middle anchor',  hint:'a mid-weight plate · class L', accept:['L','B','D']},
+  {id:'D', role:'Heavy anchor',   hint:'the biggest plate · class D / D+', accept:['D','D+','L']},
+  {id:'M', role:'Module',         hint:'side · snack · tonic · dessert · class M', accept:['M']}
+];
+var FAM_LABEL={soy:'soy',beans:'beans',peas:'peas',lentils:'lentils',chickpeas:'chickpeas',peanut:'peanut',fish:'fish',seamoss:'sea moss',coconut:'coconut',other:'other'};
+
+var state = { day:'low', picks:{B:null,L:null,D:null,M:null}, openSlot:null };
+
+function classPool(accept){
+  return RECIPES.filter(function(r){ return accept.indexOf(r.cls)>-1; })
+    .sort(function(a,b){ return a.name.localeCompare(b.name); });
+}
+function famsInDay(exceptSlot){
+  var fams={};
+  Object.keys(state.picks).forEach(function(k){
+    if(k===exceptSlot) return;
+    var p=state.picks[k]; if(!p) return;
+    p.fams.forEach(function(f){ fams[f]=(fams[f]||0)+1; });
+  });
+  return fams;
+}
+function dplusActive(){ return state.picks.D && state.picks.D.cls==='D+'; }
+
+function render(){
+  var d=DAY[state.day];
+  // tally
+  var g=0,k=0;
+  Object.keys(state.picks).forEach(function(s){
+    var p=state.picks[s]; if(p){ g+=p.g; k+=p.kcal; }
+  });
+  document.getElementById('pnow').textContent=g+' g';
+  document.getElementById('know').textContent=k.toLocaleString();
+  document.getElementById('pgoal').textContent=d.pGoal;
+  document.getElementById('kgoal').textContent=d.kGoal;
+  var pf=document.getElementById('pfill'); pf.style.width=Math.min(100,g/d.pMax*100)+'%';
+  pf.className='fill protein'+(g>d.pMax+8?' over':'');
+  var kf=document.getElementById('kfill'); kf.style.width=Math.min(100,k/d.kMax*100)+'%';
+  kf.className='fill kcal'+(k>d.kMax+80?' over':'');
+
+  // flags
+  var flags=[];
+  var famCount=famsInDay(null);
+  var distinct=Object.keys(famCount).length;
+  var soy=famCount['soy']||0;
+  var filled=Object.keys(state.picks).filter(function(s){return state.picks[s];}).length;
+  if(soy>=3){ flags.push({t:'⚠ '+soy+'× soy today — swap one anchor for beans, peas, lentils, chickpeas, peanut, or fish.',c:'warn'}); }
+  else if(soy===2){ flags.push({t:'Soy is anchoring 2 meals — fine, but let the rest come from other families.',c:''}); }
+  if(filled>=3 && distinct>=3){ flags.push({t:'✓ '+distinct+' protein families — rotation rule met.',c:'good'}); }
+  else if(filled>=3 && distinct<3){ flags.push({t:'Only '+distinct+' protein famil'+(distinct===1?'y':'ies')+' so far — aim for at least three across the day.',c:''}); }
+  if(dplusActive()){ flags.push({t:'D+ anchors the evening (~50 g) — it covers the module. Go lighter at midday or skip M.',c:''}); }
+  if(filled===4 || (dplusActive()&&state.picks.B&&state.picks.L&&state.picks.D)){
+    if(g>=d.pMin && g<=d.pMax+8){ flags.push({t:'✓ Protein is in range for a '+(state.day==='low'?'low-movement':'active')+' day.',c:'good'}); }
+    else if(g<d.pMin){ flags.push({t:'Protein is a little short — bump a portion or add protein to the module.',c:''}); }
+  }
+  var fl=document.getElementById('flags'); fl.innerHTML='';
+  flags.forEach(function(f){ var el=document.createElement('div'); el.className='flag '+(f.c||''); el.textContent=f.t; fl.appendChild(el); });
+
+  // slots
+  var wrap=document.getElementById('slots'); wrap.innerHTML='';
+  SLOTS.forEach(function(slot){
+    var disabled = (slot.id==='M' && dplusActive());
+    var pick=state.picks[slot.id];
+    var div=document.createElement('div'); div.className='slot'+(disabled?' disabled':'');
+
+    var head=document.createElement('div'); head.className='slot-head';
+    var badge=document.createElement('div'); badge.className='slot-badge '+slot.id; badge.textContent=slot.id;
+    var info=document.createElement('div'); info.className='slot-info';
+    var role=document.createElement('div'); role.className='slot-role'; role.textContent=slot.role;
+    var pk=document.createElement('div');
+    if(pick){ pk.className='slot-pick'; pk.textContent=pick.name;
+      var meta=document.createElement('div'); meta.className='slot-meta';
+      meta.textContent=pick.classraw+' · ~'+pick.g+' g · '+pick.fams.map(function(f){return FAM_LABEL[f];}).join(' + ');
+      info.appendChild(role); info.appendChild(pk); info.appendChild(meta);
+    } else {
+      pk.className='slot-pick empty'; pk.textContent = disabled ? 'covered by your D+ evening plate' : 'tap to pick — '+slot.hint;
+      info.appendChild(role); info.appendChild(pk);
+    }
+    head.appendChild(badge); head.appendChild(info);
+    if(pick){ var x=document.createElement('div'); x.className='slot-x'; x.textContent='✕';
+      x.onclick=function(e){ e.stopPropagation(); state.picks[slot.id]=null; state.openSlot=null; render(); };
+      head.appendChild(x);
+    } else if(!disabled){ var ch=document.createElement('div'); ch.className='chev'; ch.textContent = state.openSlot===slot.id?'▲':'▼'; head.appendChild(ch); }
+    if(!disabled){ head.onclick=function(){ state.openSlot = state.openSlot===slot.id?null:slot.id; render(); }; }
+    div.appendChild(head);
+
+    // picker
+    if(state.openSlot===slot.id && !disabled){
+      var pk2=document.createElement('div'); pk2.className='picker open';
+      var fams=famsInDay(slot.id);
+      classPool(slot.accept).forEach(function(r){
+        var opt=document.createElement('div'); opt.className='opt';
+        var cls=document.createElement('div'); cls.className='opt-cls'; cls.textContent=r.cls;
+        var nm=document.createElement('div'); nm.className='opt-name'; nm.textContent=r.name;
+        var fm=document.createElement('div'); fm.className='opt-fam';
+        fm.innerHTML=r.fams.map(function(f){ var dupe=fams[f]; return dupe?('<span class="dupe">'+FAM_LABEL[f]+'</span>'):FAM_LABEL[f]; }).join(' + ');
+        opt.appendChild(cls); opt.appendChild(nm); opt.appendChild(fm);
+        opt.onclick=function(){ state.picks[slot.id]=r; state.openSlot=null; render(); };
+        pk2.appendChild(opt);
+      });
+      div.appendChild(pk2);
+    }
+    wrap.appendChild(div);
+  });
+}
+
+document.getElementById('daytype').addEventListener('click',function(e){
+  var b=e.target.closest('button[data-day]'); if(!b) return;
+  state.day=b.getAttribute('data-day');
+  document.querySelectorAll('#daytype button').forEach(function(x){x.classList.toggle('on',x===b);});
+  render();
+});
+document.getElementById('reset').addEventListener('click',function(){
+  state.picks={B:null,L:null,D:null,M:null}; state.openSlot=null; render();
+});
+render();
+</script>
+</body>
+</html>

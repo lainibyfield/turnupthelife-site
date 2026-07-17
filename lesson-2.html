@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Lesson 2 — Drive the Hips</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;800;900&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400;1,6..72,500&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FFF7EA; --card:#FFFFFF; --line:#EADFCB;
+    --ink:#26140A; --ink-2:#7E6A54;
+    --sun:#FFB300; --aqua:#12A14B; --pink:#D62828; --lime:#93D500; --coral:#E8500F;
+    --display:'Archivo',system-ui,sans-serif;
+    --body:'Newsreader',Georgia,serif;
+    --mono:'JetBrains Mono',ui-monospace,monospace;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);font-size:18px;line-height:1.55;-webkit-font-smoothing:antialiased;}
+  .wrap{max-width:760px;margin:0 auto;padding:0 20px;}
+  a{color:var(--pink);text-underline-offset:3px;}
+
+  .shine{background:linear-gradient(100deg,var(--sun) 0%,var(--coral) 28%,var(--pink) 55%,var(--aqua) 85%);background-size:220% auto;-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent;animation:shimmer 7s linear infinite;}
+  @keyframes shimmer{to{background-position:220% center;}}
+  .stripe{height:5px;border:0;margin:0;background:linear-gradient(90deg,var(--sun),var(--coral) 28%,var(--pink) 52%,var(--aqua) 76%,var(--lime));}
+
+  /* hero */
+  .hero{padding:40px 0 22px;}
+  .hero .kick{font-family:var(--mono);font-size:12px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--coral);}
+  .hero h1{font-family:var(--display);font-weight:900;font-size:clamp(40px,10vw,76px);line-height:.86;letter-spacing:-.03em;margin:12px 0 16px;text-transform:uppercase;}
+  .hero p{max-width:600px;font-size:18px;line-height:1.5;margin:0;}
+  .hero .princ{margin-top:14px;font-style:italic;color:var(--ink-2);}
+
+  /* sticky jump nav */
+  .jump{position:sticky;top:0;z-index:50;background:var(--paper);border-bottom:2px solid var(--ink);padding:9px 0;margin-top:16px;}
+  .jump-row{display:flex;gap:7px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;}
+  .jump-row::-webkit-scrollbar{display:none;}
+  .jump-row button{flex:0 0 auto;height:36px;font-family:var(--mono);font-size:11.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;border:2px solid var(--ink);background:var(--card);color:var(--ink);padding:0 12px;cursor:pointer;}
+  .jump-row button:hover,.jump-row button.on{background:var(--sun);border-color:var(--sun);}
+
+  /* section */
+  .sec{padding:34px 0 8px;border-top:1px solid var(--line);scroll-margin-top:64px;}
+  .sec-head{display:flex;flex-wrap:wrap;align-items:baseline;gap:12px;margin-bottom:6px;}
+  .sec-head .tag{font-family:var(--mono);font-size:12px;font-weight:700;color:var(--coral);letter-spacing:.14em;}
+  .sec-head .tag.getlow{color:#0B7A3A;}
+  .sec-head .tag.rise{color:var(--pink);}
+  .sec-head h2{font-family:var(--display);font-weight:900;font-size:clamp(26px,6vw,42px);line-height:.95;letter-spacing:-.02em;margin:0;text-transform:uppercase;}
+  .sec-min{font-family:var(--mono);font-size:12.5px;color:var(--ink-2);margin-left:auto;}
+  .sec-intro{max-width:620px;margin:8px 0 0;color:var(--ink-2);font-size:16px;}
+
+  /* exercise card */
+  .ex{border:1.5px solid var(--ink);background:var(--card);margin-top:18px;}
+  .ex-body{padding:18px 20px;}
+  .ex-name{font-family:var(--display);font-weight:800;font-size:clamp(18px,4.5vw,23px);letter-spacing:-.01em;margin:0 0 6px;line-height:1.05;text-transform:uppercase;}
+  .ex-name .idx{color:var(--pink);margin-right:.4em;}
+  .ex-name .sub{display:block;font-family:var(--body);font-weight:400;font-style:italic;font-size:15px;color:var(--ink-2);margin-top:4px;letter-spacing:0;text-transform:none;}
+  .cue{margin:10px 0 2px;font-family:var(--body);font-style:italic;font-size:17px;line-height:1.4;color:var(--ink);}
+  .cue::before{content:"\201C";color:var(--coral);font-family:var(--display);font-weight:900;font-size:1.3em;margin-right:2px;}
+  .cue::after{content:"\201D";color:var(--coral);font-family:var(--display);font-weight:900;font-size:1.3em;margin-left:2px;}
+  .data{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0 4px;}
+  .chip{display:inline-flex;align-items:center;gap:.4em;font-family:var(--mono);font-size:11.5px;font-weight:500;letter-spacing:.04em;text-transform:uppercase;border:1.5px solid var(--ink);color:var(--ink);padding:5px 9px;white-space:nowrap;}
+  .chip .k{color:var(--ink-2);}
+  .chip.pace{border-color:var(--aqua);color:#0B7A3A;} .chip.pace .k{color:var(--aqua);}
+  .chip.effort{border-color:var(--pink);color:var(--pink);} .chip.effort .k{color:var(--pink);opacity:.75;}
+  .cues{margin:8px 0 0;padding:0;list-style:none;}
+  .cues li{position:relative;padding:5px 0 5px 20px;font-size:16px;line-height:1.45;}
+  .cues li::before{content:"";position:absolute;left:0;top:12px;width:8px;height:2px;background:var(--coral);}
+  .cues li i{color:var(--ink-2);}
+  .fert{display:inline-block;font-family:var(--mono);font-size:9.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;background:rgba(147,213,0,.22);border:1.5px solid var(--lime);color:#3f5c00;padding:2px 7px;margin-left:6px;vertical-align:middle;white-space:nowrap;}
+  details.ft{margin-top:10px;}
+  details.ft summary{cursor:pointer;list-style:none;font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--coral);}
+  details.ft summary::-webkit-details-marker{display:none;}
+  details.ft summary::after{content:" +";}
+  details.ft[open] summary::after{content:" –";}
+  details.ft p{margin:8px 0 0;font-size:15px;line-height:1.5;color:var(--ink-2);}
+  .watch{display:inline-flex;align-items:center;gap:8px;margin-top:12px;font-family:var(--mono);font-size:11.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;background:var(--coral);color:#fff;padding:11px 15px;text-decoration:none;border:2px solid var(--coral);}
+  .watch::before{content:"▶";font-size:10px;}
+  .mw{font-family:var(--mono);font-size:10.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--coral);text-decoration:none;border-bottom:1.5px solid var(--coral);margin-left:6px;white-space:nowrap;}
+  .mw::before{content:"▶ ";font-size:8px;}
+  .credit{margin-top:12px;padding:11px 13px;border-left:3px solid var(--sun);background:rgba(255,179,0,.12);font-size:14px;line-height:1.5;}
+  .credit b{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#9A6B00;display:block;margin-bottom:4px;}
+
+  /* core list */
+  .corelist{border:1.5px solid var(--ink);background:var(--card);margin-top:16px;}
+  .ci{display:flex;flex-wrap:wrap;align-items:baseline;column-gap:12px;padding:13px 15px;border-top:1px solid var(--line);}
+  .ci:first-child{border-top:none;}
+  .cm{font-family:var(--display);font-weight:800;text-transform:uppercase;font-size:16px;line-height:1.15;}
+  .cr{margin-left:auto;font-family:var(--mono);font-weight:700;font-size:13px;color:var(--pink);white-space:nowrap;}
+  .cf{flex-basis:100%;margin-top:3px;color:var(--ink-2);font-size:14.5px;line-height:1.4;}
+
+  /* timer button */
+  .tbtn{display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--ink);background:var(--card);border:1.5px solid var(--ink);padding:3px 9px;margin-left:6px;cursor:pointer;vertical-align:baseline;line-height:1.4;}
+  .tbtn::before{content:"⏱";font-size:11px;}
+  .tbtn:hover{background:var(--sun);border-color:var(--sun);}
+  .tbtn.running{background:var(--lime);border-color:var(--ink);}
+  .tbtn.done{background:var(--pink);border-color:var(--pink);color:#fff;}
+
+  .feel{margin-top:10px;font-family:var(--mono);font-size:12px;line-height:1.6;letter-spacing:.02em;}
+  .feel .yes{color:#0B7A3A;font-weight:700;} .feel .no{color:var(--pink);font-weight:700;}
+  .swap{margin-top:10px;font-size:14.5px;line-height:1.5;}
+  .swap b{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;}
+  .swap .easy b{color:#0B7A3A;} .swap .hard b{color:var(--coral);}
+  .note{margin-top:12px;padding:11px 13px;border-left:3px solid var(--aqua);background:rgba(18,161,75,.08);font-size:14.5px;line-height:1.5;}
+  .note b{color:#0B7A3A;}
+  .prebegin{border:2px solid var(--ink);background:rgba(18,161,75,.06);padding:16px 18px;margin-top:16px;}
+  .prebegin h3{font-family:var(--display);font-weight:900;text-transform:uppercase;font-size:16px;margin:0 0 8px;letter-spacing:-.01em;}
+  .prebegin p{margin:0 0 8px;font-size:15.5px;line-height:1.5;}
+  .prebegin ul{margin:0;padding:0;list-style:none;}
+  .prebegin li{position:relative;padding:4px 0 4px 18px;font-size:15px;line-height:1.45;}
+  .prebegin li::before{content:"";position:absolute;left:0;top:11px;width:7px;height:2px;background:var(--aqua);}
+  .mod{display:block;margin-top:4px;font-family:var(--mono);font-size:12px;line-height:1.5;color:#0B7A3A;letter-spacing:.01em;}
+  .mod b{text-transform:uppercase;letter-spacing:.06em;font-size:11px;}
+  .ready{margin-top:18px;padding:13px 15px;border:2px solid var(--sun);background:rgba(255,179,0,.12);font-size:15.5px;line-height:1.5;font-style:italic;}
+  .drink{margin:18px 0 0;padding:13px 15px;border:2px solid var(--lime);background:rgba(147,213,0,.12);font-size:16px;line-height:1.5;font-style:italic;}
+
+  footer{border-top:1px solid var(--line);padding:26px 0 60px;margin-top:30px;}
+  .disclaim{max-width:620px;font-size:12.5px;color:var(--ink-2);line-height:1.5;}
+
+  @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto;}.shine{animation:none;}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="hero">
+    <span class="kick">Lesson 02 · Turn Up the Life</span>
+    <h1>Drive<br><span class="shine">the Hips.</span></h1>
+    <p>Drive the Hips teaches you how to make light weight harder by creating power from the strongest part of your body. The hips start the movement. The core organizes it. The arms and legs finish without stealing the job.</p>
+    <p>This is not a cardio day. This is not flinging weights around. This is controlled power: hinge, snap, float, land, reset.</p>
+    <p class="princ">Lesson 1 taught you to own the weight. Lesson 2 teaches you to move it with power — and still stay in charge.</p>
+    <p class="princ">≈45–55 min · Two 10 lb dumbbells · mini-band · chair or bench · optional kettlebell.</p>
+  </header>
+
+  <nav class="jump" aria-label="Jump to section">
+    <div class="jump-row" id="jumpRow">
+      <button data-go="getlow">Get Low</button>
+      <button data-go="core">Core</button>
+      <button data-go="tool">Hip Power</button>
+      <button data-go="legs">Legs</button>
+      <button data-go="push">Push</button>
+      <button data-go="pullreset">Upper-Back Reset</button>
+      <button data-go="rise">Rise</button>
+    </div>
+  </nav>
+
+  <!-- GET LOW -->
+  <section class="sec" id="getlow">
+    <div class="sec-head"><span class="tag getlow">GET LOW</span><h2>Move Prep</h2><span class="sec-min">5–7 min</span></div>
+    <p class="sec-intro">Ground the hips first — closed and familiar. The flow you know, then two new rotational pieces before the hips drive.</p>
+
+    <div class="prebegin">
+      <h3>Before you begin</h3>
+      <p>Today's warm-up prepares your body for today's workout — not for a flexibility contest.</p>
+      <ul>
+        <li>Work only in a pain-free range.</li>
+        <li>Hold a chair, wall, or countertop anytime balance limits the movement.</li>
+        <li>Smaller movements done well beat bigger movements done poorly.</li>
+        <li>If something feels sharp, unstable, or wrong, reduce the range or skip that exercise and move on.</li>
+      </ul>
+    </div>
+
+    <article class="ex">
+      <div class="ex-body">
+        <h3 class="ex-name">Deep Squat Flow<span class="sub">same as Lesson 1 — consistency matters</span></h3>
+        <ul class="cues">
+          <li>Wide squat hold — 30 sec <button class="tbtn" data-secs="30" data-label="30s">30s</button><span class="mod"><b>Mod:</b> hold a chair or countertop, or don't squat as low.</span></li>
+          <li>Weight shifts in the wide squat — rock side to side, 8 each side.</li>
+          <li>Narrow squat hold — 20 sec <button class="tbtn" data-secs="20" data-label="20s">20s</button><span class="mod"><b>Mod:</b> hold support, or place a rolled towel under your heels.</span></li>
+          <li>Staggered squat hold — 20 sec / side <button class="tbtn" data-secs="20" data-label="20s/side">20s/side</button><span class="mod"><b>Mod:</b> shorten the stance and reduce the depth.</span></li>
+          <li>Knee-over-toe touches — 10 / side.<span class="mod"><b>Mod:</b> let the knee travel only as far as comfortable, or hold a chair.</span></li>
+          <li>Assisted pistol practice — 5 / side.<span class="mod"><b>Mod:</b> use both hands for support, or squat to a higher chair.</span></li>
+        </ul>
+        <p class="credit"><b>Sequence credit</b>The <b>deep-squat flow</b> in this warm-up is adapted from a free sequence by <a href="https://www.instagram.com/" target="_blank" rel="noopener">@creator-handle</a> on Instagram — go follow him. The rest of the class is mine. Used with permission.</p>
+      </div>
+    </article>
+
+    <article class="ex">
+      <div class="ex-body">
+        <h3 class="ex-name">Cossack Shift<span class="sub">also called spider-man lunge · deep lateral hip mobility</span></h3>
+        <p class="cue">Stay low. Let your hips travel side to side.</p>
+        <ul class="cues">
+          <li>Shift your weight from one leg to the other without standing up.</li>
+          <li>Keep the heel down on the working leg as much as comfortable.</li>
+          <li>Don't force the depth.</li>
+        </ul>
+        <p class="mod"><b>Mod:</b> stand a little taller, or hold a chair for balance.</p>
+        <a class="watch" href="https://www.youtube.com/results?search_query=cossack+squat+shift+mobility" target="_blank" rel="noopener">Watch the form</a>
+      </div>
+    </article>
+
+    <article class="ex">
+      <div class="ex-body">
+        <h3 class="ex-name">90/90 Hip Switches<span class="sub">new · 2 × 8 each direction</span></h3>
+        <p class="cue">Turn the hips. Keep the chest proud.</p>
+        <p class="mod"><b>Mod:</b> reduce the range; keep both sit-bones down.</p>
+        <details class="ft"><summary>Field test</summary><p>Do these become smoother during the second set? If so, the joint was just cold — not tight.</p></details>
+        <a class="watch" href="https://www.youtube.com/results?search_query=Upright+Health+90+90+hip+switches" target="_blank" rel="noopener">Watch · Upright Health</a>
+      </div>
+    </article>
+
+    <article class="ex">
+      <div class="ex-body">
+        <h3 class="ex-name">Hip Airplanes<span class="sub">new · 2 × 5 each side · supported if needed — hold a chair</span></h3>
+        <p class="cue">The standing leg works. The moving leg just follows.</p>
+        <p class="mod"><b>Mod:</b> hold a chair, wall, or counter — this is hip work, not a balance stunt.</p>
+        <details class="ft"><summary>Field test</summary><p>Would holds teach balance better than reps? You'll test that later in the workout.</p></details>
+        <a class="watch" href="https://www.youtube.com/results?search_query=Squat+University+hip+airplanes" target="_blank" rel="noopener">Watch · Squat University</a>
+      </div>
+    </article>
+    <p class="ready">Ready to build? If you're breathing a little harder and your joints feel smoother — not tired — you warmed up just right.</p>
+  </section>
+
+  <!-- CORE -->
+  <section class="sec" id="core">
+    <div class="sec-head"><span class="tag">BUILD</span><h2>Core Activation</h2><span class="sec-min">3–5 min</span></div>
+    <p class="sec-intro">Closed-chain brace, then one controlled curl, then the lateral hips. This wakes exactly what swings, skater hops, and the floor press are about to use.</p>
+    <div class="corelist">
+      <div class="ci"><span class="cm">Bear hover</span><span class="cr">3 × 15–25 s</span><span class="cf">Hands under shoulders, knees hover one inch off the floor. Knees barely up. Back wide. Don't let your ribs spill <a class="mw" href="https://www.youtube.com/results?search_query=bear+plank+hover+hold" target="_blank" rel="noopener">watch</a> <button class="tbtn" data-secs="20" data-label="20s">20s</button></span></div>
+      <div class="ci"><span class="cm">Small Pilates crunch / chest lift</span><span class="cr">2 × 8–12</span><span class="cf">Curl your ribs toward your hips. Don't yank your neck — your pelvis stays quiet. Make it small: this is not a sit-up. The one rectus abdominis exercise of the day <a class="mw" href="https://www.youtube.com/results?search_query=pilates+chest+lift+exercise" target="_blank" rel="noopener">watch</a></span></div>
+      <div class="ci"><span class="cm">Side plank hip lift</span><span class="cr">2 × 8 / side · or 20 s hold</span><span class="cf">Lift the bottom waist. Stack the ribs over the hips <a class="mw" href="https://www.youtube.com/results?search_query=side+plank+hip+lift" target="_blank" rel="noopener">watch</a> <button class="tbtn" data-secs="20" data-label="20s/side">20s/side</button></span></div>
+    </div>
+  </section>
+
+  <!-- TODAY'S TOOL -->
+  <section class="sec" id="tool">
+    <div class="sec-head"><span class="tag rise">THE LESSON</span><h2>Hip Power</h2><span class="sec-min">8–10 min</span></div>
+    <p class="sec-intro">Power happens while you're fresh — swing and landing mechanics are sharpest early. Hinge, snap, float, land, reset. Rest fully; every rep crisp.</p>
+
+    <article class="ex">
+      <div class="ex-body">
+        <h3 class="ex-name"><span class="idx">1</span>Two-Hand Swing<span class="sub">hip snap — kettlebell or one dumbbell</span> <span class="fert">🌱 fertilizer</span></h3>
+        <p class="cue">Jump without leaving the floor.</p>
+        <div class="data"><span class="chip"><span class="k">Sets</span> 3</span><span class="chip"><span class="k">Reps</span> 12–15</span><span class="chip effort"><span class="k">Effort</span> crisp reps only</span><span class="chip"><span class="k">Weight</span> KB or 1 DB, both hands</span></div>
+        <ul class="cues">
+          <li>Feet hip-width to slightly wider.</li>
+          <li>Hinge back; don't squat it.</li>
+          <li>Snap the hips forward and let the weight float.</li>
+          <li>Arms stay loose. Hips do the work.</li>
+          <li>Stop if your low back starts talking.</li>
+        </ul>
+        <p class="note"><b>Form note</b><br>If it feels like a shoulder raise, reset. The swing comes from the hinge.</p>
+        <details class="ft"><summary>Field test</summary><p>Did your arms stay relaxed? They should just be ropes — the hips do everything.</p></details>
+        <a class="watch" href="https://www.youtube.com/results?search_query=Mark+Wildman+kettlebell+swing" target="_blank" rel="noopener">Watch · Mark Wildman</a>
+      </div>
+    </article>
+
+    <article class="ex">
+      <div class="ex-body">
+        <h3 class="ex-name"><span class="idx">2</span>Controlled Step-Down<span class="sub">eccentric knee control — own the landing</span></h3>
+        <p class="cue">Own the landing.</p>
+        <div class="data"><span class="chip"><span class="k">Sets</span> 2–3</span><span class="chip"><span class="k">Reps</span> 8–10 / side</span><span class="chip pace"><span class="k">Pace</span> 5 down · light tap · stand tall</span><span class="chip effort"><span class="k">Effort</span> controlled every rep</span><span class="chip"><span class="k">Weight</span> bodyweight</span></div>
+        <ul class="cues">
+          <li>Stand on a 12-inch box or step.</li>
+          <li>Lower one foot to the floor over 5 seconds, lightly tap, then stand back up.</li>
+          <li>Keep the knee tracking over the middle toes.</li>
+          <li>Hold a wall or railing if needed — better that than losing control.</li>
+        </ul>
+        <p class="feel"><span class="yes">Feel:</span> front-thigh control on the way down. &nbsp; <span class="no">Not:</span> knee caving in or dropping fast.</p>
+        <p class="note"><b>Knee note</b><br>Lower the step or shorten the range if the knee feels sharp. This is the brake that protects the skater-hop landings next.</p>
+        <a class="watch" href="https://www.youtube.com/results?search_query=controlled+step+down+eccentric+knee" target="_blank" rel="noopener">Watch the form</a>
+      </div>
+    </article>
+
+    <article class="ex">
+      <div class="ex-body">
+        <h3 class="ex-name"><span class="idx">3</span>Skater Hop to Stick<span class="sub">side-to-side power with a quiet landing</span></h3>
+        <p class="cue">Land, own it, then go again.</p>
+        <div class="data"><span class="chip"><span class="k">Sets</span> 2–3</span><span class="chip"><span class="k">Reps</span> 6–8 / side</span><span class="chip effort"><span class="k">Effort</span> crisp reps only</span><span class="chip"><span class="k">Impact</span> low if needed</span></div>
+        <ul class="cues">
+          <li>Hop side to side and stick the landing before the next rep.</li>
+          <li>Keep the knee tracking the same direction as the toes.</li>
+          <li>Smaller hop is fine. Toe tap is fine. Holding a wall or chair is fine.</li>
+          <li>Better that than tweaking your old knee trying to impress nobody.</li>
+          <li>Land quietly enough so that nobody downstairs complains.</li>
+        </ul>
+        <details class="ft"><summary>Field test</summary><p>Could you own every landing before taking the next jump? Reset if not.</p></details>
+        <a class="watch" href="https://www.youtube.com/results?search_query=PJF+Performance+skater+hop" target="_blank" rel="noopener">Watch · PJF Performance</a>
+      </div>
+    </article>
+  </section>
+
+  <!-- LEGS -->
+  <section class="sec" id="legs">
+    <div class="sec-head"><span class="tag">BUILD</span><h2>Legs</h2><span class="sec-min">15–18 min</span></div>
+    <p class="sec-intro">Strength → squeeze → lengthened loading → stabilization. Now that the hips know how to drive, load them slowly.</p>
+
+    <article class="ex">
+      <div class="ex-body">
+        <h3 class="ex-name"><span class="idx">A1</span>Bulgarian Split Squat<span class="sub">quad focus — back foot up on a box, bench, or chair</span></h3>
+        <p class="cue">Imagine your zipper stays vertical.</p>
+        <div class="data"><span class="chip"><span class="k">Sets</span> 1–2 working / leg</span><span class="chip"><span class="k">Reps</span> 8–12 / leg</span><span class="chip pace"><span class="k">Pace</span> 5 down · 2 hold · controlled up</span><span class="chip effort"><span class="k">Effort</span> hard, but clean</span><span class="chip"><span class="k">Weight</span> 1 DB or KB at chest</span></div>
+        <ul class="cues">
+          <li>Back foot on the chair, box, or step; weight held at your chest.</li>
+          <li>Stay more upright than you think; let the front knee travel forward.</li>
+          <li>Drive through the middle of the foot.</li>
+          <li>Five seconds down, pause 2 near the bottom, stand up with control.</li>
+          <li>Set the weight down and keep going bodyweight until form starts to slip.</li>
+        </ul>
+        <p class="feel"><span class="yes">Feel:</span> front thigh, not low back. &nbsp; <span class="no">Not:</span> sharp knee pain or low-back strain.</p>
+        <p class="note"><b>Knee note</b><br>If your knee feels sharp or sketchy, shorten the range or keep the back foot on the floor.</p>
+        <p class="swap"><span class="easy"><b>Make it easier:</b> keep the back foot on the floor (split squat).</span><br><span class="hard"><b>If too easy:</b> add the bodyweight burnout after the weighted reps.</span></p>
+        <a class="watch" href="https://www.youtube.com/results?search_query=bulgarian+split+squat+form" target="_blank" rel="noopener">Watch · Bulgarian split squat form</a>
+      </div>
+    </article>
+
+    <article class="ex">
+      <div class="ex-body">
+        <h3 class="ex-name"><span class="idx">A2</span>Frog Pumps<span class="sub">small glute bridge — soles of feet together, knees open</span> <span class="fert">🌱 fertilizer</span></h3>
+        <p class="cue">Small move. Big squeeze.</p>
+        <div class="data"><span class="chip pace"><span class="k">Pace</span> 2 squeeze · 2 lower</span><span class="chip effort"><span class="k">Effort</span> glute burn, not back strain</span><span class="chip"><span class="k">Sets</span> 2–3</span><span class="chip"><span class="k">Reps</span> 30</span><span class="chip"><span class="k">Weight</span> bodyweight first · 1 DB only if needed</span></div>
+        <ul class="cues">
+          <li>Lie on your back, soles of feet together, knees open.</li>
+          <li>Lift the hips, squeeze the glutes, lower with control.</li>
+          <li>Don't arch your back to make the lift bigger.</li>
+          <li>If you feel this in your low back, make it smaller or switch to a regular glute bridge.</li>
+        </ul>
+        <details class="ft"><summary>Field test</summary><p>Does this produce enough glute burn to earn a permanent spot? You decide.</p></details>
+        <a class="watch" href="https://www.youtube.com/results?search_query=Bret+Contreras+frog+pumps" target="_blank" rel="noopener">Watch · Bret Contreras</a>
+      </div>
+    </article>
+
+    <article class="ex">
+      <div class="ex-body">
+        <h3 class="ex-name"><span class="idx">A3</span>Deficit Single-Leg RDL<span class="sub">hamstring and glute loading — standing on a box, step, or low platform</span> <span class="fert">🌱 fertilizer</span></h3>
+        <p class="cue">Close the car door with your butt.</p>
+        <div class="data"><span class="chip"><span class="k">Sets</span> 1–2 working / side</span><span class="chip pace"><span class="k">Pace</span> 3 down · 3 stretch</span><span class="chip effort"><span class="k">Effort</span> 1–2 good reps left</span><span class="chip"><span class="k">Reps</span> 10–12 / side</span><span class="chip"><span class="k">Weight</span> 2 DBs</span></div>
+        <ul class="cues">
+          <li>Stand near the edge of the box so the dumbbells can travel below your foot.</li>
+          <li>Soft bend in the standing knee; hinge from the hips.</li>
+          <li>Reach the hips back; keep the spine long.</li>
+          <li>Pause in the stretch, then stand up with control.</li>
+          <li>Touch a wall or chair if balance starts stealing the exercise.</li>
+        </ul>
+        <p class="note"><b>Back note</b><br>Don't chase the floor. If your back rounds, you went too low.</p>
+        <details class="ft"><summary>Field test</summary><p>Did flexibility stop you before strength did? That tells you what to work on.</p></details>
+        <a class="watch" href="https://www.youtube.com/results?search_query=single+leg+romanian+deadlift+form" target="_blank" rel="noopener">Watch the form</a>
+      </div>
+    </article>
+
+    <article class="ex">
+      <div class="ex-body">
+        <h3 class="ex-name"><span class="idx">A4</span>Hip Airplane Hold<span class="sub">single-leg hip control — hold on if needed</span></h3>
+        <p class="cue">Grow taller before you rotate.</p>
+        <div class="data"><span class="chip"><span class="k">Hold</span> 2 / side · 20 sec <button class="tbtn" data-secs="20" data-label="20s/side">20s/side</button></span><span class="chip effort"><span class="k">Effort</span> controlled, not heroic</span><span class="chip"><span class="k">Support</span> chair, wall, or counter allowed</span></div>
+        <ul class="cues">
+          <li>Stand on one leg with a soft knee.</li>
+          <li>Hinge slightly forward and open the hip.</li>
+          <li>Keep the standing knee tracking forward.</li>
+          <li>Hold the cleanest position you can control.</li>
+          <li>Use support. This is hip work, not a balance stunt.</li>
+        </ul>
+        <p class="note"><b>Knee note</b><br>If the knee caves in, make the movement smaller or hold on.</p>
+        <a class="watch" href="https://www.youtube.com/results?search_query=Squat+University+hip+airplanes" target="_blank" rel="noopener">Watch · Squat University</a>
+      </div>
+    </article>
+  </section>
+
+  <!-- PUSH -->
+  <section class="sec" id="push">
+    <div class="sec-head"><span class="tag">BUILD</span><h2>Push</h2><span class="sec-min">8–10 min</span></div>
+
+    <article class="ex">
+      <div class="ex-body">
+        <h3 class="ex-name">Dumbbell Floor Press<span class="sub">chest press from the floor</span></h3>
+        <p class="cue">Touch the floor. Don't crash into it.</p>
+        <div class="data"><span class="chip pace"><span class="k">Pace</span> 4 down · 1 floor touch · press up strong</span><span class="chip effort"><span class="k">Effort</span> 1–2 good reps left</span><span class="chip"><span class="k">Sets</span> 2–3</span><span class="chip"><span class="k">Reps</span> 10–15</span><span class="chip"><span class="k">Weight</span> 2 DBs</span></div>
+        <ul class="cues">
+          <li>Lie on your back, knees bent, feet flat.</li>
+          <li>Hold one dumbbell in each hand.</li>
+          <li>Lower until the upper arms lightly touch the floor.</li>
+          <li>Pause, then press up strong.</li>
+          <li>Keep ribs down; don't turn this into a back arch.</li>
+        </ul>
+        <p class="note"><b>If too easy</b><br>Do the same press in a glute bridge — hips stay lifted the whole set. That's the next card.</p>
+        <a class="watch" href="https://www.youtube.com/results?search_query=dumbbell+floor+press+form" target="_blank" rel="noopener">Watch the form</a>
+      </div>
+    </article>
+
+    <article class="ex">
+      <div class="ex-body">
+        <h3 class="ex-name">Glute Bridge Floor Press<span class="sub">floor press with hips lifted — the harder option for Lesson 2</span></h3>
+        <p class="cue">Ribs down. Hips high. Don't let your butt negotiate.</p>
+        <div class="data"><span class="chip pace"><span class="k">Pace</span> 3–4 down · 1 floor touch · press up strong</span><span class="chip effort"><span class="k">Effort</span> 1–2 good reps left</span><span class="chip"><span class="k">Sets</span> 2–3</span><span class="chip"><span class="k">Reps</span> 8–12</span><span class="chip"><span class="k">Weight</span> 2 DBs</span></div>
+        <ul class="cues">
+          <li>Set up like the floor press.</li>
+          <li>Lift the hips and hold the bridge.</li>
+          <li>Press while keeping the hips level.</li>
+          <li>If the low back takes over, lower the hips and return to regular floor press.</li>
+        </ul>
+        <p class="note"><b>Note</b><br>Save the deeper-range box press for later.</p>
+        <a class="watch" href="https://www.youtube.com/results?search_query=glute+bridge+floor+press+dumbbell" target="_blank" rel="noopener">Watch the form</a>
+      </div>
+    </article>
+  </section>
+
+  <!-- PULL RESET -->
+  <section class="sec" id="pullreset">
+    <div class="sec-head"><span class="tag">BUILD</span><h2>Upper-Back Reset</h2><span class="sec-min">3–4 min</span></div>
+    <p class="sec-intro">Shoulder reset after pressing — not the back workout. This keeps the shoulders organized once the pressing is done.</p>
+    <article class="ex">
+      <div class="ex-body">
+        <h3 class="ex-name">Band Pull-Aparts<span class="sub">shoulder reset after pressing</span></h3>
+        <p class="cue">Pull your shoulder blades back into the conversation.</p>
+        <div class="data"><span class="chip pace"><span class="k">Pace</span> 2 pull · 2 squeeze · 3 return</span><span class="chip effort"><span class="k">Effort</span> 3–4 reps left</span><span class="chip"><span class="k">Sets</span> 2</span><span class="chip"><span class="k">Reps</span> 15–20</span><span class="chip"><span class="k">Weight</span> light-to-moderate band</span></div>
+        <ul class="cues">
+          <li>Hold the band at chest height.</li>
+          <li>Pull it apart until the shoulder blades move toward each other.</li>
+          <li>Pause, then return slowly.</li>
+          <li>Don't let the band snap you back.</li>
+          <li>Heavy shoulders. Your neck is still not invited.</li>
+        </ul>
+        <a class="watch" href="https://www.youtube.com/results?search_query=band+pull+apart+form" target="_blank" rel="noopener">Watch the form</a>
+      </div>
+    </article>
+  </section>
+
+  <!-- RISE -->
+  <section class="sec" id="rise">
+    <div class="sec-head"><span class="tag rise">RISE</span><h2>Mobility Finish</h2><span class="sec-min">4–5 min</span></div>
+    <p class="sec-intro">No big finisher — Lesson 2 was new. We taught the hips something new; now settle the body.</p>
+    <ul class="cues" style="margin-top:6px;">
+      <li>Weighted overhead squat hold — 20–30 sec. <i>Ribs down.</i> <a class="mw" href="https://www.youtube.com/results?search_query=overhead+squat+hold+mobility" target="_blank" rel="noopener">watch</a> <button class="tbtn" data-secs="30" data-label="30s">30s</button></li>
+      <li>Horse stance — 20–30 sec. <i>Push the floor apart.</i> <a class="mw" href="https://www.youtube.com/results?search_query=horse+stance+hold" target="_blank" rel="noopener">watch</a> <button class="tbtn" data-secs="30" data-label="30s">30s</button></li>
+      <li>Forward fold — 30 sec. <i>Don't chase the floor. Chase the position.</i> <a class="mw" href="https://www.youtube.com/results?search_query=standing+forward+fold+hamstring+stretch" target="_blank" rel="noopener">watch</a> <button class="tbtn" data-secs="30" data-label="30s">30s</button></li>
+      <li>90/90 stretch — 30 sec / side. <a class="mw" href="https://www.youtube.com/results?search_query=90+90+hip+stretch" target="_blank" rel="noopener">watch</a> <button class="tbtn" data-secs="30" data-label="30s">30s</button></li>
+      <li>Hero stretch — 30 sec / side. <i>Breathe where you're tight.</i> <a class="mw" href="https://www.youtube.com/results?search_query=hero+pose+quad+stretch" target="_blank" rel="noopener">watch</a> <button class="tbtn" data-secs="30" data-label="30s">30s</button></li>
+    </ul>
+    <p class="drink">🥤 That's Lesson 2. Go get your drink — you drove the hips today.</p>
+  </section>
+
+  <hr class="stripe" />
+  <footer>
+    <p class="disclaim">Adjust range, jumping, and depth based on how your toe, knee, hip, and shoulder feel. Pushing close to your limit and adding speed both carry some risk — keep the movement clean, and check with a professional first if anything hurts or you're unsure this suits you.</p>
+  </footer>
+
+</div>
+
+<script>
+  // jump nav: pure scroll, no hash routing
+  document.getElementById('jumpRow').addEventListener('click', function(e){
+    var b = e.target.closest('button[data-go]'); if(!b) return;
+    var t = document.getElementById(b.getAttribute('data-go'));
+    if(t) t.scrollIntoView({behavior:'smooth', block:'start'});
+  });
+  // highlight current section in the jump bar
+  var secs = document.querySelectorAll('.sec');
+  var btns = {};
+  document.querySelectorAll('#jumpRow button').forEach(function(b){ btns[b.getAttribute('data-go')] = b; });
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(en){
+      if(en.isIntersecting){
+        Object.values(btns).forEach(function(b){ b.classList.remove('on'); });
+        var b = btns[en.target.id]; if(b){ b.classList.add('on'); b.scrollIntoView({inline:'center', block:'nearest'}); }
+      }
+    });
+  }, {rootMargin:'-45% 0px -50% 0px'});
+  secs.forEach(function(s){ io.observe(s); });
+
+  // hold timers
+  function beep(){try{var C=window.AudioContext||window.webkitAudioContext;if(!C)return;var a=new C(),o=a.createOscillator(),g=a.createGain();o.connect(g);g.connect(a.destination);o.type='sine';o.frequency.value=880;g.gain.setValueAtTime(.25,a.currentTime);g.gain.exponentialRampToValueAtTime(.0001,a.currentTime+.5);o.start();o.stop(a.currentTime+.5);}catch(e){}}
+  function fmt(s){var m=Math.floor(s/60),r=s%60;return m>0?(m+':'+(r<10?'0':'')+r):(''+r);}
+  document.addEventListener('click',function(e){
+    var b=e.target.closest('.tbtn'); if(!b) return;
+    if(b.dataset.state==='running') return;
+    var secs=parseInt(b.getAttribute('data-secs'),10)||20;
+    var label=b.getAttribute('data-label')||'hold';
+    var left=secs; b.dataset.state='running'; b.classList.remove('done'); b.classList.add('running'); b.textContent=fmt(left);
+    var id=setInterval(function(){
+      left--;
+      if(left<=0){clearInterval(id);b.dataset.state='';b.classList.remove('running');b.classList.add('done');b.textContent='done';beep();
+        setTimeout(function(){b.classList.remove('done');b.textContent=label;},2500);
+      } else { b.textContent=fmt(left); }
+    },1000);
+  });
+</script>
+</body>
+</html>

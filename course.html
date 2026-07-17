@@ -1,0 +1,979 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Turn Up the Life Academy — Light Weight, Heavy Results</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;800;900&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400;1,6..72,500&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FFF7EA; --card:#FFFFFF; --line:#EADFCB;
+    --ink:#26140A; --ink-2:#7E6A54;
+    --sun:#FFB300; --aqua:#12A14B; --pink:#D62828; --lime:#93D500; --coral:#E8500F;
+    --display:'Archivo',system-ui,sans-serif;
+    --body:'Newsreader',Georgia,serif;
+    --mono:'JetBrains Mono',ui-monospace,monospace;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);font-size:17.5px;line-height:1.55;-webkit-font-smoothing:antialiased;}
+  .wrap{max-width:1040px;margin:0 auto;padding:0 20px;}
+  a{color:var(--pink);text-underline-offset:3px;}
+
+  .eyebrow{font-family:var(--mono);font-size:11.5px;font-weight:500;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-2);}
+  .shine{background:linear-gradient(100deg,var(--sun) 0%,var(--coral) 28%,var(--pink) 55%,var(--aqua) 85%);background-size:220% auto;-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent;animation:shimmer 7s linear infinite;}
+  @keyframes shimmer{to{background-position:220% center;}}
+  .stripe{height:5px;border:0;margin:0;background:linear-gradient(90deg,var(--sun),var(--coral) 28%,var(--pink) 52%,var(--aqua) 76%,var(--lime));}
+
+  /* ---------- top bar ---------- */
+  .topbar{position:sticky;top:0;z-index:60;background:var(--paper);border-bottom:2px solid var(--ink);}
+  .topbar .row{display:flex;align-items:center;gap:14px;padding:12px 0;}
+  .brand{font-family:var(--display);font-weight:900;text-transform:uppercase;letter-spacing:-.01em;font-size:17px;color:var(--ink);text-decoration:none;white-space:nowrap;}
+  .brand span{color:var(--pink);}
+  .topnav{margin-left:auto;display:flex;gap:8px;}
+  .topnav a{font-family:var(--mono);font-size:11.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--ink);text-decoration:none;border:2px solid transparent;padding:7px 10px;}
+  .topnav a.active,.topnav a:hover{border-color:var(--ink);background:var(--card);}
+
+  /* ---------- views ---------- */
+  .view{display:none;}
+  .view.active{display:block;}
+
+  /* ---------- HOME ---------- */
+  .banner{position:relative;margin:20px 0 0;padding:52px 30px 46px;background:linear-gradient(120deg,#8C1D0E 0%,#C43A0F 55%,#E8920C 100%);overflow:hidden;}
+  .banner::after{content:"";position:absolute;right:-60px;top:-40px;width:340px;height:340px;background:radial-gradient(circle,rgba(255,179,0,.5),rgba(232,80,15,.25) 45%,transparent 70%);}
+  .banner h1{position:relative;z-index:1;font-family:var(--display);font-weight:900;font-size:clamp(34px,7vw,64px);line-height:.9;letter-spacing:-.02em;margin:0 0 14px;text-transform:uppercase;color:#fff;}
+  .banner p{position:relative;z-index:1;max-width:560px;color:#FFF1DC;font-size:18px;margin:0;}
+  .banner-roads{margin-top:12px !important;font-family:var(--mono);font-size:12px;letter-spacing:.04em;text-transform:uppercase;color:#FFE1B0 !important;font-weight:700;}
+  .home-section{padding:36px 0 10px;}
+  .home-section h2{font-family:var(--display);font-weight:800;font-size:clamp(22px,4vw,32px);text-transform:uppercase;letter-spacing:-.01em;margin:0 0 6px;}
+  .home-section .count{font-family:var(--mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-2);margin:0 0 18px;}
+  .program-card{max-width:360px;border:2px solid var(--ink);background:var(--card);text-decoration:none;color:var(--ink);display:block;}
+  .program-card .art{height:150px;background:linear-gradient(120deg,var(--aqua),var(--sun) 55%,var(--coral));position:relative;}
+  .program-card .art .badge{position:absolute;left:14px;bottom:12px;font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;background:var(--ink);color:#fff;padding:5px 9px;}
+  .program-card .body{padding:18px;}
+  .program-card h3{font-family:var(--display);font-weight:800;font-size:20px;text-transform:uppercase;letter-spacing:-.01em;margin:0 0 8px;line-height:1.05;}
+  .program-card .meta{font-family:var(--mono);font-size:12px;color:var(--ink-2);letter-spacing:.05em;text-transform:uppercase;}
+  .program-card .foot{border-top:1.5px solid var(--line);padding:12px 18px;font-family:var(--mono);font-size:11.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--pink);}
+  .program-card:hover{border-color:var(--pink);}
+
+  /* ---------- CURRICULUM ---------- */
+  .curric{padding:32px 0 50px;}
+  .curric h1{font-family:var(--display);font-weight:900;font-size:clamp(28px,6vw,52px);line-height:.92;letter-spacing:-.02em;margin:14px 0 8px;text-transform:uppercase;}
+  .curric .lede{max-width:640px;color:var(--ink-2);margin:0 0 26px;}
+  .lesson-row{display:flex;align-items:center;gap:16px;border:2px solid var(--ink);background:var(--card);padding:16px 18px;margin-bottom:12px;text-decoration:none;color:var(--ink);}
+  .lesson-row:hover{border-color:var(--pink);}
+  .lesson-row.locked{opacity:.85;}
+  .lesson-row .num{font-family:var(--mono);font-weight:700;font-size:13px;color:var(--coral);flex:0 0 auto;width:34px;}
+  .lesson-row .titles{flex:1;min-width:0;}
+  .lesson-row h3{font-family:var(--display);font-weight:800;font-size:17.5px;text-transform:uppercase;letter-spacing:-.01em;margin:0;line-height:1.1;}
+  .lesson-row .sub{font-size:14.5px;color:var(--ink-2);font-style:italic;margin-top:3px;}
+  .lesson-row .state{flex:0 0 auto;font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:6px 10px;}
+  .state.free{background:var(--lime);color:#1d3300;}
+  .state.done{background:var(--aqua);color:#06371B;}
+  .state.lock{background:var(--ink);color:#fff;}
+  .state.lock::before{content:"🔒 ";}
+  .unlockbar{margin-top:26px;border:2px solid var(--sun);background:var(--card);padding:20px;}
+  .unlockbar h4{font-family:var(--display);font-weight:800;text-transform:uppercase;font-size:18px;margin:0 0 8px;}
+  .unlockbar p{margin:0 0 14px;font-size:15.5px;color:var(--ink-2);}
+  .unlockrow{display:flex;flex-wrap:wrap;gap:10px;}
+  .unlockrow input{flex:1;min-width:160px;font-family:var(--mono);font-size:14px;padding:11px 12px;border:2px solid var(--ink);background:var(--paper);color:var(--ink);text-transform:uppercase;letter-spacing:.08em;}
+  .btn{display:inline-block;text-align:center;font-family:var(--mono);font-size:12.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;background:var(--pink);color:#fff;border:2px solid var(--pink);padding:12px 18px;text-decoration:none;cursor:pointer;}
+  .btn:hover{background:var(--ink);border-color:var(--ink);}
+  .btn.gold{background:var(--sun);border-color:var(--sun);color:#26140A;}
+  .btn.gold:hover{background:var(--ink);border-color:var(--ink);color:#fff;}
+  .unlockmsg{font-family:var(--mono);font-size:12px;margin-top:10px;}
+  .unlockmsg.ok{color:#4d7a00;}
+  .unlockmsg.bad{color:var(--pink);}
+
+  /* ---------- LESSON layout ---------- */
+  .lesson-shell{display:grid;grid-template-columns:250px 1fr;gap:26px;padding:26px 0 60px;}
+  .side{position:sticky;top:64px;align-self:start;}
+  .side .lessontag{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--coral);margin-bottom:6px;}
+  .side h2{font-family:var(--display);font-weight:900;font-size:22px;line-height:1;text-transform:uppercase;letter-spacing:-.01em;margin:0 0 16px;}
+  .chapnav{display:flex;flex-direction:column;gap:6px;}
+  .chapbtn{display:flex;align-items:center;gap:10px;font-family:var(--mono);font-size:12px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;text-align:left;border:2px solid var(--ink);background:var(--card);color:var(--ink);padding:11px 12px;cursor:pointer;}
+  .chapbtn .dot{width:10px;height:10px;border:2px solid var(--ink);border-radius:50%;flex:0 0 auto;}
+  .chapbtn.current{background:var(--sun);border-color:var(--sun);}
+  .chapbtn.done .dot{background:var(--lime);}
+  .side .backlink{display:inline-block;margin-top:18px;font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;}
+  .side .sideprog{height:6px;background:var(--line);margin:16px 0 6px;}
+  .side .sideprog i{display:block;height:100%;width:0%;background:linear-gradient(90deg,var(--sun),var(--coral),var(--pink));transition:width .3s;}
+  .side .sideprog-label{font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-2);}
+
+  .main{min-width:0;}
+  .chapter{display:none;}
+  .chapter.active{display:block;}
+  .chapter2{display:none;}
+  .chapter2.active{display:block;}
+  .chap-head{display:flex;flex-wrap:wrap;align-items:baseline;gap:12px;margin-bottom:6px;}
+  .chap-head .tag{font-family:var(--mono);font-size:12px;font-weight:700;color:var(--coral);letter-spacing:.14em;}
+  .chap-head .tag.getlow{color:#0B7A3A;}
+  .chap-head .tag.rise{color:var(--pink);}
+  .chap-head h2{font-family:var(--display);font-weight:900;font-size:clamp(26px,4.6vw,42px);line-height:.95;letter-spacing:-.02em;margin:0;text-transform:uppercase;}
+  .chap-min{font-family:var(--mono);font-size:12.5px;color:var(--ink-2);margin-left:auto;}
+  .chap-intro{max-width:640px;margin:10px 0 0;color:var(--ink-2);font-size:16px;}
+  .chap-foot{display:flex;flex-wrap:wrap;gap:10px;margin-top:26px;}
+  .btn.line{background:var(--card);color:var(--ink);border-color:var(--ink);}
+  .btn.line:hover{background:var(--ink);color:#fff;}
+
+  /* chips / exercise cards (shared with trial class) */
+  .chip{display:inline-flex;align-items:center;gap:.4em;font-family:var(--mono);font-size:11.5px;font-weight:500;letter-spacing:.04em;text-transform:uppercase;border:1.5px solid var(--ink);color:var(--ink);padding:5px 9px;white-space:nowrap;}
+  .chip .k{color:var(--ink-2);}
+  .chip.pace{border-color:var(--aqua);color:#0B7A3A;} .chip.pace .k{color:var(--aqua);}
+  .chip.effort{border-color:var(--pink);color:var(--pink);} .chip.effort .k{color:var(--pink);opacity:.75;}
+  .ex{border:1.5px solid var(--ink);background:var(--card);margin-top:20px;}
+  .ex-body{padding:20px 22px;}
+  .ex-name{font-family:var(--display);font-weight:800;font-size:clamp(18px,2.6vw,23px);letter-spacing:-.01em;margin:0 0 6px;line-height:1.05;text-transform:uppercase;}
+  .ex-name .idx{color:var(--pink);margin-right:.4em;}
+  .ex-name .sub{display:block;font-family:var(--body);font-weight:400;font-style:italic;font-size:15px;color:var(--ink-2);margin-top:4px;letter-spacing:0;text-transform:none;}
+  .ex-data{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0 14px;}
+  .cues{margin:0;padding:0;list-style:none;}
+  .cues li{position:relative;padding:5px 0 5px 20px;font-size:16px;line-height:1.45;}
+  .cues li::before{content:"";position:absolute;left:0;top:12px;width:8px;height:2px;background:var(--coral);}
+  .cues .mw{font-family:var(--mono);font-size:10.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--coral);text-decoration:none;border-bottom:1.5px solid var(--coral);margin-left:8px;white-space:nowrap;}
+  .cues .mw::before{content:"▶ ";font-size:8px;}
+  .cues .mw:hover{color:var(--pink);border-color:var(--pink);}
+  .prebegin{border:2px solid var(--ink);background:rgba(18,161,75,.06);padding:16px 18px;margin:0 0 18px;}
+  .prebegin h3{font-family:var(--display);font-weight:900;text-transform:uppercase;font-size:16px;margin:0 0 8px;}
+  .prebegin p{margin:0 0 8px;font-size:15.5px;line-height:1.5;}
+  .prebegin ul{margin:0;padding:0;list-style:none;}
+  .prebegin li{position:relative;padding:4px 0 4px 18px;font-size:15px;line-height:1.45;}
+  .prebegin li::before{content:"";position:absolute;left:0;top:11px;width:7px;height:2px;background:var(--aqua);}
+  .mod{display:block;margin-top:3px;font-family:var(--mono);font-size:12px;line-height:1.5;color:#0B7A3A;}
+  .mod b{text-transform:uppercase;letter-spacing:.06em;font-size:11px;}
+  .ready{margin-top:16px;padding:13px 15px;border:2px solid var(--sun);background:rgba(255,179,0,.12);font-size:15.5px;line-height:1.5;font-style:italic;}
+  .drink{margin:16px 0 0;padding:12px 14px;border:2px solid var(--lime);background:rgba(147,213,0,.12);font-size:15.5px;line-height:1.5;font-style:italic;}
+  .credit{margin-top:14px;padding:12px 14px;border-left:3px solid var(--sun);background:rgba(255,179,0,.12);font-size:14.5px;line-height:1.5;}
+  .credit b{font-family:var(--mono);font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:#9A6B00;display:block;margin-bottom:4px;}
+  .note{margin-top:12px;padding:11px 14px;border-left:3px solid var(--pink);background:rgba(214,40,40,.08);font-size:14.5px;line-height:1.45;}
+  .note b{font-family:var(--mono);font-size:11.5px;letter-spacing:.05em;text-transform:uppercase;color:var(--pink);}
+  details.why{margin-top:12px;}
+  details.why summary{cursor:pointer;list-style:none;font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--coral);}
+  details.why summary::-webkit-details-marker{display:none;}
+  details.why summary::after{content:" +";}
+  details.why[open] summary::after{content:" –";}
+  details.why p{margin:8px 0 0;font-size:15px;line-height:1.5;color:var(--ink-2);}
+  .watch{display:inline-flex;align-items:center;gap:8px;margin-top:14px;font-family:var(--mono);font-size:11.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;background:var(--coral);color:#fff;padding:10px 14px;text-decoration:none;border:2px solid var(--coral);}
+  .watch:hover{background:var(--pink);border-color:var(--pink);}
+  .watch::before{content:"▶";font-size:10px;}
+  .log{border-top:1.5px solid var(--ink);display:flex;flex-wrap:wrap;gap:8px 24px;align-items:center;padding:12px 22px;font-family:var(--mono);font-size:11.5px;letter-spacing:.04em;text-transform:uppercase;color:var(--ink-2);}
+  .log .fail{color:var(--pink);font-weight:700;}
+  .blank{display:inline-block;min-width:44px;border-bottom:2px solid var(--pink);height:1.05em;vertical-align:baseline;}
+  .mens{font-size:15.5px;margin:12px 0 0;padding:12px 15px;border:2px solid var(--ink);background:var(--card);}
+  .mens b{font-family:var(--mono);font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--coral);}
+  .mens.beginner{border-color:var(--aqua);}
+  .mens.beginner b{color:#0B7A3A;}
+
+  /* stacked core list (mobile-first, no table) */
+  .corelist{border:2px solid var(--ink);background:var(--card);margin-top:18px;}
+  .corelist .ci{display:flex;flex-wrap:wrap;align-items:baseline;column-gap:12px;padding:13px 15px;border-top:1px solid var(--line);}
+  .corelist .ci:first-child{border-top:none;}
+  .corelist .cm{font-family:var(--display);font-weight:800;text-transform:uppercase;font-size:16px;line-height:1.15;}
+  .corelist .cr{margin-left:auto;font-family:var(--mono);font-weight:700;font-size:13.5px;color:var(--pink);white-space:nowrap;}
+  .corelist .cf{flex-basis:100%;margin-top:3px;color:var(--ink-2);font-size:14.5px;line-height:1.4;}
+
+  /* locked lesson view */
+  .lockedview{padding:60px 0;text-align:center;}
+  .lockedview .padlock{font-size:44px;}
+  .lockedview h1{font-family:var(--display);font-weight:900;text-transform:uppercase;font-size:clamp(26px,6vw,44px);margin:14px 0 10px;letter-spacing:-.02em;}
+  .lockedview p{max-width:520px;margin:0 auto 22px;color:var(--ink-2);}
+
+  footer{border-top:1px solid var(--line);padding:28px 0 54px;}
+  .disclaim{max-width:620px;font-size:12.5px;color:var(--ink-2);line-height:1.5;margin:14px 0 0;}
+
+  /* ---------- library shelf (two courses) ---------- */
+  .shelf{display:grid;grid-template-columns:1fr 1fr;gap:18px;padding:8px 0 40px;}
+  .course-card{display:flex;flex-direction:column;border:2px solid var(--ink);background:var(--card);padding:24px 22px;text-decoration:none;color:var(--ink);position:relative;overflow:hidden;transition:transform .12s ease;}
+  .course-card:hover{transform:translateY(-3px);}
+  .course-card.cookbook{background:linear-gradient(180deg,rgba(18,161,75,.08),rgba(147,213,0,.06));}
+  .cc-top{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:14px;}
+  .cc-kicker{font-family:var(--mono);font-size:10.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-2);}
+  .cc-badge{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:3px 8px;border:1.5px solid var(--ink);white-space:nowrap;}
+  .cc-badge.free{background:var(--lime);}
+  .cc-badge.addon{background:var(--sun);}
+  .cc-badge.owned{background:var(--aqua);color:#fff;border-color:var(--aqua);}
+  .course-card h2{font-family:var(--display);font-weight:900;font-size:clamp(26px,4.6vw,38px);line-height:.9;letter-spacing:-.02em;margin:0 0 12px;text-transform:uppercase;}
+  .course-card p{font-size:15.5px;line-height:1.5;color:var(--ink);margin:0 0 18px;flex:1;}
+  .cc-cta{font-family:var(--mono);font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--coral);}
+  .course-card:hover .cc-cta{color:var(--pink);}
+
+  .cook-locked{border:2px solid var(--sun);background:var(--card);padding:20px;margin-top:8px;}
+  .cook-locked p{margin:0 0 14px;font-size:15.5px;color:var(--ink-2);}
+  .cook-locked b{color:var(--ink);}
+
+  @media (max-width:680px){ .shelf{grid-template-columns:1fr;} }
+
+  /* ---------- editorial cover (home) ---------- */
+  .cover{position:relative;padding:64px 0 40px;}
+  .cover::before{content:"";position:absolute;left:-14%;right:-14%;top:-40px;height:440px;background:radial-gradient(56% 100% at 50% 0,rgba(255,179,0,.30),rgba(232,80,15,.20) 38%,rgba(18,161,75,.12) 62%,transparent 76%);pointer-events:none;z-index:0;}
+  .cover>*{position:relative;z-index:1;}
+  .cover-kicker{font-family:var(--mono);font-size:12px;font-weight:500;letter-spacing:.22em;text-transform:uppercase;color:var(--ink-2);}
+  .cover h1{font-family:var(--display);font-weight:900;font-size:clamp(46px,10vw,104px);line-height:.84;letter-spacing:-.03em;margin:18px 0 20px;text-transform:uppercase;color:var(--ink);}
+  .cover-sub{max-width:600px;font-size:20px;line-height:1.5;margin:0 0 14px;}
+  .cover-roads{font-family:var(--mono);font-size:12px;letter-spacing:.03em;text-transform:uppercase;color:var(--ink-2);font-weight:700;margin:0 0 26px;}
+  .cover-cta{display:inline-block;font-family:var(--mono);font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;background:var(--ink);color:#fff;border:2px solid var(--ink);padding:14px 22px;text-decoration:none;}
+  .cover-cta:hover{background:var(--pink);border-color:var(--pink);}
+  .issue-note{padding:26px 0 44px;}
+  .issue-note .in-rule{height:4px;max-width:120px;margin-bottom:20px;background:linear-gradient(90deg,var(--sun),var(--coral) 30%,var(--pink) 55%,var(--aqua) 80%,var(--lime));}
+  .issue-note p{max-width:620px;font-size:18px;line-height:1.55;margin:0;color:var(--ink);}
+  .issue-note b{font-family:var(--mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--coral);display:block;margin-bottom:8px;}
+
+  /* ---------- lesson sidebar as editorial rail ---------- */
+  .side{border-right:2px solid var(--ink);padding-right:22px;}
+  .side .lessontag{color:var(--coral);}
+  .chapbtn{border:none;border-left:3px solid transparent;background:transparent;padding:9px 0 9px 12px;color:var(--ink-2);}
+  .chapbtn:hover{background:transparent;border-left-color:var(--line);color:var(--ink);}
+  .chapbtn .dot{width:8px;height:8px;border-width:1.5px;}
+  .chapbtn.current{background:transparent;border-left-color:var(--coral);color:var(--ink);}
+  .chapbtn.current .dot{background:var(--coral);border-color:var(--coral);}
+  .chapbtn.done{color:var(--ink);}
+  .chapbtn.done .dot{background:var(--lime);border-color:var(--ink);}
+
+  @media (max-width:760px){
+    .lesson-shell{grid-template-columns:1fr;gap:0;padding-top:14px;}
+    .side{position:sticky;top:52px;z-index:40;background:var(--paper);padding:10px 0;border-right:none;border-bottom:2px solid var(--ink);}
+    .side h2{display:none;}
+    .side .lessontag{display:none;}
+    .chapnav{flex-direction:row;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;gap:8px;padding-bottom:2px;}
+    .chapnav::-webkit-scrollbar{display:none;}
+    .chapbtn{flex:0 0 auto;height:38px;padding:0 12px;border:2px solid var(--ink);border-left:2px solid var(--ink);}
+    .chapbtn.current{background:var(--sun);border-color:var(--sun);}
+    .side .backlink{display:none;}
+    .side .sideprog{margin:10px 0 4px;}
+    .topnav a{padding:7px 7px;font-size:10.5px;}
+    .cover{padding:40px 0 24px;}
+    .cover h1{font-size:clamp(40px,13vw,64px);}
+  }
+
+  /* ---- inline hold timers ---- */
+  .tbtn{display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--ink);background:var(--card);border:1.5px solid var(--ink);padding:3px 9px;margin-left:8px;cursor:pointer;vertical-align:baseline;line-height:1.4;}
+  .tbtn:hover{background:var(--sun);border-color:var(--sun);}
+  .tbtn.running{background:var(--lime);border-color:var(--ink);}
+  .tbtn.done{background:var(--pink);border-color:var(--pink);color:#fff;}
+  .tbtn::before{content:"⏱";font-size:11px;}
+
+  .cue{margin:12px 0 2px;font-family:var(--body);font-style:italic;font-size:17.5px;line-height:1.4;color:var(--ink);}
+  .cue::before{content:"\201C";color:var(--coral);font-family:var(--display);font-weight:900;font-size:1.3em;margin-right:2px;}
+  .cue::after{content:"\201D";color:var(--coral);font-family:var(--display);font-weight:900;font-size:1.3em;margin-left:2px;}
+  .fert{display:inline-block;font-family:var(--mono);font-size:9.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;background:rgba(147,213,0,.22);border:1.5px solid var(--lime);color:#3f5c00;padding:2px 7px;margin-left:8px;vertical-align:middle;white-space:nowrap;}
+</style>
+</head>
+<body>
+
+<!-- ============ TOP BAR ============ -->
+<div class="topbar">
+  <div class="wrap">
+    <div class="row">
+      <a class="brand" href="#home">Turn Up <span>the Life</span></a>
+      <nav class="topnav">
+        <a href="#home" data-nav="home">Home</a>
+        <a href="#curriculum" data-nav="curriculum">The Arc</a>
+        <a href="#lesson-1" data-nav="lesson">Lesson 1</a>
+        <a href="#cookbook" data-nav="cookbook">Kitchen</a>
+      </nav>
+    </div>
+  </div>
+  <hr class="stripe" />
+</div>
+
+<div class="wrap">
+
+  <!-- ================= HOME ================= -->
+  <section class="view" id="view-home">
+    <header class="cover">
+      <span class="cover-kicker">The Members Edition · Turn Up the Life</span>
+      <h1>Your<br><span class="shine">Library.</span></h1>
+      <p class="cover-sub">Everything under one roof — the movement course that gets you road-ready, and the food guide that keeps you fueled. Start free; add what you need.</p>
+      <p class="cover-roads">Trinidad · Miami · Crop Over · Caribana · Notting Hill · Labor Day — whenever your carnival lands, start now.</p>
+    </header>
+
+    <section class="shelf">
+      <a class="course-card" href="#curriculum">
+        <div class="cc-top"><span class="cc-kicker">Course 01 · Movement</span><span class="cc-badge free">Lesson 1 free</span></div>
+        <h2>Light Weight,<br><span class="shine">Heavy Results.</span></h2>
+        <p>Seven lessons, from owning the weight to owning your body — including two bands-only travel workouts. Light weights, slow counts, honest effort.</p>
+        <span class="cc-cta" id="home-resume">Start with Lesson 1 — free →</span>
+      </a>
+
+      <a class="course-card cookbook" href="#cookbook">
+        <div class="cc-top"><span class="cc-kicker">Course 02 · Food</span><span class="cc-badge addon" id="cook-badge">Add-on</span></div>
+        <h2>The Livitarian<br><span class="shine">Kitchen.</span></h2>
+        <p>Cookbook, Planner, and Matrix in one — plant-strong Caribbean food for a body that trains. The Manifesto and Foundations are free; the rest is a cheap add-on to the course, or yours on its own.</p>
+        <span class="cc-cta">Open the kitchen →</span>
+      </a>
+    </section>
+
+    <section class="issue-note">
+      <div class="in-rule"></div>
+      <p><b>From your instructor.</b> This isn't a workout PDF. It's a practice — one repertoire you'll learn well enough to carry anywhere, scaled to whoever you are on any given day. Lesson 1 is free and complete on its own. The rest of the arc teaches you to make light weight hard, on purpose, forever — and the kitchen keeps you fed while you do it.</p>
+    </section>
+  </section>
+
+  <!-- ================= COOKBOOK (Course 02) ================= -->
+  <section class="view" id="view-cookbook">
+    <div class="curric">
+      <span class="eyebrow">Course 02 · The Livitarian Kitchen</span>
+      <h1>The <span class="shine">kitchen.</span></h1>
+      <p class="lede">Plant-strong, Caribbean-rooted food for a body that trains. A cheap add-on to the movement course — or yours on its own. Three working parts: the <b>Cookbook</b> teaches, the <b>Planner</b> builds your days, the <b>Matrix</b> filters what fits.</p>
+
+      <!-- FREE tier — always open, no unlock -->
+      <a class="lesson-row" href="kitchen.html" target="_blank" rel="noopener" style="margin-top:8px;">
+        <span class="num" style="background:var(--lime);">✦</span>
+        <span class="titles"><h3>Manifesto &amp; Foundations</h3><span class="sub">the hero question, seven principles, the tier system, label literacy, how to build a day</span></span>
+        <span class="state" style="background:var(--lime);border:1.5px solid var(--ink);">Free →</span>
+      </a>
+
+      <div class="cook-locked" id="cook-locked">
+        <p><b>The full kitchen is a separate add-on.</b> The Manifesto and Foundations above are free — start eating this way for nothing. The Cookbook, Planner, and Matrix unlock on their own, or free when you grab the course-plus-kitchen bundle.</p>
+        <div class="unlockrow">
+          <input id="cookcode" type="text" placeholder="Kitchen or bundle code" autocomplete="off" />
+          <button class="btn" id="cookbtn">Unlock the kitchen</button>
+        </div>
+        <div class="unlockmsg" id="cookmsg"></div>
+      </div>
+
+      <div id="cook-list" style="display:none;">
+        <a class="lesson-row" href="planner-builder.html" target="_blank" rel="noopener" data-cookrow="planner">
+          <span class="num">01</span>
+          <span class="titles"><h3>The Planner — Build a Day</h3><span class="sub">the interactive game: pick anchors, watch protein &amp; rotation work live</span></span>
+          <span class="state" style="background:var(--aqua);color:#fff;">Open →</span>
+        </a>
+        <a class="lesson-row" href="matrix.html" target="_blank" rel="noopener" data-cookrow="matrix">
+          <span class="num">02</span>
+          <span class="titles"><h3>The Matrix</h3><span class="sub">every recipe, every number — filter by cost, class, protein family, batch, island-native</span></span>
+          <span class="state" style="background:var(--aqua);color:#fff;">Open →</span>
+        </a>
+        <a class="lesson-row locked" data-cookrow="cookbook">
+          <span class="num">03</span>
+          <span class="titles"><h3>The Cookbook</h3><span class="sub">48 recipe cards — soups, bowls, wraps, comfort, desserts, sauces, tonics</span></span>
+          <span class="state lock">Plating</span>
+        </a>
+        <p class="lede" style="margin-top:20px;font-size:15px;">The Planner and Matrix are live and run on the real recipe data. The full Cookbook cards — two ingredient columns, US and island, with cooking mode — are being plated now.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= CURRICULUM ================= -->
+  <section class="view" id="view-curriculum">
+    <div class="curric">
+      <span class="eyebrow">The Members Edition · In this issue</span>
+      <h1>The <span class="shine">arc.</span></h1>
+      <p class="lede">Seven lessons, one journey — from owning the weight to owning your body. Each teaches a single skill for making light load do heavy work, then puts it straight into a full session. The Free Trial is complete on its own; the rest run in order, with two travel workouts you can take anywhere.</p>
+
+      <a class="lesson-row" href="#lesson-1" data-lessonrow="1">
+        <span class="num">01</span>
+        <span class="titles"><h3>Free Trial — Get Low. Build. Rise.</h3><span class="sub">Teaches: own the weight — the whole method in one workout</span></span>
+        <span class="state free" data-state="1">Free</span>
+      </a>
+
+      <a class="lesson-row locked" href="lesson-2.html" data-lessonrow="2" data-standalone="lesson-2.html" target="_blank" rel="noopener">
+        <span class="num">02</span>
+        <span class="titles"><h3>Drive the Hips</h3><span class="sub">Teaches: hip drive and controlled speed as a force multiplier</span></span>
+        <span class="state lock" data-state="2">Locked</span>
+      </a>
+      <a class="lesson-row locked" href="lesson-3.html" data-lessonrow="3" data-standalone="lesson-3.html" target="_blank" rel="noopener">
+        <span class="num">03</span>
+        <span class="titles"><h3>Create Tension</h3><span class="sub">Travel Workout 1 · Teaches: make bands feel heavy</span></span>
+        <span class="state lock" data-state="3">Locked</span>
+      </a>
+      <a class="lesson-row locked" href="#lesson-4" data-lessonrow="4">
+        <span class="num">04</span>
+        <span class="titles"><h3>Increase Density</h3><span class="sub">Teaches: same tools, less wasted space, more clean work</span></span>
+        <span class="state lock" data-state="4">Locked</span>
+      </a>
+      <a class="lesson-row locked" href="#lesson-5" data-lessonrow="5">
+        <span class="num">05</span>
+        <span class="titles"><h3>Link the Body</h3><span class="sub">Teaches: connect upper, lower, and core through rotation, anti-rotation, contralateral loading, crawling, carries, and cross-body work</span></span>
+        <span class="state lock" data-state="5">Locked</span>
+      </a>
+      <a class="lesson-row locked" href="lesson-6.html" data-lessonrow="6" data-standalone="lesson-6.html" target="_blank" rel="noopener">
+        <span class="num">06</span>
+        <span class="titles"><h3>Pack Light, Train Hard</h3><span class="sub">Travel Workout 2 · Bands-only, hotel-room friendly, complete workout</span></span>
+        <span class="state lock" data-state="6">Locked</span>
+      </a>
+      <a class="lesson-row locked" href="#lesson-7" data-lessonrow="7">
+        <span class="num">07</span>
+        <span class="titles"><h3>Own Your Body</h3><span class="sub">Teaches: body control under fatigue — balance, bodyweight progressions, getting down and up, core control, athletic movement</span></span>
+        <span class="state lock" data-state="7">Locked</span>
+      </a>
+
+      <div class="unlockbar" id="unlockbar">
+        <h4>Unlock the full program</h4>
+        <p>Buy once, get every lesson plus the private video walk-throughs. After purchase you'll receive your unlock code by email.</p>
+        <div class="unlockrow">
+          <!-- TODO: replace href with your Stripe Payment Link / Gumroad URL -->
+          <a class="btn gold" href="#" data-paylink="course">Buy the program</a>
+          <input type="text" id="codeinput" placeholder="Have a code?" autocomplete="off" />
+          <button class="btn" id="codebtn" type="button">Unlock</button>
+        </div>
+        <div class="unlockmsg" id="codemsg"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= LESSON 1 ================= -->
+  <section class="view" id="view-lesson">
+    <div class="lesson-shell">
+
+      <!-- sidebar / chapter nav -->
+      <aside class="side">
+        <div class="lessontag">Lesson 01 · Free</div>
+        <h2>Get Low.<br>Build. Rise.</h2>
+        <nav class="chapnav" id="chapnav">
+          <button class="chapbtn" data-chap="welcome"><span class="dot"></span>Welcome</button>
+          <button class="chapbtn" data-chap="getlow"><span class="dot"></span>Get Low</button>
+          <button class="chapbtn" data-chap="core"><span class="dot"></span>Core</button>
+          <button class="chapbtn" data-chap="legs"><span class="dot"></span>Legs</button>
+          <button class="chapbtn" data-chap="push"><span class="dot"></span>Push</button>
+          <button class="chapbtn" data-chap="back"><span class="dot"></span>Pull</button>
+          <button class="chapbtn" data-chap="shoulders"><span class="dot"></span>Delts</button>
+          <button class="chapbtn" data-chap="rise"><span class="dot"></span>Rise</button>
+          <button class="chapbtn" data-chap="challenge"><span class="dot"></span>Challenge</button>
+        </nav>
+        <div class="sideprog"><i id="sideprog"></i></div>
+        <div class="sideprog-label" id="sideprog-label">0 of 9 chapters</div>
+        <a class="backlink" href="#curriculum">← All lessons</a>
+      </aside>
+
+      <!-- main content -->
+      <div class="main">
+
+        <!-- WELCOME -->
+        <div class="chapter" data-chapter="welcome">
+          <div class="chap-head"><span class="tag">LESSON 1</span><h2>Welcome</h2></div>
+          <p class="chap-intro">Pilates-informed strength with two 10 lb dumbbells — so you can wine low, jump the road, and wave your flag till the last truck passes. Work through the chapters in order; tick each one done and your progress saves.</p>
+          <p class="mens"><b>Fellas — yes, you too.</b> Same workout, same rules. If 10s truly feel light, start with 20s or 25s and follow every pause and slow count. Then come talk to us.</p>
+          <p class="mens beginner"><b>Brand new to exercise?</b> Start with 10 lb or under — even 5s, even a full water bottle in each hand. Holding on is grip work, and grip counts. Master the movement first; the pounds can wait.</p>
+          <div class="ex" style="margin-top:18px;">
+            <div class="ex-body">
+              <h3 class="ex-name">The two labels you'll see</h3>
+              <ul class="cues">
+                <li><b>Pace — "5 down · 2 hold":</b> seconds to lower, then seconds to hold at the hardest point. Slow is how a 10 turns into a 20.</li>
+                <li><b>Effort — "1–2 left":</b> stop with one or two good reps left in the tank — not when it gets annoying. "Empty the tank" means the next clean rep won't happen.</li>
+                <li><b>All you need for this lesson:</b> two dumbbells (≈10 lb) and a sturdy chair. That's the whole list.</li>
+                <li><b>The five house cues:</b> Ribs down (like you’re keeping someone from stealing your heart — laugh and you can feel it) · Heavy shoulders (your neck isn’t invited) · Grow taller (length first, then strength) · Own the movement, don’t survive it · If you lose control, you’ve already gone too heavy.</li>
+                <li><b>Optional extras, never required:</b> 15 lb kettlebell (swap: one dumbbell) · box or bench (swap: your chair, a bottom stair, or a very sturdy toilet lid) · ab wheel (swap: slow plank walkouts) · resistance band (swap: slow shoulder circles). The equipment isn't the workout — the control is.</li>
+              </ul>
+            </div>
+          </div>
+          <div class="chap-foot"><button class="btn" data-next="getlow">Start: Get Low →</button></div>
+        </div>
+
+        <!-- GET LOW -->
+        <div class="chapter" data-chapter="getlow">
+          <div class="chap-head"><span class="tag getlow">GET LOW</span><h2>Move Prep</h2><span class="chap-min">5–7 min</span></div>
+          <p class="chap-intro">This is where your wine lives — low, loose, and in control, without your knees or back paying for it later.</p>
+          <div class="prebegin">
+            <h3>Before you begin</h3>
+            <p>Today's warm-up prepares your body for today's workout — not for a flexibility contest.</p>
+            <ul>
+              <li>Work only in a pain-free range.</li>
+              <li>Hold a chair, wall, or countertop anytime balance limits the movement.</li>
+              <li>Smaller movements done well beat bigger movements done poorly.</li>
+              <li>If something feels sharp, unstable, or wrong, reduce the range or skip that exercise and move on.</li>
+            </ul>
+          </div>
+          <article class="ex">
+            <div class="ex-body">
+              <h3 class="ex-name">Squat &amp; Pistol Prep<span class="sub">easy and controlled — warm, not tired</span></h3>
+              <ul class="cues">
+                <li>Wide deep-squat hold — 20–30 seconds. <a class="mw" href="https://www.youtube.com/results?search_query=wide+stance+deep+squat+hold+mobility" target="_blank" rel="noopener">watch</a> <button class="tbtn" data-secs="30" data-label="30s">30s</button><span class="mod"><b>Mod:</b> hold a chair or countertop, or don't squat as low.</span></li>
+                <li>Weight shifts in the wide squat — rock side to side, 8 each side. <a class="mw" href="https://www.youtube.com/results?search_query=deep+squat+side+to+side+weight+shift" target="_blank" rel="noopener">watch</a></li>
+                <li>Cossack shift (a.k.a. spider-man lunge) — stay low, let your hips travel side to side, 6–8 each way. Keep the working heel down; don't force depth. <a class="mw" href="https://www.youtube.com/results?search_query=cossack+squat+shift+mobility" target="_blank" rel="noopener">watch</a><span class="mod"><b>Mod:</b> stand a little taller, or hold a chair for balance.</span></li>
+                <li>Narrow deep-squat hold — 20 seconds. <a class="mw" href="https://www.youtube.com/results?search_query=narrow+stance+deep+squat+hold" target="_blank" rel="noopener">watch</a> <button class="tbtn" data-secs="20" data-label="20s">20s</button><span class="mod"><b>Mod:</b> hold support, or place a rolled towel under your heels.</span></li>
+                <li>Staggered deep-squat hold — 15–20 seconds each side. <a class="mw" href="https://www.youtube.com/results?search_query=staggered+stance+deep+squat+hold" target="_blank" rel="noopener">watch</a> <button class="tbtn" data-secs="20" data-label="20s/side">20s/side</button><span class="mod"><b>Mod:</b> shorten the stance and reduce the depth.</span></li>
+                <li>Knee-over-toe touches — 8–10 each side, 2-second pause. <a class="mw" href="https://www.youtube.com/results?search_query=knee+over+toe+touch+ankle+mobility" target="_blank" rel="noopener">watch</a><span class="mod"><b>Mod:</b> let the knee travel only as far as comfortable, or hold a chair.</span></li>
+                <li>Assisted one-leg squat practice (hold something) — 3–5 clean each side. <a class="mw" href="https://www.youtube.com/results?search_query=assisted+pistol+squat+progression" target="_blank" rel="noopener">watch</a><span class="mod"><b>Mod:</b> use both hands for support, or squat to a higher chair.</span></li>
+                <li>Shoulder-blade push-ups — 10 reps. <a class="mw" href="https://www.youtube.com/results?search_query=scapular+push+up+form" target="_blank" rel="noopener">watch</a><span class="mod"><b>Mod:</b> perform against a wall, countertop, or bench.</span></li>
+                <li>Band pull-aparts or big shoulder circles — 15 reps. <a class="mw" href="https://www.youtube.com/results?search_query=band+pull+apart+form" target="_blank" rel="noopener">watch</a><span class="mod"><b>Mod:</b> use a lighter band, or reduce the range of motion.</span></li>
+              </ul>
+              <p class="ready">Ready to build? If you're breathing a little harder and your joints feel smoother — not tired — you warmed up just right.</p>
+              <!-- TODO: fill in the creator's real name + IG handle; publish this block only once he has said yes -->
+              <p class="credit"><b>Sequence credit</b>The <b>deep-squat flow</b> in this warm-up (and the squat holds in the mobility sequence) is adapted from a free sequence by <a href="https://www.instagram.com/" target="_blank" rel="noopener">@creator-handle</a> on Instagram — go follow him. The rest of the class is mine. Used with permission.</p>
+              <details class="why"><summary>Why this matters</summary><p>Opening the ankles, hips, and inner thighs lets you get low and wine back up without asking one cranky joint to do all the work.</p></details>
+              <a class="watch" href="https://www.instagram.com/" target="_blank" rel="noopener">Watch the full sequence</a><!-- TODO: point at the creator's IG post once permission is confirmed -->
+            </div>
+          </article>
+          <div class="chap-foot">
+            <button class="btn line" data-done="getlow">Mark chapter done ✓</button>
+            <button class="btn" data-next="core">Next: Core →</button>
+          </div>
+        </div>
+
+        <!-- CORE (part of Build) -->
+        <div class="chapter" data-chapter="core">
+          <div class="chap-head"><span class="tag">BUILD</span><h2>Core Activation</h2><span class="chap-min">3–5 min</span></div>
+          <p class="chap-intro">Wake the deep core first — everything that follows leans on it. Not about a six-pack; about the inner corset.</p>
+
+          <h3 class="ex-name" style="font-size:19px;margin:22px 0 0;">Core Activation</h3>
+          <div class="corelist">
+            <div class="ci"><span class="cm">Dead bug</span><span class="cr">2 × 10 / side</span><span class="cf">Leave a tiny grape under your lower back — don’t squash it, don’t let it roll away. Why: this teaches your deep core to stabilize your spine before your arms and legs start producing force — the inner corset that supports your back and helps your clothes fit better <a class="mw" href="https://www.youtube.com/results?search_query=dead+bug+exercise+form" target="_blank" rel="noopener">watch</a></span></div>
+            <div class="ci"><span class="cm">Ab wheel rollout</span><span class="cr">3 × 5–8</span><span class="cf">Imagine someone’s about to poke you in the stomach. No wheel? Slow plank walkouts. Why: keep your ribs stacked over your pelvis while your body moves — that’s real core strength <a class="mw" href="https://www.youtube.com/results?search_query=ab+wheel+rollout+form+beginner" target="_blank" rel="noopener">watch</a></span></div>
+            <div class="ci"><span class="cm">Suitcase march (or carry)</span><span class="cr">30–45 s / side</span><span class="cf">Both dumbbells in one hand — don’t let the groceries win. Why: standing on one leg while resisting the lean is the core stability you’ll use in every standing exercise that follows <a class="mw" href="https://www.youtube.com/results?search_query=suitcase+carry+march+form" target="_blank" rel="noopener">watch</a></span></div>
+          </div>
+          <div class="chap-foot">
+            <button class="btn line" data-done="core">Mark chapter done ✓</button>
+            <button class="btn" data-next="legs">Next: Legs →</button>
+          </div>
+        </div>
+
+        <!-- LEGS -->
+        <div class="chapter" data-chapter="legs">
+          <div class="chap-head"><span class="tag">BUILD</span><h2>Legs</h2><span class="chap-min">12 min</span></div>
+          <article class="ex">
+            <div class="ex-body">
+              <h3 class="ex-name"><span class="idx">A1</span>Bulgarian Split Squat<span class="sub">quad focus — back foot up on a box, bench, or chair</span></h3>
+              <div class="ex-data">
+                <span class="chip pace"><span class="k">Pace</span> 5 down · 2 hold</span>
+                <span class="chip effort"><span class="k">Effort</span> empty the tank</span>
+                <span class="chip"><span class="k">Reps</span> 8–12 / leg</span>
+                <span class="chip"><span class="k">Weight</span> KB or 1 DB</span>
+              </div>
+              <p class="cue">Imagine your zipper stays vertical.</p>
+              <ul class="cues">
+                <li>Back foot on the box, bench, chair, or step; weight held at your chest.</li>
+                <li>Stay more upright than you think; let the front knee travel forward over the toes.</li>
+                <li>Drive through the middle of the foot — think about straightening the front knee, not pushing your hips back.</li>
+                <li>Let the back leg help only enough to keep your balance.</li>
+                <li>Five seconds down, pause 2 near the bottom, stand up with control.</li>
+                <li>Then set the weight down and keep going bodyweight until your form starts to slip.</li>
+              </ul>
+              <div class="note"><b>Pilates note</b><br>Today we’re making this a quad exercise. The RDLs that follow shift the emphasis to the back of the legs.</div>
+              <a class="watch" href="https://www.youtube.com/results?search_query=bulgarian+split+squat+form+knee+tracking" target="_blank" rel="noopener">Watch the form</a>
+            </div>
+            <div class="log"><span class="fail">Stopped at</span> <span class="blank"></span> L &nbsp; <span class="blank"></span> R</div>
+          </article>
+
+          <article class="ex">
+            <div class="ex-body">
+              <h3 class="ex-name"><span class="idx">A2</span>Deficit Single-Leg RDL<span class="sub">standing on the edge of a box for extra reach</span></h3>
+              <div class="ex-data">
+                <span class="chip pace"><span class="k">Pace</span> 3 down · 3 hold</span>
+                <span class="chip effort"><span class="k">Effort</span> 1–2 left</span>
+                <span class="chip"><span class="k">Reps</span> 10–15 / side</span>
+                <span class="chip"><span class="k">Weight</span> 2 × 10 DB</span>
+                <span class="chip" style="border-color:var(--lime);color:#3f5c00;">🌱 booty fertilizer</span>
+              </div>
+              <p class="cue">Close the car door with your butt.</p>
+              <ul class="cues">
+                <li>Stand near the edge of the box so the dumbbells can travel below your foot.</li>
+                <li>Hinge from the hips — soft bend in the standing knee, long spine.</li>
+                <li>Reach the hips back.</li>
+                <li>Pause in the stretch 2–3 seconds — stop before your back rounds.</li>
+                <li>Want more? Hold both dumbbells in the hand opposite the working leg.</li>
+              </ul>
+              <div class="note"><b>Easy does it</b><br>Don't chase depth if your toe, knee, or hip starts changing the movement. Match reps and range to the stiffer side.</div>
+              <details class="why"><summary>Why this matters</summary><p>This loads the hamstrings and glutes where they’re longest — one of the best places to build strength and shape.</p></details>
+              <div class="note" style="border-left-color:var(--sun);background:rgba(255,179,0,.10);"><b style="color:#9A6B00;">Personal observation</b><br>Your anatomy is your own, but for me, training my inner thighs made a visible difference in the shape of my legs. This is Pilates-informed hypertrophy training — not basic or traditional strength training.</div>
+              <a class="watch" href="https://www.youtube.com/results?search_query=single+leg+romanian+deadlift+hip+hinge+form" target="_blank" rel="noopener">Watch the form</a>
+            </div>
+            <div class="log"><span class="fail">Stopped at</span> <span class="blank"></span> L &nbsp; <span class="blank"></span> R</div>
+          </article>
+          <div class="chap-foot">
+            <button class="btn line" data-done="legs">Mark chapter done ✓</button>
+            <button class="btn" data-next="push">Next: Push →</button>
+          </div>
+        </div>
+
+        <!-- PUSH -->
+        <div class="chapter" data-chapter="push">
+          <div class="chap-head"><span class="tag">BUILD</span><h2>Push</h2><span class="chap-min">10 min</span></div>
+          <article class="ex">
+            <div class="ex-body">
+              <h3 class="ex-name">Push-ups, Three Ways<span class="sub">go until you can't, then make them easier — twice</span></h3>
+              <div class="ex-data">
+                <span class="chip pace"><span class="k">Pace</span> 4 down · 1 hover · pop up</span>
+                <span class="chip effort"><span class="k">Effort</span> empty the tank</span>
+                <span class="chip"><span class="k">Rounds</span> 2–3</span>
+                <span class="chip"><span class="k">Rest</span> 90 sec</span>
+              </div>
+              <p class="cue">Screw your hands into the floor. Pull yourself to the floor. Push the floor away.</p>
+              <ul class="cues">
+                <li>Four seconds down, hover 1 second off the floor, then pop up.</li>
+                <li>Full push-ups until you can't keep them clean.</li>
+                <li>Straight into push-ups from your knees.</li>
+                <li>Finish holding halfway down as long as you can.</li>
+              </ul>
+              <details class="why"><summary>Why this matters</summary><p>Chest and shoulders are obvious. The surprise is how much your core has to work when you refuse to let your ribs sag.</p></details>
+              <a class="watch" href="https://www.youtube.com/results?search_query=push+up+form+full+knee+isometric+hold" target="_blank" rel="noopener">Watch the form</a>
+            </div>
+            <div class="log"><span class="fail">Full push-ups:</span> R1 <span class="blank"></span> R2 <span class="blank"></span> R3 <span class="blank"></span></div>
+          </article>
+          <div class="chap-foot">
+            <button class="btn line" data-done="push">Mark chapter done ✓</button>
+            <button class="btn" data-next="back">Next: Pull →</button>
+          </div>
+        </div>
+
+        <!-- BACK -->
+        <div class="chapter" data-chapter="back">
+          <div class="chap-head"><span class="tag">BUILD</span><h2>Pull</h2><span class="chap-min">10 min</span></div>
+          <article class="ex">
+            <div class="ex-body">
+              <h3 class="ex-name"><span class="idx">C1</span>One-arm Row Drop Set<span class="sub">full reps, then partials, then a hold — same weight throughout</span></h3>
+              <div class="ex-data">
+                <span class="chip pace"><span class="k">Pace</span> 5 · 2 · 2 · 2</span>
+                <span class="chip effort"><span class="k">Effort</span> to failure</span>
+                <span class="chip"><span class="k">Weight</span> 15 KB or 1 × 10 DB</span>
+              </div>
+              <p class="cue">Squeeze your shoulder blades together like you’re squeezing the juice out of a rolled mango. (Or a lemon, if you’ve never rolled a mango.)</p>
+              <ul class="cues">
+                <li><b>Full reps — 10–12 to technical failure.</b> Pace 5-2-2-2: 5 seconds lowering, 2-second stretch at the bottom, 2 seconds pulling, 2-second squeeze at the top.</li>
+                <li><b>No kettlebell?</b> Use one 10 lb dumbbell with the same tempo. If you still aren't close to failure, grow the squeeze at the top to 3 seconds before you add reps.</li>
+                <li><b>Straight into bottom-half partials — 10 slow reps.</b> Start with your arm almost straight, where the lat is at its longest. Pull only until your elbow is about halfway back, then lower again — stay in that stretched bottom half. <a class="mw" href="https://www.youtube.com/results?search_query=bottom+half+partial+reps+row+lengthened+partials" target="_blank" rel="noopener">watch</a></li>
+                <li><b>Straight into the top hold.</b> Elbow tight to your side, shoulder blade squeezed toward your back pocket. Hold 20–30 seconds. <button class="tbtn" data-secs="30" data-label="30s hold">30s hold</button></li>
+                <li>Switch sides and repeat.</li>
+              </ul>
+              <details class="why"><summary>Why this matters</summary><p>A strong upper back helps you stand taller and keeps your shoulders from doing work your back should be doing.</p></details>
+              <a class="watch" href="https://www.youtube.com/results?search_query=single+arm+dumbbell+row+form+no+torso+rotation" target="_blank" rel="noopener">Watch the form</a>
+            </div>
+            <div class="log"><span class="fail">Full reps to failure:</span> <span class="blank"></span> L &nbsp; <span class="blank"></span> R</div>
+          </article>
+
+          <article class="ex">
+            <div class="ex-body">
+              <h3 class="ex-name"><span class="idx">C2</span>Dumbbell Pullover<span class="sub">lying back across a box or bench</span></h3>
+              <div class="ex-data">
+                <span class="chip pace"><span class="k">Pace</span> 3 down · 3 stretch</span>
+                <span class="chip effort"><span class="k">Effort</span> 2 left, stay smooth</span>
+                <span class="chip"><span class="k">Reps</span> 12–20</span>
+              </div>
+              <p class="cue">Reach until you feel your ribs want to pop — stop just before they do.</p>
+              <ul class="cues">
+                <li>Lie back across the box or bench, both dumbbells held together.</li>
+                <li>Only as far back as your shoulders are happy with; 3-second stretch at the bottom.</li>
+                <li>Ribs down — don't let this become a lower-back arch.</li>
+              </ul>
+              <details class="why"><summary>Why this matters</summary><p>Think of this as the stretch after the squeeze. Your lats get to work through a longer range instead of staying shortened.</p></details>
+              <a class="watch" href="https://www.youtube.com/results?search_query=dumbbell+pullover+lats+form+rib+control" target="_blank" rel="noopener">Watch the form</a>
+            </div>
+            <div class="log"><span class="fail">Stopped at</span> <span class="blank"></span> &nbsp; Rounds: R1 <span class="blank"></span> R2 <span class="blank"></span></div>
+          </article>
+          <div class="chap-foot">
+            <button class="btn line" data-done="back">Mark chapter done ✓</button>
+            <button class="btn" data-next="shoulders">Next: Delts →</button>
+          </div>
+        </div>
+
+        <!-- SHOULDERS -->
+        <div class="chapter" data-chapter="shoulders">
+          <div class="chap-head"><span class="tag">BUILD</span><h2>Shoulders</h2><span class="chap-min">5–7 min</span></div>
+          <article class="ex">
+            <div class="ex-body">
+              <h3 class="ex-name">One-Arm Lateral Raise Ladder<span class="sub">one arm at a time — little dumbbells, big burn</span></h3>
+              <div class="ex-data">
+                <span class="chip"><span class="k">Rounds</span> 2–3</span>
+                <span class="chip effort"><span class="k">Effort</span> 1 left</span>
+                <span class="chip"><span class="k">Rest</span> 60–75 sec</span>
+              </div>
+              <p class="cue">Lead with your elbows. Heavy shoulders.</p>
+              <ul class="cues">
+                <li>10 half raises.</li>
+                <li>As many full raises as you can with good form.</li>
+                <li>Hold 10 seconds at the highest position you can keep with good form. <button class="tbtn" data-secs="10" data-label="10s hold">10s hold</button></li>
+                <li>Repeat on the other arm.</li>
+              </ul>
+              <details class="why"><summary>Why this matters</summary><p>Strong shoulders create width; a strong upper back creates posture. Together they build what most people call a “V-taper” — or, more simply, a strong-looking back.</p></details>
+              <a class="watch" href="https://www.youtube.com/results?search_query=lateral+raise+form+traps+not+taking+over" target="_blank" rel="noopener">Watch the form</a>
+            </div>
+            <div class="log">Rounds done: R1 <span class="blank"></span> R2 <span class="blank"></span> R3 <span class="blank"></span></div>
+          </article>
+          <div class="chap-foot">
+            <button class="btn line" data-done="shoulders">Mark chapter done ✓</button>
+            <button class="btn" data-next="rise">Next: Rise →</button>
+          </div>
+        </div>
+
+        <!-- RISE (finisher + cool-down) -->
+        <div class="chapter" data-chapter="rise">
+          <div class="chap-head"><span class="tag rise">RISE</span><h2>The Finisher</h2><span class="chap-min">3–5 min</span></div>
+          <p class="chap-intro">The jump. Everything you built, put into power — this is the road in miniature. Then you're done: go get your drink and cool down properly.</p>
+
+          <h3 class="ex-name" style="font-size:19px;margin:22px 0 0;">Athletic Finisher</h3>
+          <div class="corelist">
+            <div class="ci"><span class="cm">Single-leg RDL reaches <span class="fert">🌱 fertilizer</span></span><span class="cr">3 × 6 / side</span><span class="cf">Reach long, hips square, control the balance <a class="mw" href="https://www.youtube.com/results?search_query=single+leg+rdl+reach+balance+form" target="_blank" rel="noopener">watch</a></span></div>
+            <div class="ci"><span class="cm">Kettlebell swings <span class="fert">🌱 fertilizer</span></span><span class="cr">3 × 10</span><span class="cf">Snap. Float. Catch — launch it, don’t lift it. No KB? Swing one dumbbell <a class="mw" href="https://www.youtube.com/results?search_query=kettlebell+swing+hip+hinge+form" target="_blank" rel="noopener">watch</a></span></div>
+            <div class="ci"><span class="cm">Squat jumps</span><span class="cr">3 × 6</span><span class="cf">Soft landing; swap squat-to-calf raise if the toe objects <a class="mw" href="https://www.youtube.com/results?search_query=squat+jump+soft+landing+form" target="_blank" rel="noopener">watch</a></span></div>
+            <div class="ci"><span class="cm">Walk</span><span class="cr">30–60 s</span><span class="cf">Recover without sitting — let the heart settle while you move</span></div>
+          </div>
+
+          <h3 class="ex-name" style="font-size:19px;margin:26px 0 0;">Mobility Sequence <span class="sub" style="display:inline;font-size:14px;">· keep the range you earned · 20–30 s each</span></h3>
+          <p class="cue">Don’t chase the floor. Chase the position.</p>
+          <ul class="cues" style="margin-top:10px;">
+            <li>Overhead squat hold — only as low as your ribs stay stacked. <a class="mw" href="https://www.youtube.com/results?search_query=overhead+squat+hold+mobility" target="_blank" rel="noopener">watch</a> <button class="tbtn" data-secs="30" data-label="30s">30s</button></li>
+            <li>Forward lean — hinge and hang, spine long. <a class="mw" href="https://www.youtube.com/results?search_query=standing+forward+fold+hamstring+stretch" target="_blank" rel="noopener">watch</a> <button class="tbtn" data-secs="30" data-label="30s">30s</button></li>
+            <li>Internal hip rotation switches side to side. <a class="mw" href="https://www.youtube.com/results?search_query=90+90+hip+rotation+switches" target="_blank" rel="noopener">watch</a></li>
+            <li>Horse-stance hold (wide, low, proud). <a class="mw" href="https://www.youtube.com/results?search_query=horse+stance+hold+form" target="_blank" rel="noopener">watch</a> <button class="tbtn" data-secs="30" data-label="30s">30s</button></li>
+            <li>Hero pose / kneeling quad stretch. <a class="mw" href="https://www.youtube.com/results?search_query=hero+pose+kneeling+quad+stretch" target="_blank" rel="noopener">watch</a> <button class="tbtn" data-secs="30" data-label="30s">30s</button></li>
+          </ul>
+          <p class="drink">🥤 That's the class. Grab your drink — you're road ready.</p>
+          <p class="note" style="margin-top:14px;"><b>If you're sore after the trial class, that is not failure.</b><br>That is your body confirming the weights were not too light. Take the recovery day. Then come back for Lesson 2 when your form is ready.</p>
+          <div class="chap-foot">
+            <button class="btn line" data-done="rise">Mark chapter done ✓</button>
+            <button class="btn" data-next="challenge">Next: The Challenge →</button>
+          </div>
+        </div>
+
+        <!-- CHALLENGE -->
+        <div class="chapter" data-chapter="challenge">
+          <div class="chap-head"><span class="tag">THE 10 LB CHALLENGE</span><h2>Still think 10s are <span class="shine">too light?</span></h2></div>
+          <p class="chap-intro">Use one pair of dumbbells for the whole workout. Don't shorten the range. Don't skip the pauses. Don't rush.</p>
+          <p class="mens"><b>Gentlemen:</b> your version is 20s or 25s — every pause, every slow count, all the way through. Same rules. No shortcuts.</p>
+          <p class="chap-intro" style="font-style:italic;color:var(--ink);">Then tell me it was too light. I'll wait.</p>
+          <div class="chap-foot">
+            <button class="btn line" data-done="challenge">Mark chapter done ✓</button>
+            <a class="btn gold" href="#curriculum">Unlock Lesson 2 →</a>
+          </div>
+        </div>
+
+      </div><!-- /main -->
+    </div>
+  </section>
+
+  <!-- ================= LOCKED LESSON ================= -->
+  <section class="view" id="view-locked">
+    <div class="lockedview">
+      <div class="padlock">🔒</div>
+      <h1>This lesson is locked</h1>
+      <p>Lesson 1 is free — the rest come with the full program, plus the private video walk-throughs where I take you through every workout.</p>
+      <p>
+        <!-- TODO: replace href with your Stripe Payment Link / Gumroad URL -->
+        <a class="btn gold" href="#" data-paylink="course">Buy the program</a>
+        &nbsp;
+        <a class="btn" href="#curriculum">Back to lessons</a>
+      </p>
+    </div>
+  </section>
+
+  <footer>
+    <span class="eyebrow">Turn Up the Life</span>
+    <p class="disclaim">Adjust range, jumping, and depth based on how your toe, knee, hip, and shoulder feel. Pushing close to your limit and adding speed both carry some risk — keep the movement clean, and check with a professional first if anything hurts or you're unsure this suits you.</p>
+  </footer>
+
+</div>
+
+<script>
+(function(){
+  var CHAPTERS = ['welcome','getlow','core','legs','push','back','shoulders','rise','challenge'];
+  var TRACKED = CHAPTERS.filter(function(c){return c!=='welcome';}); // 7 markable + welcome auto
+  var CODES = {
+    course:  'ROADREADY',   // unlocks the 7-lesson movement course
+    cookbook:'LIVITARIAN',  // unlocks the cookbook only
+    bundle:  'FULLPLATE'    // unlocks both
+  };
+  // TODO: change all three before launch; deliver the right code(s) per purchase.
+  var KEY = 'tutl-academy';
+
+  var mem = {};
+  function store(o){ mem=o; try{localStorage.setItem(KEY,JSON.stringify(o));}catch(e){} }
+  function load(){
+    var st;
+    try{var r=localStorage.getItem(KEY); st = r ? JSON.parse(r) : mem;}catch(e){ st = mem; }
+    if(st.unlocked && !st.course){ st.course = true; } // migrate old single flag
+    return st;
+  }
+
+  /* ---------- router ---------- */
+  var views = {home:'view-home', curriculum:'view-curriculum', cookbook:'view-cookbook', lesson:'view-lesson', locked:'view-locked'};
+  function route(){
+    var h = (location.hash||'#home').slice(1);
+    var view='home', navKey='home';
+    if(h==='curriculum'){view='curriculum';navKey='curriculum';}
+    else if(h==='cookbook'){view='cookbook';navKey='cookbook';}
+    else if(h==='lesson-1'){view='lesson';navKey='lesson';}
+    else if(/^lesson-\d+$/.test(h)){
+      // paid lessons are standalone pages (opened via curriculum links);
+      // a hash like #lesson-2 just returns to the curriculum here.
+      view = 'curriculum'; navKey='curriculum';
+    }
+    Object.keys(views).forEach(function(k){
+      document.getElementById(views[k]).classList.toggle('active', k===view);
+    });
+    document.querySelectorAll('.topnav a').forEach(function(a){
+      a.classList.toggle('active', a.getAttribute('data-nav')===navKey);
+    });
+    window.scrollTo(0,0);
+    refresh();
+  }
+  window.addEventListener('hashchange', route);
+
+  /* ---------- chapters ---------- */
+  var currentChap = 'welcome';
+  function showChap(id){
+    currentChap = id;
+    document.querySelectorAll('.chapter').forEach(function(c){
+      c.classList.toggle('active', c.getAttribute('data-chapter')===id);
+    });
+    document.querySelectorAll('.chapbtn').forEach(function(b){
+      b.classList.toggle('current', b.getAttribute('data-chap')===id);
+    });
+    var st=load(); st.lastChap=id; store(st);
+    window.scrollTo(0,0);
+  }
+  document.querySelectorAll('.chapbtn').forEach(function(b){
+    b.addEventListener('click', function(){ showChap(b.getAttribute('data-chap')); });
+  });
+  document.querySelectorAll('[data-next]').forEach(function(b){
+    b.addEventListener('click', function(){
+      // moving on from a chapter implies you did it (welcome included)
+      var st=load(); st.done=st.done||{}; st.done[currentChap]=true; store(st);
+      showChap(b.getAttribute('data-next'));
+    });
+  });
+  document.querySelectorAll('[data-done]').forEach(function(b){
+    b.addEventListener('click', function(){
+      var st=load(); st.done=st.done||{};
+      var id=b.getAttribute('data-done');
+      st.done[id]=!st.done[id]; store(st); refresh();
+    });
+  });
+
+  /* ---------- unlock (two products + bundle) ---------- */
+  function applyCode(v){
+    v = (v||'').trim().toUpperCase();
+    var st = load(), hit = false;
+    if(v===CODES.course){ st.course = true; hit='course'; }
+    else if(v===CODES.cookbook){ st.cookbook = true; hit='cookbook'; }
+    else if(v===CODES.bundle){ st.course = true; st.cookbook = true; hit='bundle'; }
+    if(hit){ store(st); refresh(); }
+    return hit;
+  }
+
+  var codebtn=document.getElementById('codebtn');
+  if(codebtn){
+    codebtn.addEventListener('click', function(){
+      var v=document.getElementById('codeinput').value;
+      var msg=document.getElementById('codemsg');
+      var hit=applyCode(v);
+      if(hit==='course'){ msg.textContent='Course unlocked! Lessons open here as they publish.'; msg.className='unlockmsg ok'; }
+      else if(hit==='bundle'){ msg.textContent='Full plate unlocked — course and kitchen both open.'; msg.className='unlockmsg ok'; }
+      else if(hit==='cookbook'){ msg.textContent='That\'s a kitchen code — the kitchen is now unlocked (see the Kitchen tab).'; msg.className='unlockmsg ok'; }
+      else { msg.textContent='That code didn\'t match — check your purchase email.'; msg.className='unlockmsg bad'; }
+    });
+  }
+
+  var cookbtn=document.getElementById('cookbtn');
+  if(cookbtn){
+    cookbtn.addEventListener('click', function(){
+      var v=document.getElementById('cookcode').value;
+      var msg=document.getElementById('cookmsg');
+      var hit=applyCode(v);
+      if(hit==='cookbook'){ msg.textContent='Kitchen unlocked! Recipes appear here as they publish.'; msg.className='unlockmsg ok'; }
+      else if(hit==='bundle'){ msg.textContent='Full plate unlocked — kitchen and course both open.'; msg.className='unlockmsg ok'; }
+      else if(hit==='course'){ msg.textContent='That\'s a course code — the movement course is unlocked (see The Arc).'; msg.className='unlockmsg ok'; }
+      else { msg.textContent='That code didn\'t match — check your purchase email.'; msg.className='unlockmsg bad'; }
+    });
+  }
+
+  /* ---------- refresh UI from state ---------- */
+  function refresh(){
+    var st=load(); var done=st.done||{};
+    // chapter nav dots + progress
+    var n=0;
+    document.querySelectorAll('.chapbtn').forEach(function(b){
+      var id=b.getAttribute('data-chap');
+      var isDone=!!done[id];
+      b.classList.toggle('done', isDone);
+      if(isDone) n++;
+    });
+    var pct=Math.round(n/CHAPTERS.length*100);
+    var bar=document.getElementById('sideprog');
+    var lbl=document.getElementById('sideprog-label');
+    if(bar){bar.style.width=pct+'%';}
+    if(lbl){lbl.textContent=n+' of '+CHAPTERS.length+' chapters'+(pct===100?' — road ready! 🎉':'');}
+    // lesson 1 row state
+    var s1=document.querySelector('[data-state="1"]');
+    if(s1){
+      if(pct===100){s1.textContent='Done';s1.className='state done';}
+      else{s1.textContent='Free';s1.className='state free';}
+    }
+    // unlocked course rows
+    if(st.course){
+      document.querySelectorAll('.lesson-row.locked').forEach(function(row){
+        if(row.hasAttribute('data-cookrow')) return; // cookbook rows handled separately
+        row.classList.remove('locked');
+        var el = row.querySelector('.state');
+        if(row.getAttribute('data-standalone')){
+          if(el){ el.textContent='Open →'; el.classList.remove('lock');
+            el.style.background='var(--aqua)'; el.style.color='#fff'; }
+        } else {
+          if(el){ el.textContent='Coming soon'; el.classList.remove('lock');
+            el.style.background='var(--sun)'; el.style.color='#26140A'; }
+        }
+      });
+      var ub=document.getElementById('unlockbar');
+      if(ub){ub.querySelector('h4').textContent='Course unlocked ✓';
+        ub.querySelector('p').textContent='Lessons 2, 3, and 6 are ready — tap any to open. New lessons appear here as they publish; check your email for the private channel link.';}
+    } else {
+      document.querySelectorAll('.lesson-row[data-standalone]').forEach(function(row){
+        row.addEventListener('click', function(e){
+          if(!load().course){ e.preventDefault();
+            var ub=document.getElementById('unlockbar');
+            if(ub) ub.scrollIntoView({behavior:'smooth', block:'center'});
+          }
+        });
+      });
+    }
+
+    // cookbook state
+    var cookLocked=document.getElementById('cook-locked');
+    var cookList=document.getElementById('cook-list');
+    var cookBadge=document.getElementById('cook-badge');
+    if(st.cookbook){
+      if(cookLocked) cookLocked.style.display='none';
+      if(cookList) cookList.style.display='';
+      if(cookBadge){ cookBadge.textContent='Yours ✓'; cookBadge.className='cc-badge owned'; }
+    } else {
+      if(cookLocked) cookLocked.style.display='';
+      if(cookList) cookList.style.display='none';
+      if(cookBadge){ cookBadge.textContent='Add-on'; cookBadge.className='cc-badge addon'; }
+    }
+
+    // home resume
+    var hr=document.getElementById('home-resume');
+    if(hr){hr.textContent = n>0 ? 'Resume Lesson 1 →' : 'Start with Lesson 1 — free →';}
+  }
+
+  /* ---------- init ---------- */
+  var st=load();
+  showChap(st.lastChap && CHAPTERS.indexOf(st.lastChap)>-1 ? st.lastChap : 'welcome');
+  route();
+})();
+</script>
+
+<script>
+(function(){
+  function beep(){
+    try{
+      var C=window.AudioContext||window.webkitAudioContext; if(!C) return;
+      var a=new C(),o=a.createOscillator(),g=a.createGain();
+      o.connect(g);g.connect(a.destination);o.type='sine';o.frequency.value=880;
+      g.gain.setValueAtTime(.25,a.currentTime);
+      g.gain.exponentialRampToValueAtTime(.0001,a.currentTime+.5);
+      o.start();o.stop(a.currentTime+.5);
+    }catch(e){}
+  }
+  function fmt(s){var m=Math.floor(s/60),r=s%60;return m>0?(m+':'+(r<10?'0':'')+r):(''+r);}
+  document.addEventListener('click',function(e){
+    var b=e.target.closest('.tbtn'); if(!b) return;
+    if(b.dataset.state==='running') return; // ignore taps mid-run
+    var secs=parseInt(b.getAttribute('data-secs'),10)||20;
+    var label=b.getAttribute('data-label')||'hold';
+    var left=secs; b.dataset.state='running'; b.classList.remove('done'); b.classList.add('running');
+    b.textContent=fmt(left);
+    var id=setInterval(function(){
+      left--;
+      if(left<=0){
+        clearInterval(id); b.dataset.state=''; b.classList.remove('running'); b.classList.add('done');
+        b.textContent='done'; beep();
+        setTimeout(function(){ b.classList.remove('done'); b.textContent=label; },2500);
+      } else { b.textContent=fmt(left); }
+    },1000);
+  });
+})();
+</script>
+
+</body>
+</html>

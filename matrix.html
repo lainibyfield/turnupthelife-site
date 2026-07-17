@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>The Matrix — The Livitarian Way</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;800;900&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FFF7EA;--card:#FFFFFF;--line:#EADFCB;--ink:#26140A;--ink-2:#7E6A54;
+    --sun:#FFB300;--aqua:#12A14B;--pink:#D62828;--lime:#93D500;--coral:#E8500F;
+    --display:'Archivo',system-ui,sans-serif;--body:'Newsreader',Georgia,serif;--mono:'JetBrains Mono',ui-monospace,monospace;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.5;-webkit-font-smoothing:antialiased;}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 18px 80px;}
+  .stripe{height:5px;border:0;margin:0;background:linear-gradient(90deg,var(--sun),var(--coral) 28%,var(--pink) 52%,var(--aqua) 76%,var(--lime));}
+  .shine{background:linear-gradient(100deg,var(--sun),var(--coral) 28%,var(--pink) 55%,var(--aqua) 85%);background-size:220% auto;-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent;animation:sh 7s linear infinite;}
+  @keyframes sh{to{background-position:220% center;}}
+  header{padding:34px 0 8px;}
+  .kick{font-family:var(--mono);font-size:11.5px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--coral);}
+  h1{font-family:var(--display);font-weight:900;font-size:clamp(38px,9vw,66px);line-height:.86;letter-spacing:-.03em;margin:10px 0 12px;text-transform:uppercase;}
+  .lead{max-width:640px;font-size:17px;color:var(--ink);margin:0;}
+
+  /* filter bar */
+  .filters{position:sticky;top:0;z-index:30;background:var(--paper);border-bottom:2px solid var(--ink);padding:14px 0 12px;margin:20px 0 0;}
+  .frow{display:flex;flex-wrap:wrap;gap:14px;align-items:flex-end;}
+  .fg{display:flex;flex-direction:column;gap:5px;}
+  .fg label{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-2);}
+  .fg select,.fg input{font-family:var(--mono);font-size:13px;border:1.5px solid var(--ink);background:var(--card);color:var(--ink);padding:8px 10px;min-width:120px;}
+  .toggles{display:flex;flex-wrap:wrap;gap:7px;}
+  .tg{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.03em;text-transform:uppercase;border:1.5px solid var(--ink);background:var(--card);color:var(--ink);padding:8px 11px;cursor:pointer;}
+  .tg.on{background:var(--aqua);color:#fff;border-color:var(--aqua);}
+  .tg.on.batch{background:var(--sun);color:var(--ink);border-color:var(--sun);}
+  .tg.on.frz{background:var(--coral);color:#fff;border-color:var(--coral);}
+  .tg.on.isl{background:var(--lime);color:var(--ink);border-color:var(--lime);}
+  .clearbtn{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;background:none;border:1.5px solid var(--ink-2);color:var(--ink-2);padding:8px 11px;cursor:pointer;}
+  .clearbtn:hover{border-color:var(--pink);color:var(--pink);}
+  .count{font-family:var(--mono);font-size:12px;color:var(--ink-2);margin-top:10px;}
+  .count b{color:var(--ink);}
+
+  /* table */
+  .twrap{overflow-x:auto;margin-top:6px;-webkit-overflow-scrolling:touch;}
+  table{border-collapse:collapse;width:100%;font-size:14px;min-width:640px;}
+  thead th{position:sticky;top:0;font-family:var(--mono);font-size:10.5px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;text-align:left;color:var(--ink-2);background:var(--paper);border-bottom:2px solid var(--ink);padding:10px 8px;cursor:pointer;white-space:nowrap;user-select:none;}
+  thead th:hover{color:var(--ink);}
+  thead th .arr{opacity:.4;}
+  tbody td{border-bottom:1px solid var(--line);padding:10px 8px;vertical-align:top;}
+  tbody tr:hover{background:rgba(255,179,0,.07);}
+  .rname{font-family:var(--body);font-weight:500;font-size:15.5px;line-height:1.2;color:var(--ink);}
+  .rchap{font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:.04em;color:var(--ink-2);margin-top:2px;}
+  .cls{font-family:var(--mono);font-weight:700;font-size:11px;border:1.5px solid var(--ink);padding:2px 6px;display:inline-block;white-space:nowrap;}
+  .cls.D\+{background:var(--coral);color:#fff;border-color:var(--coral);}
+  .cls.D{background:rgba(232,80,15,.16);}
+  .cls.L{background:rgba(255,179,0,.20);}
+  .cls.B{background:rgba(147,213,0,.22);}
+  .cls.M{background:rgba(18,161,75,.16);}
+  .num{font-family:var(--mono);font-size:13.5px;white-space:nowrap;}
+  .fam{font-family:var(--mono);font-size:11px;color:var(--ink-2);text-transform:uppercase;letter-spacing:.02em;}
+  .cost{font-family:var(--mono);font-weight:700;color:var(--aqua);letter-spacing:.02em;}
+  .flags{font-family:var(--mono);font-size:14px;letter-spacing:2px;white-space:nowrap;}
+  .isl-native{color:var(--aqua);font-weight:700;font-size:11px;}
+  .isl-swap{color:var(--sun);font-weight:700;font-size:11px;}
+  .est{font-family:var(--mono);font-size:9.5px;color:var(--ink-2);}
+
+  .empty{padding:40px 10px;text-align:center;font-family:var(--body);color:var(--ink-2);font-size:16px;}
+  .footnote{margin-top:24px;font-size:13px;color:var(--ink-2);line-height:1.55;border-top:1px solid var(--line);padding-top:16px;}
+  .footnote b{color:var(--ink);}
+  @media (max-width:640px){ h1{font-size:44px;} .fg select,.fg input{min-width:100px;} }
+</style>
+</head>
+<body>
+<hr class="stripe"/>
+<div class="wrap">
+  <header>
+    <span class="kick">The Livitarian Way · The Matrix</span>
+    <h1>One <span class="shine">Table.</span></h1>
+    <p class="lead">Every recipe, every number, one filterable sheet. This is the <b>"I have $35 this week"</b> and <b>"I have guests Sunday"</b> interface — sort by protein, filter by cost, find what batches, find what's island-native. The Cookbook teaches; the Planner builds; the Matrix filters.</p>
+  </header>
+
+  <div class="filters">
+    <div class="frow">
+      <div class="fg"><label>Family</label><select id="f-chapter"><option value="">All families</option></select></div>
+      <div class="fg"><label>Weight class</label><select id="f-class"><option value="">All classes</option><option>B</option><option>L</option><option>D</option><option>D+</option><option>M</option></select></div>
+      <div class="fg"><label>Protein family</label><select id="f-fam"><option value="">All proteins</option></select></div>
+      <div class="fg"><label>Max cost</label><select id="f-cost"><option value="">Any cost</option><option value="1">$</option><option value="2">$$ or less</option><option value="3">$$$ or less</option></select></div>
+      <div class="fg"><label>Search</label><input id="f-search" type="text" placeholder="recipe name…" autocomplete="off"/></div>
+    </div>
+    <div class="frow" style="margin-top:12px;">
+      <div class="toggles">
+        <button class="tg batch" data-flag="batch">Batch-friendly</button>
+        <button class="tg frz" data-flag="frz">Freezes well</button>
+        <button class="tg" data-flag="low">Low-movement day</button>
+        <button class="tg" data-flag="act">Active day</button>
+        <button class="tg isl" data-flag="isl">Island-native</button>
+      </div>
+      <button class="clearbtn" id="clear">Clear all</button>
+    </div>
+    <div class="count" id="count"></div>
+  </div>
+
+  <div class="twrap">
+    <table>
+      <thead><tr>
+        <th data-sort="name">Recipe <span class="arr"></span></th>
+        <th data-sort="primcls">Class <span class="arr"></span></th>
+        <th data-sort="prot">Protein <span class="arr"></span></th>
+        <th data-sort="kcal">kcal <span class="arr"></span></th>
+        <th data-sort="protfam">Protein family <span class="arr"></span></th>
+        <th data-sort="costn">Cost <span class="arr"></span></th>
+        <th data-sort="batch">Batch/Frz <span class="arr"></span></th>
+        <th data-sort="isl">Island <span class="arr"></span></th>
+      </tr></thead>
+      <tbody id="tbody"></tbody>
+    </table>
+  </div>
+  <div class="empty" id="empty" style="display:none;">No recipes match those filters. Loosen one — maybe raise the cost cap or clear a toggle.</div>
+
+  <p class="footnote"><b>All macros are planning estimates</b> until a recipe is kitchen-tested and earns its ✓ <i>tested</i> mark — the label on the product you buy always wins. <b>Cost</b> is US planning cost per serving; island cost often runs lower (tinned fish, veggie chunks, and provisions are cheaper there). Blank day-type or slot suggestions aren't rules — the weight-class math is the only rule. Guest recipes (Appendix C) use the same rows, kept for the table.</p>
+</div>
+
+<script>
+var DATA = [{"name": "Pumpkin Festival Soup", "chapter": "Soup", "protfam": "soy + beans", "tier": "2", "prot": 42, "kcal": 500, "cls": "D", "cost": "$", "batch": 1, "frz": 1, "low": 1, "act": 1, "brk": 1, "lun": 1, "din": 1, "isl": "native", "fams": ["beans", "soy"], "primcls": "D"}, {"name": "Pepper Pot Soup", "chapter": "Soup", "protfam": "soy", "tier": "2", "prot": 36, "kcal": 430, "cls": "L", "cost": "$", "batch": 1, "frz": 1, "low": 1, "act": 1, "brk": 1, "lun": 1, "din": 1, "isl": "native", "fams": ["soy"], "primcls": "L"}, {"name": "Classic Corn Soup", "chapter": "Soup", "protfam": "peas & lentils + soy", "tier": "2", "prot": 38, "kcal": 480, "cls": "L", "cost": "$", "batch": 1, "frz": 1, "low": 1, "act": 1, "brk": 1, "lun": 1, "din": 1, "isl": "native", "fams": ["lentils", "peas", "soy"], "primcls": "L"}, {"name": "Stew Peas", "chapter": "Soup", "protfam": "red peas + soy", "tier": "2", "prot": 42, "kcal": 520, "cls": "D", "cost": "$", "batch": 1, "frz": 1, "low": 1, "act": 1, "brk": 1, "lun": 1, "din": 1, "isl": "native", "fams": ["peas", "soy"], "primcls": "D"}, {"name": "Three Bean Chili", "chapter": "Soup", "protfam": "mixed beans + soy", "tier": "1-2", "prot": 40, "kcal": 480, "cls": "D", "cost": "$", "batch": 1, "frz": 1, "low": 1, "act": 1, "brk": 1, "lun": 1, "din": 1, "isl": "swap", "fams": ["beans", "soy"], "primcls": "D"}, {"name": "Split Pea Soup", "chapter": "Soup", "protfam": "peas + soy", "tier": "2", "prot": 35, "kcal": 400, "cls": "L", "cost": "$", "batch": 1, "frz": 1, "low": 1, "act": 1, "brk": 1, "lun": 1, "din": 1, "isl": "swap", "fams": ["peas", "soy"], "primcls": "L"}, {"name": "Rundown", "chapter": "Soup", "protfam": "chickpea + fish (opt)", "tier": "2-3", "prot": 34, "kcal": 440, "cls": "B/L", "cost": "$$", "batch": 1, "frz": 1, "low": 1, "act": 1, "brk": 1, "lun": 1, "din": 1, "isl": "native", "fams": ["chickpeas", "fish", "peas"], "primcls": "L"}, {"name": "Doubles Chickpea Soup", "chapter": "Soup", "protfam": "chickpea + soy", "tier": "2", "prot": 36, "kcal": 450, "cls": "L", "cost": "$", "batch": 1, "frz": 1, "low": 1, "act": 1, "brk": 1, "lun": 1, "din": 1, "isl": "native", "fams": ["chickpeas", "peas", "soy"], "primcls": "L"}, {"name": "Pakasa / Soloby", "chapter": "Soup", "protfam": "beans", "tier": "1-2", "prot": 28, "kcal": 580, "cls": "B/L", "cost": "$", "batch": 1, "frz": 1, "low": 1, "act": 1, "brk": 1, "lun": 1, "din": 1, "isl": "native", "fams": ["beans"], "primcls": "L"}, {"name": "Brown Stew Soy Curls, beans & rice", "chapter": "Soup", "protfam": "red peas + soy", "tier": "2", "prot": 50, "kcal": 680, "cls": "D+", "cost": "$$", "batch": 1, "frz": 1, "low": 1, "act": 0, "brk": 1, "lun": 1, "din": 1, "isl": "swap", "fams": ["peas", "soy"], "primcls": "D+"}, {"name": "Signature Protein Salad", "chapter": "Bowl", "protfam": "soy", "tier": "2", "prot": 34, "kcal": 410, "cls": "B", "cost": "$$$", "batch": 0, "frz": 0, "low": 1, "act": 1, "brk": 1, "lun": 1, "din": 1, "isl": "swap", "fams": ["soy"], "primcls": "B"}, {"name": "Burrito Bowl", "chapter": "Bowl", "protfam": "soy + beans", "tier": "2", "prot": 38, "kcal": 500, "cls": "L", "cost": "$$", "batch": 0, "frz": 0, "low": 1, "act": 1, "brk": 1, "lun": 1, "din": 1, "isl": "native", "fams": ["beans", "soy"], "primcls": "L"}, {"name": "Jerk Bowl", "chapter": "Bowl", "protfam": "soy + beans", "tier": "2", "prot": 42, "kcal": 540, "cls": "D", "cost": "$$", "batch": 0, "frz": 0, "low": 1, "act": 1, "brk": 1, "lun": 1, "din": 1, "isl": "native", "fams": ["beans", "soy"], "primcls": "D"}, {"name": "Jamaican Fried Rice", "chapter": "Bowl", "protfam": "soy", "tier": "2", "prot": 36, "kcal": 520, "cls": "L", "cost": "$$", "batch": 1, "frz": 0, "low": 1, "act": 1, "brk": 1, "lun": 1, "din": 1, "isl": "native", "fams": ["soy"], "primcls": "L"}, {"name": "Jamaican-Chinese Stir Fry Bowl", "chapter": "Bowl", "protfam": "soy", "tier": "2", "prot": 34, "kcal": 440, "cls": "B/L", "cost": "$$", "batch": 0, "frz": 0, "low": 1, "act": 1, "brk": 1, "lun": 1, "din": 1, "isl": "native", "fams": ["soy"], "primcls": "L"}, {"name": "Shepherd's Pie Bowl (cauliflower)", "chapter": "Bowl", "protfam": "lentils + soy", "tier": "1-2", "prot": 40, "kcal": 450, "cls": "D", "cost": "$", "batch": 1, "frz": 1, "low": 1, "act": 1, "brk": 0, "lun": 1, "din": 1, "isl": "native", "fams": ["lentils", "soy"], "primcls": "D"}, {"name": "Plantain & Black Bean Bowl", "chapter": "Bowl", "protfam": "beans + soy", "tier": "2", "prot": 38, "kcal": 560, "cls": "L", "cost": "$$", "batch": 0, "frz": 0, "low": 1, "act": 1, "brk": 1, "lun": 1, "din": 1, "isl": "native", "fams": ["beans", "soy"], "primcls": "L"}, {"name": "Loaded Potato Bowl", "chapter": "Bowl", "protfam": "soy", "tier": "2", "prot": 37, "kcal": 480, "cls": "L", "cost": "$", "batch": 0, "frz": 0, "low": 1, "act": 1, "brk": 1, "lun": 1, "din": 1, "isl": "swap", "fams": ["soy"], "primcls": "L"}, {"name": "Breakfast Hash Bowl", "chapter": "Bowl", "protfam": "soy", "tier": "2", "prot": 33, "kcal": 430, "cls": "B", "cost": "$$", "batch": 0, "frz": 0, "low": 1, "act": 1, "brk": 1, "lun": 1, "din": 1, "isl": "native", "fams": ["soy"], "primcls": "B"}, {"name": "Mediterranean Bowl", "chapter": "Bowl", "protfam": "lentils", "tier": "1", "prot": 30, "kcal": 450, "cls": "B", "cost": "$$", "batch": 0, "frz": 0, "low": 1, "act": 1, "brk": 1, "lun": 1, "din": 1, "isl": "swap", "fams": ["lentils"], "primcls": "B"}, {"name": "Breakfast Wrap", "chapter": "Wrap", "protfam": "soy + beans", "tier": "2", "prot": 32, "kcal": 420, "cls": "B", "cost": "$$", "batch": 0, "frz": 1, "low": 1, "act": 1, "brk": 1, "lun": 1, "din": 1, "isl": "swap", "fams": ["beans", "soy"], "primcls": "B"}, {"name": "Jerk Tofu Wrap", "chapter": "Wrap", "protfam": "soy", "tier": "2", "prot": 33, "kcal": 430, "cls": "B", "cost": "$$", "batch": 0, "frz": 1, "low": 1, "act": 1, "brk": 1, "lun": 1, "din": 1, "isl": "native", "fams": ["soy"], "primcls": "B"}, {"name": "Scotch Bonnet Wrap", "chapter": "Wrap", "protfam": "soy", "tier": "2", "prot": 33, "kcal": 430, "cls": "B", "cost": "$$", "batch": 0, "frz": 1, "low": 1, "act": 1, "brk": 1, "lun": 1, "din": 1, "isl": "native", "fams": ["soy"], "primcls": "B"}, {"name": "Chickpea Salad Wrap", "chapter": "Wrap", "protfam": "chickpea", "tier": "1", "prot": 28, "kcal": 420, "cls": "B", "cost": "$", "batch": 0, "frz": 0, "low": 1, "act": 1, "brk": 1, "lun": 1, "din": 1, "isl": "native", "fams": ["chickpeas", "peas"], "primcls": "B"}, {"name": "Fish Wrap", "chapter": "Wrap", "protfam": "fish", "tier": "3", "prot": 34, "kcal": 420, "cls": "B/L", "cost": "$$", "batch": 0, "frz": 0, "low": 1, "act": 1, "brk": 1, "lun": 1, "din": 1, "isl": "native", "fams": ["fish"], "primcls": "L"}, {"name": "Breakfast Sandwich", "chapter": "Sandwich", "protfam": "soy", "tier": "2", "prot": 30, "kcal": 400, "cls": "B", "cost": "$$", "batch": 0, "frz": 1, "low": 1, "act": 1, "brk": 1, "lun": 1, "din": 1, "isl": "swap", "fams": ["soy"], "primcls": "B"}, {"name": "Tofu BLT", "chapter": "Sandwich", "protfam": "soy", "tier": "2", "prot": 30, "kcal": 430, "cls": "B", "cost": "$$", "batch": 0, "frz": 0, "low": 1, "act": 1, "brk": 1, "lun": 1, "din": 1, "isl": "swap", "fams": ["soy"], "primcls": "B"}, {"name": "Lentil Smash Burger (2 sliders)", "chapter": "Sandwich", "protfam": "lentils", "tier": "1", "prot": 26, "kcal": 380, "cls": "B/M", "cost": "$", "batch": 1, "frz": 1, "low": 1, "act": 1, "brk": 1, "lun": 1, "din": 1, "isl": "native", "fams": ["lentils"], "primcls": "B"}, {"name": "Potato Skins", "chapter": "Comfort", "protfam": "soy", "tier": "2", "prot": 36, "kcal": 460, "cls": "L", "cost": "$", "batch": 0, "frz": 0, "low": 1, "act": 1, "brk": 1, "lun": 1, "din": 1, "isl": "swap", "fams": ["soy"], "primcls": "L"}, {"name": "Pizza", "chapter": "Comfort", "protfam": "soy", "tier": "2", "prot": 40, "kcal": 620, "cls": "D", "cost": "$$", "batch": 1, "frz": 1, "low": 1, "act": 1, "brk": 0, "lun": 1, "din": 1, "isl": "swap", "fams": ["soy"], "primcls": "D"}, {"name": "Macaroni Pie", "chapter": "Comfort", "protfam": "soy", "tier": "2", "prot": 35, "kcal": 520, "cls": "L", "cost": "$$", "batch": 0, "frz": 1, "low": 1, "act": 1, "brk": 0, "lun": 1, "din": 1, "isl": "swap", "fams": ["soy"], "primcls": "L"}, {"name": "Stuffed Peppers", "chapter": "Comfort", "protfam": "beans + soy", "tier": "1-2", "prot": 34, "kcal": 440, "cls": "L", "cost": "$$", "batch": 0, "frz": 1, "low": 1, "act": 1, "brk": 0, "lun": 1, "din": 1, "isl": "native", "fams": ["beans", "soy"], "primcls": "L"}, {"name": "High-Protein Patties (2)", "chapter": "Comfort", "protfam": "lentils + soy", "tier": "2", "prot": 38, "kcal": 650, "cls": "D", "cost": "$$", "batch": 1, "frz": 1, "low": 1, "act": 1, "brk": 1, "lun": 1, "din": 1, "isl": "native", "fams": ["lentils", "soy"], "primcls": "D"}, {"name": "Curried \"Scallops\" over rice", "chapter": "Comfort", "protfam": "soy (TVP)", "tier": "2/4", "prot": 40, "kcal": 520, "cls": "D", "cost": "$$", "batch": 1, "frz": 0, "low": 1, "act": 1, "brk": 0, "lun": 1, "din": 1, "isl": "native", "fams": ["soy"], "primcls": "D"}, {"name": "Loaded Baked Potato", "chapter": "Comfort", "protfam": "soy", "tier": "2", "prot": 36, "kcal": 480, "cls": "L", "cost": "$", "batch": 0, "frz": 0, "low": 1, "act": 1, "brk": 1, "lun": 1, "din": 1, "isl": "swap", "fams": ["soy"], "primcls": "L"}, {"name": "Chickpea Fries", "chapter": "Comfort", "protfam": "chickpea", "tier": "1", "prot": 20, "kcal": 350, "cls": "M", "cost": "$", "batch": 1, "frz": 1, "low": 1, "act": 1, "brk": 0, "lun": 1, "din": 1, "isl": "native", "fams": ["chickpeas", "peas"], "primcls": "M"}, {"name": "Tofu Bacon", "chapter": "Comfort", "protfam": "soy", "tier": "2", "prot": 10, "kcal": 120, "cls": "component", "cost": "$", "batch": 1, "frz": 1, "low": 1, "act": 1, "brk": 1, "lun": 1, "din": 1, "isl": "swap", "fams": ["soy"], "primcls": null}, {"name": "Meatballs (tofu-lentil)", "chapter": "Comfort", "protfam": "lentils + soy", "tier": "2", "prot": 36, "kcal": 480, "cls": "L", "cost": "$", "batch": 1, "frz": 1, "low": 1, "act": 1, "brk": 0, "lun": 1, "din": 1, "isl": "native", "fams": ["lentils", "soy"], "primcls": "L"}, {"name": "Tofu Mousse (lemon/mango/berry)", "chapter": "Dessert", "protfam": "soy", "tier": "2", "prot": 12, "kcal": 180, "cls": "dessert", "cost": "$$", "batch": 1, "frz": 0, "low": 1, "act": 1, "brk": 1, "lun": 1, "din": 1, "isl": "swap", "fams": ["soy"], "primcls": null}, {"name": "Nice Cream", "chapter": "Dessert", "protfam": "—", "tier": "1", "prot": 6, "kcal": 160, "cls": "dessert", "cost": "$", "batch": 0, "frz": 1, "low": 1, "act": 1, "brk": 1, "lun": 1, "din": 1, "isl": "native", "fams": ["other"], "primcls": null}, {"name": "Potato Pudding Chia Cup", "chapter": "Dessert", "protfam": "seeds + milk", "tier": "1", "prot": 12, "kcal": 290, "cls": "M", "cost": "$", "batch": 1, "frz": 0, "low": 1, "act": 1, "brk": 1, "lun": 1, "din": 1, "isl": "native", "fams": ["milk", "seeds"], "primcls": "M"}, {"name": "Rum Cake \"Brownies\"", "chapter": "Dessert", "protfam": "—", "tier": "1", "prot": 4, "kcal": 170, "cls": "dessert", "cost": "$$", "batch": 1, "frz": 1, "low": 1, "act": 1, "brk": 0, "lun": 0, "din": 1, "isl": "native", "fams": ["other"], "primcls": null}, {"name": "Peanut Punch (PB measured)", "chapter": "Drink", "protfam": "peanut", "tier": "2", "prot": 17, "kcal": 330, "cls": "M", "cost": "$", "batch": 0, "frz": 0, "low": 1, "act": 1, "brk": 1, "lun": 1, "din": 1, "isl": "native", "fams": ["peanut", "peas"], "primcls": "M"}, {"name": "Irish Moss Punch", "chapter": "Drink", "protfam": "milk + moss", "tier": "1-2", "prot": 9, "kcal": 160, "cls": "M", "cost": "$$", "batch": 0, "frz": 0, "low": 1, "act": 1, "brk": 1, "lun": 1, "din": 1, "isl": "native", "fams": ["milk", "seamoss"], "primcls": "M"}, {"name": "Sorrel / Ginger Tea", "chapter": "Drink", "protfam": "—", "tier": "1", "prot": 0, "kcal": 40, "cls": "free", "cost": "$", "batch": 1, "frz": 0, "low": 1, "act": 1, "brk": 1, "lun": 1, "din": 1, "isl": "native", "fams": ["other"], "primcls": null}, {"name": "Smoothie (milk + fruit + flax)", "chapter": "Drink", "protfam": "milk + seeds", "tier": "2", "prot": 16, "kcal": 280, "cls": "M", "cost": "$$", "batch": 0, "frz": 0, "low": 1, "act": 1, "brk": 1, "lun": 1, "din": 1, "isl": "swap", "fams": ["milk", "seeds"], "primcls": "M"}, {"name": "Peanut Sauce (2 tbsp)", "chapter": "Sauce", "protfam": "peanut", "tier": "1", "prot": 4, "kcal": 100, "cls": "component", "cost": "$", "batch": 1, "frz": 1, "low": 1, "act": 1, "brk": 1, "lun": 1, "din": 1, "isl": "native", "fams": ["peanut", "peas"], "primcls": null}, {"name": "Tofu Sauces (¼ cup)", "chapter": "Sauce", "protfam": "soy", "tier": "2", "prot": 5, "kcal": 55, "cls": "component", "cost": "$", "batch": 1, "frz": 0, "low": 1, "act": 1, "brk": 1, "lun": 1, "din": 1, "isl": "native", "fams": ["soy"], "primcls": null}];
+var COST_N = {'$':1,'$$':2,'$$$':3,'$$$$':4};
+DATA.forEach(function(d){ d.costn = COST_N[d.cost]||2; });
+
+var FAM_LABEL={soy:'soy',beans:'beans',peas:'peas',lentils:'lentils',chickpeas:'chickpeas',peanut:'peanut',fish:'fish',seamoss:'sea moss',milk:'milk',seeds:'seeds',other:'other'};
+
+// populate dropdowns
+var chapters=[...new Set(DATA.map(function(d){return d.chapter;}))].sort();
+var fsel=document.getElementById('f-chapter');
+chapters.forEach(function(c){ var o=document.createElement('option'); o.value=c; o.textContent=c; fsel.appendChild(o); });
+var allfams=[...new Set(DATA.flatMap(function(d){return d.fams;}))].filter(function(f){return f!=='other';}).sort();
+var famsel=document.getElementById('f-fam');
+allfams.forEach(function(f){ var o=document.createElement('option'); o.value=f; o.textContent=FAM_LABEL[f]||f; famsel.appendChild(o); });
+
+var state={chapter:'',cls:'',fam:'',cost:'',search:'',flags:{},sortKey:'name',sortDir:1};
+
+function passes(d){
+  if(state.chapter && d.chapter!==state.chapter) return false;
+  if(state.cls){ var c=(d.cls||'').replace('/',' ').split(' '); if(d.primcls!==state.cls && c.indexOf(state.cls)<0) return false; }
+  if(state.fam && d.fams.indexOf(state.fam)<0) return false;
+  if(state.cost && d.costn>parseInt(state.cost,10)) return false;
+  if(state.search && d.name.toLowerCase().indexOf(state.search.toLowerCase())<0) return false;
+  for(var f in state.flags){ if(state.flags[f]){
+    if(f==='isl'){ if(d.isl!=='native') return false; }
+    else if(!d[f]) return false;
+  }}
+  return true;
+}
+function sortRows(rows){
+  var k=state.sortKey, dir=state.sortDir;
+  return rows.sort(function(a,b){
+    var x=a[k], y=b[k];
+    if(k==='primcls'){ var ord={'B':1,'L':2,'D':3,'D+':4,'M':5,'':9,null:9}; x=ord[a.primcls]||9; y=ord[b.primcls]||9; }
+    if(typeof x==='string'){ return x.localeCompare(y)*dir; }
+    return ((x||0)-(y||0))*dir;
+  });
+}
+function render(){
+  var rows=sortRows(DATA.filter(passes));
+  var tb=document.getElementById('tbody'); tb.innerHTML='';
+  document.getElementById('empty').style.display = rows.length? 'none':'block';
+  rows.forEach(function(d){
+    var tr=document.createElement('tr');
+    var flags=(d.batch?'🍲':'')+(d.frz?'❄️':'');
+    var isl = d.isl==='native' ? '<span class="isl-native">native</span>' : '<span class="isl-swap">swap</span>';
+    var clsLabel=d.primcls||d.cls;
+    tr.innerHTML =
+      '<td><div class="rname">'+d.name+'</div><div class="rchap">'+d.chapter+'</div></td>'+
+      '<td><span class="cls '+(d.primcls||'')+'">'+clsLabel+'</span></td>'+
+      '<td class="num">'+(d.prot||0)+' g <span class="est">est</span></td>'+
+      '<td class="num">'+(d.kcal||0)+'</td>'+
+      '<td class="fam">'+d.protfam+'</td>'+
+      '<td class="cost">'+d.cost+'</td>'+
+      '<td class="flags">'+(flags||'—')+'</td>'+
+      '<td>'+isl+'</td>';
+    tb.appendChild(tr);
+  });
+  var c=document.getElementById('count');
+  c.innerHTML='<b>'+rows.length+'</b> of '+DATA.length+' recipes';
+}
+
+// wire filters
+document.getElementById('f-chapter').onchange=function(){state.chapter=this.value;render();};
+document.getElementById('f-class').onchange=function(){state.cls=this.value;render();};
+document.getElementById('f-fam').onchange=function(){state.fam=this.value;render();};
+document.getElementById('f-cost').onchange=function(){state.cost=this.value;render();};
+document.getElementById('f-search').oninput=function(){state.search=this.value;render();};
+document.querySelectorAll('.tg').forEach(function(b){
+  b.onclick=function(){ var f=b.getAttribute('data-flag'); state.flags[f]=!state.flags[f]; b.classList.toggle('on',state.flags[f]); render(); };
+});
+document.getElementById('clear').onclick=function(){
+  state={chapter:'',cls:'',fam:'',cost:'',search:'',flags:{},sortKey:'name',sortDir:1};
+  document.getElementById('f-chapter').value='';document.getElementById('f-class').value='';
+  document.getElementById('f-fam').value='';document.getElementById('f-cost').value='';document.getElementById('f-search').value='';
+  document.querySelectorAll('.tg').forEach(function(b){b.classList.remove('on');});
+  render();
+};
+document.querySelectorAll('th[data-sort]').forEach(function(th){
+  th.onclick=function(){
+    var k=th.getAttribute('data-sort');
+    if(k==='isl') k='isl';
+    if(state.sortKey===k){ state.sortDir*=-1; } else { state.sortKey=k; state.sortDir=1; }
+    document.querySelectorAll('th .arr').forEach(function(a){a.textContent='';});
+    th.querySelector('.arr').textContent = state.sortDir>0?'↑':'↓';
+    render();
+  };
+});
+render();
+</script>
+</body>
+</html>

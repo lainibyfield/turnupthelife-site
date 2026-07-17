@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>The Livitarian Way — Manifesto &amp; Foundations</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;800;900&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400;1,6..72,500&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FFF7EA;--card:#FFFFFF;--line:#EADFCB;--ink:#26140A;--ink-2:#7E6A54;
+    --sun:#FFB300;--aqua:#12A14B;--pink:#D62828;--lime:#93D500;--coral:#E8500F;--earth:#5A3A1E;
+    --display:'Archivo',system-ui,sans-serif;--body:'Newsreader',Georgia,serif;--mono:'JetBrains Mono',ui-monospace,monospace;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);font-size:18px;line-height:1.6;-webkit-font-smoothing:antialiased;}
+  .wrap{max-width:760px;margin:0 auto;padding:0 20px;}
+  .stripe{height:5px;border:0;margin:0;background:linear-gradient(90deg,var(--sun),var(--coral) 28%,var(--pink) 52%,var(--aqua) 76%,var(--lime));}
+  .shine{background:linear-gradient(100deg,var(--sun),var(--coral) 28%,var(--pink) 55%,var(--aqua) 85%);background-size:220% auto;-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent;animation:sh 7s linear infinite;}
+  @keyframes sh{to{background-position:220% center;}}
+
+  /* HERO — the question, full-screen, before anything */
+  .hero{min-height:88vh;display:flex;flex-direction:column;justify-content:center;padding:60px 0 40px;}
+  .hero .kick{font-family:var(--mono);font-size:12px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--coral);margin-bottom:26px;}
+  .hero .q{font-family:var(--display);font-weight:800;font-size:clamp(30px,6.4vw,54px);line-height:1.04;letter-spacing:-.02em;margin:0;}
+  .hero .q b{font-weight:900;}
+  .hero .q .em{font-family:var(--body);font-style:italic;font-weight:500;}
+  .hero .scroll{margin-top:44px;font-family:var(--mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-2);}
+  .hero .scroll::after{content:" ↓";}
+
+  .sec{padding:54px 0 8px;border-top:1px solid var(--line);}
+  .eyebrow{font-family:var(--mono);font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--coral);}
+  h2{font-family:var(--display);font-weight:900;font-size:clamp(28px,6vw,44px);line-height:.95;letter-spacing:-.02em;margin:10px 0 18px;text-transform:uppercase;}
+  h3{font-family:var(--display);font-weight:800;font-size:20px;letter-spacing:-.01em;margin:26px 0 8px;}
+  p{margin:0 0 16px;}
+  .lede{font-size:20px;line-height:1.5;color:var(--ink);}
+
+  /* seven principles */
+  .principles{list-style:none;margin:20px 0 0;padding:0;counter-reset:p;}
+  .principles li{counter-increment:p;position:relative;padding:16px 0 16px 60px;border-top:1px solid var(--line);font-family:var(--display);font-weight:800;font-size:clamp(20px,4.4vw,28px);letter-spacing:-.01em;text-transform:uppercase;}
+  .principles li::before{content:counter(p,decimal-leading-zero);position:absolute;left:0;top:18px;font-family:var(--mono);font-size:13px;font-weight:700;color:var(--coral);letter-spacing:.05em;}
+  .principles li:first-child{border-top:none;}
+
+  .namebox{border:2px solid var(--ink);background:rgba(18,161,75,.06);padding:22px 24px;margin-top:14px;}
+  .namebox p:last-child{margin-bottom:0;}
+  em.term{font-style:italic;color:var(--earth);font-weight:500;}
+  .callout{border-left:3px solid var(--coral);padding:2px 0 2px 18px;margin:18px 0;font-style:italic;color:var(--ink);}
+
+  /* Kitchen Test — a feature section, not an ordinary block */
+  .kt{padding-top:64px;}
+  .kt-title{font-size:clamp(40px,10vw,76px);margin:10px 0 20px;}
+  .kt-lede{font-size:clamp(20px,3.4vw,26px);line-height:1.4;font-style:italic;color:var(--ink);max-width:640px;margin:0 0 26px;}
+  .kt-gate{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:6px 0 8px;}
+  .kt-pass,.kt-fail{border:2px solid var(--ink);padding:20px 20px 22px;background:var(--card);}
+  .kt-pass{border-left:6px solid var(--aqua);}
+  .kt-fail{border-left:6px solid var(--sun);}
+  .kt-label{display:inline-block;font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:4px 9px;margin-bottom:12px;}
+  .kt-in{background:var(--aqua);color:#fff;}
+  .kt-out{background:var(--sun);color:var(--ink);}
+  .kt-pass p,.kt-fail p{margin:0;font-size:16px;line-height:1.5;}
+  .kt-macro{font-family:var(--mono);font-size:14px;line-height:1.55;background:rgba(214,40,40,.07);border-left:3px solid var(--pink);padding:13px 16px;margin-top:18px;}
+  @media(max-width:600px){.kt-gate{grid-template-columns:1fr;}}
+
+  .tiers{margin-top:18px;}
+  .tier{border:1.5px solid var(--ink);background:var(--card);padding:16px 18px;margin-top:12px;}
+  .tier .tnum{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--coral);}
+  .tier h4{font-family:var(--display);font-weight:800;font-size:18px;margin:4px 0 6px;text-transform:uppercase;letter-spacing:-.01em;}
+  .tier p{margin:0;font-size:16px;color:var(--ink);}
+  .tier.t1{border-left:5px solid var(--aqua);} .tier.t2{border-left:5px solid var(--lime);}
+  .tier.t3{border-left:5px solid var(--sun);} .tier.t4{border-left:5px solid var(--ink-2);}
+
+  .labels{list-style:none;margin:16px 0 0;padding:0;}
+  .labels li{border-top:1px solid var(--line);padding:14px 0;}
+  .labels li:first-child{border-top:none;}
+  .labels b{font-family:var(--display);font-weight:800;text-transform:uppercase;font-size:15px;letter-spacing:.01em;display:block;margin-bottom:3px;color:var(--earth);}
+  .labels .spec{font-family:var(--mono);font-size:13px;color:var(--ink);background:rgba(255,179,0,.14);padding:2px 6px;}
+  .island{font-family:var(--mono);font-size:13px;color:var(--aqua);font-weight:500;}
+  .island::before{content:"🏝 ";}
+
+  .classrow{display:flex;flex-wrap:wrap;gap:8px;margin:16px 0;}
+  .classchip{font-family:var(--mono);font-size:12px;font-weight:700;border:1.5px solid var(--ink);padding:7px 11px;}
+  .classchip .g{color:var(--ink-2);font-weight:400;}
+  .cc-B{background:rgba(147,213,0,.22);} .cc-L{background:rgba(255,179,0,.20);}
+  .cc-D{background:rgba(232,80,15,.16);} .cc-Dp{background:var(--coral);color:#fff;} .cc-M{background:rgba(18,161,75,.16);}
+
+  .batchgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px;}
+  .batchcard{border:1.5px solid var(--ink);padding:15px 16px;background:var(--card);}
+  .batchcard h4{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--coral);margin:0 0 8px;}
+  .batchcard p{margin:0;font-size:15px;}
+  @media(max-width:600px){.batchgrid{grid-template-columns:1fr;}}
+
+  .cta{display:block;border:2px solid var(--ink);background:var(--sun);padding:26px 24px;margin:30px 0 10px;text-decoration:none;color:var(--ink);}
+  .cta .k{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--earth);}
+  .cta h3{font-family:var(--display);font-weight:900;font-size:26px;margin:6px 0 4px;text-transform:uppercase;}
+  .cta p{margin:0;font-size:15px;}
+  .free-tag{display:inline-block;font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;background:var(--lime);border:1.5px solid var(--ink);padding:3px 8px;margin-bottom:10px;}
+
+  footer{border-top:1px solid var(--line);padding:30px 0 70px;margin-top:44px;}
+  .disc{font-size:13px;color:var(--ink-2);line-height:1.55;max-width:640px;}
+  @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto;}.shine{animation:none;}}
+</style>
+</head>
+<body>
+<hr class="stripe"/>
+<div class="wrap">
+
+  <section class="hero">
+    <span class="kick">The Livitarian Way · The Manifesto</span>
+    <p class="q">If Caribbean home cooking had been <b>designed from the beginning</b> around longevity, sustainability, and preserving muscle — <span class="em">without losing its identity</span> — what would it look like?</p>
+    <span class="scroll">This page is the manifesto. Everything else is the answer</span>
+  </section>
+
+  <section class="sec" id="principles">
+    <span class="eyebrow">The foundation</span>
+    <h2>Seven Principles</h2>
+    <ol class="principles">
+      <li>Plants first.</li>
+      <li>Muscle matters.</li>
+      <li>Waste nothing.</li>
+      <li>Eat locally when practical.</li>
+      <li>Respect tradition, improve nutrition.</li>
+      <li>Build meals, not restrictions.</li>
+      <li>Cook food worth sharing.</li>
+    </ol>
+  </section>
+
+  <section class="sec" id="name">
+    <span class="eyebrow">Where the name comes from</span>
+    <h2>Ital-inspired,<br>never Ital.</h2>
+    <div class="namebox">
+      <p><b>The Livitarian Way</b> takes its name from <em class="term">livity</em> — the Rastafari word for a life lived close to the earth. The coinage is deliberate: <em class="term">livitarian</em> names a way of eating the way <em class="term">vegetarian</em> or <em class="term">pescatarian</em> do, built on the root rather than claiming the word itself.</p>
+      <p>This book borrows livity's wisdom with gratitude — the earth-closeness of the tiers, the small-fish rule, the low-salt kitchen — and says so plainly: it is not a religious text, it does not practice or speak for Rastafari, and where it departs — soy, certified tins, the Practical Exceptions annex — it departs openly.</p>
+      <p>Naming the debt is the respect. Readers who want the tradition itself should seek out Ital cooks and Rastafari voices directly.</p>
+    </div>
+  </section>
+
+  <section class="sec kt" id="kitchen-test">
+    <span class="eyebrow">How recipes earn their place</span>
+    <h2 class="kt-title">The Kitchen<br><span class="shine">Test.</span></h2>
+    <p class="kt-lede">If a dish couldn't naturally live in that imagined Caribbean kitchen, it belongs in an appendix — not the core book.</p>
+    <div class="kt-gate">
+      <div class="kt-pass">
+        <span class="kt-label kt-in">Earns a core place</span>
+        <p>It tastes like home. It supports the goals. It fits the environmental philosophy. Pass all three and it's in — even if it isn't a traditional recipe.</p>
+      </div>
+      <div class="kt-fail">
+        <span class="kt-label kt-out">Kept for the table</span>
+        <p>A good meal that lives in someone else's kitchen becomes a guest recipe — same card, same Matrix row, marked <i>(guest)</i>. Nothing is thrown away; it's just not foundation.</p>
+      </div>
+    </div>
+    <p class="callout">No brand names in this book. Brands change; specifications don't. Products are described by what their labels must say — the current picks live on a dated page that ages on purpose.</p>
+    <p class="kt-macro">All macros are planning estimates until kitchen-tested. The label on the product you bought wins.</p>
+  </section>
+
+  <section class="sec" id="foundations">
+    <span class="free-tag">Free · Foundations</span>
+    <h2>The Tier System</h2>
+    <p>It describes food, not morality. Nothing here is forbidden; the tiers just say where a food sits.</p>
+    <div class="tiers">
+      <div class="tier t1"><span class="tnum">Tier 1</span><h4>From the earth</h4><p>Grows with minimal processing: provisions, legumes, greens, fruit, coconut, nuts, seeds, herbs.</p></div>
+      <div class="tier t2"><span class="tnum">Tier 2</span><h4>Traditional transformations</h4><p>Keeps the whole food recognizable: tofu, tempeh, soy milk, soy curls.</p></div>
+      <div class="tier t3"><span class="tnum">Tier 3</span><h4>Small fish, intentional</h4><p>Carefully sourced: small fish under about a foot — no predators, shellfish, or bivalves — 3× a week or less.</p></div>
+      <div class="tier t4"><span class="tnum">Tier 4</span><h4>Practical exceptions</h4><p>Kept in an annex as practical choices, not foundation: rescue food, known-farmer eggs/chicken, US-context TVP. 🏝 Veggie chunks are an island staple and move up in practice.</p></div>
+    </div>
+  </section>
+
+  <section class="sec" id="labels">
+    <span class="eyebrow">Foundations</span>
+    <h2>Label Literacy</h2>
+    <p>Four labels decide most of the nutrition. Read the panel, not the brand.</p>
+    <ul class="labels">
+      <li><b>Rice</b>The bag must say <span class="spec">whole grain brown rice</span>, one ingredient. Parboiled/"converted" keeps some nutrients but loses the bran and most fiber. <span class="island">"Rice" defaults to white/parboiled — ask for whole-grain by full name.</span></li>
+      <li><b>Tofu</b>A true anchor tofu shows <span class="spec">16–20 g protein per 4 oz</span> (super-firm). Extra-firm is close; soft/silken are for sauces and mousse. <span class="island">Buy the firmest available, press hard, pair with a second protein.</span></li>
+      <li><b>Plant milk</b>The plan assumes <span class="spec">≥8 g protein and ~440–450 mg calcium per cup</span>, whatever the brand. <span class="island">Fortified soy milk qualifies fully; unfortified covers protein only.</span></li>
+      <li><b>Canned fish</b>A current <span class="spec">third-party sustainability certification on the tin</span> plus the origin: sardines from Morocco, Japan, or a certified fishery; skip Mediterranean/Iberian tins regardless of prestige. Rinse all brine.</li>
+    </ul>
+  </section>
+
+  <section class="sec" id="build-a-day">
+    <span class="eyebrow">Foundations</span>
+    <h2>How to Build a Day</h2>
+    <p>Every recipe declares a <b>protein weight class</b>. A day is one light + one middle + one heavy anchor (or a D+ and lighter elsewhere), plus a module if you're short — drawn from <b>at least three different protein families</b>.</p>
+    <div class="classrow">
+      <span class="classchip cc-B">B <span class="g">· 30–35 g · lightest</span></span>
+      <span class="classchip cc-L">L <span class="g">· 35–40 g · middle</span></span>
+      <span class="classchip cc-D">D <span class="g">· 40–45 g · heaviest</span></span>
+      <span class="classchip cc-Dp">D+ <span class="g" style="color:rgba(255,255,255,.7)">· ~50 g · fused</span></span>
+      <span class="classchip cc-M">M <span class="g">· 20–25 g · module</span></span>
+    </div>
+    <p class="callout">No recipe — and no plate size — belongs to a time of day. Pumpkin soup at 7 a.m. is a perfectly built morning. The Planner only cares about weight class and rotation; you decide when to eat what.</p>
+    <a class="cta" href="planner-builder.html">
+      <span class="k">Play the game →</span>
+      <h3>Build a Day</h3>
+      <p>The interactive planner: pick your anchors, watch the protein and rotation rules work in real time.</p>
+    </a>
+  </section>
+
+  <section class="sec" id="batch">
+    <span class="eyebrow">Foundations</span>
+    <h2>The Batch System</h2>
+    <div class="batchgrid">
+      <div class="batchcard"><h4>Weekly</h4><p>Rice · a pot of beans or peas · one soup · pressed and baked tofu.</p></div>
+      <div class="batchcard"><h4>Monthly</h4><p>Jerk seasoning · tofu bacon · pizza dough · frozen oat wraps · frozen tofu dumplings · brined TVP "scallops."</p></div>
+    </div>
+    <a class="cta" href="matrix.html" style="background:var(--aqua);color:#fff;">
+      <span class="k" style="color:rgba(255,255,255,.8);">Filter everything →</span>
+      <h3 style="color:#fff;">The Matrix</h3>
+      <p>Every recipe, every number — filter by cost, class, protein family, what batches, what's island-native.</p>
+    </a>
+  </section>
+
+  <hr class="stripe"/>
+  <footer>
+    <p class="disc"><b>Ital-inspired, never Ital.</b> The Rastafari debt is named here in the manifesto; the food carries the culture without costume. Every macro is a planning estimate until a recipe earns its ✓ tested mark. This is a cooking philosophy, not medical or dietary advice — check with a professional about your own needs, especially around protein targets, kidney health, or any condition affected by diet.</p>
+  </footer>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Turn Up the Life — Carnival Trial Class</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;800;900&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400;1,6..72,500&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FFF7EA; --card:#FFFFFF; --line:#EADFCB;
+    --ink:#26140A; --ink-2:#7E6A54;
+    --sun:#FFB300; --aqua:#12A14B; --pink:#D62828; --lime:#93D500; --coral:#E8500F;
+    --display:'Archivo',system-ui,sans-serif;
+    --body:'Newsreader',Georgia,serif;
+    --mono:'JetBrains Mono',ui-monospace,monospace;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);font-size:18px;line-height:1.55;-webkit-font-smoothing:antialiased;}
+  .wrap{max-width:940px;margin:0 auto;padding:0 24px;position:relative;}
+
+  .eyebrow{font-family:var(--mono);font-size:12px;font-weight:500;letter-spacing:.22em;text-transform:uppercase;color:var(--ink-2);}
+  h2.block-title{font-family:var(--display);font-weight:900;font-size:clamp(28px,5vw,46px);line-height:.95;letter-spacing:-.02em;margin:0;text-transform:uppercase;color:var(--ink);}
+  a{color:var(--pink);text-underline-offset:3px;}
+
+  .shine{background:linear-gradient(100deg,var(--sun) 0%,var(--coral) 28%,var(--pink) 55%,var(--aqua) 85%);background-size:220% auto;-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent;animation:shimmer 7s linear infinite;}
+  @keyframes shimmer{to{background-position:220% center;}}
+  .stripe{height:5px;border:0;margin:0;background:linear-gradient(90deg,var(--sun),var(--coral) 28%,var(--pink) 52%,var(--aqua) 76%,var(--lime));}
+
+  .chip{display:inline-flex;align-items:center;gap:.4em;font-family:var(--mono);font-size:12px;font-weight:500;letter-spacing:.04em;text-transform:uppercase;border:1.5px solid var(--ink);color:var(--ink);padding:5px 9px;white-space:nowrap;}
+  .chip .k{color:var(--ink-2);}
+  .chip.solid{background:var(--sun);color:#26140A;border-color:var(--sun);font-weight:700;}
+  .chip.pace{border-color:var(--aqua);color:#0B7A3A;} .chip.pace .k{color:var(--aqua);}
+  .chip.effort{border-color:var(--pink);color:var(--pink);} .chip.effort .k{color:var(--pink);opacity:.75;}
+
+  /* ---------- compact hero ---------- */
+  .hero{position:relative;padding:44px 0 28px;}
+  .hero::before{content:"";position:absolute;left:-12%;right:-12%;top:-40px;height:300px;background:radial-gradient(56% 100% at 50% 0,rgba(255,179,0,.30),rgba(232,80,15,.20) 38%,rgba(18,161,75,.14) 60%,transparent 76%);pointer-events:none;z-index:0;}
+  .hero > *{position:relative;z-index:1;}
+  .hero .kicker{display:flex;flex-wrap:wrap;gap:12px;align-items:baseline;margin-bottom:20px;}
+  .hero h1{font-family:var(--display);font-weight:900;font-size:clamp(42px,9vw,92px);line-height:.84;letter-spacing:-.03em;margin:0 0 18px;text-transform:uppercase;}
+  .hero-sub{max-width:640px;font-size:19px;line-height:1.5;margin:0 0 8px;}
+  .roads{max-width:640px;font-size:15px;line-height:1.5;margin:6px 0 0;color:var(--ink-2);}
+  .roads b{font-family:var(--mono);font-size:12.5px;letter-spacing:.02em;text-transform:uppercase;color:var(--ink);font-weight:700;}
+  .mens{max-width:640px;font-size:16.5px;margin:10px 0 0;padding:12px 16px;border:2px solid var(--ink);background:var(--card);}
+  .mens b{font-family:var(--mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--coral);}
+  .mens.beginner{border-color:var(--aqua);margin-top:10px;}
+  .mens.beginner b{color:#0B7A3A;}
+  .needbar{margin:18px 0 4px;padding:14px 16px;border:2px solid var(--ink);background:var(--card);display:flex;flex-wrap:wrap;align-items:center;gap:8px 10px;}
+  .needlabel{flex-basis:100%;font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--pink);}
+  .needfoot{flex-basis:100%;font-size:14px;font-style:italic;color:var(--ink-2);}
+  .stakes{max-width:660px;margin:16px 0 0;padding:14px 16px;border-left:3px solid var(--pink);background:rgba(214,40,40,.06);font-size:16px;line-height:1.5;}
+  .stakes b{color:var(--pink);}
+  .science{padding:40px 0 10px;border-top:1px solid var(--line);scroll-margin-top:120px;}
+  .science h2{font-family:var(--display);font-weight:900;text-transform:uppercase;font-size:clamp(24px,4.6vw,38px);letter-spacing:-.02em;margin:0 0 6px;}
+  .science .lede{max-width:640px;color:var(--ink-2);margin:0 0 18px;font-size:16px;}
+  .science ul{max-width:680px;margin:0;padding:0;list-style:none;}
+  .science li{position:relative;padding:10px 0 10px 22px;border-top:1px solid var(--line);font-size:15.5px;line-height:1.5;}
+  .science li::before{content:"";position:absolute;left:0;top:19px;width:9px;height:9px;background:var(--lime);border:2px solid var(--ink);border-radius:50%;}
+  .science .src{display:block;margin-top:4px;font-family:var(--mono);font-size:11px;letter-spacing:.03em;color:var(--ink-2);}
+  .science .src a{color:var(--ink-2);}
+  .science .caveat{max-width:660px;margin:16px 0 0;font-size:13px;font-style:italic;color:var(--ink-2);}
+
+  /* ---------- sticky quick nav + progress ---------- */
+  .quicknav{position:sticky;top:0;z-index:50;background:var(--paper);border-bottom:2px solid var(--ink);padding:10px 0;}
+  .qn-row{display:flex;gap:8px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;align-items:center;}
+  .qn-row::-webkit-scrollbar{display:none;}
+  .qn-btn{flex:0 0 auto;height:38px;line-height:1;font-family:var(--mono);font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;border:2px solid var(--ink);background:var(--card);color:var(--ink);padding:0 14px;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:7px;}
+  .qn-btn:hover{background:var(--sun);border-color:var(--sun);}
+  .qn-btn .dot{width:9px;height:9px;border:2px solid var(--ink);display:inline-block;border-radius:50%;}
+  .qn-btn.done .dot{background:var(--lime);border-color:var(--ink);}
+  .qn-btn.more{border-color:var(--pink);color:var(--pink);}
+  .qn-btn.more:hover{background:var(--pink);color:#fff;}
+  .progresswrap{height:6px;background:var(--line);margin-top:10px;}
+  .progressbar{height:100%;width:0%;background:linear-gradient(90deg,var(--sun),var(--coral),var(--pink));transition:width .35s ease;}
+  .prog-label{font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-2);margin-top:5px;display:flex;justify-content:space-between;gap:10px;}
+  .prog-label button{font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;background:none;border:none;color:var(--ink-2);cursor:pointer;text-decoration:underline;padding:0;}
+
+  /* ---------- collapsible info ---------- */
+  details.info{margin:18px 0 0;border:1.5px solid var(--line);background:var(--card);}
+  details.info summary{cursor:pointer;list-style:none;padding:13px 16px;font-family:var(--mono);font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink);display:flex;align-items:center;gap:10px;}
+  details.info summary::-webkit-details-marker{display:none;}
+  details.info summary::after{content:"+";margin-left:auto;font-size:16px;color:var(--coral);}
+  details.info[open] summary::after{content:"–";}
+  details.info .inner{padding:4px 18px 18px;font-size:16px;line-height:1.5;}
+  details.info .inner p{margin:0 0 10px;}
+  details.info .inner b{color:var(--pink);font-weight:600;}
+
+  /* ---------- blocks ---------- */
+  .block{padding:44px 0;border-top:1px solid var(--line);scroll-margin-top:120px;}
+  .block-head{display:flex;flex-wrap:wrap;align-items:baseline;gap:14px;margin-bottom:8px;}
+  .block-head .tag{font-family:var(--mono);font-size:13px;font-weight:700;color:var(--coral);letter-spacing:.14em;}
+  .block-head .tag.getlow{color:#0B7A3A;}
+  .block-head .tag.rise{color:var(--pink);}
+  .block-min{font-family:var(--mono);font-size:13px;color:var(--ink-2);margin-left:auto;}
+  .block-intro{max-width:660px;margin:12px 0 0;color:var(--ink-2);font-size:16.5px;}
+
+  .ex{border:1.5px solid var(--ink);background:var(--card);margin-top:22px;}
+  .ex-body{padding:22px 24px;}
+  .ex-top{display:flex;align-items:flex-start;gap:14px;}
+  .ex-name{font-family:var(--display);font-weight:800;font-size:clamp(19px,3vw,25px);letter-spacing:-.01em;margin:0 0 6px;line-height:1.05;text-transform:uppercase;color:var(--ink);}
+  .ex-name .idx{color:var(--pink);margin-right:.4em;}
+  .ex-name .sub{display:block;font-family:var(--body);font-weight:400;font-style:italic;font-size:15.5px;color:var(--ink-2);margin-top:4px;letter-spacing:0;text-transform:none;}
+  .donebox{margin-left:auto;flex:0 0 auto;display:flex;align-items:center;gap:8px;font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-2);cursor:pointer;user-select:none;}
+  .donebox input{width:20px;height:20px;accent-color:#93D500;cursor:pointer;}
+  .ex-data{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0 16px;}
+  .cues{margin:0;padding:0;list-style:none;}
+  .cues li{position:relative;padding:5px 0 5px 20px;font-size:16.5px;line-height:1.45;}
+  .cues li::before{content:"";position:absolute;left:0;top:12px;width:8px;height:2px;background:var(--coral);}
+  .cues .mw{font-family:var(--mono);font-size:10.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--coral);text-decoration:none;border-bottom:1.5px solid var(--coral);margin-left:8px;white-space:nowrap;}
+  .cues .mw::before{content:"▶ ";font-size:8px;}
+  .cues .mw:hover{color:var(--pink);border-color:var(--pink);}
+  .prebegin{border:2px solid var(--ink);background:rgba(18,161,75,.06);padding:16px 18px;margin:0 0 18px;}
+  .prebegin h3{font-family:var(--display,'Archivo');font-weight:900;text-transform:uppercase;font-size:16px;margin:0 0 8px;}
+  .prebegin p{margin:0 0 8px;font-size:15.5px;line-height:1.5;}
+  .prebegin ul{margin:0;padding:0;list-style:none;}
+  .prebegin li{position:relative;padding:4px 0 4px 18px;font-size:15px;line-height:1.45;}
+  .prebegin li::before{content:"";position:absolute;left:0;top:11px;width:7px;height:2px;background:var(--aqua);}
+  .mod{display:block;margin-top:3px;font-family:var(--mono);font-size:12px;line-height:1.5;color:#0B7A3A;}
+  .mod b{text-transform:uppercase;letter-spacing:.06em;font-size:11px;}
+  .ready{margin-top:16px;padding:13px 15px;border:2px solid var(--sun);background:rgba(255,179,0,.12);font-size:15.5px;line-height:1.5;font-style:italic;}
+  .drink{margin:16px 0 0;padding:12px 14px;border:2px solid var(--lime);background:rgba(147,213,0,.12);font-size:15.5px;line-height:1.5;font-style:italic;}
+  .credit{margin-top:16px;padding:12px 14px;border-left:3px solid var(--sun);background:rgba(255,179,0,.12);font-size:14.5px;line-height:1.5;}
+  .credit b{font-family:var(--mono);font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:#9A6B00;display:block;margin-bottom:4px;}
+  .note{margin-top:14px;padding:11px 14px;border-left:3px solid var(--pink);background:rgba(214,40,40,.08);font-size:15px;line-height:1.45;color:var(--ink);}
+  .note b{font-family:var(--mono);font-size:12px;letter-spacing:.05em;text-transform:uppercase;color:var(--pink);}
+  details.why{margin-top:14px;}
+  details.why summary{cursor:pointer;list-style:none;font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--coral);}
+  details.why summary::-webkit-details-marker{display:none;}
+  details.why summary::after{content:" +";}
+  details.why[open] summary::after{content:" –";}
+  details.why p{margin:8px 0 0;font-size:15.5px;line-height:1.5;color:var(--ink-2);}
+
+  .watch{display:inline-flex;align-items:center;gap:8px;margin-top:16px;font-family:var(--mono);font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;background:var(--coral);color:#fff;padding:10px 15px;text-decoration:none;border:2px solid var(--coral);}
+  .watch:hover{background:var(--pink);border-color:var(--pink);}
+  .watch::before{content:"▶";font-size:10px;}
+
+  .log{border-top:1.5px solid var(--ink);display:flex;flex-wrap:wrap;gap:10px 26px;align-items:center;padding:13px 24px;font-family:var(--mono);font-size:12px;letter-spacing:.04em;text-transform:uppercase;color:var(--ink-2);}
+  .log .fail{color:var(--pink);font-weight:700;}
+  .blank{display:inline-block;min-width:46px;border-bottom:2px solid var(--pink);height:1.05em;vertical-align:baseline;}
+
+  .fin-table{width:100%;border-collapse:collapse;margin-top:22px;border:2px solid var(--ink);background:var(--card);}
+  .fin-table th{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;text-align:left;padding:11px 14px;background:var(--aqua);color:#06371B;}
+  .fin-table td{padding:12px 14px;border-top:1px solid var(--line);vertical-align:top;color:var(--ink);}
+  .fin-table td:first-child{font-family:var(--display);font-weight:800;font-size:16px;text-transform:uppercase;}
+  .fin-table td.reps{font-family:var(--mono);font-weight:700;color:var(--pink);white-space:nowrap;}
+  .fin-table td .foc{color:var(--ink-2);font-size:14.5px;}
+
+  /* ---------- challenge ---------- */
+  .calib{margin:48px 0;padding:38px 30px;background:linear-gradient(120deg,var(--pink) 0%,var(--coral) 52%,var(--sun) 100%);scroll-margin-top:120px;}
+  .calib .eyebrow{color:#fff;opacity:.85;}
+  .calib h2{font-family:var(--display);font-weight:900;text-transform:uppercase;font-size:clamp(28px,5.6vw,50px);line-height:.92;letter-spacing:-.02em;margin:12px 0 18px;color:#fff;}
+  .calib h2 .word{color:#26140A;}
+  .calib p{max-width:640px;font-size:18px;line-height:1.55;color:#fff;margin:0 0 12px;}
+  .calib p.big{font-family:var(--body);font-style:italic;font-size:21px;color:#26140A;}
+  .calib .mensline{background:rgba(42,17,64,.22);padding:12px 16px;max-width:640px;font-size:16.5px;}
+  .calib .mensline b{font-family:var(--mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;}
+
+  /* ---------- want more / upsell ---------- */
+  .more{padding:52px 0;scroll-margin-top:120px;}
+  .more h2{font-family:var(--display);font-weight:900;text-transform:uppercase;font-size:clamp(28px,5.6vw,50px);line-height:.92;letter-spacing:-.02em;margin:12px 0 8px;}
+  .more .lede{max-width:660px;color:var(--ink-2);font-size:17px;margin:0 0 26px;}
+  .offer-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
+  .offer{border:2px solid var(--ink);background:var(--card);padding:26px 24px;display:flex;flex-direction:column;}
+  .offer .tier{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--coral);}
+  .offer h3{font-family:var(--display);font-weight:800;text-transform:uppercase;font-size:22px;letter-spacing:-.01em;margin:10px 0 12px;line-height:1.05;}
+  .offer ul{margin:0 0 18px;padding:0;list-style:none;flex:1;}
+  .offer ul li{position:relative;padding:5px 0 5px 20px;font-size:15.5px;line-height:1.45;color:var(--ink-2);}
+  .offer ul li::before{content:"";position:absolute;left:0;top:12px;width:8px;height:2px;background:var(--aqua);}
+  .offer .price{font-family:var(--mono);font-weight:700;font-size:15px;margin-bottom:14px;color:var(--ink);}
+  .offer .buy{display:inline-block;text-align:center;font-family:var(--mono);font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;background:var(--pink);color:#fff;border:2px solid var(--pink);padding:13px 18px;text-decoration:none;cursor:pointer;}
+  .offer .buy:hover{background:var(--ink);border-color:var(--ink);}
+  .offer.alt .buy{background:var(--aqua);border-color:var(--aqua);color:#06371B;}
+  .offer.alt .buy:hover{background:var(--ink);border-color:var(--ink);color:#fff;}
+
+  footer{padding:32px 0 60px;}
+  .foot-row{display:flex;flex-wrap:wrap;gap:20px;align-items:center;justify-content:space-between;margin-top:24px;}
+  .brand{font-family:var(--display);font-weight:800;text-transform:uppercase;letter-spacing:-.01em;font-size:20px;color:var(--ink);}
+  .disclaim{max-width:600px;font-size:13px;color:var(--ink-2);line-height:1.5;margin:18px 0 0;}
+  .printbtn{font-family:var(--mono);font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;background:var(--ink);color:#fff;border:2px solid var(--ink);padding:12px 20px;cursor:pointer;}
+  .printbtn:hover{background:var(--pink);border-color:var(--pink);}
+
+  @media (max-width:680px){
+    body{font-size:17px;}
+    .offer-grid{grid-template-columns:1fr;}
+    .ex-body{padding:18px;}
+    .log{padding:13px 18px;}
+    .ex-top{flex-wrap:wrap;}
+    .donebox{margin-left:0;}
+
+    /* core table -> stacked cards: name + reps on one line, focus below */
+    .fin-table{display:block;border:2px solid var(--ink);}
+    .fin-table thead{display:none;}
+    .fin-table tbody{display:block;}
+    .fin-table tr{display:flex;flex-wrap:wrap;align-items:baseline;column-gap:12px;padding:13px 14px;border-top:1px solid var(--line);}
+    .fin-table tbody tr:first-child{border-top:none;}
+    .fin-table td{display:block;border:none;padding:0;}
+    .fin-table td:first-child{font-size:16px;line-height:1.2;}
+    .fin-table td.reps{margin-left:auto;font-size:14px;}
+    .fin-table td:last-child{flex-basis:100%;margin-top:4px;}
+    .fin-table td .foc{font-size:14.5px;line-height:1.4;}
+  }
+  @media (prefers-reduced-motion:reduce){
+    html{scroll-behavior:auto;}
+    .shine{animation:none;}
+  }
+  @media print{
+    body{background:#fff;color:#000;font-size:12px;}
+    .wrap{max-width:none;padding:0 12px;}
+    .hero::before,.stripe,.quicknav,.watch,.printbtn,.more{display:none;}
+    .hero,.block,.calib{padding:16px 0;}
+    .shine{-webkit-text-fill-color:#000;color:#000;background:none;}
+    .ex,.fin-table,.calib,.mens{break-inside:avoid;background:#fff;border:2px solid #000;}
+    details.info,details.why{display:block;}
+    details .inner,details.why p{display:block;}
+    .calib{background:#fff;}
+    .calib h2,.calib .word,.calib p,.calib p.big,.calib .eyebrow{color:#000;opacity:1;}
+    .fin-table th{background:#eee;color:#000;}
+    a{color:#000;text-decoration:underline;}
+  }
+
+  /* ---- inline hold timers ---- */
+  .tbtn{display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--ink);background:var(--card);border:1.5px solid var(--ink);padding:3px 9px;margin-left:8px;cursor:pointer;vertical-align:baseline;line-height:1.4;}
+  .tbtn:hover{background:var(--sun);border-color:var(--sun);}
+  .tbtn.running{background:var(--lime);border-color:var(--ink);}
+  .tbtn.done{background:var(--pink);border-color:var(--pink);color:#fff;}
+  .tbtn::before{content:"⏱";font-size:11px;}
+
+  .cue{margin:12px 0 2px;font-family:var(--body);font-style:italic;font-size:17.5px;line-height:1.4;color:var(--ink);}
+  .cue::before{content:"\201C";color:var(--coral);font-family:var(--display);font-weight:900;font-size:1.3em;margin-right:2px;}
+  .cue::after{content:"\201D";color:var(--coral);font-family:var(--display);font-weight:900;font-size:1.3em;margin-left:2px;}
+  .fert{display:inline-block;font-family:var(--mono);font-size:9.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;background:rgba(147,213,0,.22);border:1.5px solid var(--lime);color:#3f5c00;padding:2px 7px;margin-left:8px;vertical-align:middle;white-space:nowrap;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- ============ HERO (compact) ============ -->
+  <header class="hero">
+    <div class="kicker">
+      <span class="eyebrow">Turn Up the Life · Lesson 1 · Free Trial Class</span>
+      <span class="chip"><span class="k">Total</span> ≈48 min</span>
+      <span class="chip"><span class="k">Goal</span> Road-ready</span>
+    </div>
+
+    <h1>Get low. Build. <span class="shine">Rise.</span></h1>
+
+    <p class="hero-sub">Pilates-informed strength with two 10 lb dumbbells — so you can wine low, jump the road, and wave your flag till the last truck passes. The workout is right below. Press play, tick things off, go.</p>
+
+    <p class="roads">Built for the road, whichever one is yours — <b>Trinidad · Miami · Crop Over · Caribana · Notting Hill · Labor Day</b>. Whenever your carnival lands, start now.</p>
+
+    <p class="mens"><b>Fellas — yes, you too.</b> Same workout, same rules. If 10s truly feel light, start with 20s or 25s and follow every pause and slow count. Then come talk to us.</p>
+
+    <p class="mens beginner"><b>Brand new to exercise?</b> Start with 10 lb or under — even 5s, even a full water bottle in each hand. Holding on is grip work, and grip counts. Master the movement first; the pounds can wait.</p>
+
+    <div class="needbar">
+      <span class="needlabel">All you need for this lesson</span>
+      <span class="chip solid">2 dumbbells (≈10 lb)</span>
+      <span class="chip solid">a sturdy chair</span>
+      <span class="needfoot">That's the whole list — everything else below has a swap built in.</span>
+    </div>
+
+    <p class="stakes"><b>Why this matters after 40:</b> around menopause, women lose muscle faster — and muscle isn't just strength, it's how you stay healthy, mobile, and independent for decades. The good news the research is clear on: resistance training rebuilds it, even in your 50s and beyond. This is that training, sized for your living room. <a href="#why-science">See the science ↓</a></p>
+
+    <details class="info">
+      <summary>Optional extras & swaps</summary>
+      <div class="inner">
+        <p><b>Nice to have, never required:</b> a 15 lb kettlebell (swap: one dumbbell), a box or bench (swap: your chair, a bottom stair, or a very sturdy toilet lid), an ab wheel (swap: slow plank walkouts), a resistance band (swap: slow shoulder circles).</p>
+        <p><b>Weight range:</b> 10s are home base — go lighter (5s or water bottles) if you're brand new, heavier (20–25s, fellas) if you're sure. The equipment isn't the workout — the control is.</p>
+      </div>
+    </details>
+
+    <details class="info">
+      <summary>The two labels you'll see (Pace & Effort)</summary>
+      <div class="inner">
+        <p><b>Pace — "5 down · 2 hold":</b> seconds to lower, then seconds to hold at the hardest point. Slow is how a 10 turns into a 20.</p>
+        <p><b>Effort — "1–2 left":</b> stop when you've got one or two good reps left in the tank — not when it gets annoying. "Empty the tank" means go till the next clean rep won't happen.</p>
+      </div>
+    </details>
+
+    <details class="info">
+      <summary>The five house cues (read once, hear them forever)</summary>
+      <div class="inner">
+        <p><b>Ribs down</b> — don’t let them pop forward when the weight gets heavy. Like you’re keeping someone from stealing your heart. Laugh and you can feel it.</p>
+        <p><b>Heavy shoulders</b> — your neck isn’t invited to this exercise. <b>Grow taller</b> — length first, then strength. <b>Own the movement</b> — don’t survive it. And <b>if you lose control, you’ve already gone too heavy.</b></p>
+      </div>
+    </details>
+    <details class="info">
+      <summary>Why I built this (the real story)</summary>
+      <div class="inner">
+        <p>I'm a data person — I literally kept a spreadsheet of my lifts. It got exhausting to track, and heavier weights were their own hassle. So I built something light enough that you don't need a spreadsheet: slow counts and honest effort do the work instead.</p>
+        <p>Then my own health data showed me something that changed the mission. Years of Pilates had built me real strength — but post-menopause, I was <b>losing muscle anyway</b>. The science is blunt about it: staying healthy as we age means keeping the muscle, not just the strength. That's why this exists. (My son also swears 10s are too light. He's wrong, and this proves it.)</p>
+      </div>
+    </details>
+  </header>
+
+  <!-- ============ STICKY QUICK NAV ============ -->
+  <nav class="quicknav" aria-label="Workout quick navigation">
+    <div class="qn-row">
+      <a class="qn-btn" href="#getlow" data-block="getlow"><span class="dot"></span>Get Low</a>
+      <a class="qn-btn" href="#core" data-block="core"><span class="dot"></span>Core</a>
+      <a class="qn-btn" href="#legs" data-block="legs"><span class="dot"></span>Legs</a>
+      <a class="qn-btn" href="#push" data-block="push"><span class="dot"></span>Push</a>
+      <a class="qn-btn" href="#back" data-block="back"><span class="dot"></span>Pull</a>
+      <a class="qn-btn" href="#shoulders" data-block="shoulders"><span class="dot"></span>Delts</a>
+      <a class="qn-btn" href="#rise" data-block="rise"><span class="dot"></span>Rise</a>
+      <a class="qn-btn" href="#challenge">Challenge</a>
+      <a class="qn-btn more" href="#more">Want more?</a>
+    </div>
+    <div class="progresswrap"><div class="progressbar" id="pbar"></div></div>
+    <div class="prog-label"><span id="plabel">0 of 9 done</span><button id="preset" type="button">reset</button></div>
+  </nav>
+
+  <hr class="stripe" />
+
+  <!-- ============ GET LOW ============ -->
+  <section class="block" id="getlow">
+    <div class="block-head">
+      <span class="tag getlow">GET LOW</span>
+      <h2 class="block-title">Move Prep</h2>
+      <span class="block-min">5–7 min</span>
+    </div>
+    <p class="block-intro">This is where your wine lives — low, loose, and in control, without your knees or back paying for it later.</p>
+    <div class="prebegin">
+      <h3>Before you begin</h3>
+      <p>Today's warm-up prepares your body for today's workout — not for a flexibility contest.</p>
+      <ul>
+        <li>Work only in a pain-free range.</li>
+        <li>Hold a chair, wall, or countertop anytime balance limits the movement.</li>
+        <li>Smaller movements done well beat bigger movements done poorly.</li>
+        <li>If something feels sharp, unstable, or wrong, reduce the range or skip that exercise and move on.</li>
+      </ul>
+    </div>
+    <article class="ex" data-ex="prep">
+      <div class="ex-body">
+        <div class="ex-top">
+          <h3 class="ex-name">Squat &amp; Pistol Prep<span class="sub">easy and controlled — warm, not tired</span></h3>
+          <label class="donebox"><input type="checkbox" data-track="prep">Done</label>
+        </div>
+        <ul class="cues">
+          <li>Wide deep-squat hold — 20–30 seconds. <a class="mw" href="https://www.youtube.com/results?search_query=wide+stance+deep+squat+hold+mobility" target="_blank" rel="noopener">watch</a> <button class="tbtn" data-secs="30" data-label="30s">30s</button><span class="mod"><b>Mod:</b> hold a chair or countertop, or don't squat as low.</span></li>
+          <li>Weight shifts in the wide squat — rock side to side, 8 each side. <a class="mw" href="https://www.youtube.com/results?search_query=deep+squat+side+to+side+weight+shift" target="_blank" rel="noopener">watch</a></li>
+          <li>Cossack shift (a.k.a. spider-man lunge) — stay low, let your hips travel side to side, 6–8 each way. Keep the working heel down; don't force depth. <a class="mw" href="https://www.youtube.com/results?search_query=cossack+squat+shift+mobility" target="_blank" rel="noopener">watch</a><span class="mod"><b>Mod:</b> stand a little taller, or hold a chair for balance.</span></li>
+          <li>Narrow deep-squat hold — 20 seconds. <a class="mw" href="https://www.youtube.com/results?search_query=narrow+stance+deep+squat+hold" target="_blank" rel="noopener">watch</a> <button class="tbtn" data-secs="20" data-label="20s">20s</button><span class="mod"><b>Mod:</b> hold support, or place a rolled towel under your heels.</span></li>
+          <li>Staggered deep-squat hold — 15–20 seconds each side. <a class="mw" href="https://www.youtube.com/results?search_query=staggered+stance+deep+squat+hold" target="_blank" rel="noopener">watch</a> <button class="tbtn" data-secs="20" data-label="20s/side">20s/side</button><span class="mod"><b>Mod:</b> shorten the stance and reduce the depth.</span></li>
+          <li>Knee-over-toe touches — 8–10 each side, 2-second pause. <a class="mw" href="https://www.youtube.com/results?search_query=knee+over+toe+touch+ankle+mobility" target="_blank" rel="noopener">watch</a><span class="mod"><b>Mod:</b> let the knee travel only as far as comfortable, or hold a chair.</span></li>
+          <li>Assisted one-leg squat practice (hold something) — 3–5 clean each side. <a class="mw" href="https://www.youtube.com/results?search_query=assisted+pistol+squat+progression" target="_blank" rel="noopener">watch</a><span class="mod"><b>Mod:</b> use both hands for support, or squat to a higher chair.</span></li>
+          <li>Shoulder-blade push-ups — 10 reps. <a class="mw" href="https://www.youtube.com/results?search_query=scapular+push+up+form" target="_blank" rel="noopener">watch</a><span class="mod"><b>Mod:</b> perform against a wall, countertop, or bench.</span></li>
+          <li>Band pull-aparts or big shoulder circles — 15 reps. <a class="mw" href="https://www.youtube.com/results?search_query=band+pull+apart+form" target="_blank" rel="noopener">watch</a><span class="mod"><b>Mod:</b> use a lighter band, or reduce the range of motion.</span></li>
+        </ul>
+        <p class="ready">Ready to build? If you're breathing a little harder and your joints feel smoother — not tired — you warmed up just right.</p>
+        <!-- TODO: fill in the creator's real name + IG handle; publish this block only once he has said yes -->
+        <p class="credit"><b>Sequence credit</b>The <b>deep-squat flow</b> in this warm-up (and the squat holds in the mobility sequence) is adapted from a free sequence by <a href="https://www.instagram.com/" target="_blank" rel="noopener">@creator-handle</a> on Instagram — go follow him. The rest of the class is mine. Used with permission.</p>
+        <details class="why"><summary>Why this matters</summary><p>Opening the ankles, hips, and inner thighs lets you get low and wine back up without asking one cranky joint to do all the work.</p></details>
+        <a class="watch" href="https://www.instagram.com/" target="_blank" rel="noopener">Watch the full sequence</a><!-- TODO: point at the creator’s IG post once permission is confirmed -->
+      </div>
+    </article>
+  </section>
+
+  <!-- ============ CORE (part of Build) ============ -->
+  <section class="block" id="core">
+    <div class="block-head">
+      <span class="tag">BUILD</span>
+      <h2 class="block-title">Core Activation</h2>
+      <span class="block-min">3–5 min</span>
+    </div>
+    <p class="block-intro">Wake the deep core first — everything that follows leans on it. Not about a six-pack; about the inner corset.</p>
+    <article class="ex" data-ex="core">
+      <div class="ex-body">
+        <div class="ex-top">
+          <h3 class="ex-name">Core Activation<span class="sub">wake the inner corset before you load it</span></h3>
+          <label class="donebox"><input type="checkbox" data-track="core">Done</label>
+        </div>
+        <table class="fin-table">
+          <thead><tr><th>Move</th><th>Do</th><th>Focus on</th></tr></thead>
+          <tbody>
+            <tr><td>Dead bug</td><td class="reps">2 × 10 / side</td><td><span class="foc">Leave a tiny grape under your lower back — don’t squash it, don’t let it roll away. Why: this teaches your deep core to stabilize your spine before your arms and legs start producing force — the inner corset that supports your back and helps your clothes fit better <a class="mw" href="https://www.youtube.com/results?search_query=dead+bug+exercise+form" target="_blank" rel="noopener">watch</a></span></td></tr>
+            <tr><td>Ab wheel rollout</td><td class="reps">3 × 5–8</td><td><span class="foc">Imagine someone’s about to poke you in the stomach. No wheel? Slow plank walkouts. Why: keep your ribs stacked over your pelvis while your body moves — that’s real core strength <a class="mw" href="https://www.youtube.com/results?search_query=ab+wheel+rollout+form+beginner" target="_blank" rel="noopener">watch</a></span></td></tr>
+            <tr><td>Suitcase march (or carry)</td><td class="reps">30–45 s / side</td><td><span class="foc">Both dumbbells in one hand — don’t let the groceries win. Why: standing on one leg while resisting the lean is the core stability you’ll use in every standing exercise that follows <a class="mw" href="https://www.youtube.com/results?search_query=suitcase+carry+march+form" target="_blank" rel="noopener">watch</a></span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </article>
+  </section>
+
+  <!-- ============ LEGS ============ -->
+  <section class="block" id="legs">
+    <div class="block-head">
+      <span class="tag">BUILD</span>
+      <h2 class="block-title">Legs</h2>
+      <span class="block-min">12 min</span>
+    </div>
+
+    <article class="ex" data-ex="bss">
+      <div class="ex-body">
+        <div class="ex-top">
+          <h3 class="ex-name"><span class="idx">A1</span>Bulgarian Split Squat<span class="sub">quad focus — back foot up on a box, bench, or chair</span></h3>
+          <label class="donebox"><input type="checkbox" data-track="bss">Done</label>
+        </div>
+        <div class="ex-data">
+          <span class="chip pace"><span class="k">Pace</span> 5 down · 2 hold</span>
+          <span class="chip effort"><span class="k">Effort</span> empty the tank</span>
+          <span class="chip"><span class="k">Reps</span> 8–12 / leg</span>
+          <span class="chip"><span class="k">Weight</span> KB or 1 DB</span>
+        </div>
+        <p class="cue">Imagine your zipper stays vertical.</p>
+        <ul class="cues">
+          <li>Back foot on the box, bench, chair, or step; weight held at your chest.</li>
+          <li>Stay more upright than you think; let the front knee travel forward over the toes.</li>
+          <li>Drive through the middle of the foot — think about straightening the front knee, not pushing your hips back.</li>
+          <li>Let the back leg help only enough to keep your balance.</li>
+          <li>Five seconds down, pause 2 near the bottom, stand up with control.</li>
+          <li>Then set the weight down and keep going bodyweight until your form starts to slip.</li>
+        </ul>
+        <div class="note"><b>Pilates note</b><br>Today we’re making this a quad exercise. The RDLs that follow shift the emphasis to the back of the legs.</div>
+        <a class="watch" href="https://www.youtube.com/results?search_query=bulgarian+split+squat+form+knee+tracking" target="_blank" rel="noopener">Watch the form</a>
+      </div>
+      <div class="log"><span class="fail">Stopped at</span> <span class="blank"></span> L &nbsp; <span class="blank"></span> R</div>
+    </article>
+
+    <article class="ex" data-ex="sldl">
+      <div class="ex-body">
+        <div class="ex-top">
+          <h3 class="ex-name"><span class="idx">A2</span>Deficit Single-Leg RDL<span class="sub">standing on the edge of a box for extra reach</span></h3>
+          <label class="donebox"><input type="checkbox" data-track="sldl">Done</label>
+        </div>
+        <div class="ex-data">
+          <span class="chip pace"><span class="k">Pace</span> 3 down · 3 hold</span>
+          <span class="chip effort"><span class="k">Effort</span> 1–2 left</span>
+          <span class="chip"><span class="k">Reps</span> 10–15 / side</span>
+          <span class="chip"><span class="k">Weight</span> 2 × 10 DB</span>
+          <span class="chip" style="border-color:var(--lime);color:#3f5c00;">🌱 booty fertilizer</span>
+        </div>
+        <p class="cue">Close the car door with your butt.</p>
+        <ul class="cues">
+          <li>Stand near the edge of the box so the dumbbells can travel below your foot.</li>
+          <li>Hinge from the hips — soft bend in the standing knee, long spine.</li>
+          <li>Reach the hips back.</li>
+          <li>Pause in the stretch 2–3 seconds — stop before your back rounds.</li>
+          <li>Want more? Hold both dumbbells in the hand opposite the working leg.</li>
+        </ul>
+        <div class="note"><b>Easy does it</b><br>Don't chase depth if your toe, knee, or hip starts changing the movement. Match reps and range to the stiffer side.</div>
+        <details class="why"><summary>Why this matters</summary><p>This loads the hamstrings and glutes where they’re longest — one of the best places to build strength and shape.</p></details>
+        <div class="note" style="border-left-color:var(--sun);background:rgba(255,179,0,.10);"><b style="color:#9A6B00;">Personal observation</b><br>Your anatomy is your own, but for me, training my inner thighs made a visible difference in the shape of my legs. This is Pilates-informed hypertrophy training — not basic or traditional strength training.</div>
+        <a class="watch" href="https://www.youtube.com/results?search_query=single+leg+romanian+deadlift+hip+hinge+form" target="_blank" rel="noopener">Watch the form</a>
+      </div>
+      <div class="log"><span class="fail">Stopped at</span> <span class="blank"></span> L &nbsp; <span class="blank"></span> R</div>
+    </article>
+  </section>
+
+  <!-- ============ PUSH ============ -->
+  <section class="block" id="push">
+    <div class="block-head">
+      <span class="tag">BUILD</span>
+      <h2 class="block-title">Push</h2>
+      <span class="block-min">10 min</span>
+    </div>
+    <article class="ex" data-ex="pushup">
+      <div class="ex-body">
+        <div class="ex-top">
+          <h3 class="ex-name">Push-ups, Three Ways<span class="sub">go until you can't, then make them easier — twice</span></h3>
+          <label class="donebox"><input type="checkbox" data-track="pushup">Done</label>
+        </div>
+        <div class="ex-data">
+          <span class="chip pace"><span class="k">Pace</span> 4 down · 1 hover · pop up</span>
+          <span class="chip effort"><span class="k">Effort</span> empty the tank</span>
+          <span class="chip"><span class="k">Rounds</span> 2–3</span>
+          <span class="chip"><span class="k">Rest</span> 90 sec</span>
+        </div>
+        <p class="cue">Screw your hands into the floor. Pull yourself to the floor. Push the floor away.</p>
+        <ul class="cues">
+          <li>Four seconds down, hover 1 second off the floor, then pop up.</li>
+          <li>Full push-ups until you can't keep them clean.</li>
+          <li>Straight into push-ups from your knees.</li>
+          <li>Finish holding halfway down as long as you can.</li>
+        </ul>
+        <details class="why"><summary>Why this matters</summary><p>Chest and shoulders are obvious. The surprise is how much your core has to work when you refuse to let your ribs sag.</p></details>
+        <a class="watch" href="https://www.youtube.com/results?search_query=push+up+form+full+knee+isometric+hold" target="_blank" rel="noopener">Watch the form</a>
+      </div>
+      <div class="log"><span class="fail">Full push-ups:</span> R1 <span class="blank"></span> R2 <span class="blank"></span> R3 <span class="blank"></span></div>
+    </article>
+  </section>
+
+  <!-- ============ BACK ============ -->
+  <section class="block" id="back">
+    <div class="block-head">
+      <span class="tag">BUILD</span>
+      <h2 class="block-title">Pull</h2>
+      <span class="block-min">10 min</span>
+    </div>
+
+    <article class="ex" data-ex="row">
+      <div class="ex-body">
+        <div class="ex-top">
+          <h3 class="ex-name"><span class="idx">C1</span>One-arm Row Drop Set<span class="sub">full reps, then partials, then a hold — same weight throughout</span></h3>
+          <label class="donebox"><input type="checkbox" data-track="row">Done</label>
+        </div>
+        <div class="ex-data">
+          <span class="chip pace"><span class="k">Pace</span> 5 · 2 · 2 · 2</span>
+          <span class="chip effort"><span class="k">Effort</span> to failure</span>
+          <span class="chip"><span class="k">Weight</span> 15 KB or 1 × 10 DB</span>
+        </div>
+        <p class="cue">Squeeze your shoulder blades together like you’re squeezing the juice out of a rolled mango. (Or a lemon, if you’ve never rolled a mango.)</p>
+        <ul class="cues">
+          <li><b>Full reps — 10–12 to technical failure.</b> Pace 5-2-2-2: 5 seconds lowering, 2-second stretch at the bottom, 2 seconds pulling, 2-second squeeze at the top.</li>
+          <li><b>No kettlebell?</b> Use one 10 lb dumbbell with the same tempo. If you still aren't close to failure, grow the squeeze at the top to 3 seconds before you add reps.</li>
+          <li><b>Straight into bottom-half partials — 10 slow reps.</b> Start with your arm almost straight, where the lat is at its longest. Pull only until your elbow is about halfway back, then lower again — stay in that stretched bottom half. <a class="mw" href="https://www.youtube.com/results?search_query=bottom+half+partial+reps+row+lengthened+partials" target="_blank" rel="noopener">watch</a></li>
+          <li><b>Straight into the top hold.</b> Elbow tight to your side, shoulder blade squeezed toward your back pocket. Hold 20–30 seconds. <button class="tbtn" data-secs="30" data-label="30s hold">30s hold</button></li>
+          <li>Switch sides and repeat.</li>
+        </ul>
+        <details class="why"><summary>Why this matters</summary><p>A strong upper back helps you stand taller and keeps your shoulders from doing work your back should be doing.</p></details>
+        <a class="watch" href="https://www.youtube.com/results?search_query=single+arm+dumbbell+row+form+no+torso+rotation" target="_blank" rel="noopener">Watch the form</a>
+      </div>
+      <div class="log"><span class="fail">Full reps to failure:</span> <span class="blank"></span> L &nbsp; <span class="blank"></span> R</div>
+    </article>
+
+    <article class="ex" data-ex="pullover">
+      <div class="ex-body">
+        <div class="ex-top">
+          <h3 class="ex-name"><span class="idx">C2</span>Dumbbell Pullover<span class="sub">lying back across a box or bench</span></h3>
+          <label class="donebox"><input type="checkbox" data-track="pullover">Done</label>
+        </div>
+        <div class="ex-data">
+          <span class="chip pace"><span class="k">Pace</span> 3 down · 3 stretch</span>
+          <span class="chip effort"><span class="k">Effort</span> 2 left, stay smooth</span>
+          <span class="chip"><span class="k">Reps</span> 12–20</span>
+        </div>
+        <p class="cue">Reach until you feel your ribs want to pop — stop just before they do.</p>
+        <ul class="cues">
+          <li>Lie back across the box or bench, both dumbbells held together.</li>
+          <li>Only as far back as your shoulders are happy with; 3-second stretch at the bottom.</li>
+          <li>Ribs down — don't let this become a lower-back arch.</li>
+        </ul>
+        <details class="why"><summary>Why this matters</summary><p>Think of this as the stretch after the squeeze. Your lats get to work through a longer range instead of staying shortened.</p></details>
+        <a class="watch" href="https://www.youtube.com/results?search_query=dumbbell+pullover+lats+form+rib+control" target="_blank" rel="noopener">Watch the form</a>
+      </div>
+      <div class="log"><span class="fail">Stopped at</span> <span class="blank"></span> &nbsp; Rounds: R1 <span class="blank"></span> R2 <span class="blank"></span></div>
+    </article>
+  </section>
+
+  <!-- ============ SHOULDERS ============ -->
+  <section class="block" id="shoulders">
+    <div class="block-head">
+      <span class="tag">BUILD</span>
+      <h2 class="block-title">Shoulders</h2>
+      <span class="block-min">5–7 min</span>
+    </div>
+    <article class="ex" data-ex="raise">
+      <div class="ex-body">
+        <div class="ex-top">
+          <h3 class="ex-name">One-Arm Lateral Raise Ladder<span class="sub">one arm at a time — little dumbbells, big burn</span></h3>
+          <label class="donebox"><input type="checkbox" data-track="raise">Done</label>
+        </div>
+        <div class="ex-data">
+          <span class="chip"><span class="k">Rounds</span> 2–3</span>
+          <span class="chip effort"><span class="k">Effort</span> 1 left</span>
+          <span class="chip"><span class="k">Rest</span> 60–75 sec</span>
+        </div>
+        <p class="cue">Lead with your elbows. Heavy shoulders.</p>
+        <ul class="cues">
+          <li>10 half raises.</li>
+          <li>As many full raises as you can with good form.</li>
+          <li>Hold 10 seconds at the highest position you can keep with good form. <button class="tbtn" data-secs="10" data-label="10s hold">10s hold</button></li>
+          <li>Repeat on the other arm.</li>
+        </ul>
+        <details class="why"><summary>Why this matters</summary><p>Strong shoulders create width; a strong upper back creates posture. Together they build what most people call a “V-taper” — or, more simply, a strong-looking back.</p></details>
+        <a class="watch" href="https://www.youtube.com/results?search_query=lateral+raise+form+traps+not+taking+over" target="_blank" rel="noopener">Watch the form</a>
+      </div>
+      <div class="log">Rounds done: R1 <span class="blank"></span> R2 <span class="blank"></span> R3 <span class="blank"></span></div>
+    </article>
+  </section>
+
+  <!-- ============ RISE (finisher + cool-down) ============ -->
+  <section class="block" id="rise">
+    <div class="block-head">
+      <span class="tag rise">RISE</span>
+      <h2 class="block-title">The Finisher</h2>
+      <span class="block-min">3–5 min</span>
+    </div>
+    <p class="block-intro">The jump. Everything you built, put into power — this is the road in miniature. Then you're done: go get your drink and cool down properly.</p>
+
+    <article class="ex" data-ex="finisher">
+      <div class="ex-body">
+        <div class="ex-top">
+          <h3 class="ex-name">Athletic Finisher<span class="sub">power for the road</span></h3>
+          <label class="donebox"><input type="checkbox" data-track="finisher">Done</label>
+        </div>
+        <table class="fin-table">
+          <thead><tr><th>Move</th><th>Do</th><th>Focus on</th></tr></thead>
+          <tbody>
+            <tr><td>Single-leg RDL reaches <span class="fert">🌱 fertilizer</span></td><td class="reps">3 × 6 / side</td><td><span class="foc">Reach long, hips square, control the balance <a class="mw" href="https://www.youtube.com/results?search_query=single+leg+rdl+reach+balance+form" target="_blank" rel="noopener">watch</a></span></td></tr>
+            <tr><td>Kettlebell swings <span class="fert">🌱 fertilizer</span></td><td class="reps">3 × 10</td><td><span class="foc">Snap. Float. Catch — launch it, don’t lift it. No KB? Swing one dumbbell <a class="mw" href="https://www.youtube.com/results?search_query=kettlebell+swing+hip+hinge+form" target="_blank" rel="noopener">watch</a></span></td></tr>
+            <tr><td>Squat jumps</td><td class="reps">3 × 6</td><td><span class="foc">Soft landing; swap squat-to-calf raise if the toe objects <a class="mw" href="https://www.youtube.com/results?search_query=squat+jump+soft+landing+form" target="_blank" rel="noopener">watch</a></span></td></tr>
+            <tr><td>Walk</td><td class="reps">30–60 s</td><td><span class="foc">Recover without sitting — let the heart settle while you move</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </article>
+
+    <article class="ex">
+      <div class="ex-body">
+        <h3 class="ex-name">Mobility Sequence<span class="sub">keep the range you earned</span></h3>
+        <div class="ex-data">
+          <span class="chip"><span class="k">Hold</span> 20–30 sec each</span>
+          <span class="chip"><span class="k">Weight</span> optional</span>
+        </div>
+        <p class="cue">Don’t chase the floor. Chase the position.</p>
+        <ul class="cues">
+          <li>Overhead squat hold — only as low as your ribs stay stacked. <a class="mw" href="https://www.youtube.com/results?search_query=overhead+squat+hold+mobility" target="_blank" rel="noopener">watch</a> <button class="tbtn" data-secs="30" data-label="30s">30s</button></li>
+          <li>Forward lean — hinge and hang, spine long. <a class="mw" href="https://www.youtube.com/results?search_query=standing+forward+fold+hamstring+stretch" target="_blank" rel="noopener">watch</a> <button class="tbtn" data-secs="30" data-label="30s">30s</button></li>
+          <li>Internal hip rotation switches side to side. <a class="mw" href="https://www.youtube.com/results?search_query=90+90+hip+rotation+switches" target="_blank" rel="noopener">watch</a></li>
+          <li>Horse-stance hold (wide, low, proud). <a class="mw" href="https://www.youtube.com/results?search_query=horse+stance+hold+form" target="_blank" rel="noopener">watch</a> <button class="tbtn" data-secs="30" data-label="30s">30s</button></li>
+          <li>Hero pose / kneeling quad stretch. <a class="mw" href="https://www.youtube.com/results?search_query=hero+pose+kneeling+quad+stretch" target="_blank" rel="noopener">watch</a> <button class="tbtn" data-secs="30" data-label="30s">30s</button></li>
+        </ul>
+        <p class="drink">🥤 That's the class. Grab your drink — you're road ready.</p>
+        <p class="note" style="margin-top:14px;"><b>If you're sore after the trial class, that is not failure.</b><br>That is your body confirming the weights were not too light. Take the recovery day. Then come back for Lesson 2 when your form is ready.</p>
+      </div>
+    </article>
+  </section>
+
+  <!-- ============ CHALLENGE ============ -->
+  <section class="calib" id="challenge">
+    <span class="eyebrow">The 10 lb challenge</span>
+    <h2>Still think 10s are <span class="word">too light?</span></h2>
+    <p>Use one pair of dumbbells for the whole workout. Don't shorten the range. Don't skip the pauses. Don't rush.</p>
+    <p class="mensline"><b>Gentlemen:</b> your version is 20s or 25s — every pause, every slow count, all the way through. Same rules. No shortcuts.</p>
+    <p class="big">Then tell me it was too light. I'll wait.</p>
+  </section>
+
+  <!-- ============ THE SCIENCE ============ -->
+  <section class="science" id="why-science">
+    <span class="eyebrow">Why light-but-hard works — the research</span>
+    <h2>The muscle you keep <span class="shine">keeps you.</span></h2>
+    <p class="lede">Short version: after menopause women lose muscle faster, muscle loss (sarcopenia) is what steals independence with age, and resistance training is the proven way to fight back — you can build muscle in your 50s and beyond.</p>
+    <ul>
+      <li>Around menopause, falling estrogen accelerates the loss of muscle mass and strength — women lose muscle faster than same-age men.
+        <span class="src">Geraci et al., review — <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC8934617/" target="_blank" rel="noopener">Estrogen deficiency &amp; sarcopenia (PMC8934617)</a></span></li>
+      <li>Sarcopenia — the gradual loss of muscle mass and strength — drives falls, fractures, and loss of independence. Keeping muscle isn't vanity; it's how you stay mobile for decades.
+        <span class="src">Maturitas — <a href="https://www.maturitas.org/article/S0378-5122(11)00030-2/abstract" target="_blank" rel="noopener">Menopause &amp; sarcopenia</a></span></li>
+      <li>It's reversible. Progressive resistance training measurably increased muscle mass in postmenopausal women — one study saw a significant rise in quadriceps cross-sectional area after just 9 weeks.
+        <span class="src">Tracy et al., via PMC8934617 review</span></li>
+      <li>The winning dose is doable at home: resistance training about 3 sessions a week, 20–90 minutes, for 6+ weeks, is the most effective non-drug way to protect muscle in menopausal women.
+        <span class="src">Systematic review &amp; meta-analysis — <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC10647115/" target="_blank" rel="noopener">Non-pharmacological interventions (PMC10647115)</a></span></li>
+    </ul>
+    <p class="caveat">Shared for education, not medical advice. These are general research findings, not a treatment plan for any individual — talk to your own clinician about what's right for you, especially around menopause and hormone therapy.</p>
+  </section>
+
+  <!-- ============ WANT MORE ============ -->
+  <section class="more" id="more">
+    <span class="eyebrow">This was Lesson 1</span>
+    <h2>Want the <span class="shine">whole course?</span></h2>
+    <p class="lede">This page is one lesson from a course on making light weights hard — each one unlocks a new trick (pace, pauses, one-limb work, drop-downs) and saves your progress as you go.</p>
+
+    <div class="offer-grid">
+      <div class="offer">
+        <span class="tier">The Course</span>
+        <h3>Light Weight, Heavy Results</h3>
+        <ul>
+          <li>The full arc: <b>Drive the Hips · Create Tension · Increase Density · Link the Body · Pack Light, Train Hard · Own Your Body</b> — plus two bands-only travel workouts you can do in any hotel room.</li>
+          <li>Each lesson teaches one tool for making 10s feel like 30s.</li>
+          <li>Your progress and logs saved as you go.</li>
+          <li>Print/PDF versions of every workout.</li>
+        </ul>
+        <div class="price">$— · one-time</div>
+        <!-- TODO: replace href with your Stripe Payment Link or Gumroad product URL -->
+        <a class="buy" href="#" data-paylink="course">Unlock the course</a>
+      </div>
+
+      <div class="offer alt">
+        <span class="tier">The Channel</span>
+        <h3>Private Video Walk-throughs</h3>
+        <ul>
+          <li>Private YouTube channel access — me taking you through every workout.</li>
+          <li>Pointers on each move: what to feel, what to fix.</li>
+          <li>Watch on your TV, phone, wherever you train.</li>
+        </ul>
+        <div class="price">$— · one-time or monthly</div>
+        <!-- TODO: replace href with your Stripe Payment Link; grant channel access on receipt -->
+        <a class="buy" href="#" data-paylink="channel">Get channel access</a>
+      </div>
+    </div>
+  </section>
+
+  <hr class="stripe" />
+
+  <!-- ============ FOOTER ============ -->
+  <footer>
+    <div class="foot-row">
+      <span class="brand">Turn Up the Life</span>
+      <button class="printbtn" onclick="window.print()">Print / Save PDF</button>
+    </div>
+    <p class="disclaim">Adjust range, jumping, and depth based on how your toe, knee, hip, and shoulder feel. Pushing close to your limit and adding speed both carry some risk — keep the movement clean, and check with a professional first if anything hurts or you're unsure this suits you.</p>
+  </footer>
+
+</div>
+
+<script>
+(function(){
+  var KEY = 'tutl-lesson1-progress';
+  var boxes = Array.prototype.slice.call(document.querySelectorAll('input[data-track]'));
+  var pbar = document.getElementById('pbar');
+  var plabel = document.getElementById('plabel');
+  var preset = document.getElementById('preset');
+
+  // storage with graceful fallback (localStorage is blocked in some embedded previews)
+  var mem = {};
+  function store(obj){
+    mem = obj;
+    try { localStorage.setItem(KEY, JSON.stringify(obj)); } catch(e){}
+  }
+  function load(){
+    try {
+      var raw = localStorage.getItem(KEY);
+      if(raw) return JSON.parse(raw);
+    } catch(e){}
+    return mem;
+  }
+
+  // block -> exercise ids, for the nav dots
+  var blockMap = {
+    getlow:['prep'], legs:['bss','sldl'], push:['pushup'],
+    back:['row','pullover'], shoulders:['raise'], core:['core'], rise:['finisher']
+  };
+
+  function refresh(){
+    var state = load();
+    var done = 0;
+    boxes.forEach(function(b){
+      b.checked = !!state[b.getAttribute('data-track')];
+      if(b.checked) done++;
+    });
+    var pct = boxes.length ? Math.round(done / boxes.length * 100) : 0;
+    pbar.style.width = pct + '%';
+    plabel.textContent = done + ' of ' + boxes.length + ' done' + (pct === 100 ? ' — road ready! 🎉' : '');
+    Object.keys(blockMap).forEach(function(blk){
+      var btn = document.querySelector('.qn-btn[data-block="' + blk + '"]');
+      if(!btn) return;
+      var all = blockMap[blk].every(function(id){ return !!state[id]; });
+      btn.classList.toggle('done', all);
+    });
+  }
+
+  boxes.forEach(function(b){
+    b.addEventListener('change', function(){
+      var state = load();
+      state[b.getAttribute('data-track')] = b.checked;
+      store(state);
+      refresh();
+    });
+  });
+
+  preset.addEventListener('click', function(){
+    store({});
+    refresh();
+  });
+
+  refresh();
+})();
+</script>
+
+<script>
+(function(){
+  function beep(){
+    try{
+      var C=window.AudioContext||window.webkitAudioContext; if(!C) return;
+      var a=new C(),o=a.createOscillator(),g=a.createGain();
+      o.connect(g);g.connect(a.destination);o.type='sine';o.frequency.value=880;
+      g.gain.setValueAtTime(.25,a.currentTime);
+      g.gain.exponentialRampToValueAtTime(.0001,a.currentTime+.5);
+      o.start();o.stop(a.currentTime+.5);
+    }catch(e){}
+  }
+  function fmt(s){var m=Math.floor(s/60),r=s%60;return m>0?(m+':'+(r<10?'0':'')+r):(''+r);}
+  document.addEventListener('click',function(e){
+    var b=e.target.closest('.tbtn'); if(!b) return;
+    if(b.dataset.state==='running') return; // ignore taps mid-run
+    var secs=parseInt(b.getAttribute('data-secs'),10)||20;
+    var label=b.getAttribute('data-label')||'hold';
+    var left=secs; b.dataset.state='running'; b.classList.remove('done'); b.classList.add('running');
+    b.textContent=fmt(left);
+    var id=setInterval(function(){
+      left--;
+      if(left<=0){
+        clearInterval(id); b.dataset.state=''; b.classList.remove('running'); b.classList.add('done');
+        b.textContent='done'; beep();
+        setTimeout(function(){ b.classList.remove('done'); b.textContent=label; },2500);
+      } else { b.textContent=fmt(left); }
+    },1000);
+  });
+})();
+</script>
+
+</body>
+</html>

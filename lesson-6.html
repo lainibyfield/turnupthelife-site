@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Lesson 6 — Pack Light, Train Hard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;800;900&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400;1,6..72,500&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FFF7EA; --card:#FFFFFF; --line:#EADFCB;
+    --ink:#26140A; --ink-2:#7E6A54;
+    --sun:#FFB300; --aqua:#12A14B; --pink:#D62828; --lime:#93D500; --coral:#E8500F;
+    --display:'Archivo',system-ui,sans-serif;
+    --body:'Newsreader',Georgia,serif;
+    --mono:'JetBrains Mono',ui-monospace,monospace;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);font-size:18px;line-height:1.55;-webkit-font-smoothing:antialiased;}
+  .wrap{max-width:760px;margin:0 auto;padding:0 20px;}
+  a{color:var(--pink);text-underline-offset:3px;}
+
+  .shine{background:linear-gradient(100deg,var(--sun) 0%,var(--coral) 28%,var(--pink) 55%,var(--aqua) 85%);background-size:220% auto;-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent;animation:shimmer 7s linear infinite;}
+  @keyframes shimmer{to{background-position:220% center;}}
+  .stripe{height:5px;border:0;margin:0;background:linear-gradient(90deg,var(--sun),var(--coral) 28%,var(--pink) 52%,var(--aqua) 76%,var(--lime));}
+
+  .hero{padding:40px 0 22px;}
+  .hero .kick{font-family:var(--mono);font-size:12px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--coral);}
+  .hero h1{font-family:var(--display);font-weight:900;font-size:clamp(40px,10vw,76px);line-height:.86;letter-spacing:-.03em;margin:12px 0 16px;text-transform:uppercase;}
+  .hero p{max-width:620px;font-size:18px;line-height:1.5;margin:0 0 12px;}
+  .hero .princ{font-style:italic;color:var(--ink-2);font-size:16px;}
+
+  .meta{border:1.5px solid var(--ink);background:var(--card);margin-top:16px;}
+  .meta div{display:flex;gap:12px;padding:9px 14px;border-top:1px solid var(--line);font-size:15px;line-height:1.4;}
+  .meta div:first-child{border-top:none;}
+  .meta .k{font-family:var(--mono);font-size:10.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-2);flex:0 0 108px;padding-top:3px;}
+
+  .rules{border:2px solid var(--ink);background:rgba(255,179,0,.10);margin-top:18px;padding:16px 18px;}
+  .rules h3{font-family:var(--display);font-weight:900;text-transform:uppercase;font-size:17px;margin:0 0 10px;letter-spacing:-.01em;}
+  .rules ul{margin:0;padding:0;list-style:none;}
+  .rules li{position:relative;padding:4px 0 4px 18px;font-size:15.5px;line-height:1.45;}
+  .rules li::before{content:"";position:absolute;left:0;top:11px;width:7px;height:2px;background:var(--coral);}
+  .rules b{font-family:var(--mono);font-size:12px;letter-spacing:.04em;text-transform:uppercase;}
+
+  details.week{margin-top:14px;border:1.5px solid var(--ink);background:var(--card);}
+  details.week summary{cursor:pointer;list-style:none;padding:12px 15px;font-family:var(--mono);font-size:11.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--coral);}
+  details.week summary::-webkit-details-marker{display:none;}
+  details.week summary::after{content:" +";}
+  details.week[open] summary::after{content:" –";}
+  details.week .inner{padding:0 15px 15px;font-size:15.5px;line-height:1.5;}
+  .wk{width:100%;border-collapse:collapse;margin:6px 0 12px;font-size:14.5px;}
+  .wk td{border-top:1px solid var(--line);padding:7px 4px;vertical-align:top;}
+  .wk td:first-child{font-family:var(--mono);font-weight:700;font-size:12px;color:var(--pink);width:56px;white-space:nowrap;}
+
+  .jump{position:sticky;top:0;z-index:50;background:var(--paper);border-bottom:2px solid var(--ink);padding:9px 0;margin-top:18px;}
+  .jump-row{display:flex;gap:7px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;}
+  .jump-row::-webkit-scrollbar{display:none;}
+  .jump-row button{flex:0 0 auto;height:36px;font-family:var(--mono);font-size:11.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;border:2px solid var(--ink);background:var(--card);color:var(--ink);padding:0 12px;cursor:pointer;}
+  .jump-row button:hover,.jump-row button.on{background:var(--sun);border-color:var(--sun);}
+
+  .sec{padding:34px 0 8px;border-top:1px solid var(--line);scroll-margin-top:64px;}
+  .sec-head{display:flex;flex-wrap:wrap;align-items:baseline;gap:12px;margin-bottom:6px;}
+  .sec-head .tag{font-family:var(--mono);font-size:12px;font-weight:700;color:var(--coral);letter-spacing:.14em;}
+  .sec-head .tag.getlow{color:#0B7A3A;}
+  .sec-head .tag.rise{color:var(--pink);}
+  .sec-head h2{font-family:var(--display);font-weight:900;font-size:clamp(26px,6vw,42px);line-height:.95;letter-spacing:-.02em;margin:0;text-transform:uppercase;}
+  .sec-min{font-family:var(--mono);font-size:12.5px;color:var(--ink-2);margin-left:auto;}
+  .sec-intro{max-width:620px;margin:8px 0 0;color:var(--ink-2);font-size:16px;}
+
+  .ex{border:1.5px solid var(--ink);background:var(--card);margin-top:18px;}
+  .ex-body{padding:18px 20px;}
+  .ex-name{font-family:var(--display);font-weight:800;font-size:clamp(18px,4.5vw,23px);letter-spacing:-.01em;margin:0 0 6px;line-height:1.05;text-transform:uppercase;}
+  .ex-name .idx{color:var(--pink);margin-right:.4em;}
+  .ex-name .sub{display:block;font-family:var(--body);font-weight:400;font-style:italic;font-size:15px;color:var(--ink-2);margin-top:4px;letter-spacing:0;text-transform:none;}
+  .cue{margin:10px 0 2px;font-family:var(--body);font-style:italic;font-size:17px;line-height:1.4;color:var(--ink);}
+  .cue::before{content:"\201C";color:var(--coral);font-family:var(--display);font-weight:900;font-size:1.3em;margin-right:2px;}
+  .cue::after{content:"\201D";color:var(--coral);font-family:var(--display);font-weight:900;font-size:1.3em;margin-left:2px;}
+  .data{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0 4px;}
+  .chip{display:inline-flex;align-items:center;gap:.4em;font-family:var(--mono);font-size:11.5px;font-weight:500;letter-spacing:.04em;text-transform:uppercase;border:1.5px solid var(--ink);color:var(--ink);padding:5px 9px;white-space:nowrap;}
+  .chip .k{color:var(--ink-2);}
+  .chip.pace{border-color:var(--aqua);color:#0B7A3A;} .chip.pace .k{color:var(--aqua);}
+  .chip.effort{border-color:var(--pink);color:var(--pink);} .chip.effort .k{color:var(--pink);opacity:.75;}
+  .chip.band{border-color:var(--sun);color:#8A5D00;background:rgba(255,179,0,.10);} .chip.band .k{color:#B07800;}
+
+  /* ⚓ the anchor line — required on every band exercise */
+  .anchor{margin:12px 0 0;padding:11px 13px;border:2px dashed var(--ink);background:rgba(255,179,0,.12);font-size:15.5px;line-height:1.45;}
+  .anchor b{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--coral);display:block;margin-bottom:4px;}
+  .anchor b::before{content:"\2693 ";}
+
+  .cues{margin:10px 0 0;padding:0;list-style:none;}
+  .cues li{position:relative;padding:5px 0 5px 20px;font-size:16px;line-height:1.45;}
+  .cues li::before{content:"";position:absolute;left:0;top:12px;width:8px;height:2px;background:var(--coral);}
+  .cues li i{color:var(--ink-2);}
+  .fert{display:inline-block;font-family:var(--mono);font-size:9.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;background:rgba(147,213,0,.22);border:1.5px solid var(--lime);color:#3f5c00;padding:2px 7px;margin-left:6px;vertical-align:middle;white-space:nowrap;}
+  .feel{margin-top:10px;font-family:var(--mono);font-size:12px;line-height:1.6;letter-spacing:.02em;}
+  .feel .yes{color:#0B7A3A;font-weight:700;} .feel .no{color:var(--pink);font-weight:700;}
+  .swap{margin-top:10px;font-size:14.5px;line-height:1.5;}
+  .swap b{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;}
+  .swap .easy b{color:#0B7A3A;} .swap .hard b{color:var(--coral);}
+  .note{margin-top:12px;padding:11px 13px;border-left:3px solid var(--aqua);background:rgba(18,161,75,.08);font-size:14.5px;line-height:1.5;}
+  .note b{color:#0B7A3A;}
+  .note.warn{border-left-color:var(--pink);background:rgba(214,40,40,.07);}
+  .note.warn b{color:var(--pink);}
+  .watch{display:inline-flex;align-items:center;gap:8px;margin-top:12px;font-family:var(--mono);font-size:11.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;background:var(--coral);color:#fff;padding:11px 15px;text-decoration:none;border:2px solid var(--coral);}
+  .watch::before{content:"▶";font-size:10px;}
+  .mw{font-family:var(--mono);font-size:10.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--coral);text-decoration:none;border-bottom:1.5px solid var(--coral);margin-left:6px;white-space:nowrap;}
+  .mw::before{content:"▶ ";font-size:8px;}
+
+  .tbtn{display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--ink);background:var(--card);border:1.5px solid var(--ink);padding:3px 9px;margin-left:6px;cursor:pointer;vertical-align:baseline;line-height:1.4;}
+  .tbtn::before{content:"⏱";font-size:11px;}
+  .tbtn:hover{background:var(--sun);border-color:var(--sun);}
+  .tbtn.running{background:var(--lime);border-color:var(--ink);}
+  .tbtn.done{background:var(--pink);border-color:var(--pink);color:#fff;}
+
+  .drink{margin:18px 0 0;padding:13px 15px;border:2px solid var(--lime);background:rgba(147,213,0,.12);font-size:16px;line-height:1.5;font-style:italic;}
+
+  footer{border-top:1px solid var(--line);padding:26px 0 60px;margin-top:30px;}
+  .disclaim{max-width:620px;font-size:12.5px;color:var(--ink-2);line-height:1.5;}
+
+  @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto;}.shine{animation:none;}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="hero">
+    <span class="kick">Lesson 06 · Travel Workout 2</span>
+    <h1>Pack Light,<br><span class="shine">Train Hard.</span></h1>
+    <p>This one proves the point: bands can replace the workout. Not a substitute, not a holding pattern — a complete session in a hotel room, out of a backpack, with nothing bolted to the floor.</p>
+    <p class="princ">Lesson 3 taught you to make a band feel heavy. Lesson 6 asks you to run a whole balanced day on that skill alone.</p>
+
+    <div class="meta">
+      <div><span class="k">Principle</span><span>Bands can replace the workout.</span></div>
+      <div><span class="k">Role</span><span>Balanced full body.</span></div>
+      <div><span class="k">Time</span><span>40–55 minutes.</span></div>
+      <div><span class="k">Equipment</span><span>Light, medium, and heavy long bands or tubes. A safe anchor if you have one.</span></div>
+      <div><span class="k">Mood</span><span>Travel · familiar · self-directed.</span></div>
+    </div>
+
+    <div class="rules">
+      <h3>Band rules</h3>
+      <ul>
+        <li><b>Light band</b> — shoulders, pull-aparts, lateral raises.</li>
+        <li><b>Medium band</b> — chest press, overhead press, face pulls.</li>
+        <li><b>Heavy band</b> — squats, rows, good mornings, glute bridges.</li>
+        <li>A set only counts if the last few reps are <b>hard and clean</b>.</li>
+        <li>If you hit 25 reps easily, the band is too light or too slack. Step wider. Shorten the band. Take out the slack.</li>
+      </ul>
+      <p class="note warn" style="margin-top:12px;"><b>Equipment note</b><br>Assumes long bands or tubes. Mini-loops only? The squats, rows, presses, and good mornings need a swap — the anchor lines below won't work as written.</p>
+    </div>
+
+    <details class="week">
+      <summary>How travel week works</summary>
+      <div class="inner">
+        <p style="margin-top:0;">Two workouts, each done twice. Not four new workouts.</p>
+        <table class="wk">
+          <tr><td>Day 1</td><td>Create Tension</td></tr>
+          <tr><td>Day 2</td><td>Rest — walk, swim, shop, enjoy the trip</td></tr>
+          <tr><td>Day 3</td><td>Pack Light, Train Hard</td></tr>
+          <tr><td>Day 4</td><td>Rest — fun movement</td></tr>
+          <tr><td>Day 5</td><td>Create Tension — progressed</td></tr>
+          <tr><td>Day 6</td><td>Rest — fun movement</td></tr>
+          <tr><td>Day 7</td><td>Pack Light, Train Hard — progressed</td></tr>
+        </table>
+        <p><b>"Progressed" never means new exercises.</b> Pick <i>one</i> per exercise: next heavier band · shorten the band · add a 2-second squeeze · add a 3-second return · keep tension between reps · add 2–5 reps · shorten transitions only if form stays clean.</p>
+        <p style="margin-bottom:0;">Both workouts once ≈ 10 hard sets per major muscle group. Both twice ≈ 20. That's enough. Don't turn your trip into punishment.</p>
+      </div>
+    </details>
+  </header>
+
+  <nav class="jump" aria-label="Jump to section">
+    <div class="jump-row" id="jumpRow">
+      <button data-go="getlow">Get Low</button>
+      <button data-go="core">Core</button>
+      <button data-go="legs">Legs</button>
+      <button data-go="push">Push</button>
+      <button data-go="pull">Pull</button>
+      <button data-go="delts">Delts</button>
+      <button data-go="rise">Rise</button>
+    </div>
+  </nav>
+
+  <!-- GET LOW -->
+  <section class="sec" id="getlow">
+    <div class="sec-head"><span class="tag getlow">GET LOW</span><h2>Move Prep</h2><span class="sec-min">5 min</span></div>
+    <p class="sec-intro">Grounded and short. Warm up; don’t tire out.</p>
+    <article class="ex">
+      <div class="ex-body">
+        <ul class="cues">
+          <li>Deep squat hold — 30 sec <button class="tbtn" data-secs="30" data-label="30s">30s</button></li>
+          <li>Knee-over-toe touches — 8 / side. <a class="mw" href="https://www.youtube.com/results?search_query=knee+over+toe+touches+drill" target="_blank" rel="noopener">watch</a></li>
+          <li>Hip hinge reach — 10 reps. <i>Hips back, spine long.</i> <a class="mw" href="https://www.youtube.com/results?search_query=hip+hinge+reach+drill" target="_blank" rel="noopener">watch</a></li>
+          <li>Shoulder circles — 10 each way.</li>
+        </ul>
+      </div>
+    </article>
+  </section>
+
+  <!-- CORE -->
+  <section class="sec" id="core">
+    <div class="sec-head"><span class="tag">BUILD</span><h2>Core</h2><span class="sec-min">6–7 min</span></div>
+    <p class="sec-intro">Protect the back. Brace, then the one curl, then the lateral hips.</p>
+
+    <article class="ex">
+      <div class="ex-body">
+        <h3 class="ex-name">Bear Hover<span class="sub">closed-chain brace</span></h3>
+        <p class="cue">Knees barely up. Back wide.</p>
+        <div class="data"><span class="chip"><span class="k">Sets</span> 2</span><span class="chip"><span class="k">Hold</span> 15–25 sec <button class="tbtn" data-secs="20" data-label="20s">20s</button></span></div>
+        <ul class="cues">
+          <li>Hands under shoulders.</li>
+          <li>Knees hover one inch.</li>
+          <li>Ribs stay tucked.</li>
+          <li>Stop before your back sags.</li>
+        </ul>
+        <p class="feel"><span class="yes">Feel:</span> whole front of the trunk. &nbsp; <span class="no">Not:</span> low back sagging, shoulders shrugging.</p>
+        <a class="watch" href="https://www.youtube.com/results?search_query=bear+hover+exercise" target="_blank" rel="noopener">Watch the form</a>
+      </div>
+    </article>
+
+    <article class="ex">
+      <div class="ex-body">
+        <h3 class="ex-name">Pilates Chest Lift<span class="sub">the one rectus abdominis exercise of the day</span></h3>
+        <p class="cue">Curl the ribs. Don’t yank the neck.</p>
+        <div class="data"><span class="chip"><span class="k">Sets</span> 2</span><span class="chip"><span class="k">Reps</span> 8–12</span></div>
+        <ul class="cues">
+          <li>Feet down.</li>
+          <li>Pelvis quiet.</li>
+          <li>Small curl — this is not a sit-up.</li>
+          <li>Lower with control.</li>
+        </ul>
+        <p class="feel"><span class="yes">Feel:</span> front of the belly shortening. &nbsp; <span class="no">Not:</span> neck pulling, hip flexors gripping.</p>
+        <a class="watch" href="https://www.youtube.com/results?search_query=pilates+chest+lift" target="_blank" rel="noopener">Watch the form</a>
+      </div>
+    </article>
+
+    <article class="ex">
+      <div class="ex-body">
+        <h3 class="ex-name">Side Plank<span class="sub">lateral support</span></h3>
+        <p class="cue">Stack ribs over hips.</p>
+        <div class="data"><span class="chip"><span class="k">Sets</span> 1–2</span><span class="chip"><span class="k">Hold</span> 15–25 sec / side <button class="tbtn" data-secs="20" data-label="20s/side">20s/side</button></span></div>
+        <ul class="cues">
+          <li>Knees down is fine.</li>
+          <li>No sagging into the shoulder.</li>
+        </ul>
+        <p class="note"><b>Shoulder note</b><br>If the bottom shoulder complains, drop to knees or shorten the hold.</p>
+        <a class="watch" href="https://www.youtube.com/results?search_query=side+plank+form+beginner" target="_blank" rel="noopener">Watch the form</a>
+      </div>
+    </article>
+  </section>
+
+  <!-- LEGS -->
+  <section class="sec" id="legs">
+    <div class="sec-head"><span class="tag">BUILD</span><h2>Legs</h2><span class="sec-min">16–18 min</span></div>
+
+    <article class="ex">
+      <div class="ex-body">
+        <h3 class="ex-name"><span class="idx">A1</span>Band Front Squat<span class="sub">main lower-body work</span></h3>
+        <p class="cue">Stay tall. Push the floor away.</p>
+        <div class="data"><span class="chip"><span class="k">Sets</span> 3</span><span class="chip"><span class="k">Reps</span> 10–18</span><span class="chip band"><span class="k">Band</span> heavy</span><span class="chip pace"><span class="k">Pace</span> 3 down · 1 hold · stand strong</span></div>
+        <p class="anchor"><b>Anchor / setup</b>Band under both feet. Hold the ends up at your shoulders, elbows forward.</p>
+        <ul class="cues">
+          <li>Stand on the band.</li>
+          <li>Hold it at the shoulders.</li>
+          <li>Sit down into the squat.</li>
+          <li>Keep ribs stacked.</li>
+        </ul>
+        <p class="feel"><span class="yes">Feel:</span> thighs and glutes. &nbsp; <span class="no">Not:</span> the band folding you forward.</p>
+        <a class="watch" href="https://www.youtube.com/results?search_query=resistance+band+front+squat" target="_blank" rel="noopener">Watch the form</a>
+      </div>
+    </article>
+
+    <article class="ex">
+      <div class="ex-body">
+        <h3 class="ex-name"><span class="idx">A2</span>Band Squat Pulse or Split Squat<span class="sub">extra quad and glute volume</span></h3>
+        <p class="cue">Small range. No bouncing.</p>
+        <div class="data"><span class="chip"><span class="k">Sets</span> 2</span><span class="chip"><span class="k">Reps</span> 12–20</span><span class="chip band"><span class="k">Band</span> medium or heavy</span></div>
+        <p class="anchor"><b>Anchor / setup</b>Pulses: band under both feet, held at shoulders. Split squat: band under the <i>front</i> foot only, held at shoulders.</p>
+        <ul class="cues">
+          <li>Stay in the clean part of the squat.</li>
+          <li>Keep tension on the band the whole time.</li>
+          <li>Stop before the knees or back get cranky.</li>
+        </ul>
+        <p class="note"><b>Knee note</b><br>Shorten the range if the knee feels sharp.</p>
+        <a class="watch" href="https://www.youtube.com/results?search_query=band+squat+pulse" target="_blank" rel="noopener">Watch the form</a>
+      </div>
+    </article>
+
+    <article class="ex">
+      <div class="ex-body">
+        <h3 class="ex-name"><span class="idx">A3</span>Band RDL / Good Morning<span class="sub">hamstrings and glutes</span> <span class="fert">🌱 fertilizer</span></h3>
+        <p class="cue">Hips back. Spine long.</p>
+        <div class="data"><span class="chip"><span class="k">Sets</span> 3</span><span class="chip"><span class="k">Reps</span> 12–18</span><span class="chip band"><span class="k">Band</span> heavy</span><span class="chip pace"><span class="k">Pace</span> 3 down · 2 stretch · controlled up</span></div>
+        <p class="anchor"><b>Anchor / setup</b>Band under both feet. Hold the ends at your hips (RDL) or up at your shoulders (good morning) — never across the neck.</p>
+        <ul class="cues">
+          <li>Stand on the band.</li>
+          <li>Hold the ends at hips or shoulders.</li>
+          <li>Hinge, don’t squat.</li>
+          <li>Stop before the back rounds.</li>
+        </ul>
+        <p class="feel"><span class="yes">Feel:</span> hamstring stretch. &nbsp; <span class="no">Not:</span> low-back strain.</p>
+        <p class="note"><b>Back note</b><br>Don’t chase the floor. If your back rounds, you went too low.</p>
+        <a class="watch" href="https://www.youtube.com/results?search_query=band+romanian+deadlift" target="_blank" rel="noopener">Watch the form</a>
+      </div>
+    </article>
+
+    <article class="ex">
+      <div class="ex-body">
+        <h3 class="ex-name"><span class="idx">A4</span>Band Frog Pump or Glute Bridge<span class="sub">glute burn</span> <span class="fert">🌱 fertilizer</span></h3>
+        <p class="cue">Squeeze first. Range second.</p>
+        <div class="data"><span class="chip"><span class="k">Sets</span> 2</span><span class="chip"><span class="k">Reps</span> 20–30</span><span class="chip band"><span class="k">Band</span> medium or heavy</span></div>
+        <p class="anchor"><b>Anchor / setup</b>Loop above the knees, or a long band across the hips with the ends anchored under both feet.</p>
+        <ul class="cues">
+          <li>Use a loop above the knees or a long band across the hips.</li>
+          <li>Keep the move small if needed.</li>
+          <li>The low back should not be the star.</li>
+        </ul>
+        <p class="feel"><span class="yes">Feel:</span> glutes. &nbsp; <span class="no">Not:</span> low back cramping.</p>
+        <a class="watch" href="https://www.youtube.com/results?search_query=band+frog+pump" target="_blank" rel="noopener">Watch the form</a>
+      </div>
+    </article>
+  </section>
+
+  <!-- PUSH -->
+  <section class="sec" id="push">
+    <div class="sec-head"><span class="tag">BUILD</span><h2>Push</h2><span class="sec-min">8–10 min</span></div>
+
+    <article class="ex">
+      <div class="ex-body">
+        <h3 class="ex-name"><span class="idx">B1</span>Band Chest Press<span class="sub">main push</span></h3>
+        <p class="cue">Press from a stacked rib cage.</p>
+        <div class="data"><span class="chip"><span class="k">Sets</span> 4</span><span class="chip"><span class="k">Reps</span> 10–20</span><span class="chip band"><span class="k">Band</span> medium</span><span class="chip pace"><span class="k">Pace</span> 3 return · press strong</span></div>
+        <p class="anchor"><b>Anchor / setup</b>Band around your upper back, one end in each hand. Your own back is the anchor — nothing to attach.</p>
+        <ul class="cues">
+          <li>Band behind the upper back.</li>
+          <li>Press forward.</li>
+          <li>Return slowly.</li>
+          <li>Keep the shoulders heavy.</li>
+        </ul>
+        <p class="feel"><span class="yes">Feel:</span> chest and front shoulder. &nbsp; <span class="no">Not:</span> ribs flaring to make the press easier.</p>
+        <p class="note"><b>Shoulder note</b><br>Keep elbows slightly below shoulder height if the shoulders complain.</p>
+        <a class="watch" href="https://www.youtube.com/results?search_query=resistance+band+chest+press" target="_blank" rel="noopener">Watch the form</a>
+      </div>
+    </article>
+
+    <article class="ex">
+      <div class="ex-body">
+        <h3 class="ex-name"><span class="idx">B2</span>Band Push-Up or Press-Out<span class="sub">extra push volume</span></h3>
+        <p class="cue">Clean reps beat dramatic reps.</p>
+        <div class="data"><span class="chip"><span class="k">Sets</span> 2</span><span class="chip"><span class="k">Reps</span> 8–15</span><span class="chip band"><span class="k">Band</span> light or medium</span></div>
+        <p class="anchor"><b>Anchor / setup</b>Push-up: band across the upper back, ends pinned under both palms. Press-out: no anchor — hold one end in each hand at your chest and press straight out.</p>
+        <ul class="cues">
+          <li>If doing band push-ups, the band goes across the upper back.</li>
+          <li>If that’s too much, do standing band press-outs instead.</li>
+          <li>Screw your hands into the floor. Push the floor away.</li>
+          <li>Stop before the shoulders or wrists complain.</li>
+        </ul>
+        <p class="note"><b>Wrist note</b><br>Fists or push-up handles if the wrists object. Press-outs skip the wrist load entirely.</p>
+        <a class="watch" href="https://www.youtube.com/results?search_query=banded+push+up" target="_blank" rel="noopener">Watch the form</a>
+      </div>
+    </article>
+  </section>
+
+  <!-- PULL -->
+  <section class="sec" id="pull">
+    <div class="sec-head"><span class="tag">BUILD</span><h2>Pull</h2><span class="sec-min">8–10 min</span></div>
+
+    <article class="ex">
+      <div class="ex-body">
+        <h3 class="ex-name"><span class="idx">C1</span>Band Row<span class="sub">main pull</span></h3>
+        <p class="cue">Squeeze, then return like you’re in charge.</p>
+        <div class="data"><span class="chip"><span class="k">Sets</span> 4</span><span class="chip"><span class="k">Reps</span> 12–20</span><span class="chip band"><span class="k">Band</span> medium or heavy</span><span class="chip pace"><span class="k">Pace</span> 2 pull · 2 squeeze · 3 return</span></div>
+        <p class="anchor"><b>Anchor / setup</b>Seated with the band around both feet, or standing hinged with it under both feet. A safe hotel-room anchor (door anchor, sturdy post) works if you have one.</p>
+        <ul class="cues">
+          <li>Anchor with your feet, or a safe hotel-room anchor.</li>
+          <li>Pull the elbows back.</li>
+          <li>Squeeze the shoulder blades — juice out of the mango.</li>
+          <li>Return slowly.</li>
+        </ul>
+        <p class="feel"><span class="yes">Feel:</span> mid-back. &nbsp; <span class="no">Not:</span> biceps doing all the work.</p>
+        <p class="note warn"><b>Anchor note</b><br>Test any door or post anchor with a few gentle pulls before you load it.</p>
+        <a class="watch" href="https://www.youtube.com/results?search_query=resistance+band+row" target="_blank" rel="noopener">Watch the form</a>
+      </div>
+    </article>
+
+    <article class="ex">
+      <div class="ex-body">
+        <h3 class="ex-name"><span class="idx">C2</span>Band Pull-Apart<span class="sub">upper-back reset</span></h3>
+        <p class="cue">Pull your shoulder blades back into the conversation.</p>
+        <div class="data"><span class="chip"><span class="k">Sets</span> 1–2</span><span class="chip"><span class="k">Reps</span> 15–25</span><span class="chip band"><span class="k">Band</span> light</span></div>
+        <p class="anchor"><b>Anchor / setup</b>No anchor. Hold the band in both hands at chest height, arms straight.</p>
+        <ul class="cues">
+          <li>Chest height.</li>
+          <li>Pull apart.</li>
+          <li>Pause.</li>
+          <li>Slow return — don’t let the band snap you back.</li>
+        </ul>
+        <p class="feel"><span class="yes">Feel:</span> upper back. &nbsp; <span class="no">Not:</span> neck. Heavy shoulders — your neck is still not invited.</p>
+        <a class="watch" href="https://www.youtube.com/results?search_query=band+pull+apart" target="_blank" rel="noopener">Watch the form</a>
+      </div>
+    </article>
+  </section>
+
+  <!-- DELTS -->
+  <section class="sec" id="delts">
+    <div class="sec-head"><span class="tag">BUILD</span><h2>Shoulders</h2><span class="sec-min">6–8 min</span></div>
+
+    <article class="ex">
+      <div class="ex-body">
+        <h3 class="ex-name"><span class="idx">D1</span>Band Overhead Press<span class="sub">shoulders</span></h3>
+        <p class="cue">Ribs down. Press clean.</p>
+        <div class="data"><span class="chip"><span class="k">Sets</span> 3</span><span class="chip"><span class="k">Reps</span> 8–15</span><span class="chip band"><span class="k">Band</span> light or medium</span></div>
+        <p class="anchor"><b>Anchor / setup</b>Band under one foot (easier) or both feet (harder). Hands start at the shoulders.</p>
+        <ul class="cues">
+          <li>Stand on the band.</li>
+          <li>Press overhead.</li>
+          <li>Don’t lean back.</li>
+          <li>Use a lighter band if your neck joins in.</li>
+        </ul>
+        <p class="feel"><span class="yes">Feel:</span> shoulders. &nbsp; <span class="no">Not:</span> low back arching.</p>
+        <a class="watch" href="https://www.youtube.com/results?search_query=resistance+band+overhead+press" target="_blank" rel="noopener">Watch the form</a>
+      </div>
+    </article>
+
+    <article class="ex">
+      <div class="ex-body">
+        <h3 class="ex-name"><span class="idx">D2</span>Band Lateral Raise<span class="sub">side delts</span></h3>
+        <p class="cue">Lead with elbows.</p>
+        <div class="data"><span class="chip"><span class="k">Sets</span> 2</span><span class="chip"><span class="k">Reps</span> 12–20</span><span class="chip band"><span class="k">Band</span> light</span></div>
+        <p class="anchor"><b>Anchor / setup</b>Band under one foot (single-arm) or both feet (both arms). Ends held at your sides.</p>
+        <ul class="cues">
+          <li>Raise to the side.</li>
+          <li>Stop before the traps take over.</li>
+          <li>Slow lower.</li>
+        </ul>
+        <p class="feel"><span class="yes">Feel:</span> side of the shoulder. &nbsp; <span class="no">Not:</span> shrugging into the neck.</p>
+        <a class="watch" href="https://www.youtube.com/results?search_query=band+lateral+raise" target="_blank" rel="noopener">Watch the form</a>
+      </div>
+    </article>
+  </section>
+
+  <!-- RISE -->
+  <section class="sec" id="rise">
+    <div class="sec-head"><span class="tag rise">RISE</span><h2>Your Choice</h2><span class="sec-min">3–5 min</span></div>
+    <p class="sec-intro">Familiar work today. You get to pick how it ends.</p>
+
+    <article class="ex">
+      <div class="ex-body">
+        <h3 class="ex-name">If you feel good — end standing<span class="sub">pride, completion, “I did that”</span></h3>
+        <ul class="cues">
+          <li>Horse stance — 20–30 sec. <i>Push the floor apart.</i> <a class="mw" href="https://www.youtube.com/results?search_query=horse+stance+hold" target="_blank" rel="noopener">watch</a> <button class="tbtn" data-secs="30" data-label="30s">30s</button></li>
+          <li>Tall standing breath — 3 breaths. <i>Grow taller on each one.</i></li>
+        </ul>
+      </div>
+    </article>
+
+    <article class="ex">
+      <div class="ex-body">
+        <h3 class="ex-name">If you feel cooked — end relaxed<span class="sub">settle the body</span></h3>
+        <ul class="cues">
+          <li>Forward fold — 30 sec. <i>Don’t chase the floor. Chase the position.</i> <a class="mw" href="https://www.youtube.com/results?search_query=standing+forward+fold+hamstring+stretch" target="_blank" rel="noopener">watch</a> <button class="tbtn" data-secs="30" data-label="30s">30s</button></li>
+          <li>90/90 stretch — 30 sec / side. <a class="mw" href="https://www.youtube.com/results?search_query=90+90+hip+stretch" target="_blank" rel="noopener">watch</a> <button class="tbtn" data-secs="30" data-label="30s/side">30s/side</button></li>
+          <li>Hero stretch — 30 sec / side. <i>Breathe where you’re tight.</i> <a class="mw" href="https://www.youtube.com/results?search_query=hero+pose+quad+stretch" target="_blank" rel="noopener">watch</a> <button class="tbtn" data-secs="30" data-label="30s/side">30s/side</button></li>
+        </ul>
+      </div>
+    </article>
+
+    <p class="drink">🥤 That’s Lesson 6. Go get your drink — you packed light and trained hard.</p>
+
+    <details class="week" style="margin-top:18px;">
+      <summary>When you repeat this on Day 7</summary>
+      <div class="inner">
+        <p style="margin-top:0;"><b>Do not add exercises.</b> Pick <i>one</i> progression per exercise:</p>
+        <ul class="cues" style="margin-top:4px;">
+          <li>Use the next heavier band.</li>
+          <li>Shorten the band (step wider, or choke up on the ends).</li>
+          <li>Add a 2-second squeeze at the hard end.</li>
+          <li>Add a 3-second return.</li>
+          <li>Keep tension between reps — never go slack.</li>
+          <li>Add 2–5 reps.</li>
+          <li>Reduce transition time, only if form stays clean.</li>
+        </ul>
+      </div>
+    </details>
+  </section>
+
+  <hr class="stripe" />
+  <footer>
+    <p class="disclaim">Adjust range and depth based on how your knee, hip, shoulder, and back feel. Bands store energy — never let one snap back at you, and check any door anchor before you load it. Check with a professional first if anything hurts or you're unsure this suits you.</p>
+  </footer>
+
+</div>
+
+<script>
+  document.getElementById('jumpRow').addEventListener('click', function(e){
+    var b = e.target.closest('button[data-go]'); if(!b) return;
+    var t = document.getElementById(b.getAttribute('data-go'));
+    if(t) t.scrollIntoView({behavior:'smooth', block:'start'});
+  });
+  var secs = document.querySelectorAll('.sec');
+  var btns = {};
+  document.querySelectorAll('#jumpRow button').forEach(function(b){ btns[b.getAttribute('data-go')] = b; });
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(en){
+      if(en.isIntersecting){
+        Object.values(btns).forEach(function(b){ b.classList.remove('on'); });
+        var b = btns[en.target.id]; if(b){ b.classList.add('on'); b.scrollIntoView({inline:'center', block:'nearest'}); }
+      }
+    });
+  }, {rootMargin:'-45% 0px -50% 0px'});
+  secs.forEach(function(s){ io.observe(s); });
+
+  function beep(){try{var C=window.AudioContext||window.webkitAudioContext;if(!C)return;var a=new C(),o=a.createOscillator(),g=a.createGain();o.connect(g);g.connect(a.destination);o.type='sine';o.frequency.value=880;g.gain.setValueAtTime(.25,a.currentTime);g.gain.exponentialRampToValueAtTime(.0001,a.currentTime+.5);o.start();o.stop(a.currentTime+.5);}catch(e){}}
+  function fmt(s){var m=Math.floor(s/60),r=s%60;return m>0?(m+':'+(r<10?'0':'')+r):(''+r);}
+  document.addEventListener('click',function(e){
+    var b=e.target.closest('.tbtn'); if(!b) return;
+    if(b.dataset.state==='running') return;
+    var secs=parseInt(b.getAttribute('data-secs'),10)||20;
+    var label=b.getAttribute('data-label')||'hold';
+    var left=secs; b.dataset.state='running'; b.classList.remove('done'); b.classList.add('running'); b.textContent=fmt(left);
+    var id=setInterval(function(){
+      left--;
+      if(left<=0){clearInterval(id);b.dataset.state='';b.classList.remove('running');b.classList.add('done');b.textContent='done';beep();
+        setTimeout(function(){b.classList.remove('done');b.textContent=label;},2500);
+      } else { b.textContent=fmt(left); }
+    },1000);
+  });
+</script>
+</body>
+</html>
