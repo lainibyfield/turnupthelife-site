@@ -4,27 +4,74 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Turn Up the Life — Carnival Trial Class</title>
+<!--
+  ============================================================================
+  FREE TRIAL / LESSON 1 — GET LOW. BUILD. RISE.   (turnupthelife.com)
+  ============================================================================
+  WHAT THIS FILE IS
+    The free front-door workout AND the course's Lesson 1 (one source of truth:
+    course.html links here rather than embedding a copy). Self-contained — all
+    CSS + JS inline so it works alone with no external files but Google Fonts.
+
+  HOW IT'S ORGANIZED (top to bottom)
+    1. <style>  — design tokens (SHARED, see banner) + page styles
+    2. <body>   — hero, sticky jump-nav, one <section class="sec"> per block
+    3. <script> — jump-nav scroll, done-tracking + progress bar, hold timers
+
+  SAFE TO EDIT  →  everything inside <body>. This is your content.
+  SHARED/FROZEN →  the :root tokens + timer JS are copied byte-for-byte in
+                   trial-class / lesson-2 / lesson-3 / lesson-6 (see banners).
+  ============================================================================
+-->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;800;900&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400;1,6..72,500&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
+    /* ██████████████████████████████████████████████████████████████████████
+     DO NOT EDIT HERE — SHARED DESIGN TOKENS
+     This exact :root block is copied in trial-class.html, lesson-2.html,
+     lesson-3.html, and lesson-6.html. If you change a color, font, or token,
+     change it IDENTICALLY in all four, or the lessons will drift apart.
+     (Slated to become one shared stylesheet after Lessons 4/5/7 are tested.)
+     ██████████████████████████████████████████████████████████████████████ */
   :root{
+    /* ┌─────────────────────────────────────────────────────────────────┐
+       │ THIS IS WHERE YOU ADJUST THE COLORS.                            │
+       │ Everything on the page pulls its color from one of these names  │
+       │ (e.g. background:var(--sun)). Change the hex here and it updates │
+       │ EVERYWHERE that name is used — that's the whole point of tokens: │
+       │ one place to change, not a find-and-replace across the file.    │
+       │ To preview a new color, just swap a hex value and reload.       │
+       └─────────────────────────────────────────────────────────────────┘ */
     --paper:#FFF7EA; --card:#FFFFFF; --line:#EADFCB;
+      /* --paper = the warm page background · --card = white boxes on top of it
+         --line  = the thin divider/border color (a soft tan) */
     --ink:#26140A; --ink-2:#7E6A54;
+      /* --ink   = main text (near-black brown) · --ink-2 = muted/subtitle text */
     --sun:#FFB300; --aqua:#12A14B; --pink:#D62828; --lime:#93D500; --coral:#E8500F;
-    --display:'Archivo',system-ui,sans-serif;
-    --body:'Newsreader',Georgia,serif;
-    --mono:'JetBrains Mono',ui-monospace,monospace;
+      /* the carnival accents. Where each shows up:
+         --sun   (gold)   = active buttons, highlights, "Before You Begin" box
+         --aqua  (green)  = "Feel:" cues, success states, Get Low tag
+         --pink  (red)    = "Not:" cues, Rise tag, warnings, section-step chip
+         --lime  (bright) = "done" states, fertilizer tags, progress fill
+         --coral (orange) = links, section eyebrows, the shimmer + stripe */
+    --display:'Archivo',system-ui,sans-serif;   /* big bold headings */
+    --body:'Newsreader',Georgia,serif;          /* readable body prose */
+    --mono:'JetBrains Mono',ui-monospace,monospace; /* labels, chips, data */
   }
+  /* ── end shared tokens ── everything below is page styling, edit as needed ── */
   *{box-sizing:border-box;}
-  html{scroll-behavior:smooth;}
-  body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);font-size:18px;line-height:1.55;-webkit-font-smoothing:antialiased;}
+  html{scroll-behavior:smooth;overflow-x:hidden;}
+  body{overflow-x:hidden;max-width:100%;margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);font-size:18px;line-height:1.55;-webkit-font-smoothing:antialiased;}
   .wrap{max-width:940px;margin:0 auto;padding:0 24px;position:relative;}
 
   .eyebrow{font-family:var(--mono);font-size:12px;font-weight:500;letter-spacing:.22em;text-transform:uppercase;color:var(--ink-2);}
-  h2.block-title{font-family:var(--display);font-weight:900;font-size:clamp(28px,5vw,46px);line-height:.95;letter-spacing:-.02em;margin:0;text-transform:uppercase;color:var(--ink);}
+  h2.sec-title{font-family:var(--display);font-weight:900;font-size:clamp(28px,5vw,46px);line-height:.95;letter-spacing:-.02em;margin:0;text-transform:uppercase;color:var(--ink);}
   a{color:var(--pink);text-underline-offset:3px;}
 
+  /* THE TWO SIGNATURE EFFECTS. .shine = the animated rainbow shimmer on hero
+     words (a wide gradient clipped to the letters, sliding forever — change
+     "7s" for speed). .stripe = the flat carnival gradient divider bar. */
   .shine{background:linear-gradient(100deg,var(--sun) 0%,var(--coral) 28%,var(--pink) 55%,var(--aqua) 85%);background-size:220% auto;-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent;animation:shimmer 7s linear infinite;}
   @keyframes shimmer{to{background-position:220% center;}}
   .stripe{height:5px;border:0;margin:0;background:linear-gradient(90deg,var(--sun),var(--coral) 28%,var(--pink) 52%,var(--aqua) 76%,var(--lime));}
@@ -36,6 +83,11 @@
   .chip.effort{border-color:var(--pink);color:var(--pink);} .chip.effort .k{color:var(--pink);opacity:.75;}
 
   /* ---------- compact hero ---------- */
+  /* HERO — the top of the free class. Note .hero::before: that's the soft
+     colored glow behind the title (a radial-gradient). The h1 uses
+     clamp(min, scales, max) so it never overflows a phone.
+     .needbar = the "All you need" gold-chip box · .stakes = the pink
+     "why this matters after 40" box · .mens = the fellas/beginner callouts. */
   .hero{position:relative;padding:44px 0 28px;}
   .hero::before{content:"";position:absolute;left:-12%;right:-12%;top:-40px;height:300px;background:radial-gradient(56% 100% at 50% 0,rgba(255,179,0,.30),rgba(232,80,15,.20) 38%,rgba(18,161,75,.14) 60%,transparent 76%);pointer-events:none;z-index:0;}
   .hero > *{position:relative;z-index:1;}
@@ -53,6 +105,9 @@
   .needfoot{flex-basis:100%;font-size:14px;font-style:italic;color:var(--ink-2);}
   .stakes{max-width:660px;margin:16px 0 0;padding:14px 16px;border-left:3px solid var(--pink);background:rgba(214,40,40,.06);font-size:16px;line-height:1.5;}
   .stakes b{color:var(--pink);}
+  /* THE SCIENCE section — the research list with citation links.
+     .src = the small gray source line under each claim.
+     .caveat = the "education, not medical advice" line. Keep that. */
   .science{padding:40px 0 10px;border-top:1px solid var(--line);scroll-margin-top:120px;}
   .science h2{font-family:var(--display);font-weight:900;text-transform:uppercase;font-size:clamp(24px,4.6vw,38px);letter-spacing:-.02em;margin:0 0 6px;}
   .science .lede{max-width:640px;color:var(--ink-2);margin:0 0 18px;font-size:16px;}
@@ -63,16 +118,25 @@
   .science .src a{color:var(--ink-2);}
   .science .caveat{max-width:660px;margin:16px 0 0;font-size:13px;font-style:italic;color:var(--ink-2);}
 
-  /* ---------- sticky quick nav + progress ---------- */
-  .quicknav{position:sticky;top:0;z-index:50;background:var(--paper);border-bottom:2px solid var(--ink);padding:10px 0;}
-  .qn-row{display:flex;gap:8px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;align-items:center;}
-  .qn-row::-webkit-scrollbar{display:none;}
-  .qn-btn{flex:0 0 auto;height:38px;line-height:1;font-family:var(--mono);font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;border:2px solid var(--ink);background:var(--card);color:var(--ink);padding:0 14px;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:7px;}
-  .qn-btn:hover{background:var(--sun);border-color:var(--sun);}
-  .qn-btn .dot{width:9px;height:9px;border:2px solid var(--ink);display:inline-block;border-radius:50%;}
-  .qn-btn.done .dot{background:var(--lime);border-color:var(--ink);}
-  .qn-btn.more{border-color:var(--pink);color:var(--pink);}
-  .qn-btn.more:hover{background:var(--pink);color:#fff;}
+  /* ---------- sticky jump nav + progress ---------- */
+  /* THIS IS WHERE THE JUMP-NAV BUTTONS ARE STYLED (the sticky row you tap to
+     skip between workout blocks, plus the progress bar under it).
+     .jump / .jump-row match the names used in lessons 2/3/6. One difference to
+     know: here the buttons are <a href="#id"> links styled as .jump-btn,
+     while the numbered lessons use <button data-go="id"> elements. Same look,
+     same behaviour.
+     .jump-btn .dot  turns lime when every exercise in that block is checked.
+     .jump-btn.more  is the pink "Want more?" upsell button.
+     The bar underneath is .progresswrap / .progressbar. */
+  .jump{position:sticky;top:0;z-index:50;background:var(--paper);border-bottom:2px solid var(--ink);padding:10px 0;}
+  .jump-row{display:flex;gap:8px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;align-items:center;}
+  .jump-row::-webkit-scrollbar{display:none;}
+  .jump-btn{flex:0 0 auto;height:38px;line-height:1;font-family:var(--mono);font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;border:2px solid var(--ink);background:var(--card);color:var(--ink);padding:0 14px;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:7px;}
+  .jump-btn:hover{background:var(--sun);border-color:var(--sun);}
+  .jump-btn .dot{width:9px;height:9px;border:2px solid var(--ink);display:inline-block;border-radius:50%;}
+  .jump-btn.done .dot{background:var(--lime);border-color:var(--ink);}
+  .jump-btn.more{border-color:var(--pink);color:var(--pink);}
+  .jump-btn.more:hover{background:var(--pink);color:#fff;}
   .progresswrap{height:6px;background:var(--line);margin-top:10px;}
   .progressbar{height:100%;width:0%;background:linear-gradient(90deg,var(--sun),var(--coral),var(--pink));transition:width .35s ease;}
   .prog-label{font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-2);margin-top:5px;display:flex;justify-content:space-between;gap:10px;}
@@ -88,15 +152,30 @@
   details.info .inner p{margin:0 0 10px;}
   details.info .inner b{color:var(--pink);font-weight:600;}
 
-  /* ---------- blocks ---------- */
-  .block{padding:44px 0;border-top:1px solid var(--line);scroll-margin-top:120px;}
-  .block-head{display:flex;flex-wrap:wrap;align-items:baseline;gap:14px;margin-bottom:8px;}
-  .block-head .tag{font-family:var(--mono);font-size:13px;font-weight:700;color:var(--coral);letter-spacing:.14em;}
-  .block-head .tag.getlow{color:#0B7A3A;}
-  .block-head .tag.rise{color:var(--pink);}
-  .block-min{font-family:var(--mono);font-size:13px;color:var(--ink-2);margin-left:auto;}
-  .block-intro{max-width:660px;margin:12px 0 0;color:var(--ink-2);font-size:16.5px;}
+  /* ---------- sections (one workout block each) ---------- */
+  /* SECTION = one workout block (Get Low, Core, Legs…).
+     Uses the SAME class names as lessons 2/3/6 — .sec / .sec-head / .sec-min /
+     .sec-intro — so editing any lesson in this course feels identical.
+     .tag = the small colored label (.tag.getlow green, .tag.rise red)
+     .sec-title = the big block heading
+     .sec-min   = the "12 min" time, pushed right with margin-left:auto
+     .sec-intro = the gray lead sentence under the heading. */
+  .sec{padding:44px 0;border-top:1px solid var(--line);scroll-margin-top:120px;}
+  .sec-head{display:flex;flex-wrap:wrap;align-items:baseline;gap:14px;margin-bottom:8px;}
+  .sec-head .tag{font-family:var(--mono);font-size:13px;font-weight:700;color:var(--coral);letter-spacing:.14em;}
+  .sec-head .tag.getlow{color:#0B7A3A;}
+  .sec-head .tag.rise{color:var(--pink);}
+  .sec-min{font-family:var(--mono);font-size:13px;color:var(--ink-2);margin-left:auto;}
+  .sec-intro{max-width:660px;margin:12px 0 0;color:var(--ink-2);font-size:16.5px;}
 
+  /* ═══ THE EXERCISE CARD ═══ every move is one <article class="ex">.
+     .ex-name = title · .idx = red superset number · .sub = italic subtitle
+     .donebox = the "Done" checkbox (its data-track id is what gets saved)
+     .ex-data = the chip row (Pace green, Effort red) · .cues = bullet setup
+     .cue = the italic coaching cue with orange quote-marks
+     .watch = orange "Watch the form" button · .mw = small inline watch link
+     .log  = the bottom strip with "Stopped at ___" blanks, used only on the
+             open-ended moves (drop sets, ladders, go-till-you-cant work). */
   .ex{border:1.5px solid var(--ink);background:var(--card);margin-top:22px;}
   .ex-body{padding:22px 24px;}
   .ex-top{display:flex;align-items:flex-start;gap:14px;}
@@ -149,6 +228,8 @@
   .fin-table td .foc{color:var(--ink-2);font-size:14.5px;}
 
   /* ---------- challenge ---------- */
+  /* THE CHALLENGE — the full-bleed gradient panel ("Still think 10s are too
+     light?"). Its background is the carnival gradient; text is forced white. */
   .calib{margin:48px 0;padding:38px 30px;background:linear-gradient(120deg,var(--pink) 0%,var(--coral) 52%,var(--sun) 100%);scroll-margin-top:120px;}
   .calib .eyebrow{color:#fff;opacity:.85;}
   .calib h2{font-family:var(--display);font-weight:900;text-transform:uppercase;font-size:clamp(28px,5.6vw,50px);line-height:.92;letter-spacing:-.02em;margin:12px 0 18px;color:#fff;}
@@ -159,6 +240,9 @@
   .calib .mensline b{font-family:var(--mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;}
 
   /* ---------- want more / upsell ---------- */
+  /* WANT MORE — the upsell block with the two offer cards.
+     TODO before launch: the .buy links are href="#" placeholders — point them
+     at your real payment links. */
   .more{padding:52px 0;scroll-margin-top:120px;}
   .more h2{font-family:var(--display);font-weight:900;text-transform:uppercase;font-size:clamp(28px,5.6vw,50px);line-height:.92;letter-spacing:-.02em;margin:12px 0 8px;}
   .more .lede{max-width:660px;color:var(--ink-2);font-size:17px;margin:0 0 26px;}
@@ -209,8 +293,8 @@
   @media print{
     body{background:#fff;color:#000;font-size:12px;}
     .wrap{max-width:none;padding:0 12px;}
-    .hero::before,.stripe,.quicknav,.watch,.printbtn,.more{display:none;}
-    .hero,.block,.calib{padding:16px 0;}
+    .hero::before,.stripe,.jump,.watch,.printbtn,.more{display:none;}
+    .hero,.sec,.calib{padding:16px 0;}
     .shine{-webkit-text-fill-color:#000;color:#000;background:none;}
     .ex,.fin-table,.calib,.mens{break-inside:avoid;background:#fff;border:2px solid #000;}
     details.info,details.why{display:block;}
@@ -222,6 +306,9 @@
   }
 
   /* ---- inline hold timers ---- */
+  /* TIMER BUTTON (.tbtn) — tap-to-start countdown on timed holds. Three
+     JS states: default → .running (lime) → .done (red + beep, then resets).
+     Logic lives in the SHARED timer JS near the bottom (see its banner). */
   .tbtn{display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--ink);background:var(--card);border:1.5px solid var(--ink);padding:3px 9px;margin-left:8px;cursor:pointer;vertical-align:baseline;line-height:1.4;}
   .tbtn:hover{background:var(--sun);border-color:var(--sun);}
   .tbtn.running{background:var(--lime);border-color:var(--ink);}
@@ -232,6 +319,11 @@
   .cue::before{content:"\201C";color:var(--coral);font-family:var(--display);font-weight:900;font-size:1.3em;margin-right:2px;}
   .cue::after{content:"\201D";color:var(--coral);font-family:var(--display);font-weight:900;font-size:1.3em;margin-left:2px;}
   .fert{display:inline-block;font-family:var(--mono);font-size:9.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;background:rgba(147,213,0,.22);border:1.5px solid var(--lime);color:#3f5c00;padding:2px 7px;margin-left:8px;vertical-align:middle;white-space:nowrap;}
+
+  .homebar{position:sticky;top:0;z-index:60;background:var(--ink);color:var(--paper);}
+  .homebar a{display:inline-flex;align-items:center;gap:8px;color:var(--paper);text-decoration:none;font-family:var(--mono);font-size:11.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:10px 18px;}
+  .homebar a:hover{color:var(--sun);}
+  .homebar a::before{content:"\2190";font-size:14px;}
 </style>
 </head>
 <body>
@@ -297,32 +389,34 @@
   </header>
 
   <!-- ============ STICKY QUICK NAV ============ -->
-  <nav class="quicknav" aria-label="Workout quick navigation">
-    <div class="qn-row">
-      <a class="qn-btn" href="#getlow" data-block="getlow"><span class="dot"></span>Get Low</a>
-      <a class="qn-btn" href="#core" data-block="core"><span class="dot"></span>Core</a>
-      <a class="qn-btn" href="#legs" data-block="legs"><span class="dot"></span>Legs</a>
-      <a class="qn-btn" href="#push" data-block="push"><span class="dot"></span>Push</a>
-      <a class="qn-btn" href="#back" data-block="back"><span class="dot"></span>Pull</a>
-      <a class="qn-btn" href="#shoulders" data-block="shoulders"><span class="dot"></span>Delts</a>
-      <a class="qn-btn" href="#rise" data-block="rise"><span class="dot"></span>Rise</a>
-      <a class="qn-btn" href="#challenge">Challenge</a>
-      <a class="qn-btn more" href="#more">Want more?</a>
+  <nav class="jump" aria-label="Workout quick navigation">
+    <div class="jump-row">
+      <a class="jump-btn" href="#getlow" data-go="getlow"><span class="dot"></span>Get Low</a>
+      <a class="jump-btn" href="#core" data-go="core"><span class="dot"></span>Core</a>
+      <a class="jump-btn" href="#legs" data-go="legs"><span class="dot"></span>Legs</a>
+      <a class="jump-btn" href="#push" data-go="push"><span class="dot"></span>Push</a>
+      <a class="jump-btn" href="#back" data-go="back"><span class="dot"></span>Pull</a>
+      <a class="jump-btn" href="#shoulders" data-go="shoulders"><span class="dot"></span>Delts</a>
+      <a class="jump-btn" href="#rise" data-go="rise"><span class="dot"></span>Rise</a>
+      <a class="jump-btn" href="#challenge">Challenge</a>
+      <a class="jump-btn more" href="#more">Want more?</a>
     </div>
     <div class="progresswrap"><div class="progressbar" id="pbar"></div></div>
     <div class="prog-label"><span id="plabel">0 of 9 done</span><button id="preset" type="button">reset</button></div>
   </nav>
 
   <hr class="stripe" />
+<nav class="homebar"><a href="course.html#curriculum">To the Academy</a></nav>
+
 
   <!-- ============ GET LOW ============ -->
-  <section class="block" id="getlow">
-    <div class="block-head">
+  <section class="sec" id="getlow">
+    <div class="sec-head">
       <span class="tag getlow">GET LOW</span>
-      <h2 class="block-title">Move Prep</h2>
-      <span class="block-min">5–7 min</span>
+      <h2 class="sec-title">Move Prep</h2>
+      <span class="sec-min">5–7 min</span>
     </div>
-    <p class="block-intro">This is where your wine lives — low, loose, and in control, without your knees or back paying for it later.</p>
+    <p class="sec-intro">This is where your wine lives — low, loose, and in control, without your knees or back paying for it later.</p>
     <div class="prebegin">
       <h3>Before you begin</h3>
       <p>Today's warm-up prepares your body for today's workout — not for a flexibility contest.</p>
@@ -352,21 +446,21 @@
         </ul>
         <p class="ready">Ready to build? If you're breathing a little harder and your joints feel smoother — not tired — you warmed up just right.</p>
         <!-- TODO: fill in the creator's real name + IG handle; publish this block only once he has said yes -->
-        <p class="credit"><b>Sequence credit</b>The <b>deep-squat flow</b> in this warm-up (and the squat holds in the mobility sequence) is adapted from a free sequence by <a href="https://www.instagram.com/" target="_blank" rel="noopener">@creator-handle</a> on Instagram — go follow him. The rest of the class is mine. Used with permission.</p>
+        <p class="credit"><b>Sequence credit</b>The <b>deep-squat flow</b> in this warm-up — wide, narrow, and staggered squat holds through shoulder-blade push-ups — is adapted from a free sequence by <a href="https://www.instagram.com/reel/DaKoT-RgBoD/?igsh=MXZ3bW83YWFsdjU1bg==" target="_blank" rel="noopener">@cali.hoss</a> on Instagram — go follow him. The Cossack shift is my own addition. Used with permission.</p>
         <details class="why"><summary>Why this matters</summary><p>Opening the ankles, hips, and inner thighs lets you get low and wine back up without asking one cranky joint to do all the work.</p></details>
-        <a class="watch" href="https://www.instagram.com/" target="_blank" rel="noopener">Watch the full sequence</a><!-- TODO: point at the creator’s IG post once permission is confirmed -->
+        <a class="watch" href="https://www.instagram.com/reel/DaKoT-RgBoD/?igsh=MXZ3bW83YWFsdjU1bg==" target="_blank" rel="noopener">Watch the full sequence</a>
       </div>
     </article>
   </section>
 
   <!-- ============ CORE (part of Build) ============ -->
-  <section class="block" id="core">
-    <div class="block-head">
+  <section class="sec" id="core">
+    <div class="sec-head">
       <span class="tag">BUILD</span>
-      <h2 class="block-title">Core Activation</h2>
-      <span class="block-min">3–5 min</span>
+      <h2 class="sec-title">Core Activation</h2>
+      <span class="sec-min">3–5 min</span>
     </div>
-    <p class="block-intro">Wake the deep core first — everything that follows leans on it. Not about a six-pack; about the inner corset.</p>
+    <p class="sec-intro">Wake the deep core first — everything that follows leans on it. Not about a six-pack; about the inner corset.</p>
     <article class="ex" data-ex="core">
       <div class="ex-body">
         <div class="ex-top">
@@ -386,11 +480,11 @@
   </section>
 
   <!-- ============ LEGS ============ -->
-  <section class="block" id="legs">
-    <div class="block-head">
+  <section class="sec" id="legs">
+    <div class="sec-head">
       <span class="tag">BUILD</span>
-      <h2 class="block-title">Legs</h2>
-      <span class="block-min">12 min</span>
+      <h2 class="sec-title">Legs</h2>
+      <span class="sec-min">12 min</span>
     </div>
 
     <article class="ex" data-ex="bss">
@@ -451,11 +545,11 @@
   </section>
 
   <!-- ============ PUSH ============ -->
-  <section class="block" id="push">
-    <div class="block-head">
+  <section class="sec" id="push">
+    <div class="sec-head">
       <span class="tag">BUILD</span>
-      <h2 class="block-title">Push</h2>
-      <span class="block-min">10 min</span>
+      <h2 class="sec-title">Push</h2>
+      <span class="sec-min">10 min</span>
     </div>
     <article class="ex" data-ex="pushup">
       <div class="ex-body">
@@ -484,11 +578,11 @@
   </section>
 
   <!-- ============ BACK ============ -->
-  <section class="block" id="back">
-    <div class="block-head">
+  <section class="sec" id="back">
+    <div class="sec-head">
       <span class="tag">BUILD</span>
-      <h2 class="block-title">Pull</h2>
-      <span class="block-min">10 min</span>
+      <h2 class="sec-title">Pull</h2>
+      <span class="sec-min">10 min</span>
     </div>
 
     <article class="ex" data-ex="row">
@@ -541,11 +635,11 @@
   </section>
 
   <!-- ============ SHOULDERS ============ -->
-  <section class="block" id="shoulders">
-    <div class="block-head">
+  <section class="sec" id="shoulders">
+    <div class="sec-head">
       <span class="tag">BUILD</span>
-      <h2 class="block-title">Shoulders</h2>
-      <span class="block-min">5–7 min</span>
+      <h2 class="sec-title">Shoulders</h2>
+      <span class="sec-min">5–7 min</span>
     </div>
     <article class="ex" data-ex="raise">
       <div class="ex-body">
@@ -573,13 +667,13 @@
   </section>
 
   <!-- ============ RISE (finisher + cool-down) ============ -->
-  <section class="block" id="rise">
-    <div class="block-head">
+  <section class="sec" id="rise">
+    <div class="sec-head">
       <span class="tag rise">RISE</span>
-      <h2 class="block-title">The Finisher</h2>
-      <span class="block-min">3–5 min</span>
+      <h2 class="sec-title">The Finisher</h2>
+      <span class="sec-min">3–5 min</span>
     </div>
-    <p class="block-intro">The jump. Everything you built, put into power — this is the road in miniature. Then you're done: go get your drink and cool down properly.</p>
+    <p class="sec-intro">The jump. Everything you built, put into power — this is the road in miniature. Then you're done: go get your drink and cool down properly.</p>
 
     <article class="ex" data-ex="finisher">
       <div class="ex-body">
@@ -692,6 +786,7 @@
       <button class="printbtn" onclick="window.print()">Print / Save PDF</button>
     </div>
     <p class="disclaim">Adjust range, jumping, and depth based on how your toe, knee, hip, and shoulder feel. Pushing close to your limit and adding speed both carry some risk — keep the movement clean, and check with a professional first if anything hurts or you're unsure this suits you.</p>
+    <p class="disclaim" style="margin-top:10px;"><b>Before you start.</b> Turn Up the Life provides general fitness education, not medical advice or personal training. Talk to your doctor before beginning this or any exercise program, especially if you are pregnant, postpartum, over 40 and new to exercise, or managing a heart, joint, bone, or other health condition. Stop immediately and seek medical care for chest pain, dizziness, shortness of breath, or sharp/sudden pain. You are responsible for choosing weights, ranges of motion, and modifications appropriate to your own body. Turn Up the Life, its founder, and its instructors are not liable for injury arising from participation. If something doesn't feel right, don't push through it — modify, rest, or stop.</p>
   </footer>
 
 </div>
@@ -719,7 +814,7 @@
   }
 
   // block -> exercise ids, for the nav dots
-  var blockMap = {
+  var secMap = {
     getlow:['prep'], legs:['bss','sldl'], push:['pushup'],
     back:['row','pullover'], shoulders:['raise'], core:['core'], rise:['finisher']
   };
@@ -734,10 +829,10 @@
     var pct = boxes.length ? Math.round(done / boxes.length * 100) : 0;
     pbar.style.width = pct + '%';
     plabel.textContent = done + ' of ' + boxes.length + ' done' + (pct === 100 ? ' — road ready! 🎉' : '');
-    Object.keys(blockMap).forEach(function(blk){
-      var btn = document.querySelector('.qn-btn[data-block="' + blk + '"]');
+    Object.keys(secMap).forEach(function(blk){
+      var btn = document.querySelector('.jump-btn[data-go="' + blk + '"]');
       if(!btn) return;
-      var all = blockMap[blk].every(function(id){ return !!state[id]; });
+      var all = secMap[blk].every(function(id){ return !!state[id]; });
       btn.classList.toggle('done', all);
     });
   }
@@ -762,33 +857,31 @@
 
 <script>
 (function(){
-  function beep(){
-    try{
-      var C=window.AudioContext||window.webkitAudioContext; if(!C) return;
-      var a=new C(),o=a.createOscillator(),g=a.createGain();
-      o.connect(g);g.connect(a.destination);o.type='sine';o.frequency.value=880;
-      g.gain.setValueAtTime(.25,a.currentTime);
-      g.gain.exponentialRampToValueAtTime(.0001,a.currentTime+.5);
-      o.start();o.stop(a.currentTime+.5);
-    }catch(e){}
-  }
+  // ██████████████████████████████████████████████████████████████████████
+  // DO NOT EDIT HERE — SHARED TIMER JS
+  // beep() + fmt() + the .tbtn click handler are copied byte-for-byte in
+  // trial-class / lesson-2 / lesson-3 / lesson-6. Change all four together.
+  // What it does: any element with class "tbtn" and data-secs="N" becomes a
+  // tap-to-start countdown (used on every timed hold). data-label is the
+  // resting text; it flashes "done" + beeps at zero, then resets.
+  // ██████████████████████████████████████████████████████████████████████
+  // hold timers
+  function beep(){try{var C=window.AudioContext||window.webkitAudioContext;if(!C)return;var a=new C(),o=a.createOscillator(),g=a.createGain();o.connect(g);g.connect(a.destination);o.type='sine';o.frequency.value=880;g.gain.setValueAtTime(.25,a.currentTime);g.gain.exponentialRampToValueAtTime(.0001,a.currentTime+.5);o.start();o.stop(a.currentTime+.5);}catch(e){}}
   function fmt(s){var m=Math.floor(s/60),r=s%60;return m>0?(m+':'+(r<10?'0':'')+r):(''+r);}
   document.addEventListener('click',function(e){
     var b=e.target.closest('.tbtn'); if(!b) return;
-    if(b.dataset.state==='running') return; // ignore taps mid-run
+    if(b.dataset.state==='running') return;
     var secs=parseInt(b.getAttribute('data-secs'),10)||20;
     var label=b.getAttribute('data-label')||'hold';
-    var left=secs; b.dataset.state='running'; b.classList.remove('done'); b.classList.add('running');
-    b.textContent=fmt(left);
+    var left=secs; b.dataset.state='running'; b.classList.remove('done'); b.classList.add('running'); b.textContent=fmt(left);
     var id=setInterval(function(){
       left--;
-      if(left<=0){
-        clearInterval(id); b.dataset.state=''; b.classList.remove('running'); b.classList.add('done');
-        b.textContent='done'; beep();
-        setTimeout(function(){ b.classList.remove('done'); b.textContent=label; },2500);
+      if(left<=0){clearInterval(id);b.dataset.state='';b.classList.remove('running');b.classList.add('done');b.textContent='done';beep();
+        setTimeout(function(){b.classList.remove('done');b.textContent=label;},2500);
       } else { b.textContent=fmt(left); }
     },1000);
   });
+
 })();
 </script>
 

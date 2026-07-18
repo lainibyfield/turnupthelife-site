@@ -4,6 +4,53 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>The Planner — Build a Day</title>
+<!--
+  ============================================================================
+  THE PLANNER — planner-builder.html   (The Livitarian Way)
+  ============================================================================
+  WHAT THIS FILE IS
+    The interactive day-builder. You pick three ANCHORS plus one MODULE and it
+    tallies protein + calories and checks your rules as you go.
+
+  ═══ THE BIG IDEA (this is the method, in code) ═══
+    Meals are chosen by SIZE, not by time of day. There is no "breakfast"
+    slot — there is a LIGHT anchor, a MIDDLE anchor, a HEAVY anchor, and a
+    MODULE. Eat them whenever your day wants them. That belief is encoded in
+    the SLOTS array below: each slot says which weight classes it will accept.
+
+  ═══ THE FOUR MOVING PARTS ═══
+    RECIPES  — the pickable recipes (name, cls, g protein, kcal, fams).
+               Same numbers as the Matrix; keep them in sync by hand.
+    DAY      — the two day-types and their targets:
+                 low    = low-movement day  (~1,500–1,600 kcal, 130–140 g)
+                 active = training day      (~1,700–1,850 kcal, 140–150 g)
+               Change these numbers to retarget the whole planner.
+    SLOTS    — the four slots and what each will accept:
+                 B = Light anchor  · accepts B, L
+                 L = Middle anchor · accepts L, B, D
+                 D = Heavy anchor  · accepts D, D+, L
+                 M = Module        · accepts M (side/snack/tonic/dessert)
+    state    — what the user has picked so far: {day, picks:{B,L,D,M}}.
+
+  ═══ THE RULES IT ENFORCES ═══
+    • 3-FAMILY ROTATION — a day should draw on at least three different
+      protein families. famsInDay() collects the families of the current
+      picks; if one family (usually soy) shows up 3×, it flags a swap.
+    • D+ SHORTCUT — if the HEAVY anchor is a "D+" (extra heavy), it already
+      does the work of more of the day, so the targets ease off.
+      See dplusActive().
+    • TARGET RANGES — protein and calories are checked against DAY.
+
+  ═══ THE LOOP ═══
+    Click a slot → picker opens (classPool() lists only recipes whose class
+    that slot accepts) → pick one → state updates → render() redraws slots,
+    the tally bars, and the rule flags. Every change goes through render().
+
+  SAFE TO EDIT → RECIPES (add/fix recipes), DAY (retarget), the styling.
+  CAREFUL WITH → SLOTS: the accept lists are the method itself. Changing them
+                 changes what "a day" means.
+  ============================================================================
+-->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;800;900&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
@@ -14,7 +61,7 @@
     --display:'Archivo',system-ui,sans-serif;--body:'Newsreader',Georgia,serif;--mono:'JetBrains Mono',ui-monospace,monospace;
   }
   *{box-sizing:border-box;}
-  body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.5;-webkit-font-smoothing:antialiased;}
+  body{overflow-x:hidden;max-width:100%;margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.5;-webkit-font-smoothing:antialiased;}
   .wrap{max-width:820px;margin:0 auto;padding:0 18px 80px;}
   .stripe{height:5px;border:0;margin:0;background:linear-gradient(90deg,var(--sun),var(--coral) 28%,var(--pink) 52%,var(--aqua) 76%,var(--lime));}
   .shine{background:linear-gradient(100deg,var(--sun),var(--coral) 28%,var(--pink) 55%,var(--aqua) 85%);background-size:220% auto;-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent;animation:sh 7s linear infinite;}
@@ -79,10 +126,17 @@
   .reset{margin-top:22px;font-family:var(--mono);font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;background:none;border:2px solid var(--ink);padding:11px 16px;cursor:pointer;}
   .reset:hover{background:var(--ink);color:var(--paper);}
   .footnote{margin-top:24px;font-size:13px;color:var(--ink-2);line-height:1.5;border-top:1px solid var(--line);padding-top:16px;}
+
+  .homebar{position:sticky;top:0;z-index:60;background:var(--ink);color:var(--paper);}
+  .homebar a{display:inline-flex;align-items:center;gap:8px;color:var(--paper);text-decoration:none;font-family:var(--mono);font-size:11.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:10px 18px;}
+  .homebar a:hover{color:var(--sun);}
+  .homebar a::before{content:"\2190";font-size:14px;}
 </style>
 </head>
 <body>
 <hr class="stripe"/>
+<nav class="homebar"><a href="course.html#cookbook">Back to the Kitchen</a></nav>
+
 <div class="wrap">
   <header>
     <span class="kick">The Livitarian Way · The Planner</span>
@@ -119,26 +173,35 @@
 </div>
 
 <script>
-var RECIPES = [{"name": "Pumpkin Festival Soup", "cls": "D", "classraw": "D", "g": 42, "kcal": 500, "fams": ["beans", "soy"], "chapter": "Soup", "cost": "$", "isl": "native"}, {"name": "Pepper Pot Soup", "cls": "L", "classraw": "L", "g": 36, "kcal": 430, "fams": ["soy"], "chapter": "Soup", "cost": "$", "isl": "native"}, {"name": "Classic Corn Soup", "cls": "L", "classraw": "L", "g": 38, "kcal": 480, "fams": ["lentils", "peas", "soy"], "chapter": "Soup", "cost": "$", "isl": "native"}, {"name": "Stew Peas", "cls": "D", "classraw": "D", "g": 42, "kcal": 520, "fams": ["peas", "soy"], "chapter": "Soup", "cost": "$", "isl": "native"}, {"name": "Three Bean Chili", "cls": "D", "classraw": "D", "g": 40, "kcal": 480, "fams": ["beans", "soy"], "chapter": "Soup", "cost": "$", "isl": "swap"}, {"name": "Split Pea Soup", "cls": "L", "classraw": "L", "g": 35, "kcal": 400, "fams": ["peas", "soy"], "chapter": "Soup", "cost": "$", "isl": "swap"}, {"name": "Rundown", "cls": "L", "classraw": "B/L", "g": 34, "kcal": 440, "fams": ["chickpeas", "fish", "peas"], "chapter": "Soup", "cost": "$$", "isl": "native"}, {"name": "Doubles Chickpea Soup", "cls": "L", "classraw": "L", "g": 36, "kcal": 450, "fams": ["chickpeas", "peas", "soy"], "chapter": "Soup", "cost": "$", "isl": "native"}, {"name": "Pakasa / Soloby", "cls": "L", "classraw": "B/L", "g": 28, "kcal": 580, "fams": ["beans"], "chapter": "Soup", "cost": "$", "isl": "native"}, {"name": "Brown Stew Soy Curls, beans & rice", "cls": "D+", "classraw": "D+", "g": 50, "kcal": 680, "fams": ["peas", "soy"], "chapter": "Soup", "cost": "$$", "isl": "swap"}, {"name": "Signature Protein Salad", "cls": "B", "classraw": "B", "g": 34, "kcal": 410, "fams": ["soy"], "chapter": "Bowl", "cost": "$$$", "isl": "swap"}, {"name": "Burrito Bowl", "cls": "L", "classraw": "L", "g": 38, "kcal": 500, "fams": ["beans", "soy"], "chapter": "Bowl", "cost": "$$", "isl": "native"}, {"name": "Jerk Bowl", "cls": "D", "classraw": "D", "g": 42, "kcal": 540, "fams": ["beans", "soy"], "chapter": "Bowl", "cost": "$$", "isl": "native"}, {"name": "Jamaican Fried Rice", "cls": "L", "classraw": "L", "g": 36, "kcal": 520, "fams": ["soy"], "chapter": "Bowl", "cost": "$$", "isl": "native"}, {"name": "Jamaican-Chinese Stir Fry Bowl", "cls": "L", "classraw": "B/L", "g": 34, "kcal": 440, "fams": ["soy"], "chapter": "Bowl", "cost": "$$", "isl": "native"}, {"name": "Shepherd's Pie Bowl (cauliflower)", "cls": "D", "classraw": "D", "g": 40, "kcal": 450, "fams": ["lentils", "soy"], "chapter": "Bowl", "cost": "$", "isl": "native"}, {"name": "Plantain & Black Bean Bowl", "cls": "L", "classraw": "L", "g": 38, "kcal": 560, "fams": ["beans", "soy"], "chapter": "Bowl", "cost": "$$", "isl": "native"}, {"name": "Loaded Potato Bowl", "cls": "L", "classraw": "L", "g": 37, "kcal": 480, "fams": ["soy"], "chapter": "Bowl", "cost": "$", "isl": "swap"}, {"name": "Breakfast Hash Bowl", "cls": "B", "classraw": "B", "g": 33, "kcal": 430, "fams": ["soy"], "chapter": "Bowl", "cost": "$$", "isl": "native"}, {"name": "Mediterranean Bowl", "cls": "B", "classraw": "B", "g": 30, "kcal": 450, "fams": ["lentils"], "chapter": "Bowl", "cost": "$$", "isl": "swap"}, {"name": "Breakfast Wrap", "cls": "B", "classraw": "B", "g": 32, "kcal": 420, "fams": ["beans", "soy"], "chapter": "Wrap", "cost": "$$", "isl": "swap"}, {"name": "Jerk Tofu Wrap", "cls": "B", "classraw": "B", "g": 33, "kcal": 430, "fams": ["soy"], "chapter": "Wrap", "cost": "$$", "isl": "native"}, {"name": "Scotch Bonnet Wrap", "cls": "B", "classraw": "B", "g": 33, "kcal": 430, "fams": ["soy"], "chapter": "Wrap", "cost": "$$", "isl": "native"}, {"name": "Chickpea Salad Wrap", "cls": "B", "classraw": "B", "g": 28, "kcal": 420, "fams": ["chickpeas", "peas"], "chapter": "Wrap", "cost": "$", "isl": "native"}, {"name": "Fish Wrap", "cls": "L", "classraw": "B/L", "g": 34, "kcal": 420, "fams": ["fish"], "chapter": "Wrap", "cost": "$$", "isl": "native"}, {"name": "Breakfast Sandwich", "cls": "B", "classraw": "B", "g": 30, "kcal": 400, "fams": ["soy"], "chapter": "Sandwich", "cost": "$$", "isl": "swap"}, {"name": "Tofu BLT", "cls": "B", "classraw": "B", "g": 30, "kcal": 430, "fams": ["soy"], "chapter": "Sandwich", "cost": "$$", "isl": "swap"}, {"name": "Lentil Smash Burger (2 sliders)", "cls": "B", "classraw": "B/M", "g": 26, "kcal": 380, "fams": ["lentils"], "chapter": "Sandwich", "cost": "$", "isl": "native"}, {"name": "Potato Skins", "cls": "L", "classraw": "L", "g": 36, "kcal": 460, "fams": ["soy"], "chapter": "Comfort", "cost": "$", "isl": "swap"}, {"name": "Pizza", "cls": "D", "classraw": "D", "g": 40, "kcal": 620, "fams": ["soy"], "chapter": "Comfort", "cost": "$$", "isl": "swap"}, {"name": "Macaroni Pie", "cls": "L", "classraw": "L", "g": 35, "kcal": 520, "fams": ["soy"], "chapter": "Comfort", "cost": "$$", "isl": "swap"}, {"name": "Stuffed Peppers", "cls": "L", "classraw": "L", "g": 34, "kcal": 440, "fams": ["beans", "soy"], "chapter": "Comfort", "cost": "$$", "isl": "native"}, {"name": "High-Protein Patties (2)", "cls": "D", "classraw": "D", "g": 38, "kcal": 650, "fams": ["lentils", "soy"], "chapter": "Comfort", "cost": "$$", "isl": "native"}, {"name": "Curried \"Scallops\" over rice", "cls": "D", "classraw": "D", "g": 40, "kcal": 520, "fams": ["soy"], "chapter": "Comfort", "cost": "$$", "isl": "native"}, {"name": "Loaded Baked Potato", "cls": "L", "classraw": "L", "g": 36, "kcal": 480, "fams": ["soy"], "chapter": "Comfort", "cost": "$", "isl": "swap"}, {"name": "Chickpea Fries", "cls": "M", "classraw": "M", "g": 20, "kcal": 350, "fams": ["chickpeas", "peas"], "chapter": "Comfort", "cost": "$", "isl": "native"}, {"name": "Meatballs (tofu-lentil)", "cls": "L", "classraw": "L", "g": 36, "kcal": 480, "fams": ["lentils", "soy"], "chapter": "Comfort", "cost": "$", "isl": "native"}, {"name": "Potato Pudding Chia Cup", "cls": "M", "classraw": "M", "g": 12, "kcal": 290, "fams": ["milk", "seeds"], "chapter": "Dessert", "cost": "$", "isl": "native"}, {"name": "Peanut Punch (PB measured)", "cls": "M", "classraw": "M", "g": 17, "kcal": 330, "fams": ["peanut", "peas"], "chapter": "Drink", "cost": "$", "isl": "native"}, {"name": "Irish Moss Punch", "cls": "M", "classraw": "M", "g": 9, "kcal": 160, "fams": ["milk", "seamoss"], "chapter": "Drink", "cost": "$$", "isl": "native"}, {"name": "Smoothie (milk + fruit + flax)", "cls": "M", "classraw": "M", "g": 16, "kcal": 280, "fams": ["milk", "seeds"], "chapter": "Drink", "cost": "$$", "isl": "swap"}]; optional fish", "chapter": "Soups & Stews", "classraw": "D"}, {"name": "Doubles-Inspired Chickpea Soup", "cls": "D", "g": 42, "kcal": 640, "fams": ["chickpeas", "peas", "soy"], "famraw": "Chickpea + soy", "chapter": "Soups & Stews", "classraw": "L-D"}, {"name": "Pakasa (Soloby)", "cls": "M", "g": 22, "kcal": 230, "fams": ["beans", "soy"], "famraw": "Butter bean + tofu", "chapter": "Soups & Stews", "classraw": "Treat"}, {"name": "Brown Stew Soy Curls with Kidney Beans & Rice", "cls": "D+", "g": 50, "kcal": 760, "fams": ["beans", "soy"], "famraw": "Soy + kidney bean", "chapter": "Soups & Stews", "classraw": "D+"}, {"name": "Signature Protein Salad", "cls": "L", "g": 37, "kcal": 520, "fams": ["soy"], "famraw": "Soy", "chapter": "Bowls", "classraw": "B-L"}, {"name": "Burrito Bowl", "cls": "L", "g": 37, "kcal": 520, "fams": ["beans", "soy"], "famraw": "Soy + black bean", "chapter": "Bowls", "classraw": "L"}, {"name": "Jerk Bowl", "cls": "D", "g": 42, "kcal": 640, "fams": ["beans", "soy"], "famraw": "Soy + legume", "chapter": "Bowls", "classraw": "L-D"}, {"name": "Jamaican Fried Rice", "cls": "D", "g": 42, "kcal": 640, "fams": ["soy"], "famraw": "Soy", "chapter": "Bowls", "classraw": "L-D"}, {"name": "Jamaican-Chinese Stir Fry Bowl", "cls": "D", "g": 42, "kcal": 640, "fams": ["soy"], "famraw": "Soy", "chapter": "Bowls", "classraw": "L-D"}, {"name": "Shepherd's Pie Bowl", "cls": "D", "g": 42, "kcal": 640, "fams": ["lentils", "soy"], "famraw": "Lentil + soy", "chapter": "Bowls", "classraw": "L-D"}, {"name": "Plantain & Black Bean Bowl", "cls": "D", "g": 42, "kcal": 640, "fams": ["beans", "soy"], "famraw": "Soy + black bean", "chapter": "Bowls", "classraw": "L-D"}, {"name": "Loaded Potato Bowl", "cls": "D", "g": 42, "kcal": 640, "fams": ["soy"], "famraw": "Soy", "chapter": "Bowls", "classraw": "L-D"}, {"name": "Breakfast Hash Bowl", "cls": "L", "g": 37, "kcal": 520, "fams": ["soy"], "famraw": "Soy", "chapter": "Bowls", "classraw": "B-L"}, {"name": "Breakfast Wrap", "cls": "B", "g": 32, "kcal": 420, "fams": ["beans", "soy"], "famraw": "Soy + black bean", "chapter": "Wraps & Sandwiches", "classraw": "B"}, {"name": "Jerk Tofu Wrap", "cls": "L", "g": 37, "kcal": 520, "fams": ["soy"], "famraw": "Soy", "chapter": "Wraps & Sandwiches", "classraw": "L"}, {"name": "Scotch Bonnet Wrap", "cls": "L", "g": 37, "kcal": 520, "fams": ["soy"], "famraw": "Soy", "chapter": "Wraps & Sandwiches", "classraw": "L"}, {"name": "Chickpea Salad Wrap", "cls": "L", "g": 37, "kcal": 520, "fams": ["chickpeas", "peas", "soy"], "famraw": "Chickpea + soy sauce", "chapter": "Wraps & Sandwiches", "classraw": "B-L"}, {"name": "Certified Small-Fish Wrap", "cls": "L", "g": 37, "kcal": 520, "fams": ["beans", "fish"], "famraw": "Fish + bean", "chapter": "Wraps & Sandwiches", "classraw": "L"}, {"name": "Tofu Breakfast Sandwich", "cls": "B", "g": 32, "kcal": 420, "fams": ["soy"], "famraw": "Soy", "chapter": "Wraps & Sandwiches", "classraw": "B"}, {"name": "Tofu BLT", "cls": "L", "g": 37, "kcal": 520, "fams": ["soy"], "famraw": "Soy", "chapter": "Wraps & Sandwiches", "classraw": "L"}, {"name": "Lentil Smash Burger", "cls": "L", "g": 37, "kcal": 520, "fams": ["lentils"], "famraw": "Lentil + oat", "chapter": "Wraps & Sandwiches", "classraw": "L"}, {"name": "Smoky Tofu-Bacon Potato Skins", "cls": "L", "g": 37, "kcal": 520, "fams": ["soy"], "famraw": "Soy", "chapter": "Comfort Food", "classraw": "B-L"}, {"name": "Livity Pizza", "cls": "D", "g": 42, "kcal": 640, "fams": ["soy"], "famraw": "Soy + grain", "chapter": "Comfort Food", "classraw": "D"}, {"name": "Caribbean Macaroni Pie", "cls": "D", "g": 42, "kcal": 640, "fams": ["soy"], "famraw": "Soy + pasta", "chapter": "Comfort Food", "classraw": "D"}, {"name": "Protein-Stuffed Peppers", "cls": "D", "g": 42, "kcal": 640, "fams": ["lentils", "soy"], "famraw": "Lentil + soy", "chapter": "Comfort Food", "classraw": "D"}, {"name": "Patty Loaf", "cls": "D", "g": 42, "kcal": 640, "fams": ["lentils", "soy"], "famraw": "Lentil + soy", "chapter": "Comfort Food", "classraw": "D"}, {"name": "High-Protein Patties: Rice-Paper Version", "cls": "D", "g": 42, "kcal": 640, "fams": ["lentils", "soy"], "famraw": "Lentil + soy", "chapter": "Comfort Food", "classraw": "L-D"}, {"name": "High-Protein Patties: Phyllo Triangles", "cls": "D", "g": 42, "kcal": 640, "fams": ["lentils", "soy"], "famraw": "Lentil + soy", "chapter": "Comfort Food", "classraw": "L-D"}, {"name": "High-Protein Patties: Whole-Wheat Crust", "cls": "D", "g": 42, "kcal": 640, "fams": ["lentils", "soy"], "famraw": "Lentil + soy", "chapter": "Comfort Food", "classraw": "D"}, {"name": "Curried TVP “Scallops”", "cls": "D", "g": 42, "kcal": 640, "fams": ["soy"], "famraw": "Soy", "chapter": "Comfort Food", "classraw": "D"}, {"name": "Loaded Baked Potato", "cls": "D", "g": 42, "kcal": 640, "fams": ["soy"], "famraw": "Soy", "chapter": "Comfort Food", "classraw": "L-D"}, {"name": "Baked Chickpea Fries", "cls": "L", "g": 37, "kcal": 520, "fams": ["chickpeas", "peas"], "famraw": "Chickpea", "chapter": "Comfort Food", "classraw": "M-L"}, {"name": "Tofu-Lentil Meatballs", "cls": "D", "g": 42, "kcal": 640, "fams": ["lentils", "soy"], "famraw": "Lentil + soy", "chapter": "Comfort Food", "classraw": "D"}, {"name": "Potato Pudding Chia Cup", "cls": "M", "g": 22, "kcal": 230, "fams": ["other"], "famraw": "Seed + plant milk", "chapter": "Desserts", "classraw": "M"}, {"name": "Measured Peanut Punch", "cls": "M", "g": 22, "kcal": 230, "fams": ["peanut", "peas", "soy"], "famraw": "Peanut + soy milk", "chapter": "Tonics & Drinks", "classraw": "M"}, {"name": "Irish Moss Protein Punch", "cls": "M", "g": 22, "kcal": 230, "fams": ["soy"], "famraw": "Soy milk + sea vegetable", "chapter": "Tonics & Drinks", "classraw": "M"}];
+var RECIPES = [{"name": "Pumpkin Festival Soup", "cls": "D", "classraw": "D", "g": 42, "kcal": 500, "fams": ["beans", "soy"], "chapter": "Soup", "cost": "$", "isl": "native"}, {"name": "Pepper Pot Soup", "cls": "L", "classraw": "L", "g": 36, "kcal": 430, "fams": ["soy"], "chapter": "Soup", "cost": "$", "isl": "native"}, {"name": "Classic Corn Soup", "cls": "L", "classraw": "L", "g": 38, "kcal": 480, "fams": ["lentils", "peas", "soy"], "chapter": "Soup", "cost": "$", "isl": "native"}, {"name": "Stew Peas", "cls": "D", "classraw": "D", "g": 42, "kcal": 520, "fams": ["peas", "soy"], "chapter": "Soup", "cost": "$", "isl": "native"}, {"name": "Three Bean Chili", "cls": "D", "classraw": "D", "g": 40, "kcal": 480, "fams": ["beans", "soy"], "chapter": "Soup", "cost": "$", "isl": "swap"}, {"name": "Split Pea Soup", "cls": "L", "classraw": "L", "g": 35, "kcal": 400, "fams": ["peas", "soy"], "chapter": "Soup", "cost": "$", "isl": "swap"}, {"name": "Rundown", "cls": "L", "classraw": "B/L", "g": 34, "kcal": 440, "fams": ["chickpeas", "fish", "peas"], "chapter": "Soup", "cost": "$$", "isl": "native"}, {"name": "Doubles Chickpea Soup", "cls": "L", "classraw": "L", "g": 36, "kcal": 450, "fams": ["chickpeas", "peas", "soy"], "chapter": "Soup", "cost": "$", "isl": "native"}, {"name": "Pakasa / Soloby", "cls": "L", "classraw": "B/L", "g": 28, "kcal": 580, "fams": ["beans"], "chapter": "Soup", "cost": "$", "isl": "native"}, {"name": "Brown Stew Soy Curls, beans & rice", "cls": "D+", "classraw": "D+", "g": 50, "kcal": 680, "fams": ["peas", "soy"], "chapter": "Soup", "cost": "$$", "isl": "swap"}, {"name": "Signature Protein Salad", "cls": "B", "classraw": "B", "g": 34, "kcal": 410, "fams": ["soy"], "chapter": "Bowl", "cost": "$$$", "isl": "swap"}, {"name": "Burrito Bowl", "cls": "L", "classraw": "L", "g": 38, "kcal": 500, "fams": ["beans", "soy"], "chapter": "Bowl", "cost": "$$", "isl": "native"}, {"name": "Jerk Bowl", "cls": "D", "classraw": "D", "g": 42, "kcal": 540, "fams": ["beans", "soy"], "chapter": "Bowl", "cost": "$$", "isl": "native"}, {"name": "Jamaican Fried Rice", "cls": "L", "classraw": "L", "g": 36, "kcal": 520, "fams": ["soy"], "chapter": "Bowl", "cost": "$$", "isl": "native"}, {"name": "Jamaican-Chinese Stir Fry Bowl", "cls": "L", "classraw": "B/L", "g": 34, "kcal": 440, "fams": ["soy"], "chapter": "Bowl", "cost": "$$", "isl": "native"}, {"name": "Shepherd's Pie Bowl (cauliflower)", "cls": "D", "classraw": "D", "g": 40, "kcal": 450, "fams": ["lentils", "soy"], "chapter": "Bowl", "cost": "$", "isl": "native"}, {"name": "Plantain & Black Bean Bowl", "cls": "L", "classraw": "L", "g": 38, "kcal": 560, "fams": ["beans", "soy"], "chapter": "Bowl", "cost": "$$", "isl": "native"}, {"name": "Loaded Potato Bowl", "cls": "L", "classraw": "L", "g": 37, "kcal": 480, "fams": ["soy"], "chapter": "Bowl", "cost": "$", "isl": "swap"}, {"name": "Breakfast Hash Bowl", "cls": "B", "classraw": "B", "g": 33, "kcal": 430, "fams": ["soy"], "chapter": "Bowl", "cost": "$$", "isl": "native"}, {"name": "Mediterranean Bowl", "cls": "B", "classraw": "B", "g": 30, "kcal": 450, "fams": ["lentils"], "chapter": "Bowl", "cost": "$$", "isl": "swap"}, {"name": "Breakfast Wrap", "cls": "B", "classraw": "B", "g": 32, "kcal": 420, "fams": ["beans", "soy"], "chapter": "Wrap", "cost": "$$", "isl": "swap"}, {"name": "Jerk Tofu Wrap", "cls": "B", "classraw": "B", "g": 33, "kcal": 430, "fams": ["soy"], "chapter": "Wrap", "cost": "$$", "isl": "native"}, {"name": "Scotch Bonnet Wrap", "cls": "B", "classraw": "B", "g": 33, "kcal": 430, "fams": ["soy"], "chapter": "Wrap", "cost": "$$", "isl": "native"}, {"name": "Chickpea Salad Wrap", "cls": "B", "classraw": "B", "g": 28, "kcal": 420, "fams": ["chickpeas", "peas"], "chapter": "Wrap", "cost": "$", "isl": "native"}, {"name": "Fish Wrap", "cls": "L", "classraw": "B/L", "g": 34, "kcal": 420, "fams": ["fish"], "chapter": "Wrap", "cost": "$$", "isl": "native"}, {"name": "Breakfast Sandwich", "cls": "B", "classraw": "B", "g": 30, "kcal": 400, "fams": ["soy"], "chapter": "Sandwich", "cost": "$$", "isl": "swap"}, {"name": "Tofu BLT", "cls": "B", "classraw": "B", "g": 30, "kcal": 430, "fams": ["soy"], "chapter": "Sandwich", "cost": "$$", "isl": "swap"}, {"name": "Lentil Smash Burger (2 sliders)", "cls": "B", "classraw": "B/M", "g": 26, "kcal": 380, "fams": ["lentils"], "chapter": "Sandwich", "cost": "$", "isl": "native"}, {"name": "Potato Skins", "cls": "L", "classraw": "L", "g": 36, "kcal": 460, "fams": ["soy"], "chapter": "Comfort", "cost": "$", "isl": "swap"}, {"name": "Pizza", "cls": "D", "classraw": "D", "g": 40, "kcal": 620, "fams": ["soy"], "chapter": "Comfort", "cost": "$$", "isl": "swap"}, {"name": "Macaroni Pie", "cls": "L", "classraw": "L", "g": 35, "kcal": 520, "fams": ["soy"], "chapter": "Comfort", "cost": "$$", "isl": "swap"}, {"name": "Stuffed Peppers", "cls": "L", "classraw": "L", "g": 34, "kcal": 440, "fams": ["beans", "soy"], "chapter": "Comfort", "cost": "$$", "isl": "native"}, {"name": "High-Protein Patties (2)", "cls": "D", "classraw": "D", "g": 38, "kcal": 650, "fams": ["lentils", "soy"], "chapter": "Comfort", "cost": "$$", "isl": "native"}, {"name": "Curried \"Scallops\" over rice", "cls": "D", "classraw": "D", "g": 40, "kcal": 520, "fams": ["soy"], "chapter": "Comfort", "cost": "$$", "isl": "native"}, {"name": "Loaded Baked Potato", "cls": "L", "classraw": "L", "g": 36, "kcal": 480, "fams": ["soy"], "chapter": "Comfort", "cost": "$", "isl": "swap"}, {"name": "Chickpea Fries", "cls": "M", "classraw": "M", "g": 20, "kcal": 350, "fams": ["chickpeas", "peas"], "chapter": "Comfort", "cost": "$", "isl": "native"}, {"name": "Meatballs (tofu-lentil)", "cls": "L", "classraw": "L", "g": 36, "kcal": 480, "fams": ["lentils", "soy"], "chapter": "Comfort", "cost": "$", "isl": "native"}, {"name": "Potato Pudding Chia Cup", "cls": "M", "classraw": "M", "g": 12, "kcal": 290, "fams": ["milk", "seeds"], "chapter": "Dessert", "cost": "$", "isl": "native"}, {"name": "Peanut Punch (PB measured)", "cls": "M", "classraw": "M", "g": 17, "kcal": 330, "fams": ["peanut", "peas"], "chapter": "Drink", "cost": "$", "isl": "native"}, {"name": "Irish Moss Punch", "cls": "M", "classraw": "M", "g": 9, "kcal": 160, "fams": ["milk", "seamoss"], "chapter": "Drink", "cost": "$$", "isl": "native"}, {"name": "Smoothie (milk + fruit + flax)", "cls": "M", "classraw": "M", "g": 16, "kcal": 280, "fams": ["milk", "seeds"], "chapter": "Drink", "cost": "$$", "isl": "swap"}];
 
+var FAM_LABEL={soy:'soy',beans:'beans',peas:'peas',lentils:'lentils',chickpeas:'chickpeas',peanut:'peanut',fish:'fish',seamoss:'sea moss',coconut:'coconut',milk:'milk',seeds:'seeds',other:'other'};
+
+// THE TARGETS — change these numbers to retarget the whole planner.
 var DAY = {
   low:    {pMin:130,pMax:140,kMin:1500,kMax:1600,pGoal:"/ 130–140 g protein",kGoal:"/ 1,500–1,600 kcal"},
   active: {pMin:140,pMax:150,kMin:1700,kMax:1850,pGoal:"/ 140–150 g protein",kGoal:"/ 1,700–1,850 kcal"}
 };
+// THE SLOTS — anchors by SIZE, not time of day. 'accept' = which weight
+// classes may fill this slot. This encodes the method; change with care.
 var SLOTS = [
   {id:'B', role:'Light anchor',   hint:'the lightest plate · class B', accept:['B','L']},
   {id:'L', role:'Middle anchor',  hint:'a mid-weight plate · class L', accept:['L','B','D']},
   {id:'D', role:'Heavy anchor',   hint:'the biggest plate · class D / D+', accept:['D','D+','L']},
   {id:'M', role:'Module',         hint:'side · snack · tonic · dessert · class M', accept:['M']}
 ];
-var FAM_LABEL={soy:'soy',beans:'beans',peas:'peas',lentils:'lentils',chickpeas:'chickpeas',peanut:'peanut',fish:'fish',seamoss:'sea moss',coconut:'coconut',other:'other'};
 
+// WHAT THE USER HAS PICKED SO FAR. Every interaction edits this, then render().
 var state = { day:'low', picks:{B:null,L:null,D:null,M:null}, openSlot:null };
 
+// Which recipes may fill a slot: only those whose class is in the slot's
+// accept list. This is what the picker shows you.
 function classPool(accept){
   return RECIPES.filter(function(r){ return accept.indexOf(r.cls)>-1; })
     .sort(function(a,b){ return a.name.localeCompare(b.name); });
 }
+// THE ROTATION RULE — gather the protein families across today's picks so
+// we can warn when one family (usually soy) is carrying the whole day.
 function famsInDay(exceptSlot){
   var fams={};
   Object.keys(state.picks).forEach(function(k){
@@ -148,8 +211,12 @@ function famsInDay(exceptSlot){
   });
   return fams;
 }
+// THE D+ SHORTCUT — an extra-heavy anchor already covers more of the day,
+// so the targets relax when one is picked.
 function dplusActive(){ return state.picks.D && state.picks.D.cls==='D+'; }
 
+// THE REDRAW — rebuilds the four slots, the protein/calorie tallies, and the
+// rule flags from `state`. Everything funnels through here after any click.
 function render(){
   var d=DAY[state.day];
   // tally

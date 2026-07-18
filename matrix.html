@@ -4,6 +4,54 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>The Matrix — The Livitarian Way</title>
+<!--
+  ============================================================================
+  THE MATRIX — matrix.html   (The Livitarian Way)
+  ============================================================================
+  WHAT THIS FILE IS
+    Every recipe in one filterable, sortable table. This is the reference
+    tool: "show me the cheap freezer-friendly heavy dinners with no soy."
+
+  ═══ THE DATA MODEL — READ THIS FIRST ═══
+    All 48 recipes live in ONE array called DATA, near the top of <script>.
+    Every recipe is one object. Here is what each field means:
+
+      name      "Stew Peas"        the recipe title
+      chapter   "Soup"             which cookbook chapter it belongs to
+      protfam   "red peas + soy"   human-readable protein source
+      fams      ["peas","soy"]     the SAME thing as machine tags — this is
+                                   what the protein-family filter searches
+      tier      "2"                Livitarian tier (1 = simplest/cleanest)
+      prot      42                 grams of protein   ← planning estimate
+      kcal      520                calories           ← planning estimate
+      cls       "D"                weight class: B(light) L(middle)
+                                   D(heavy) D+(extra heavy) M(module)
+                                   — some are dual like "B/L"
+      primcls   "D"                the SINGLE class used for sorting/anchors
+                                   (dual classes collapse to the heavier end)
+      cost      "$"                $ / $$ / $$$
+      batch     1                  1 = batch-cooks well, 0 = no
+      frz       1                  1 = freezes well
+      low / act 1                  fits a low-movement day / an active day
+      brk/lun/din 1                works at breakfast / lunch / dinner
+      isl       "native"           "native" = naturally Caribbean,
+                                   "swap"  = adapted with a substitution
+
+    TO ADD A RECIPE: copy an existing object, change the values, done.
+    TO FIX A NUMBER: edit prot/kcal here. NOTE these same numbers are ALSO
+    in planner-recipes.json + planner-builder.html — change them in both,
+    or the Planner and the Matrix will disagree.
+
+  ═══ HOW THE PAGE WORKS ═══
+    state    — what the user has currently selected (filters + sort)
+    passes() — asked of every recipe: "do you survive the current filters?"
+    sortRows()— orders the survivors by the clicked column
+    render() — wipes the table and redraws the rows that passed
+    Any filter click updates state → calls render(). That's the whole loop.
+
+  SAFE TO EDIT → the DATA array (your recipes) and the styling.
+  ============================================================================
+-->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;800;900&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
@@ -14,7 +62,7 @@
     --display:'Archivo',system-ui,sans-serif;--body:'Newsreader',Georgia,serif;--mono:'JetBrains Mono',ui-monospace,monospace;
   }
   *{box-sizing:border-box;}
-  body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.5;-webkit-font-smoothing:antialiased;}
+  body{overflow-x:hidden;max-width:100%;margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.5;-webkit-font-smoothing:antialiased;}
   .wrap{max-width:1080px;margin:0 auto;padding:0 18px 80px;}
   .stripe{height:5px;border:0;margin:0;background:linear-gradient(90deg,var(--sun),var(--coral) 28%,var(--pink) 52%,var(--aqua) 76%,var(--lime));}
   .shine{background:linear-gradient(100deg,var(--sun),var(--coral) 28%,var(--pink) 55%,var(--aqua) 85%);background-size:220% auto;-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent;animation:sh 7s linear infinite;}
@@ -69,10 +117,17 @@
   .footnote{margin-top:24px;font-size:13px;color:var(--ink-2);line-height:1.55;border-top:1px solid var(--line);padding-top:16px;}
   .footnote b{color:var(--ink);}
   @media (max-width:640px){ h1{font-size:44px;} .fg select,.fg input{min-width:100px;} }
+
+  .homebar{position:sticky;top:0;z-index:60;background:var(--ink);color:var(--paper);}
+  .homebar a{display:inline-flex;align-items:center;gap:8px;color:var(--paper);text-decoration:none;font-family:var(--mono);font-size:11.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:10px 18px;}
+  .homebar a:hover{color:var(--sun);}
+  .homebar a::before{content:"\2190";font-size:14px;}
 </style>
 </head>
 <body>
 <hr class="stripe"/>
+<nav class="homebar"><a href="course.html#cookbook">Back to the Kitchen</a></nav>
+
 <div class="wrap">
   <header>
     <span class="kick">The Livitarian Way · The Matrix</span>
@@ -136,8 +191,11 @@ var allfams=[...new Set(DATA.flatMap(function(d){return d.fams;}))].filter(funct
 var famsel=document.getElementById('f-fam');
 allfams.forEach(function(f){ var o=document.createElement('option'); o.value=f; o.textContent=FAM_LABEL[f]||f; famsel.appendChild(o); });
 
+// what the user currently has selected. Every filter writes here, then render() reruns.
 var state={chapter:'',cls:'',fam:'',cost:'',search:'',flags:{},sortKey:'name',sortDir:1};
 
+// THE FILTER TEST — run for each recipe d. Return false the moment it fails
+// any active filter; if it survives to the end it gets drawn.
 function passes(d){
   if(state.chapter && d.chapter!==state.chapter) return false;
   if(state.cls){ var c=(d.cls||'').replace('/',' ').split(' '); if(d.primcls!==state.cls && c.indexOf(state.cls)<0) return false; }
@@ -150,6 +208,7 @@ function passes(d){
   }}
   return true;
 }
+// THE SORTER — orders surviving rows by state.sortKey; sortDir 1=asc, -1=desc.
 function sortRows(rows){
   var k=state.sortKey, dir=state.sortDir;
   return rows.sort(function(a,b){
@@ -159,6 +218,8 @@ function sortRows(rows){
     return ((x||0)-(y||0))*dir;
   });
 }
+// THE REDRAW — filter, sort, then rebuild the table body. Called after every
+// click. (Simple and fast enough for 48 rows; no framework needed.)
 function render(){
   var rows=sortRows(DATA.filter(passes));
   var tb=document.getElementById('tbody'); tb.innerHTML='';

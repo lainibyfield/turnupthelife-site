@@ -4,43 +4,119 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Lesson 2 — Drive the Hips</title>
+<!--
+  ============================================================================
+  LESSON 2 — DRIVE THE HIPS   (Turn Up the Life / turnupthelife.com)
+  ============================================================================
+  WHAT THIS FILE IS
+    A single, self-contained workout lesson. All CSS + JS live inline so the
+    page works on its own with no external files (besides Google Fonts).
+    Opened from the Academy curriculum (course.html) as a standalone page.
+
+  HOW IT'S ORGANIZED (top to bottom)
+    1. <style>  — design tokens (SHARED, see banner below) + page styles
+    2. <body>   — hero, sticky jump-nav, then one <section class="sec"> per
+                  workout block (Get Low → Core → … → Rise)
+    3. <script> — jump-nav scroll, section step counters, done-tracking +
+                  progress bar, and the tap-to-start timers
+
+  SAFE TO EDIT  →  everything inside <body> (exercise copy, cues, reps, the
+                   order of sections). This is your content; change it freely.
+  SHARED/FROZEN →  the :root token block and the timer JS are DUPLICATED byte-
+                   for-byte in trial-class / lesson-2 / lesson-3 / lesson-6.
+                   See the "DO NOT EDIT HERE" banners. (Plan: once Lessons
+                   4/5/7 are built + tested, these get pulled into one shared
+                   file. Until then they stay duplicated so each lesson can be
+                   previewed on its own.)
+  ============================================================================
+-->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;800;900&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400;1,6..72,500&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
+  /* ██████████████████████████████████████████████████████████████████████
+     DO NOT EDIT HERE — SHARED DESIGN TOKENS
+     This exact :root block is copied in trial-class.html, lesson-2.html,
+     lesson-3.html, and lesson-6.html. If you change a color, font, or token,
+     change it IDENTICALLY in all four, or the lessons will drift apart.
+     (Slated to become one shared stylesheet after Lessons 4/5/7 are tested.)
+     ██████████████████████████████████████████████████████████████████████ */
   :root{
+    /* ┌─────────────────────────────────────────────────────────────────┐
+       │ THIS IS WHERE YOU ADJUST THE COLORS.                            │
+       │ Everything on the page pulls its color from one of these names  │
+       │ (e.g. background:var(--sun)). Change the hex here and it updates │
+       │ EVERYWHERE that name is used — that's the whole point of tokens: │
+       │ one place to change, not a find-and-replace across the file.    │
+       │ To preview a new color, just swap a hex value and reload.       │
+       └─────────────────────────────────────────────────────────────────┘ */
     --paper:#FFF7EA; --card:#FFFFFF; --line:#EADFCB;
+      /* --paper = the warm page background · --card = white boxes on top of it
+         --line  = the thin divider/border color (a soft tan) */
     --ink:#26140A; --ink-2:#7E6A54;
+      /* --ink   = main text (near-black brown) · --ink-2 = muted/subtitle text */
     --sun:#FFB300; --aqua:#12A14B; --pink:#D62828; --lime:#93D500; --coral:#E8500F;
-    --display:'Archivo',system-ui,sans-serif;
-    --body:'Newsreader',Georgia,serif;
-    --mono:'JetBrains Mono',ui-monospace,monospace;
+      /* the carnival accents. Where each shows up:
+         --sun   (gold)   = active buttons, highlights, "Before You Begin" box
+         --aqua  (green)  = "Feel:" cues, success states, Get Low tag
+         --pink  (red)    = "Not:" cues, Rise tag, warnings, section-step chip
+         --lime  (bright) = "done" states, fertilizer tags, progress fill
+         --coral (orange) = links, section eyebrows, the shimmer + stripe */
+    --display:'Archivo',system-ui,sans-serif;   /* big bold headings */
+    --body:'Newsreader',Georgia,serif;          /* readable body prose */
+    --mono:'JetBrains Mono',ui-monospace,monospace; /* labels, chips, data */
   }
+  /* ── end shared tokens ── everything below is page styling, edit as needed ── */
   *{box-sizing:border-box;}
-  html{scroll-behavior:smooth;}
-  body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);font-size:18px;line-height:1.55;-webkit-font-smoothing:antialiased;}
+  html{scroll-behavior:smooth;overflow-x:hidden;}
+  body{overflow-x:hidden;max-width:100%;margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);font-size:18px;line-height:1.55;-webkit-font-smoothing:antialiased;}
   .wrap{max-width:760px;margin:0 auto;padding:0 20px;}
   a{color:var(--pink);text-underline-offset:3px;}
 
+  /* THE TWO SIGNATURE EFFECTS (the brand's visual fingerprint)
+     .shine  = the animated rainbow shimmer on hero words. It works by putting
+               a wide carnival gradient BEHIND the text, clipping it to the
+               letter shapes (background-clip:text), then sliding it forever
+               (the shimmer animation). Want it faster/slower? change "7s".
+               Want it to stop? delete the animation line.
+     .stripe = the flat 5px carnival gradient bar (a divider/accent). Reused
+               top and bottom of pages. Change its thickness with "height". */
   .shine{background:linear-gradient(100deg,var(--sun) 0%,var(--coral) 28%,var(--pink) 55%,var(--aqua) 85%);background-size:220% auto;-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent;animation:shimmer 7s linear infinite;}
   @keyframes shimmer{to{background-position:220% center;}}
   .stripe{height:5px;border:0;margin:0;background:linear-gradient(90deg,var(--sun),var(--coral) 28%,var(--pink) 52%,var(--aqua) 76%,var(--lime));}
 
-  /* hero */
+  /* HERO — the big lesson title area at the very top.
+     .kick = the small orange eyebrow line ("LESSON 02 · …")
+     h1    = the giant title. font-size uses clamp(min, scales-with-screen, max)
+             so it's big on desktop but never overflows a phone. All headings
+             here use that clamp() trick — that's what makes them responsive.
+     .princ = the italic "principle" line under the intro. */
   .hero{padding:40px 0 22px;}
   .hero .kick{font-family:var(--mono);font-size:12px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--coral);}
   .hero h1{font-family:var(--display);font-weight:900;font-size:clamp(40px,10vw,76px);line-height:.86;letter-spacing:-.03em;margin:12px 0 16px;text-transform:uppercase;}
   .hero p{max-width:600px;font-size:18px;line-height:1.5;margin:0;}
   .hero .princ{margin-top:14px;font-style:italic;color:var(--ink-2);}
 
-  /* sticky jump nav */
+  /* THIS IS WHERE THE JUMP-NAV BUTTONS ARE STYLED (the row you tap to skip
+     between workout blocks). It "sticks" to the top as you scroll (position:
+     sticky; top:0). The row scrolls sideways on narrow phones instead of
+     wrapping (overflow-x:auto), and we hide its scrollbar for looks.
+     The ACTIVE button turns gold — that's the ".on" rule on the last line;
+     JS adds/removes the "on" class as you scroll. To restyle these buttons
+     (shape, size, color), this is the block. */
   .jump{position:sticky;top:0;z-index:50;background:var(--paper);border-bottom:2px solid var(--ink);padding:9px 0;margin-top:16px;}
   .jump-row{display:flex;gap:7px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;}
   .jump-row::-webkit-scrollbar{display:none;}
   .jump-row button{flex:0 0 auto;height:36px;font-family:var(--mono);font-size:11.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;border:2px solid var(--ink);background:var(--card);color:var(--ink);padding:0 12px;cursor:pointer;}
   .jump-row button:hover,.jump-row button.on{background:var(--sun);border-color:var(--sun);}
 
-  /* section */
+  /* SECTION = one workout block (Get Low, Core, Legs…). Structure of its header:
+     .tag   = the little colored label ("GET LOW" green, "BUILD" orange,
+              "RISE" red — the color is set by .tag.getlow / .tag.rise).
+     h2     = the block's big title.  .sec-min = the "5–7 min" time, pushed
+     to the right with margin-left:auto.  .sec-intro = the gray lead sentence.
+     scroll-margin-top:64px keeps the title from hiding under the sticky nav
+     when you jump to it. */
   .sec{padding:34px 0 8px;border-top:1px solid var(--line);scroll-margin-top:64px;}
   .sec-head{display:flex;flex-wrap:wrap;align-items:baseline;gap:12px;margin-bottom:6px;}
   .sec-head .tag{font-family:var(--mono);font-size:12px;font-weight:700;color:var(--coral);letter-spacing:.14em;}
@@ -50,7 +126,24 @@
   .sec-min{font-family:var(--mono);font-size:12.5px;color:var(--ink-2);margin-left:auto;}
   .sec-intro{max-width:620px;margin:8px 0 0;color:var(--ink-2);font-size:16px;}
 
-  /* exercise card */
+  /* ═══ THE EXERCISE CARD ═══ the most important pattern in the file.
+     Every move is one <article class="ex">. Anatomy of a card:
+       .ex-name  = move title.  .idx = the red "A1/A2" superset number.
+                   .sub = the italic one-line description under the title.
+       .cue      = the signature coaching cue, in italics with big orange
+                   quote-marks (added by .cue::before / ::after).
+       .data     = the row of little bordered "chips" (Sets / Reps / Pace…).
+                   A chip's border color signals its type:
+                     .chip.pace   → green (tempo)
+                     .chip.effort → red   (how hard)
+                   (band lessons add .chip.band → gold.)  .k = the gray label
+                   inside a chip ("SETS").
+       .cues     = the bullet list of setup points (orange dash markers).
+       .fert     = the green "🌱 fertilizer" tag on glute moves.
+       .watch    = the solid orange "Watch the form" button (YouTube link).
+       .mw       = the small inline "watch" link used inside bullet lists.
+       .credit   = the gold-bordered "Sequence credit" box.
+     To restyle a card, this is the whole block. */
   .ex{border:1.5px solid var(--ink);background:var(--card);margin-top:18px;}
   .ex-body{padding:18px 20px;}
   .ex-name{font-family:var(--display);font-weight:800;font-size:clamp(18px,4.5vw,23px);letter-spacing:-.01em;margin:0 0 6px;line-height:1.05;text-transform:uppercase;}
@@ -82,7 +175,9 @@
   .credit{margin-top:12px;padding:11px 13px;border-left:3px solid var(--sun);background:rgba(255,179,0,.12);font-size:14px;line-height:1.5;}
   .credit b{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#9A6B00;display:block;margin-bottom:4px;}
 
-  /* core list */
+  /* CORE LIST — a compact alternative to full cards, used only for the Core
+     block (several short moves stacked in one bordered box). .cm = move name,
+     .cr = the red reps (pushed right), .cf = the gray form note below. */
   .corelist{border:1.5px solid var(--ink);background:var(--card);margin-top:16px;}
   .ci{display:flex;flex-wrap:wrap;align-items:baseline;column-gap:12px;padding:13px 15px;border-top:1px solid var(--line);}
   .ci:first-child{border-top:none;}
@@ -90,7 +185,13 @@
   .cr{margin-left:auto;font-family:var(--mono);font-weight:700;font-size:13px;color:var(--pink);white-space:nowrap;}
   .cf{flex-basis:100%;margin-top:3px;color:var(--ink-2);font-size:14.5px;line-height:1.4;}
 
-  /* timer button */
+  /* TIMER BUTTON (.tbtn) — the tap-to-start countdown on every timed hold.
+     Three visual states, driven by JS adding a class:
+       (default) = outlined, shows the duration like "30s"
+       .running  = turns lime while counting down
+       .done     = flashes red "done" + beeps, then resets to the label.
+     The clock icon is the ::before. The countdown logic is the SHARED timer
+     JS near the bottom of the file (see its banner). */
   .tbtn{display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--ink);background:var(--card);border:1.5px solid var(--ink);padding:3px 9px;margin-left:6px;cursor:pointer;vertical-align:baseline;line-height:1.4;}
   .tbtn::before{content:"⏱";font-size:11px;}
   .tbtn:hover{background:var(--sun);border-color:var(--sun);}
@@ -119,9 +220,44 @@
   .disclaim{max-width:620px;font-size:12.5px;color:var(--ink-2);line-height:1.5;}
 
   @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto;}.shine{animation:none;}}
+
+  .homebar{position:sticky;top:0;z-index:60;background:var(--ink);color:var(--paper);}
+  .homebar a{display:inline-flex;align-items:center;gap:8px;color:var(--paper);text-decoration:none;font-family:var(--mono);font-size:11.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:10px 18px;}
+  .homebar a:hover{color:var(--sun);}
+  .homebar a::before{content:"\2190";font-size:14px;}
+
+  .stepno{font-family:var(--mono);font-size:10.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#fff;background:var(--coral);padding:3px 8px;flex:0 0 auto;align-self:center;}
+  .upnext{display:flex;flex-direction:column;gap:2px;margin:22px 0 4px;padding:14px 16px;border:2px solid var(--ink);background:var(--card);text-decoration:none;color:var(--ink);}
+  .upnext:hover{background:var(--sun);border-color:var(--sun);}
+  .un-k{font-family:var(--mono);font-size:10.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--coral);}
+  .upnext:hover .un-k{color:var(--ink);}
+  .un-t{font-family:var(--display);font-weight:800;font-size:20px;text-transform:uppercase;letter-spacing:-.01em;}
+  .workout-done{margin:26px 0 8px;padding:20px 18px;border:2px solid var(--lime);background:rgba(147,213,0,.14);display:flex;flex-direction:column;gap:4px;}
+  .wd-k{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#3f5c00;}
+  .wd-t{font-family:var(--body);font-size:17px;line-height:1.4;}
+
+  /* ---------- done-tracking + progress bar (ported from Lesson 1) ---------- */
+  .ex-top{display:flex;align-items:flex-start;gap:14px;}
+  .ex-top .ex-name{flex:1;margin:0;}
+  .donebox{margin-left:auto;flex:0 0 auto;display:flex;align-items:center;gap:8px;font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-2);cursor:pointer;user-select:none;padding-top:2px;white-space:nowrap;}
+  .donebox input{width:20px;height:20px;accent-color:#93D500;cursor:pointer;}
+  .progresswrap{height:6px;background:var(--line);margin-top:8px;}
+  .progressbar{height:100%;width:0%;background:linear-gradient(90deg,var(--sun),var(--coral),var(--pink));transition:width .35s ease;}
+  .prog-label{font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-2);margin-top:5px;display:flex;justify-content:space-between;gap:10px;padding-bottom:2px;}
+  .prog-label button{font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;background:none;border:none;color:var(--ink-2);cursor:pointer;text-decoration:underline;padding:0;}
+  .jump-row button .dot{width:8px;height:8px;border:1.5px solid currentColor;display:inline-block;border-radius:50%;margin-right:6px;vertical-align:middle;}
+  .jump-row button.done .dot{background:var(--lime);border-color:var(--ink);}
+  .log{border-top:1.5px solid var(--ink);display:flex;flex-wrap:wrap;gap:10px 26px;align-items:center;padding:13px 20px;font-family:var(--mono);font-size:12px;letter-spacing:.04em;text-transform:uppercase;color:var(--ink-2);margin-top:14px;}
+  .log .fail{color:var(--pink);font-weight:700;}
+  .blank{display:inline-block;min-width:46px;border-bottom:2px solid var(--pink);height:1.05em;vertical-align:baseline;}
+  @media (max-width:680px){ .donebox{margin-left:0;} .ex-top{flex-wrap:wrap;} }
 </style>
 </head>
 <body>
+<!-- ═══ SAFE TO EDIT BELOW ═══ This is the lesson content: hero, jump-nav,
+     and the workout sections. Edit copy/cues/reps/order freely. Each
+     <section class="sec" id="..."> is one workout block; its id must match
+     a <button data-go="..."> in the jump-nav for that button to scroll to it. -->
 <div class="wrap">
 
   <header class="hero">
@@ -143,13 +279,14 @@
       <button data-go="pullreset">Upper-Back Reset</button>
       <button data-go="rise">Rise</button>
     </div>
+    <div class="progresswrap"><div class="progressbar" id="pbar"></div></div>
+    <div class="prog-label"><span id="plabel">0 done</span><button id="preset" type="button">reset</button></div>
   </nav>
 
   <!-- GET LOW -->
   <section class="sec" id="getlow">
-    <div class="sec-head"><span class="tag getlow">GET LOW</span><h2>Move Prep</h2><span class="sec-min">5–7 min</span></div>
-    <p class="sec-intro">Ground the hips first — closed and familiar. The flow you know, then two new rotational pieces before the hips drive.</p>
-
+    <div class="sec-head"><span class="stepno">Step 1 / 7</span><span class="tag getlow">GET LOW</span><h2>Move Prep</h2><span class="sec-min">5–7 min</span></div>
+    <p class="sec-intro">This is where your wine lives — low, loose, and in control, without your knees or back paying for it later. Same warm-up every lesson: learn it once, own it forever.</p>
     <div class="prebegin">
       <h3>Before you begin</h3>
       <p>Today's warm-up prepares your body for today's workout — not for a flexibility contest.</p>
@@ -160,77 +297,56 @@
         <li>If something feels sharp, unstable, or wrong, reduce the range or skip that exercise and move on.</li>
       </ul>
     </div>
-
     <article class="ex">
       <div class="ex-body">
-        <h3 class="ex-name">Deep Squat Flow<span class="sub">same as Lesson 1 — consistency matters</span></h3>
+        <div class="ex-top" style="margin-bottom:6px;"><h3 class="ex-name">Squat &amp; Pistol Prep<span class="sub">easy and controlled — warm, not tired</span></h3><label class="donebox"><input type="checkbox" data-track="getlow-block">Done</label></div>
         <ul class="cues">
-          <li>Wide squat hold — 30 sec <button class="tbtn" data-secs="30" data-label="30s">30s</button><span class="mod"><b>Mod:</b> hold a chair or countertop, or don't squat as low.</span></li>
-          <li>Weight shifts in the wide squat — rock side to side, 8 each side.</li>
-          <li>Narrow squat hold — 20 sec <button class="tbtn" data-secs="20" data-label="20s">20s</button><span class="mod"><b>Mod:</b> hold support, or place a rolled towel under your heels.</span></li>
-          <li>Staggered squat hold — 20 sec / side <button class="tbtn" data-secs="20" data-label="20s/side">20s/side</button><span class="mod"><b>Mod:</b> shorten the stance and reduce the depth.</span></li>
-          <li>Knee-over-toe touches — 10 / side.<span class="mod"><b>Mod:</b> let the knee travel only as far as comfortable, or hold a chair.</span></li>
-          <li>Assisted pistol practice — 5 / side.<span class="mod"><b>Mod:</b> use both hands for support, or squat to a higher chair.</span></li>
+          <li>Wide deep-squat hold — 20–30 seconds. <a class="mw" href="https://www.youtube.com/results?search_query=wide+stance+deep+squat+hold+mobility" target="_blank" rel="noopener">watch</a> <button class="tbtn" data-secs="30" data-label="30s">30s</button><span class="mod"><b>Mod:</b> hold a chair or countertop, or don't squat as low.</span></li>
+          <li>Weight shifts in the wide squat — rock side to side, 8 each side. <a class="mw" href="https://www.youtube.com/results?search_query=deep+squat+side+to+side+weight+shift" target="_blank" rel="noopener">watch</a></li>
+          <li>Cossack shift (a.k.a. spider-man lunge) — stay low, let your hips travel side to side, 6–8 each way. Keep the working heel down; don't force depth. <a class="mw" href="https://www.youtube.com/results?search_query=cossack+squat+shift+mobility" target="_blank" rel="noopener">watch</a><span class="mod"><b>Mod:</b> stand a little taller, or hold a chair for balance.</span></li>
+          <li>Narrow deep-squat hold — 20 seconds. <a class="mw" href="https://www.youtube.com/results?search_query=narrow+stance+deep+squat+hold" target="_blank" rel="noopener">watch</a> <button class="tbtn" data-secs="20" data-label="20s">20s</button><span class="mod"><b>Mod:</b> hold support, or place a rolled towel under your heels.</span></li>
+          <li>Staggered deep-squat hold — 15–20 seconds each side. <a class="mw" href="https://www.youtube.com/results?search_query=staggered+stance+deep+squat+hold" target="_blank" rel="noopener">watch</a> <button class="tbtn" data-secs="20" data-label="20s/side">20s/side</button><span class="mod"><b>Mod:</b> shorten the stance and reduce the depth.</span></li>
+          <li>Knee-over-toe touches — 8–10 each side, 2-second pause. <a class="mw" href="https://www.youtube.com/results?search_query=knee+over+toe+touch+ankle+mobility" target="_blank" rel="noopener">watch</a><span class="mod"><b>Mod:</b> let the knee travel only as far as comfortable, or hold a chair.</span></li>
+          <li>Assisted one-leg squat practice (hold something) — 3–5 clean each side. <a class="mw" href="https://www.youtube.com/results?search_query=assisted+pistol+squat+progression" target="_blank" rel="noopener">watch</a><span class="mod"><b>Mod:</b> use both hands for support, or squat to a higher chair.</span></li>
+          <li>Shoulder-blade push-ups — 10 reps. <a class="mw" href="https://www.youtube.com/results?search_query=scapular+push+up+form" target="_blank" rel="noopener">watch</a><span class="mod"><b>Mod:</b> perform against a wall, countertop, or bench.</span></li>
+          <li>Band pull-aparts or big shoulder circles — 15 reps. <a class="mw" href="https://www.youtube.com/results?search_query=band+pull+apart+form" target="_blank" rel="noopener">watch</a><span class="mod"><b>Mod:</b> use a lighter band, or reduce the range of motion.</span></li>
         </ul>
-        <p class="credit"><b>Sequence credit</b>The <b>deep-squat flow</b> in this warm-up is adapted from a free sequence by <a href="https://www.instagram.com/" target="_blank" rel="noopener">@creator-handle</a> on Instagram — go follow him. The rest of the class is mine. Used with permission.</p>
+        <p class="ready">Ready to build? If you're breathing a little harder and your joints feel smoother — not tired — you warmed up just right.</p>
       </div>
     </article>
-
-    <article class="ex">
-      <div class="ex-body">
-        <h3 class="ex-name">Cossack Shift<span class="sub">also called spider-man lunge · deep lateral hip mobility</span></h3>
-        <p class="cue">Stay low. Let your hips travel side to side.</p>
-        <ul class="cues">
-          <li>Shift your weight from one leg to the other without standing up.</li>
-          <li>Keep the heel down on the working leg as much as comfortable.</li>
-          <li>Don't force the depth.</li>
-        </ul>
-        <p class="mod"><b>Mod:</b> stand a little taller, or hold a chair for balance.</p>
-        <a class="watch" href="https://www.youtube.com/results?search_query=cossack+squat+shift+mobility" target="_blank" rel="noopener">Watch the form</a>
-      </div>
-    </article>
-
-    <article class="ex">
-      <div class="ex-body">
-        <h3 class="ex-name">90/90 Hip Switches<span class="sub">new · 2 × 8 each direction</span></h3>
-        <p class="cue">Turn the hips. Keep the chest proud.</p>
-        <p class="mod"><b>Mod:</b> reduce the range; keep both sit-bones down.</p>
-        <details class="ft"><summary>Field test</summary><p>Do these become smoother during the second set? If so, the joint was just cold — not tight.</p></details>
-        <a class="watch" href="https://www.youtube.com/results?search_query=Upright+Health+90+90+hip+switches" target="_blank" rel="noopener">Watch · Upright Health</a>
-      </div>
-    </article>
-
-    <article class="ex">
-      <div class="ex-body">
-        <h3 class="ex-name">Hip Airplanes<span class="sub">new · 2 × 5 each side · supported if needed — hold a chair</span></h3>
-        <p class="cue">The standing leg works. The moving leg just follows.</p>
-        <p class="mod"><b>Mod:</b> hold a chair, wall, or counter — this is hip work, not a balance stunt.</p>
-        <details class="ft"><summary>Field test</summary><p>Would holds teach balance better than reps? You'll test that later in the workout.</p></details>
-        <a class="watch" href="https://www.youtube.com/results?search_query=Squat+University+hip+airplanes" target="_blank" rel="noopener">Watch · Squat University</a>
-      </div>
-    </article>
-    <p class="ready">Ready to build? If you're breathing a little harder and your joints feel smoother — not tired — you warmed up just right.</p>
+    <div class="prebegin" style="border-color:var(--aqua);background:rgba(18,161,75,.06);">
+      <h3 style="color:#0B7A3A;">Then, hip-power add-on</h3>
+      <p>Lesson 2 drives the hips hard — give them two extra rotational pieces first:</p>
+      <ul>
+        <li>90/90 hip switches — 2 × 8 each direction. <i>Turn the hips, keep the chest proud.</i> <a class="mw" href="https://www.youtube.com/results?search_query=Upright+Health+90+90+hip+switches" target="_blank" rel="noopener">watch</a></li>
+        <li>Hip airplanes — 2 × 5 each side, hold a chair if needed. <a class="mw" href="https://www.youtube.com/results?search_query=Squat+University+hip+airplanes" target="_blank" rel="noopener">watch</a></li>
+      </ul>
+    </div>
+  <a class="upnext" href="#core" data-go="core"><span class="un-k">Up next · Step 2 of 7</span><span class="un-t">Core Activation →</span></a>
   </section>
 
   <!-- CORE -->
   <section class="sec" id="core">
-    <div class="sec-head"><span class="tag">BUILD</span><h2>Core Activation</h2><span class="sec-min">3–5 min</span></div>
+    <div class="sec-head"><span class="stepno">Step 2 / 7</span><span class="tag">BUILD</span><h2>Core Activation</h2><span class="sec-min">3–5 min</span></div>
     <p class="sec-intro">Closed-chain brace, then one controlled curl, then the lateral hips. This wakes exactly what swings, skater hops, and the floor press are about to use.</p>
+    <div class="ex-top" style="margin-bottom:6px;"><span></span><label class="donebox"><input type="checkbox" data-track="core-block">Done</label></div>
     <div class="corelist">
       <div class="ci"><span class="cm">Bear hover</span><span class="cr">3 × 15–25 s</span><span class="cf">Hands under shoulders, knees hover one inch off the floor. Knees barely up. Back wide. Don't let your ribs spill <a class="mw" href="https://www.youtube.com/results?search_query=bear+plank+hover+hold" target="_blank" rel="noopener">watch</a> <button class="tbtn" data-secs="20" data-label="20s">20s</button></span></div>
       <div class="ci"><span class="cm">Small Pilates crunch / chest lift</span><span class="cr">2 × 8–12</span><span class="cf">Curl your ribs toward your hips. Don't yank your neck — your pelvis stays quiet. Make it small: this is not a sit-up. The one rectus abdominis exercise of the day <a class="mw" href="https://www.youtube.com/results?search_query=pilates+chest+lift+exercise" target="_blank" rel="noopener">watch</a></span></div>
       <div class="ci"><span class="cm">Side plank hip lift</span><span class="cr">2 × 8 / side · or 20 s hold</span><span class="cf">Lift the bottom waist. Stack the ribs over the hips <a class="mw" href="https://www.youtube.com/results?search_query=side+plank+hip+lift" target="_blank" rel="noopener">watch</a> <button class="tbtn" data-secs="20" data-label="20s/side">20s/side</button></span></div>
     </div>
+  
+    <a class="upnext" href="#tool" data-go="tool"><span class="un-k">Up next · Step 3 of 7</span><span class="un-t">Hip Power →</span></a>
   </section>
 
   <!-- TODAY'S TOOL -->
   <section class="sec" id="tool">
-    <div class="sec-head"><span class="tag rise">THE LESSON</span><h2>Hip Power</h2><span class="sec-min">8–10 min</span></div>
+    <div class="sec-head"><span class="stepno">Step 3 / 7</span><span class="tag rise">THE LESSON</span><h2>Hip Power</h2><span class="sec-min">8–10 min</span></div>
     <p class="sec-intro">Power happens while you're fresh — swing and landing mechanics are sharpest early. Hinge, snap, float, land, reset. Rest fully; every rep crisp.</p>
 
     <article class="ex">
       <div class="ex-body">
-        <h3 class="ex-name"><span class="idx">1</span>Two-Hand Swing<span class="sub">hip snap — kettlebell or one dumbbell</span> <span class="fert">🌱 fertilizer</span></h3>
+        <div class="ex-top"><h3 class="ex-name"><span class="idx">1</span>Two-Hand Swing<span class="sub">hip snap — kettlebell or one dumbbell</span> <span class="fert">🌱 fertilizer</span></h3><label class="donebox"><input type="checkbox" data-track="tool-ex">Done</label></div>
         <p class="cue">Jump without leaving the floor.</p>
         <div class="data"><span class="chip"><span class="k">Sets</span> 3</span><span class="chip"><span class="k">Reps</span> 12–15</span><span class="chip effort"><span class="k">Effort</span> crisp reps only</span><span class="chip"><span class="k">Weight</span> KB or 1 DB, both hands</span></div>
         <ul class="cues">
@@ -248,7 +364,7 @@
 
     <article class="ex">
       <div class="ex-body">
-        <h3 class="ex-name"><span class="idx">2</span>Controlled Step-Down<span class="sub">eccentric knee control — own the landing</span></h3>
+        <div class="ex-top"><h3 class="ex-name"><span class="idx">2</span>Controlled Step-Down<span class="sub">eccentric knee control — own the landing</span></h3><label class="donebox"><input type="checkbox" data-track="tool-ex-2">Done</label></div>
         <p class="cue">Own the landing.</p>
         <div class="data"><span class="chip"><span class="k">Sets</span> 2–3</span><span class="chip"><span class="k">Reps</span> 8–10 / side</span><span class="chip pace"><span class="k">Pace</span> 5 down · light tap · stand tall</span><span class="chip effort"><span class="k">Effort</span> controlled every rep</span><span class="chip"><span class="k">Weight</span> bodyweight</span></div>
         <ul class="cues">
@@ -265,7 +381,7 @@
 
     <article class="ex">
       <div class="ex-body">
-        <h3 class="ex-name"><span class="idx">3</span>Skater Hop to Stick<span class="sub">side-to-side power with a quiet landing</span></h3>
+        <div class="ex-top"><h3 class="ex-name"><span class="idx">3</span>Skater Hop to Stick<span class="sub">side-to-side power with a quiet landing</span></h3><label class="donebox"><input type="checkbox" data-track="tool-ex-3">Done</label></div>
         <p class="cue">Land, own it, then go again.</p>
         <div class="data"><span class="chip"><span class="k">Sets</span> 2–3</span><span class="chip"><span class="k">Reps</span> 6–8 / side</span><span class="chip effort"><span class="k">Effort</span> crisp reps only</span><span class="chip"><span class="k">Impact</span> low if needed</span></div>
         <ul class="cues">
@@ -279,16 +395,18 @@
         <a class="watch" href="https://www.youtube.com/results?search_query=PJF+Performance+skater+hop" target="_blank" rel="noopener">Watch · PJF Performance</a>
       </div>
     </article>
+  
+    <a class="upnext" href="#legs" data-go="legs"><span class="un-k">Up next · Step 4 of 7</span><span class="un-t">Legs →</span></a>
   </section>
 
   <!-- LEGS -->
   <section class="sec" id="legs">
-    <div class="sec-head"><span class="tag">BUILD</span><h2>Legs</h2><span class="sec-min">15–18 min</span></div>
+    <div class="sec-head"><span class="stepno">Step 4 / 7</span><span class="tag">BUILD</span><h2>Legs</h2><span class="sec-min">15–18 min</span></div>
     <p class="sec-intro">Strength → squeeze → lengthened loading → stabilization. Now that the hips know how to drive, load them slowly.</p>
 
     <article class="ex">
       <div class="ex-body">
-        <h3 class="ex-name"><span class="idx">A1</span>Bulgarian Split Squat<span class="sub">quad focus — back foot up on a box, bench, or chair</span></h3>
+        <div class="ex-top"><h3 class="ex-name"><span class="idx">A1</span>Bulgarian Split Squat<span class="sub">quad focus — back foot up on a box, bench, or chair</span></h3><label class="donebox"><input type="checkbox" data-track="legs-ex">Done</label></div>
         <p class="cue">Imagine your zipper stays vertical.</p>
         <div class="data"><span class="chip"><span class="k">Sets</span> 1–2 working / leg</span><span class="chip"><span class="k">Reps</span> 8–12 / leg</span><span class="chip pace"><span class="k">Pace</span> 5 down · 2 hold · controlled up</span><span class="chip effort"><span class="k">Effort</span> hard, but clean</span><span class="chip"><span class="k">Weight</span> 1 DB or KB at chest</span></div>
         <ul class="cues">
@@ -307,7 +425,7 @@
 
     <article class="ex">
       <div class="ex-body">
-        <h3 class="ex-name"><span class="idx">A2</span>Frog Pumps<span class="sub">small glute bridge — soles of feet together, knees open</span> <span class="fert">🌱 fertilizer</span></h3>
+        <div class="ex-top"><h3 class="ex-name"><span class="idx">A2</span>Frog Pumps<span class="sub">small glute bridge — soles of feet together, knees open</span> <span class="fert">🌱 fertilizer</span></h3><label class="donebox"><input type="checkbox" data-track="legs-ex-2">Done</label></div>
         <p class="cue">Small move. Big squeeze.</p>
         <div class="data"><span class="chip pace"><span class="k">Pace</span> 2 squeeze · 2 lower</span><span class="chip effort"><span class="k">Effort</span> glute burn, not back strain</span><span class="chip"><span class="k">Sets</span> 2–3</span><span class="chip"><span class="k">Reps</span> 30</span><span class="chip"><span class="k">Weight</span> bodyweight first · 1 DB only if needed</span></div>
         <ul class="cues">
@@ -323,7 +441,7 @@
 
     <article class="ex">
       <div class="ex-body">
-        <h3 class="ex-name"><span class="idx">A3</span>Deficit Single-Leg RDL<span class="sub">hamstring and glute loading — standing on a box, step, or low platform</span> <span class="fert">🌱 fertilizer</span></h3>
+        <div class="ex-top"><h3 class="ex-name"><span class="idx">A3</span>Deficit Single-Leg RDL<span class="sub">hamstring and glute loading — standing on a box, step, or low platform</span> <span class="fert">🌱 fertilizer</span></h3><label class="donebox"><input type="checkbox" data-track="legs-ex-3">Done</label></div>
         <p class="cue">Close the car door with your butt.</p>
         <div class="data"><span class="chip"><span class="k">Sets</span> 1–2 working / side</span><span class="chip pace"><span class="k">Pace</span> 3 down · 3 stretch</span><span class="chip effort"><span class="k">Effort</span> 1–2 good reps left</span><span class="chip"><span class="k">Reps</span> 10–12 / side</span><span class="chip"><span class="k">Weight</span> 2 DBs</span></div>
         <ul class="cues">
@@ -341,7 +459,7 @@
 
     <article class="ex">
       <div class="ex-body">
-        <h3 class="ex-name"><span class="idx">A4</span>Hip Airplane Hold<span class="sub">single-leg hip control — hold on if needed</span></h3>
+        <div class="ex-top"><h3 class="ex-name"><span class="idx">A4</span>Hip Airplane Hold<span class="sub">single-leg hip control — hold on if needed</span></h3><label class="donebox"><input type="checkbox" data-track="legs-ex-4">Done</label></div>
         <p class="cue">Grow taller before you rotate.</p>
         <div class="data"><span class="chip"><span class="k">Hold</span> 2 / side · 20 sec <button class="tbtn" data-secs="20" data-label="20s/side">20s/side</button></span><span class="chip effort"><span class="k">Effort</span> controlled, not heroic</span><span class="chip"><span class="k">Support</span> chair, wall, or counter allowed</span></div>
         <ul class="cues">
@@ -355,15 +473,17 @@
         <a class="watch" href="https://www.youtube.com/results?search_query=Squat+University+hip+airplanes" target="_blank" rel="noopener">Watch · Squat University</a>
       </div>
     </article>
+  
+    <a class="upnext" href="#push" data-go="push"><span class="un-k">Up next · Step 5 of 7</span><span class="un-t">Push →</span></a>
   </section>
 
   <!-- PUSH -->
   <section class="sec" id="push">
-    <div class="sec-head"><span class="tag">BUILD</span><h2>Push</h2><span class="sec-min">8–10 min</span></div>
+    <div class="sec-head"><span class="stepno">Step 5 / 7</span><span class="tag">BUILD</span><h2>Push</h2><span class="sec-min">8–10 min</span></div>
 
     <article class="ex">
       <div class="ex-body">
-        <h3 class="ex-name">Dumbbell Floor Press<span class="sub">chest press from the floor</span></h3>
+        <div class="ex-top"><h3 class="ex-name">Dumbbell Floor Press<span class="sub">chest press from the floor</span></h3><label class="donebox"><input type="checkbox" data-track="push-dumbbell-floor-press">Done</label></div>
         <p class="cue">Touch the floor. Don't crash into it.</p>
         <div class="data"><span class="chip pace"><span class="k">Pace</span> 4 down · 1 floor touch · press up strong</span><span class="chip effort"><span class="k">Effort</span> 1–2 good reps left</span><span class="chip"><span class="k">Sets</span> 2–3</span><span class="chip"><span class="k">Reps</span> 10–15</span><span class="chip"><span class="k">Weight</span> 2 DBs</span></div>
         <ul class="cues">
@@ -380,7 +500,7 @@
 
     <article class="ex">
       <div class="ex-body">
-        <h3 class="ex-name">Glute Bridge Floor Press<span class="sub">floor press with hips lifted — the harder option for Lesson 2</span></h3>
+        <div class="ex-top"><h3 class="ex-name">Glute Bridge Floor Press<span class="sub">floor press with hips lifted — the harder option for Lesson 2</span></h3><label class="donebox"><input type="checkbox" data-track="push-glute-bridge-floor-press">Done</label></div>
         <p class="cue">Ribs down. Hips high. Don't let your butt negotiate.</p>
         <div class="data"><span class="chip pace"><span class="k">Pace</span> 3–4 down · 1 floor touch · press up strong</span><span class="chip effort"><span class="k">Effort</span> 1–2 good reps left</span><span class="chip"><span class="k">Sets</span> 2–3</span><span class="chip"><span class="k">Reps</span> 8–12</span><span class="chip"><span class="k">Weight</span> 2 DBs</span></div>
         <ul class="cues">
@@ -393,15 +513,17 @@
         <a class="watch" href="https://www.youtube.com/results?search_query=glute+bridge+floor+press+dumbbell" target="_blank" rel="noopener">Watch the form</a>
       </div>
     </article>
+  
+    <a class="upnext" href="#pullreset" data-go="pullreset"><span class="un-k">Up next · Step 6 of 7</span><span class="un-t">Upper-Back Reset →</span></a>
   </section>
 
   <!-- PULL RESET -->
   <section class="sec" id="pullreset">
-    <div class="sec-head"><span class="tag">BUILD</span><h2>Upper-Back Reset</h2><span class="sec-min">3–4 min</span></div>
+    <div class="sec-head"><span class="stepno">Step 6 / 7</span><span class="tag">BUILD</span><h2>Upper-Back Reset</h2><span class="sec-min">3–4 min</span></div>
     <p class="sec-intro">Shoulder reset after pressing — not the back workout. This keeps the shoulders organized once the pressing is done.</p>
     <article class="ex">
       <div class="ex-body">
-        <h3 class="ex-name">Band Pull-Aparts<span class="sub">shoulder reset after pressing</span></h3>
+        <div class="ex-top"><h3 class="ex-name">Band Pull-Aparts<span class="sub">shoulder reset after pressing</span></h3><label class="donebox"><input type="checkbox" data-track="pullreset-band-pull-aparts">Done</label></div>
         <p class="cue">Pull your shoulder blades back into the conversation.</p>
         <div class="data"><span class="chip pace"><span class="k">Pace</span> 2 pull · 2 squeeze · 3 return</span><span class="chip effort"><span class="k">Effort</span> 3–4 reps left</span><span class="chip"><span class="k">Sets</span> 2</span><span class="chip"><span class="k">Reps</span> 15–20</span><span class="chip"><span class="k">Weight</span> light-to-moderate band</span></div>
         <ul class="cues">
@@ -414,11 +536,13 @@
         <a class="watch" href="https://www.youtube.com/results?search_query=band+pull+apart+form" target="_blank" rel="noopener">Watch the form</a>
       </div>
     </article>
+  
+    <a class="upnext" href="#rise" data-go="rise"><span class="un-k">Up next · Step 7 of 7</span><span class="un-t">Mobility Finish →</span></a>
   </section>
 
   <!-- RISE -->
   <section class="sec" id="rise">
-    <div class="sec-head"><span class="tag rise">RISE</span><h2>Mobility Finish</h2><span class="sec-min">4–5 min</span></div>
+    <div class="sec-head"><span class="stepno">Step 7 / 7</span><span class="tag rise">RISE</span><h2>Mobility Finish</h2><span class="sec-min">4–5 min</span></div>
     <p class="sec-intro">No big finisher — Lesson 2 was new. We taught the hips something new; now settle the body.</p>
     <ul class="cues" style="margin-top:6px;">
       <li>Weighted overhead squat hold — 20–30 sec. <i>Ribs down.</i> <a class="mw" href="https://www.youtube.com/results?search_query=overhead+squat+hold+mobility" target="_blank" rel="noopener">watch</a> <button class="tbtn" data-secs="30" data-label="30s">30s</button></li>
@@ -428,16 +552,26 @@
       <li>Hero stretch — 30 sec / side. <i>Breathe where you're tight.</i> <a class="mw" href="https://www.youtube.com/results?search_query=hero+pose+quad+stretch" target="_blank" rel="noopener">watch</a> <button class="tbtn" data-secs="30" data-label="30s">30s</button></li>
     </ul>
     <p class="drink">🥤 That's Lesson 2. Go get your drink — you drove the hips today.</p>
+  
+    <div class="workout-done"><span class="wd-k">That's the whole workout</span><span class="wd-t">All 7 parts done — Get Low through Rise. Now go get your drink.</span></div>
   </section>
 
   <hr class="stripe" />
+<nav class="homebar"><a href="course.html#curriculum">Back to the Academy</a></nav>
+
   <footer>
     <p class="disclaim">Adjust range, jumping, and depth based on how your toe, knee, hip, and shoulder feel. Pushing close to your limit and adding speed both carry some risk — keep the movement clean, and check with a professional first if anything hurts or you're unsure this suits you.</p>
+    <p class="disclaim" style="margin-top:10px;"><b>Before you start.</b> Turn Up the Life provides general fitness education, not medical advice or personal training. Talk to your doctor before beginning this or any exercise program, especially if you are pregnant, postpartum, over 40 and new to exercise, or managing a heart, joint, bone, or other health condition. Stop immediately and seek medical care for chest pain, dizziness, shortness of breath, or sharp/sudden pain. You are responsible for choosing weights, ranges of motion, and modifications appropriate to your own body. Turn Up the Life, its founder, and its instructors are not liable for injury arising from participation. If something doesn't feel right, don't push through it — modify, rest, or stop.</p>
   </footer>
 
 </div>
 
 <script>
+  // ── LESSON JS ── three independent pieces:
+  //   1. jump-nav      — click a nav button → smooth-scroll to that section;
+  //                       IntersectionObserver highlights the current one.
+  //   2. done-tracking — checkboxes + progress bar (localStorage, per-lesson key).
+  //   3. hold timers   — the SHARED block below (see its banner).
   // jump nav: pure scroll, no hash routing
   document.getElementById('jumpRow').addEventListener('click', function(e){
     var b = e.target.closest('button[data-go]'); if(!b) return;
@@ -452,12 +586,26 @@
     entries.forEach(function(en){
       if(en.isIntersecting){
         Object.values(btns).forEach(function(b){ b.classList.remove('on'); });
-        var b = btns[en.target.id]; if(b){ b.classList.add('on'); b.scrollIntoView({inline:'center', block:'nearest'}); }
+        var b = btns[en.target.id]; if(b){ b.classList.add('on');
+          // center the active button WITHIN the jump-row only — never scroll the page vertically.
+          // (scrollIntoView() would scroll every scrollable ancestor, including the page, which
+          //  caused the "snap back to a previous section" bug. We scroll the row's own scrollLeft instead.)
+          var row = document.getElementById('jumpRow');
+          if(row){ row.scrollLeft = b.offsetLeft - (row.clientWidth/2) + (b.clientWidth/2); }
+        }
       }
     });
   }, {rootMargin:'-45% 0px -50% 0px'});
   secs.forEach(function(s){ io.observe(s); });
 
+  // ██████████████████████████████████████████████████████████████████████
+  // DO NOT EDIT HERE — SHARED TIMER JS
+  // beep() + fmt() + the .tbtn click handler are copied byte-for-byte in
+  // trial-class / lesson-2 / lesson-3 / lesson-6. Change all four together.
+  // What it does: any element with class "tbtn" and data-secs="N" becomes a
+  // tap-to-start countdown (used on every timed hold). data-label is the
+  // resting text; it flashes "done" + beeps at zero, then resets.
+  // ██████████████████████████████████████████████████████████████████████
   // hold timers
   function beep(){try{var C=window.AudioContext||window.webkitAudioContext;if(!C)return;var a=new C(),o=a.createOscillator(),g=a.createGain();o.connect(g);g.connect(a.destination);o.type='sine';o.frequency.value=880;g.gain.setValueAtTime(.25,a.currentTime);g.gain.exponentialRampToValueAtTime(.0001,a.currentTime+.5);o.start();o.stop(a.currentTime+.5);}catch(e){}}
   function fmt(s){var m=Math.floor(s/60),r=s%60;return m>0?(m+':'+(r<10?'0':'')+r):(''+r);}
@@ -474,6 +622,53 @@
       } else { b.textContent=fmt(left); }
     },1000);
   });
+
+  // ---------- done-tracking + progress bar (ported from Lesson 1) ----------
+  (function(){
+    var KEY = 'tutl-lesson2-progress';
+    var boxes = Array.prototype.slice.call(document.querySelectorAll('input[data-track]'));
+    var pbar = document.getElementById('pbar');
+    var plabel = document.getElementById('plabel');
+    var preset = document.getElementById('preset');
+    if(!pbar || !boxes.length) return;
+
+    var mem = {};
+    function store(obj){ mem=obj; try{ localStorage.setItem(KEY, JSON.stringify(obj)); }catch(e){} }
+    function load(){ try{ var r=localStorage.getItem(KEY); if(r) return JSON.parse(r); }catch(e){} return mem; }
+
+    var blockMap = {"getlow":['getlow-block'],"core":['core-block'],"tool":['tool-ex', 'tool-ex-2', 'tool-ex-3'],"legs":['legs-ex', 'legs-ex-2', 'legs-ex-3', 'legs-ex-4'],"push":['push-dumbbell-floor-press', 'push-glute-bridge-floor-press'],"pullreset":['pullreset-band-pull-aparts'],"rise":[]};
+
+    function refresh(){
+      var state = load();
+      var done = 0;
+      boxes.forEach(function(b){
+        b.checked = !!state[b.getAttribute('data-track')];
+        if(b.checked) done++;
+      });
+      var pct = boxes.length ? Math.round(done/boxes.length*100) : 0;
+      pbar.style.width = pct + '%';
+      if(plabel) plabel.textContent = done + ' of ' + boxes.length + ' done' + (pct===100 ? ' — workout complete! \ud83c\udf89' : '');
+      Object.keys(blockMap).forEach(function(blk){
+        var btn = document.querySelector('.jump-row button[data-go="'+blk+'"]');
+        if(!btn) return;
+        var all = blockMap[blk].length>0 && blockMap[blk].every(function(id){ return !!state[id]; });
+        btn.classList.toggle('done', all);
+        if(all && !btn.querySelector('.dot')) btn.insertAdjacentHTML('afterbegin','<span class="dot"></span>');
+        else if(!btn.querySelector('.dot')) btn.insertAdjacentHTML('afterbegin','<span class="dot"></span>');
+      });
+    }
+
+    boxes.forEach(function(b){
+      b.addEventListener('change', function(){
+        var state = load();
+        state[b.getAttribute('data-track')] = b.checked;
+        store(state);
+        refresh();
+      });
+    });
+    if(preset) preset.addEventListener('click', function(){ store({}); refresh(); });
+    refresh();
+  })();
 </script>
 </body>
 </html>
