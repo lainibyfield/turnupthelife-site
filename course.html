@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
+<meta name="color-scheme" content="light">
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Turn Up the Life Academy — Light Weight, Heavy Results</title>
 <!--
@@ -53,6 +54,13 @@
        --lime (bright)= the "Lesson 1 free" badge
        --coral(orange)= links, section eyebrows, the shimmer + stripe */
   :root{
+    /* LIGHT ONLY — do not remove.
+       Some phone browsers and in-app browsers (Android WebView "force dark",
+       Chrome auto-dark, various in-app viewers) will INVERT a page's colours in
+       dark mode unless the page says which schemes it supports. This one line
+       tells them: this design is light, leave it alone. Without it the warm
+       paper background can render near-black with dark text on top — unreadable. */
+    color-scheme: light;
     --paper:#FFF7EA; --card:#FFFFFF; --line:#EADFCB;   /* page bg · white cards · divider */
     --ink:#26140A; --ink-2:#7E6A54;                    /* main text · muted text */
     --sun:#FFB300; --aqua:#12A14B; --pink:#D62828; --lime:#93D500; --coral:#E8500F;
@@ -61,8 +69,8 @@
     --mono:'JetBrains Mono',ui-monospace,monospace;    /* labels, chips, codes */
   }
   *{box-sizing:border-box;}
-  html{scroll-behavior:smooth;overflow-x:hidden;}
-  body{overflow-x:hidden;max-width:100%;margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);font-size:17.5px;line-height:1.55;-webkit-font-smoothing:antialiased;}
+  html{scroll-behavior:smooth;}
+  body{overflow-x:clip;max-width:100%;margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);font-size:17.5px;line-height:1.55;-webkit-font-smoothing:antialiased;}
   .wrap{max-width:1040px;margin:0 auto;padding:0 20px;}
   a{color:var(--pink);text-underline-offset:3px;}
 
@@ -383,12 +391,12 @@
       </a>
       <a class="lesson-row locked" href="lesson-3.html" data-lessonrow="3" data-standalone="lesson-3.html">
         <span class="num">03</span>
-        <span class="titles"><h3>Create Tension</h3><span class="sub">Travel Workout 1 · Teaches: make bands feel heavy</span></span>
+        <span class="titles"><h3>Create Tension</h3><span class="sub">Travel Workout 1 · Teaches: make bands feel heavy — no anchor needed, your own body is the anchor</span></span>
         <span class="state lock" data-state="3">Locked</span>
       </a>
-      <a class="lesson-row locked" href="#lesson-4" data-lessonrow="4">
+      <a class="lesson-row locked" href="lesson-4.html" data-lessonrow="4" data-standalone="lesson-4.html">
         <span class="num">04</span>
-        <span class="titles"><h3>Increase Density</h3><span class="sub">Teaches: same tools, less wasted space, more clean work</span></span>
+        <span class="titles"><h3>Increase Density</h3><span class="sub">Teaches: paired sets and the clock — same clean reps, less wasted space</span></span>
         <span class="state lock" data-state="4">Locked</span>
       </a>
       <a class="lesson-row locked" href="#lesson-5" data-lessonrow="5">
@@ -398,7 +406,7 @@
       </a>
       <a class="lesson-row locked" href="lesson-6.html" data-lessonrow="6" data-standalone="lesson-6.html">
         <span class="num">06</span>
-        <span class="titles"><h3>Pack Light, Train Hard</h3><span class="sub">Travel Workout 2 · Bands-only, hotel-room friendly, complete workout</span></span>
+        <span class="titles"><h3>Pack Light, Train Hard</h3><span class="sub">Travel Workout 2 · Teaches: how to use one fixed anchor — press away from it, pull toward it, resist its rotation</span></span>
         <span class="state lock" data-state="6">Locked</span>
       </a>
       <a class="lesson-row locked" href="#lesson-7" data-lessonrow="7">
@@ -561,7 +569,7 @@
       });
       var ub=document.getElementById('unlockbar');
       if(ub){ub.querySelector('h4').textContent='Course unlocked ✓';
-        ub.querySelector('p').textContent='Lessons 2, 3, and 6 are ready — tap any to open. New lessons appear here as they publish; check your email for the private channel link.';}
+        ub.querySelector('p').textContent='Lessons 2, 3, 4, and 6 are ready — tap any to open. New lessons appear here as they publish; check your email for the private channel link.';}
     } else {
       document.querySelectorAll('.lesson-row[data-standalone]').forEach(function(row){
         row.addEventListener('click', function(e){
