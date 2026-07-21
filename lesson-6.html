@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
+<meta name="color-scheme" content="light">
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Lesson 6 — Pack Light, Train Hard</title>
 <!--
@@ -29,6 +30,13 @@
      (Slated to become one shared stylesheet after Lessons 4/5/7 are tested.)
      ██████████████████████████████████████████████████████████████████████ */
   :root{
+    /* LIGHT ONLY — do not remove.
+       Some phone browsers and in-app browsers (Android WebView "force dark",
+       Chrome auto-dark, various in-app viewers) will INVERT a page's colours in
+       dark mode unless the page says which schemes it supports. This one line
+       tells them: this design is light, leave it alone. Without it the warm
+       paper background can render near-black with dark text on top — unreadable. */
+    color-scheme: light;
     /* ┌─────────────────────────────────────────────────────────────────┐
        │ THIS IS WHERE YOU ADJUST THE COLORS.                            │
        │ Everything on the page pulls its color from one of these names  │
@@ -55,8 +63,8 @@
   }
   /* ── end shared tokens ── everything below is page styling, edit as needed ── */
   *{box-sizing:border-box;}
-  html{scroll-behavior:smooth;overflow-x:hidden;}
-  body{overflow-x:hidden;max-width:100%;margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);font-size:18px;line-height:1.55;-webkit-font-smoothing:antialiased;}
+  html{scroll-behavior:smooth;}
+  body{overflow-x:clip;max-width:100%;margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);font-size:18px;line-height:1.55;-webkit-font-smoothing:antialiased;}
   .wrap{max-width:760px;margin:0 auto;padding:0 20px;}
   a{color:var(--pink);text-underline-offset:3px;}
 
@@ -109,7 +117,7 @@
      scrolls sideways on narrow phones instead of wrapping (overflow-x:auto)
      and we hide its scrollbar. The ACTIVE button turns gold — that's the
      ".on" rule; JS adds/removes that class as you scroll. */
-  .jump{position:sticky;top:0;z-index:50;background:var(--paper);border-bottom:2px solid var(--ink);padding:9px 0;margin-top:18px;}
+  .jump{position:sticky;top:var(--hbH,40px);z-index:50;background:var(--paper);border-bottom:2px solid var(--ink);padding:9px 0;margin-top:18px;}
   .jump-row{display:flex;gap:7px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;}
   .jump-row::-webkit-scrollbar{display:none;}
   .jump-row button{flex:0 0 auto;height:36px;font-family:var(--mono);font-size:11.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;border:2px solid var(--ink);background:var(--card);color:var(--ink);padding:0 12px;cursor:pointer;}
@@ -186,6 +194,10 @@
   .tbtn{display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--ink);background:var(--card);border:1.5px solid var(--ink);padding:3px 9px;margin-left:6px;cursor:pointer;vertical-align:baseline;line-height:1.4;}
   .tbtn::before{content:"⏱";font-size:11px;}
   .tbtn:hover{background:var(--sun);border-color:var(--sun);}
+  /* TIMER PHASES — yellow "get ready", green working, red done.
+     The yellow phase is Kevin's fix: it gives you ~5 seconds to get into
+     position before anything is actually being timed. */
+  .tbtn.ready{background:var(--sun);border-color:var(--ink);color:var(--ink);}
   .tbtn.running{background:var(--lime);border-color:var(--ink);}
   .tbtn.done{background:var(--pink);border-color:var(--pink);color:#fff;}
 
@@ -226,23 +238,66 @@
   .log .fail{color:var(--pink);font-weight:700;}
   .blank{display:inline-block;min-width:46px;border-bottom:2px solid var(--pink);height:1.05em;vertical-align:baseline;}
   @media (max-width:680px){ .donebox{margin-left:0;} .ex-top{flex-wrap:wrap;} }
+  /* TIMER BANK — the 15/20/30/45 choices at the top of each section, so you can
+     start a hold without hunting for the button next to a specific exercise.
+     They're ordinary .tbtn buttons, so they use the same countdown logic. */
+  .timerbank{display:flex;flex-wrap:wrap;align-items:center;gap:7px;margin:10px 0 2px;padding:9px 11px;border:1.5px dashed var(--line);background:var(--card);}
+  .timerbank .tb-k{font-family:var(--mono);font-size:10.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-2);margin-right:2px;}
+  .timerbank .tbtn{margin-left:0;}
+  /* Keep the section's timer strip visible while you read the instructions —
+     it sticks just under the jump nav instead of scrolling away above the set.
+     --jumpH is measured in JS so it always clears the nav, whatever its height. */
+  .timerbank{position:sticky;top:calc(var(--hbH,40px) + var(--jumpH,54px));z-index:45;}
+
+  /* the finish flash — pulses so you SEE the timer end even with sound off */
+  @keyframes tflash{0%,100%{background:var(--pink);color:#fff;}50%{background:var(--sun);color:var(--ink);}}
+  .tbtn.done{animation:tflash .45s steps(1) 4;}
+  /* ═══ BAND RULES panel — read once, before the workout ═══ */
+  .bandrules{border:2px solid var(--ink);background:var(--card);margin:18px 0 4px;}
+  .bandrules summary{list-style:none;cursor:pointer;background:var(--ink);color:var(--paper);padding:12px 15px;font-family:var(--display);font-weight:900;text-transform:uppercase;font-size:17px;letter-spacing:.01em;display:flex;justify-content:space-between;align-items:center;gap:10px;}
+  .bandrules summary::-webkit-details-marker{display:none;}
+  .bandrules summary .hint{font-family:var(--mono);font-size:10.5px;font-weight:700;letter-spacing:.1em;color:var(--sun);}
+  .bandrules[open] summary .hint::after{content:'  ▲';}
+  .bandrules:not([open]) summary .hint::after{content:'  ▼';}
+  .br-body{padding:15px;}
+  .br-body ol{margin:0;padding-left:20px;}
+  .br-body li{padding:5px 0;font-size:16px;line-height:1.5;}
+  .br-note{margin-top:13px;padding:11px 13px;border-left:3px solid var(--sun);background:rgba(255,179,0,.12);font-size:15px;line-height:1.5;}
+  .br-note b{color:#9A6B00;}
+
+  /* ═══ THE THREE QUESTIONS ═══
+     Every exercise answers these in the same order, so nobody has to hunt:
+       1. what everyone tries first   2. one regression   3. one progression
+     Keep it to ONE option per box. Two options is a decision; one is an
+     instruction, and people follow instructions mid-workout. */
+  .threeq{margin-top:12px;border:1.5px solid var(--line);}
+  .tq{display:block;padding:10px 13px;border-top:1px solid var(--line);font-size:15.5px;line-height:1.5;}
+  .tq:first-child{border-top:none;}
+  .tq-k{display:block;font-family:var(--mono);font-size:10.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:3px;}
+  .tq-do{background:rgba(18,161,75,.07);}   .tq-do .tq-k{color:#0B7A3A;}
+  .tq-down{background:rgba(255,179,0,.10);} .tq-down .tq-k{color:#9A6B00;}
+  .tq-up{background:rgba(232,80,15,.07);}   .tq-up .tq-k{color:var(--coral);}
 </style>
 </head>
 <body>
 <div class="wrap">
 
+  <hr class="stripe"/>
+  <nav class="homebar"><a href="course.html#curriculum">Back to the Academy</a></nav>
+
+
   <header class="hero">
     <span class="kick">Lesson 06 · Travel Workout 2</span>
     <h1>Pack Light,<br><span class="shine">Train Hard.</span></h1>
-    <p>This one proves the point: bands can replace the workout. Not a substitute, not a holding pattern — a complete session in a hotel room, out of a backpack, with nothing bolted to the floor.</p>
-    <p class="princ">Lesson 3 taught you to make a band feel heavy. Lesson 6 asks you to run a whole balanced day on that skill alone.</p>
+    <p>Lesson 3 taught you to create tension with your own body as the anchor. Today you add one fixed anchor point and use it to press, pull, and resist rotation — without adding more equipment.</p>
+    <p class="princ">Same band. New anchor skill.</p>
 
     <div class="meta">
-      <div><span class="k">Principle</span><span>Bands can replace the workout.</span></div>
-      <div><span class="k">Role</span><span>Balanced full body.</span></div>
+      <div><span class="k">Principle</span><span>One anchor. A complete workout.</span></div>
+      <div><span class="k">Role</span><span>Balanced full body, with anchored push, pull, and anti-rotation work.</span></div>
       <div><span class="k">Time</span><span>40–55 minutes.</span></div>
-      <div><span class="k">Equipment</span><span>Light, medium, and heavy long bands or tubes. A safe anchor if you have one.</span></div>
-      <div><span class="k">Mood</span><span>Travel · familiar · self-directed.</span></div>
+      <div><span class="k">Equipment</span><span>Light, medium, and heavy long bands or tubes, plus a door anchor or other secure anchor at chest height.</span></div>
+      <div><span class="k">Mood</span><span>Travel · one setup · three directions.</span></div>
     </div>
 
     <details class="week rules-d">
@@ -279,6 +334,24 @@
     </details>
   </header>
 
+  
+
+  <details class="bandrules" open>
+    <summary>Anchor Rules<span class="hint">read first</span></summary>
+    <div class="br-body">
+      <p style="margin:0 0 10px;">Lesson 3 used your feet, back, and hands as the anchor. Today you will attach the band at chest height and leave it there for several exercises.</p>
+      <ol>
+        <li><b>Use a real anchor.</b> A door anchor is best. A heavy object is acceptable only if it cannot slide, tip, or open.</li>
+        <li><b>Anchor on the closing side of the door.</b> Pulling should make the door more secure, not pull it open.</li>
+        <li><b>Test it standing first.</b> Give the band several firm, controlled pulls before putting your body in its path.</li>
+        <li><b>Chest height is today's default.</b> Set the anchor near the middle of your breastbone.</li>
+        <li><b>Change difficulty with distance.</b> Step farther away for more tension; step closer for less.</li>
+        <li><b>Finish every rep with control.</b> The band should never pull you toward the door.</li>
+      </ol>
+      <p class="br-note"><b>Set it once</b><br>Pallof press, chest press, and row all use the same chest-height anchor. You will change which direction you face — not keep rebuilding the setup.</p>
+    </div>
+  </details>
+
   <nav class="jump" aria-label="Jump to section">
     <div class="jump-row" id="jumpRow">
       <button data-go="getlow">Get Low</button>
@@ -307,6 +380,7 @@
         <li>If something feels sharp, unstable, or wrong, reduce the range or skip that exercise and move on.</li>
       </ul>
     </div>
+    <div class="timerbank"><span class="tb-k">Timer</span><button class="tbtn" data-secs="15" data-label="15s">15s</button><button class="tbtn" data-secs="20" data-label="20s">20s</button><button class="tbtn" data-secs="30" data-label="30s">30s</button><button class="tbtn" data-secs="45" data-label="45s">45s</button></div>
     <article class="ex">
       <div class="ex-body">
         <div class="ex-top" style="margin-bottom:6px;"><h3 class="ex-name">Squat &amp; Pistol Prep<span class="sub">easy and controlled — warm, not tired</span></h3><label class="donebox"><input type="checkbox" data-track="getlow-block">Done</label></div>
@@ -319,7 +393,7 @@
           <li>Knee-over-toe touches — 8–10 each side, 2-second pause. <a class="mw" href="https://www.youtube.com/results?search_query=knee+over+toe+touch+ankle+mobility" target="_blank" rel="noopener">watch</a><span class="mod"><b>Mod:</b> let the knee travel only as far as comfortable, or hold a chair.</span></li>
           <li>Assisted one-leg squat practice (hold something) — 3–5 clean each side. <a class="mw" href="https://www.youtube.com/results?search_query=assisted+pistol+squat+progression" target="_blank" rel="noopener">watch</a><span class="mod"><b>Mod:</b> use both hands for support, or squat to a higher chair.</span></li>
           <li>Shoulder-blade push-ups — 10 reps. <a class="mw" href="https://www.youtube.com/results?search_query=scapular+push+up+form" target="_blank" rel="noopener">watch</a><span class="mod"><b>Mod:</b> perform against a wall, countertop, or bench.</span></li>
-          <li>Band pull-aparts or big shoulder circles — 15 reps. <a class="mw" href="https://www.youtube.com/results?search_query=band+pull+apart+form" target="_blank" rel="noopener">watch</a><span class="mod"><b>Mod:</b> use a lighter band, or reduce the range of motion.</span></li>
+          <li>Band pull-aparts or big shoulder circles — 15 reps. <a class="mw" href="https://www.youtube.com/results?search_query=resistance+band+pull+apart+straight+arms" target="_blank" rel="noopener">watch</a><span class="mod"><b>Mod:</b> use a lighter band, or reduce the range of motion.</span></li>
         </ul>
         <p class="ready">Ready to build? If you're breathing a little harder and your joints feel smoother — not tired — you warmed up just right.</p>
       </div>
@@ -334,13 +408,14 @@
   <!-- CORE -->
   <section class="sec" id="core">
     <div class="sec-head"><span class="stepno">Step 2 / 7</span><span class="tag">BUILD</span><h2>Core</h2><span class="sec-min">6–7 min</span></div>
-    <p class="sec-intro">Protect the back. Brace, then the one curl, then the lateral hips.</p>
+    <p class="sec-intro">Brace first. Then use the anchor to resist the movement it creates — not merely pull against it.</p>
+    <div class="timerbank"><span class="tb-k">Timer</span><button class="tbtn" data-secs="15" data-label="15s">15s</button><button class="tbtn" data-secs="20" data-label="20s">20s</button><button class="tbtn" data-secs="30" data-label="30s">30s</button><button class="tbtn" data-secs="45" data-label="45s">45s</button></div>
 
     <article class="ex">
       <div class="ex-body">
         <div class="ex-top"><h3 class="ex-name">Bear Hover<span class="sub">closed-chain brace</span></h3><label class="donebox"><input type="checkbox" data-track="core-bear-hover">Done</label></div>
         <p class="cue">Knees barely up. Back wide.</p>
-        <div class="data"><span class="chip"><span class="k">Sets</span> 2</span><span class="chip"><span class="k">Hold</span> 15–25 sec <button class="tbtn" data-secs="20" data-label="20s">20s</button></span></div>
+        <div class="data"><span class="chip"><span class="k">Sets</span> 2</span><span class="chip"><span class="k">Hold</span> 20–30 sec <button class="tbtn" data-secs="20" data-label="20s">20s</button></span></div>
         <ul class="cues">
           <li>Hands under shoulders.</li>
           <li>Knees hover one inch.</li>
@@ -348,7 +423,8 @@
           <li>Stop before your back sags.</li>
         </ul>
         <p class="feel"><span class="yes">Feel:</span> whole front of the trunk. &nbsp; <span class="no">Not:</span> low back sagging, shoulders shrugging.</p>
-        <a class="watch" href="https://www.youtube.com/results?search_query=bear+hover+exercise" target="_blank" rel="noopener">Watch the form</a>
+        <div class="threeq"><span class="tq tq-do"><span class="tq-k">Do this</span>Hands under shoulders, knees hovering one inch off the floor. Hold 20&ndash;30 seconds.</span><span class="tq tq-down"><span class="tq-k">If that&rsquo;s too difficult</span>Keep the knees down and press the floor away, holding the same brace.</span><span class="tq tq-up"><span class="tq-k">If that&rsquo;s too easy</span>Hold for 45 seconds, or lift one hand an inch at a time without shifting your hips.</span></div>
+        <a class="watch" href="https://www.youtube.com/results?search_query=bear+hover+knees+one+inch+off+floor" target="_blank" rel="noopener">Watch the form</a>
       </div>
     </article>
 
@@ -364,21 +440,27 @@
           <li>Lower with control.</li>
         </ul>
         <p class="feel"><span class="yes">Feel:</span> front of the belly shortening. &nbsp; <span class="no">Not:</span> neck pulling, hip flexors gripping.</p>
-        <a class="watch" href="https://www.youtube.com/results?search_query=pilates+chest+lift" target="_blank" rel="noopener">Watch the form</a>
+        <div class="threeq"><span class="tq tq-do"><span class="tq-k">Do this</span>Small curl &mdash; ribs toward hips, pelvis quiet. 8&ndash;12 reps.</span><span class="tq tq-down"><span class="tq-k">If that&rsquo;s too difficult</span>Support your head with both hands and make the curl smaller.</span><span class="tq tq-up"><span class="tq-k">If that&rsquo;s too easy</span>Hold the top of each rep for 2 seconds.</span></div>
+        <a class="watch" href="https://www.youtube.com/results?search_query=pilates+chest+lift+small+curl+ribs+to+hips" target="_blank" rel="noopener">Watch the form</a>
       </div>
     </article>
 
     <article class="ex">
       <div class="ex-body">
-        <div class="ex-top"><h3 class="ex-name">Side Plank<span class="sub">lateral support</span></h3><label class="donebox"><input type="checkbox" data-track="core-side-plank">Done</label></div>
-        <p class="cue">Stack ribs over hips.</p>
-        <div class="data"><span class="chip"><span class="k">Sets</span> 1–2</span><span class="chip"><span class="k">Hold</span> 15–25 sec / side <button class="tbtn" data-secs="20" data-label="20s/side">20s/side</button></span></div>
+        <div class="ex-top"><h3 class="ex-name">Standing Pallof Press<span class="sub">anti-rotation — the anchor tries to turn you</span></h3><label class="donebox"><input type="checkbox" data-track="core-pallof-press">Done</label></div>
+        <p class="cue">The band pulls sideways. You stay square.</p>
+        <div class="data"><span class="chip"><span class="k">Sets</span> 2</span><span class="chip"><span class="k">Reps</span> 8–10 / side</span><span class="chip band"><span class="k">Band</span> light or medium</span><span class="chip pace"><span class="k">Pace</span> press · 2 hold · return</span></div>
+        <p class="anchor"><b>Anchor / setup</b>Anchor the band at chest height. Stand sideways to it and hold the band at the centre of your chest.</p>
         <ul class="cues">
-          <li>Knees down is fine.</li>
-          <li>No sagging into the shoulder.</li>
+          <li>Step away until the band has moderate tension.</li>
+          <li>Stack ribs over hips and soften the knees.</li>
+          <li>Press both hands straight forward.</li>
+          <li>Do not let your ribs, shoulders, or pelvis turn toward the anchor.</li>
+          <li>Return slowly, then repeat on the other side.</li>
         </ul>
-        <p class="note"><b>Shoulder note</b><br>If the bottom shoulder complains, drop to knees or shorten the hold.</p>
-        <a class="watch" href="https://www.youtube.com/results?search_query=side+plank+form+beginner" target="_blank" rel="noopener">Watch the form</a>
+        <p class="feel"><span class="yes">Feel:</span> the front and sides of the trunk resisting rotation. &nbsp; <span class="no">Not:</span> twisting through the back or shrugging.</p>
+        <div class="threeq"><span class="tq tq-do"><span class="tq-k">Do this</span>Stand sideways to the chest-height anchor. Press straight out, hold 2 seconds, and return. 8&ndash;10 per side.</span><span class="tq tq-down"><span class="tq-k">If that&rsquo;s too difficult</span>Step closer to the anchor and shorten the press.</span><span class="tq tq-up"><span class="tq-k">If that&rsquo;s too easy</span>Step farther away or hold the fully extended position for 4 seconds.</span></div>
+        <a class="watch" href="https://www.youtube.com/results?search_query=standing+pallof+press+band+anti+rotation" target="_blank" rel="noopener">Watch the form</a>
       </div>
     </article>
   
@@ -388,12 +470,13 @@
   <!-- LEGS -->
   <section class="sec" id="legs">
     <div class="sec-head"><span class="stepno">Step 3 / 7</span><span class="tag">BUILD</span><h2>Legs</h2><span class="sec-min">16–18 min</span></div>
+    <div class="timerbank"><span class="tb-k">Timer</span><button class="tbtn" data-secs="15" data-label="15s">15s</button><button class="tbtn" data-secs="20" data-label="20s">20s</button><button class="tbtn" data-secs="30" data-label="30s">30s</button><button class="tbtn" data-secs="45" data-label="45s">45s</button></div>
 
     <article class="ex">
       <div class="ex-body">
         <div class="ex-top"><h3 class="ex-name"><span class="idx">A1</span>Band Front Squat<span class="sub">main lower-body work</span></h3><label class="donebox"><input type="checkbox" data-track="legs-ex">Done</label></div>
         <p class="cue">Stay tall. Push the floor away.</p>
-        <div class="data"><span class="chip"><span class="k">Sets</span> 3</span><span class="chip"><span class="k">Reps</span> 10–18</span><span class="chip band"><span class="k">Band</span> heavy</span><span class="chip pace"><span class="k">Pace</span> 3 down · 1 hold · stand strong</span></div>
+        <div class="data"><span class="chip"><span class="k">Sets</span> 3</span><span class="chip"><span class="k">Reps</span> 10–15</span><span class="chip band"><span class="k">Band</span> heavy</span><span class="chip pace"><span class="k">Pace</span> 3 down · 1 hold · stand strong</span></div>
         <p class="anchor"><b>Anchor / setup</b>Band under both feet. Hold the ends up at your shoulders, elbows forward.</p>
         <ul class="cues">
           <li>Stand on the band.</li>
@@ -402,57 +485,61 @@
           <li>Keep ribs stacked.</li>
         </ul>
         <p class="feel"><span class="yes">Feel:</span> thighs and glutes. &nbsp; <span class="no">Not:</span> the band folding you forward.</p>
-        <a class="watch" href="https://www.youtube.com/results?search_query=resistance+band+front+squat" target="_blank" rel="noopener">Watch the form</a>
+        <div class="threeq"><span class="tq tq-do"><span class="tq-k">Do this</span>Stand on the <b>middle</b> of the band, handles at your shoulders. 10&ndash;15 reps.</span><span class="tq tq-down"><span class="tq-k">If that&rsquo;s too difficult</span>Squat to a chair and stand back up, with light or no band tension.</span><span class="tq tq-up"><span class="tq-k">If that&rsquo;s too easy</span>Widen your stance on the band for more tension, or pause 2 seconds at the bottom.</span></div>
+        <a class="watch" href="https://www.youtube.com/results?search_query=long+resistance+band+front+squat+standing+on+band" target="_blank" rel="noopener">Watch the form</a>
       </div>
     </article>
 
     <article class="ex">
       <div class="ex-body">
-        <div class="ex-top"><h3 class="ex-name"><span class="idx">A2</span>Band Squat Pulse or Split Squat<span class="sub">extra quad and glute volume</span></h3><label class="donebox"><input type="checkbox" data-track="legs-ex-2">Done</label></div>
-        <p class="cue">Small range. No bouncing.</p>
-        <div class="data"><span class="chip"><span class="k">Sets</span> 2</span><span class="chip"><span class="k">Reps</span> 12–20</span><span class="chip band"><span class="k">Band</span> medium or heavy</span></div>
-        <p class="anchor"><b>Anchor / setup</b>Pulses: band under both feet, held at shoulders. Split squat: band under the <i>front</i> foot only, held at shoulders.</p>
+        <div class="ex-top"><h3 class="ex-name"><span class="idx">A2</span>Band Squat Pulse<span class="sub">extra quad and glute volume</span></h3><label class="donebox"><input type="checkbox" data-track="legs-ex-2">Done</label></div>
+        <p class="cue">Live in the bottom half.</p>
+        <div class="data"><span class="chip"><span class="k">Sets</span> 2</span><span class="chip"><span class="k">Reps</span> 15–20</span><span class="chip band"><span class="k">Band</span> medium or heavy</span><span class="chip pace"><span class="k">Pace</span> steady pulses · no bouncing</span></div>
+        <p class="anchor"><b>Anchor / setup</b>Band under both feet, ends held at your shoulders.</p>
         <ul class="cues">
-          <li>Stay in the clean part of the squat.</li>
-          <li>Keep tension on the band the whole time.</li>
-          <li>Stop before the knees or back get cranky.</li>
+          <li>Sink to your working depth, then pulse in the bottom half.</li>
+          <li>Heels stay down; knees track over the toes.</li>
+          <li>Keep tension the whole set — don't stand all the way up to rest.</li>
         </ul>
-        <p class="note"><b>Knee note</b><br>Shorten the range if the knee feels sharp.</p>
-        <a class="watch" href="https://www.youtube.com/results?search_query=band+squat+pulse" target="_blank" rel="noopener">Watch the form</a>
+        <p class="feel"><span class="yes">Feel:</span> quads and glutes burning. &nbsp; <span class="no">Not:</span> knees pinching or heels lifting.</p>
+        <div class="threeq"><span class="tq tq-do"><span class="tq-k">Do this</span>Pulse in the bottom half of the squat, 15&ndash;20 reps.</span><span class="tq tq-down"><span class="tq-k">If that&rsquo;s too difficult</span>Bodyweight pulses with your hands resting on a chair.</span><span class="tq tq-up"><span class="tq-k">If that&rsquo;s too easy</span>Add a 3-second hold at the bottom after the final pulse of each set.</span></div>
+        <a class="watch" href="https://www.youtube.com/results?search_query=resistance+band+squat+pulse+bottom+half" target="_blank" rel="noopener">Watch the form</a>
       </div>
     </article>
 
     <article class="ex">
       <div class="ex-body">
-        <div class="ex-top"><h3 class="ex-name"><span class="idx">A3</span>Band RDL / Good Morning<span class="sub">hamstrings and glutes</span> <span class="fert">🌱 fertilizer</span></h3><label class="donebox"><input type="checkbox" data-track="legs-ex-3">Done</label></div>
-        <p class="cue">Hips back. Spine long.</p>
+        <div class="ex-top"><h3 class="ex-name"><span class="idx">A3</span>Band RDL<span class="sub">hamstrings and glutes<span class="fert">🌱 fertilizer</span></span></h3><label class="donebox"><input type="checkbox" data-track="legs-ex-3">Done</label></div>
+        <p class="cue">Close the car door with your butt.</p>
         <div class="data"><span class="chip"><span class="k">Sets</span> 3</span><span class="chip"><span class="k">Reps</span> 12–18</span><span class="chip band"><span class="k">Band</span> heavy</span><span class="chip pace"><span class="k">Pace</span> 3 down · 2 stretch · controlled up</span></div>
-        <p class="anchor"><b>Anchor / setup</b>Band under both feet. Hold the ends at your hips (RDL) or up at your shoulders (good morning) — never across the neck.</p>
+        <p class="anchor"><b>Anchor / setup</b>Band under both feet, one end in each hand. Hands stay beside the thighs as you hinge.</p>
         <ul class="cues">
-          <li>Stand on the band.</li>
-          <li>Hold the ends at hips or shoulders.</li>
-          <li>Hinge, don’t squat.</li>
+          <li>Hinge from the hips with a soft knee bend and a long spine.</li>
+          <li>Let the hands travel down the thighs — they don't reach for the floor.</li>
+          <li>Stand tall at the top without leaning back.</li>
           <li>Stop before the back rounds.</li>
         </ul>
-        <p class="feel"><span class="yes">Feel:</span> hamstring stretch. &nbsp; <span class="no">Not:</span> low-back strain.</p>
-        <p class="note"><b>Back note</b><br>Don’t chase the floor. If your back rounds, you went too low.</p>
-        <a class="watch" href="https://www.youtube.com/results?search_query=band+romanian+deadlift" target="_blank" rel="noopener">Watch the form</a>
+        <p class="feel"><span class="yes">Feel:</span> hamstrings stretching, glutes finishing. &nbsp; <span class="no">Not:</span> low back doing the work.</p>
+        <p class="note"><b>Different from Lesson 3</b><br>Lesson 3 taught the good morning, with the band at your shoulders. This is the RDL — hands beside the thighs. Same hinge, different load path.</p>
+        <div class="threeq"><span class="tq tq-do"><span class="tq-k">Do this</span>Band under both feet, hands beside the thighs. Hinge 12&ndash;18 reps with a long spine.</span><span class="tq tq-down"><span class="tq-k">If that&rsquo;s too difficult</span>Use a lighter band, or hinge with no band at all.</span><span class="tq tq-up"><span class="tq-k">If that&rsquo;s too easy</span>Step wider on the band, or slow the lowering to 4 seconds.</span></div>
+        <a class="watch" href="https://www.youtube.com/results?search_query=long+resistance+band+romanian+deadlift+standing+on+band" target="_blank" rel="noopener">Watch the form</a>
       </div>
     </article>
 
     <article class="ex">
       <div class="ex-body">
-        <div class="ex-top"><h3 class="ex-name"><span class="idx">A4</span>Band Frog Pump or Glute Bridge<span class="sub">glute burn</span> <span class="fert">🌱 fertilizer</span></h3><label class="donebox"><input type="checkbox" data-track="legs-ex-4">Done</label></div>
-        <p class="cue">Squeeze first. Range second.</p>
-        <div class="data"><span class="chip"><span class="k">Sets</span> 2</span><span class="chip"><span class="k">Reps</span> 20–30</span><span class="chip band"><span class="k">Band</span> medium or heavy</span></div>
-        <p class="anchor"><b>Anchor / setup</b>Loop above the knees, or a long band across the hips with the ends anchored under both feet.</p>
+        <div class="ex-top"><h3 class="ex-name"><span class="idx">A4</span>Frog Pumps<span class="sub">bodyweight glute finisher<span class="fert">🌱 fertilizer</span></span></h3><label class="donebox"><input type="checkbox" data-track="legs-ex-4">Done</label></div>
+        <p class="cue">Small movement. Big squeeze.</p>
+        <div class="data"><span class="chip"><span class="k">Sets</span> 2</span><span class="chip"><span class="k">Reps</span> 20–30</span><span class="chip"><span class="k">Weight</span> bodyweight</span><span class="chip pace"><span class="k">Pace</span> 2 squeeze · controlled lower</span></div>
+        <p class="anchor"><b>Setup</b>On your back, soles of the feet together, knees falling open. No band needed — your legs have already done nine loaded working sets today.</p>
         <ul class="cues">
-          <li>Use a loop above the knees or a long band across the hips.</li>
-          <li>Keep the move small if needed.</li>
-          <li>The low back should not be the star.</li>
+          <li>Drive through the outside edges of the feet.</li>
+          <li>Squeeze at the top for 2 and lower with control.</li>
+          <li>The range is small on purpose — the squeeze is the exercise, not the height.</li>
         </ul>
-        <p class="feel"><span class="yes">Feel:</span> glutes. &nbsp; <span class="no">Not:</span> low back cramping.</p>
-        <a class="watch" href="https://www.youtube.com/results?search_query=band+frog+pump" target="_blank" rel="noopener">Watch the form</a>
+        <p class="feel"><span class="yes">Feel:</span> glutes, high and deep. &nbsp; <span class="no">Not:</span> low back or hamstrings taking over.</p>
+        <div class="threeq"><span class="tq tq-do"><span class="tq-k">Do this</span>Bodyweight, heels together and knees wide. 20&ndash;30 reps with a 2-second squeeze.</span><span class="tq tq-down"><span class="tq-k">If that&rsquo;s too difficult</span>Make the range smaller — lift an inch, keep the full squeeze.</span><span class="tq tq-up"><span class="tq-k">If that&rsquo;s too easy</span>Hold the top position for 3 seconds on every rep.</span></div>
+        <a class="watch" href="https://www.youtube.com/results?search_query=bodyweight+frog+pump+glute+exercise+heels+together" target="_blank" rel="noopener">Watch the form</a>
       </div>
     </article>
   
@@ -462,28 +549,31 @@
   <!-- PUSH -->
   <section class="sec" id="push">
     <div class="sec-head"><span class="stepno">Step 4 / 7</span><span class="tag">BUILD</span><h2>Push</h2><span class="sec-min">8–10 min</span></div>
+    <p class="sec-intro">In Lesson 3, your upper back anchored the press. Today the band is fixed behind you, so your stance and trunk must control the return.</p>
+    <div class="timerbank"><span class="tb-k">Timer</span><button class="tbtn" data-secs="15" data-label="15s">15s</button><button class="tbtn" data-secs="20" data-label="20s">20s</button><button class="tbtn" data-secs="30" data-label="30s">30s</button><button class="tbtn" data-secs="45" data-label="45s">45s</button></div>
 
     <article class="ex">
       <div class="ex-body">
-        <div class="ex-top"><h3 class="ex-name"><span class="idx">B1</span>Band Chest Press<span class="sub">main push</span></h3><label class="donebox"><input type="checkbox" data-track="push-ex">Done</label></div>
-        <p class="cue">Press from a stacked rib cage.</p>
-        <div class="data"><span class="chip"><span class="k">Sets</span> 4</span><span class="chip"><span class="k">Reps</span> 10–20</span><span class="chip band"><span class="k">Band</span> medium</span><span class="chip pace"><span class="k">Pace</span> 3 return · press strong</span></div>
-        <p class="anchor"><b>Anchor / setup</b>Band around your upper back, one end in each hand. Your own back is the anchor — nothing to attach.</p>
+        <div class="ex-top"><h3 class="ex-name"><span class="idx">B1</span>Anchored Band Chest Press<span class="sub">chest-height anchor — press away from it</span></h3><label class="donebox"><input type="checkbox" data-track="push-ex">Done</label></div>
+        <p class="cue">Ribs down. Press straight forward.</p>
+        <div class="data"><span class="chip"><span class="k">Sets</span> 3</span><span class="chip"><span class="k">Reps</span> 10–20</span><span class="chip band"><span class="k">Band</span> medium</span><span class="chip pace"><span class="k">Pace</span> 3 return · press strong</span><span class="chip effort"><span class="k">Effort</span> 1–2 good reps left</span></div>
+        <p class="anchor"><b>Anchor / setup</b>Anchor the band at chest height behind you. Face away from the anchor with one end in each hand. Use a staggered stance.</p>
         <ul class="cues">
-          <li>Band behind the upper back.</li>
-          <li>Press forward.</li>
-          <li>Return slowly.</li>
-          <li>Keep the shoulders heavy.</li>
+          <li>Step forward until the band has moderate starting tension.</li>
+          <li>Keep hands and elbows slightly below shoulder height.</li>
+          <li>Press straight forward without flaring the ribs.</li>
+          <li>Return until the hands reach the sides of the chest.</li>
+          <li>Do not let the band pull you backward.</li>
         </ul>
-        <p class="feel"><span class="yes">Feel:</span> chest and front shoulder. &nbsp; <span class="no">Not:</span> ribs flaring to make the press easier.</p>
-        <p class="note"><b>Shoulder note</b><br>Keep elbows slightly below shoulder height if the shoulders complain.</p>
-        <a class="watch" href="https://www.youtube.com/results?search_query=resistance+band+chest+press" target="_blank" rel="noopener">Watch the form</a>
+        <p class="feel"><span class="yes">Feel:</span> chest and front shoulder. &nbsp; <span class="no">Not:</span> pinching at the top of the shoulder.</p>
+        <div class="threeq"><span class="tq tq-do"><span class="tq-k">Do this</span>Face away from the chest-height anchor in a staggered stance. Press straight forward for 10&ndash;20 reps.</span><span class="tq tq-down"><span class="tq-k">If that&rsquo;s too difficult</span>Step closer to the anchor.</span><span class="tq tq-up"><span class="tq-k">If that&rsquo;s too easy</span>Step farther forward, or take 4 seconds to return.</span></div>
+        <a class="watch" href="https://www.youtube.com/results?search_query=band+chest+press+anchored+behind+staggered+stance" target="_blank" rel="noopener">Watch the form</a>
       </div>
     </article>
 
     <article class="ex">
       <div class="ex-body">
-        <div class="ex-top"><h3 class="ex-name"><span class="idx">B2</span>Band Push-Up or Press-Out<span class="sub">extra push volume</span></h3><label class="donebox"><input type="checkbox" data-track="push-ex-2">Done</label></div>
+        <div class="ex-top"><h3 class="ex-name"><span class="idx">B2</span>Band Push-Up<span class="sub">self-anchored — the band is on your back, not the door</span></h3><label class="donebox"><input type="checkbox" data-track="push-ex-2">Done</label></div>
         <p class="cue">Clean reps beat dramatic reps.</p>
         <div class="data"><span class="chip"><span class="k">Sets</span> 2</span><span class="chip"><span class="k">Reps</span> 8–15</span><span class="chip band"><span class="k">Band</span> light or medium</span></div>
         <p class="anchor"><b>Anchor / setup</b>Push-up: band across the upper back, ends pinned under both palms. Press-out: no anchor — hold one end in each hand at your chest and press straight out.</p>
@@ -494,7 +584,8 @@
           <li>Stop before the shoulders or wrists complain.</li>
         </ul>
         <p class="note"><b>Wrist note</b><br>Fists or push-up handles if the wrists object. Press-outs skip the wrist load entirely.</p>
-        <a class="watch" href="https://www.youtube.com/results?search_query=banded+push+up" target="_blank" rel="noopener">Watch the form</a>
+        <div class="threeq"><span class="tq tq-do"><span class="tq-k">Do this</span>Band across your upper back, push-ups from the knees or the floor. 8&ndash;15 reps.</span><span class="tq tq-down"><span class="tq-k">If that&rsquo;s too difficult</span>Drop the band and put your hands on a chair or countertop.</span><span class="tq tq-up"><span class="tq-k">If that&rsquo;s too easy</span>Feet elevated, or slow the lowering to 3 seconds.</span></div>
+        <a class="watch" href="https://www.youtube.com/results?search_query=push+up+with+band+across+upper+back" target="_blank" rel="noopener">Watch the form</a>
       </div>
     </article>
   
@@ -504,39 +595,44 @@
   <!-- PULL -->
   <section class="sec" id="pull">
     <div class="sec-head"><span class="stepno">Step 5 / 7</span><span class="tag">BUILD</span><h2>Pull</h2><span class="sec-min">8–10 min</span></div>
+    <p class="sec-intro">In Lesson 3, your feet anchored the row. Today you face a fixed anchor and control your whole body against its pull.</p>
+    <div class="timerbank"><span class="tb-k">Timer</span><button class="tbtn" data-secs="15" data-label="15s">15s</button><button class="tbtn" data-secs="20" data-label="20s">20s</button><button class="tbtn" data-secs="30" data-label="30s">30s</button><button class="tbtn" data-secs="45" data-label="45s">45s</button></div>
 
     <article class="ex">
       <div class="ex-body">
-        <div class="ex-top"><h3 class="ex-name"><span class="idx">C1</span>Band Row<span class="sub">main pull</span></h3><label class="donebox"><input type="checkbox" data-track="pull-ex">Done</label></div>
-        <p class="cue">Squeeze, then return like you’re in charge.</p>
-        <div class="data"><span class="chip"><span class="k">Sets</span> 4</span><span class="chip"><span class="k">Reps</span> 12–20</span><span class="chip band"><span class="k">Band</span> medium or heavy</span><span class="chip pace"><span class="k">Pace</span> 2 pull · 2 squeeze · 3 return</span></div>
-        <p class="anchor"><b>Anchor / setup</b>Seated with the band around both feet, or standing hinged with it under both feet. A safe hotel-room anchor (door anchor, sturdy post) works if you have one.</p>
+        <div class="ex-top"><h3 class="ex-name"><span class="idx">C1</span>Anchored Band Row<span class="sub">same anchor — now you face it</span></h3><label class="donebox"><input type="checkbox" data-track="pull-ex">Done</label></div>
+        <p class="cue">Pull your elbows beside your ribs.</p>
+        <div class="data"><span class="chip"><span class="k">Sets</span> 3</span><span class="chip"><span class="k">Reps</span> 10–20</span><span class="chip band"><span class="k">Band</span> medium or heavy</span><span class="chip pace"><span class="k">Pace</span> 2 pull · 2 squeeze · 3 return</span><span class="chip effort"><span class="k">Effort</span> 1–2 good reps left</span></div>
+        <p class="anchor"><b>Anchor / setup</b>Leave the band anchored at chest height. Face the anchor, hold one end in each hand, and step back into moderate tension.</p>
         <ul class="cues">
-          <li>Anchor with your feet, or a safe hotel-room anchor.</li>
-          <li>Pull the elbows back.</li>
-          <li>Squeeze the shoulder blades — juice out of the mango.</li>
-          <li>Return slowly.</li>
+          <li>Stand tall, or use a small hip hinge.</li>
+          <li>Begin with arms extended and shoulders heavy.</li>
+          <li>Pull the elbows back beside the ribs.</li>
+          <li>Finish with the hands near the sides of the chest.</li>
+          <li>Return slowly without being pulled forward.</li>
         </ul>
-        <p class="feel"><span class="yes">Feel:</span> mid-back. &nbsp; <span class="no">Not:</span> biceps doing all the work.</p>
-        <p class="note warn"><b>Anchor note</b><br>Test any door or post anchor with a few gentle pulls before you load it.</p>
-        <a class="watch" href="https://www.youtube.com/results?search_query=resistance+band+row" target="_blank" rel="noopener">Watch the form</a>
+        <p class="feel"><span class="yes">Feel:</span> mid-back and lats. &nbsp; <span class="no">Not:</span> shoulders shrugging up toward the ears.</p>
+        <div class="threeq"><span class="tq tq-do"><span class="tq-k">Do this</span>Face the chest-height anchor and row for 10&ndash;20 controlled reps.</span><span class="tq tq-down"><span class="tq-k">If that&rsquo;s too difficult</span>Step closer to the anchor.</span><span class="tq tq-up"><span class="tq-k">If that&rsquo;s too easy</span>Step farther back, or hold the squeeze for 2 seconds.</span></div>
+        <a class="watch" href="https://www.youtube.com/results?search_query=band+row+anchored+chest+height+standing" target="_blank" rel="noopener">Watch the form</a>
       </div>
     </article>
 
+    <p class="note" style="border-left-color:var(--coral);background:rgba(232,80,15,.07);"><b style="color:var(--coral);">One setup change</b><br>The first three anchored exercises used chest height. For face pulls, move the anchor to face height.</p>
+
     <article class="ex">
       <div class="ex-body">
-        <div class="ex-top"><h3 class="ex-name"><span class="idx">C2</span>Band Pull-Apart<span class="sub">upper-back reset</span></h3><label class="donebox"><input type="checkbox" data-track="pull-ex-2">Done</label></div>
-        <p class="cue">Pull your shoulder blades back into the conversation.</p>
-        <div class="data"><span class="chip"><span class="k">Sets</span> 1–2</span><span class="chip"><span class="k">Reps</span> 15–25</span><span class="chip band"><span class="k">Band</span> light</span></div>
-        <p class="anchor"><b>Anchor / setup</b>No anchor. Hold the band in both hands at chest height, arms straight.</p>
+        <div class="ex-top"><h3 class="ex-name"><span class="idx">C2</span>Anchored Band Face Pull<span class="sub">one deliberate anchor-height change</span></h3><label class="donebox"><input type="checkbox" data-track="pull-ex-2">Done</label></div>
+        <p class="cue">Hands beside the ears. Neck stays out of it.</p>
+        <div class="data"><span class="chip"><span class="k">Sets</span> 2</span><span class="chip"><span class="k">Reps</span> 12–20</span><span class="chip band"><span class="k">Band</span> light or medium</span><span class="chip pace"><span class="k">Pace</span> 2 pull · 2 squeeze · 3 return</span></div>
+        <p class="anchor"><b>Anchor / setup</b>Move the anchor from chest height to face height. Face it and step back until the band begins with light tension.</p>
         <ul class="cues">
-          <li>Chest height.</li>
-          <li>Pull apart.</li>
-          <li>Pause.</li>
-          <li>Slow return — don’t let the band snap you back.</li>
+          <li>Pull toward your face with the elbows wide.</li>
+          <li>Think hands toward ears, shoulder blades back and down.</li>
+          <li>Return slowly. Don't let the band snap you forward.</li>
         </ul>
-        <p class="feel"><span class="yes">Feel:</span> upper back. &nbsp; <span class="no">Not:</span> neck. Heavy shoulders — your neck is still not invited.</p>
-        <a class="watch" href="https://www.youtube.com/results?search_query=band+pull+apart" target="_blank" rel="noopener">Watch the form</a>
+        <p class="feel"><span class="yes">Feel:</span> rear shoulders and upper back. &nbsp; <span class="no">Not:</span> neck and traps shrugging.</p>
+        <div class="threeq"><span class="tq tq-do"><span class="tq-k">Do this</span>Pull toward your face until your hands finish beside your ears. 12&ndash;20 reps.</span><span class="tq tq-down"><span class="tq-k">If that&rsquo;s too difficult</span>Step closer, or use the lightest band.</span><span class="tq tq-up"><span class="tq-k">If that&rsquo;s too easy</span>Step farther back, or pause beside the ears for 2 seconds.</span></div>
+        <a class="watch" href="https://www.youtube.com/results?search_query=band+face+pull+anchored+face+height" target="_blank" rel="noopener">Watch the form</a>
       </div>
     </article>
   
@@ -546,12 +642,13 @@
   <!-- DELTS -->
   <section class="sec" id="delts">
     <div class="sec-head"><span class="stepno">Step 6 / 7</span><span class="tag">BUILD</span><h2>Shoulders</h2><span class="sec-min">6–8 min</span></div>
+    <div class="timerbank"><span class="tb-k">Timer</span><button class="tbtn" data-secs="15" data-label="15s">15s</button><button class="tbtn" data-secs="20" data-label="20s">20s</button><button class="tbtn" data-secs="30" data-label="30s">30s</button><button class="tbtn" data-secs="45" data-label="45s">45s</button></div>
 
     <article class="ex">
       <div class="ex-body">
         <div class="ex-top"><h3 class="ex-name"><span class="idx">D1</span>Band Overhead Press<span class="sub">shoulders</span></h3><label class="donebox"><input type="checkbox" data-track="delts-ex">Done</label></div>
         <p class="cue">Ribs down. Press clean.</p>
-        <div class="data"><span class="chip"><span class="k">Sets</span> 3</span><span class="chip"><span class="k">Reps</span> 8–15</span><span class="chip band"><span class="k">Band</span> light or medium</span></div>
+        <div class="data"><span class="chip"><span class="k">Sets</span> 3</span><span class="chip"><span class="k">Reps</span> 10–15</span><span class="chip band"><span class="k">Band</span> light or medium</span></div>
         <p class="anchor"><b>Anchor / setup</b>Band under one foot (easier) or both feet (harder). Hands start at the shoulders.</p>
         <ul class="cues">
           <li>Stand on the band.</li>
@@ -560,7 +657,8 @@
           <li>Use a lighter band if your neck joins in.</li>
         </ul>
         <p class="feel"><span class="yes">Feel:</span> shoulders. &nbsp; <span class="no">Not:</span> low back arching.</p>
-        <a class="watch" href="https://www.youtube.com/results?search_query=resistance+band+overhead+press" target="_blank" rel="noopener">Watch the form</a>
+        <div class="threeq"><span class="tq tq-do"><span class="tq-k">Do this</span>Stand on the <b>middle</b> of the band. Press overhead 10&ndash;15 reps, ribs down.</span><span class="tq tq-down"><span class="tq-k">If that&rsquo;s too difficult</span>Press one arm at a time, or use only the top half of the range.</span><span class="tq tq-up"><span class="tq-k">If that&rsquo;s too easy</span>Widen your stance on the band, or slow the lowering to 3 seconds.</span></div>
+        <a class="watch" href="https://www.youtube.com/results?search_query=long+resistance+band+overhead+press+standing+on+band" target="_blank" rel="noopener">Watch the form</a>
       </div>
     </article>
 
@@ -576,7 +674,8 @@
           <li>Slow lower.</li>
         </ul>
         <p class="feel"><span class="yes">Feel:</span> side of the shoulder. &nbsp; <span class="no">Not:</span> shrugging into the neck.</p>
-        <a class="watch" href="https://www.youtube.com/results?search_query=band+lateral+raise" target="_blank" rel="noopener">Watch the form</a>
+        <div class="threeq"><span class="tq tq-do"><span class="tq-k">Do this</span><b>X-band is the default</b> &mdash; stand on the band and hold the <i>opposite</i> end in each hand so they cross. 12&ndash;20 reps.</span><span class="tq tq-down"><span class="tq-k">If that&rsquo;s too difficult</span>Single-arm lateral raise, one side at a time.</span><span class="tq tq-up"><span class="tq-k">If that&rsquo;s too easy</span>Step wider onto the band, or slow the lowering to 3 seconds.</span></div>
+        <a class="watch" href="https://www.youtube.com/results?search_query=resistance+band+one+arm+lateral+raise" target="_blank" rel="noopener">Watch the form</a>
       </div>
     </article>
   
@@ -587,12 +686,13 @@
   <section class="sec" id="rise">
     <div class="sec-head"><span class="stepno">Step 7 / 7</span><span class="tag rise">RISE</span><h2>Your Choice</h2><span class="sec-min">3–5 min</span></div>
     <p class="sec-intro">Familiar work today. You get to pick how it ends.</p>
+    <div class="timerbank"><span class="tb-k">Timer</span><button class="tbtn" data-secs="15" data-label="15s">15s</button><button class="tbtn" data-secs="20" data-label="20s">20s</button><button class="tbtn" data-secs="30" data-label="30s">30s</button><button class="tbtn" data-secs="45" data-label="45s">45s</button></div>
 
     <article class="ex">
       <div class="ex-body">
         <div class="ex-top"><h3 class="ex-name">If you feel good — end standing<span class="sub">pride, completion, “I did that”</span></h3><label class="donebox"><input type="checkbox" data-track="rise-if-you-feel-good-end-sta">Done</label></div>
         <ul class="cues">
-          <li>Horse stance — 20–30 sec. <i>Push the floor apart.</i> <a class="mw" href="https://www.youtube.com/results?search_query=horse+stance+hold" target="_blank" rel="noopener">watch</a> <button class="tbtn" data-secs="30" data-label="30s">30s</button></li>
+          <li>Horse stance — 20–30 sec. <i>Push the floor apart.</i> <a class="mw" href="https://www.youtube.com/results?search_query=horse+stance+isometric+hold" target="_blank" rel="noopener">watch</a> <button class="tbtn" data-secs="30" data-label="30s">30s</button></li>
           <li>Tall standing breath — 3 breaths. <i>Grow taller on each one.</i></li>
         </ul>
       </div>
@@ -631,7 +731,6 @@
   </section>
 
   <hr class="stripe" />
-<nav class="homebar"><a href="course.html#curriculum">Back to the Academy</a></nav>
 
   <footer>
     <p class="disclaim">Adjust range and depth based on how your knee, hip, shoulder, and back feel. Bands store energy — never let one snap back at you, and check any door anchor before you load it. Check with a professional first if anything hurts or you're unsure this suits you.</p>
@@ -668,26 +767,77 @@
   // ██████████████████████████████████████████████████████████████████████
   // DO NOT EDIT HERE — SHARED TIMER JS
   // beep() + fmt() + the .tbtn click handler are copied byte-for-byte in
-  // trial-class / lesson-2 / lesson-3 / lesson-6. Change all four together.
+  // trial-class / lesson-2 / lesson-3 / lesson-4 / lesson-6. Change all FIVE together.
   // What it does: any element with class "tbtn" and data-secs="N" becomes a
   // tap-to-start countdown (used on every timed hold). data-label is the
   // resting text; it flashes "done" + beeps at zero, then resets.
   // ██████████████████████████████████████████████████████████████████████
-  // hold timers
-  function beep(){try{var C=window.AudioContext||window.webkitAudioContext;if(!C)return;var a=new C(),o=a.createOscillator(),g=a.createGain();o.connect(g);g.connect(a.destination);o.type='sine';o.frequency.value=880;g.gain.setValueAtTime(.25,a.currentTime);g.gain.exponentialRampToValueAtTime(.0001,a.currentTime+.5);o.start();o.stop(a.currentTime+.5);}catch(e){}}
+  // hold timers — THREE PHASES so you have time to get into position:
+  //   YELLOW "Ready 5…1"  → you set up (nothing is being timed yet)
+  //   GREEN  counts down  → this is the actual hold
+  //   RED    "done"       → triple beep + flash, then resets
+  // Tap a running timer again to cancel it.
+  // Change READY_SECS below if 5 seconds isn't the right lead-in.
+  var READY_SECS = 5;
+
+  function tone(freq, start, dur, vol){
+    try{
+      var C=window.AudioContext||window.webkitAudioContext; if(!C) return;
+      window._tutlAC = window._tutlAC || new C();
+      var a=window._tutlAC, o=a.createOscillator(), g=a.createGain();
+      o.connect(g); g.connect(a.destination); o.type='sine'; o.frequency.value=freq;
+      var s=a.currentTime+start;
+      g.gain.setValueAtTime(.0001,s);
+      g.gain.exponentialRampToValueAtTime(vol||.3, s+.02);
+      g.gain.exponentialRampToValueAtTime(.0001, s+dur);
+      o.start(s); o.stop(s+dur+.02);
+    }catch(e){}
+  }
+  function tickReady(){ tone(660,0,.09,.18); }                       // soft tick each ready second
+  function beepGo(){ tone(880,0,.16,.32); tone(1320,.14,.20,.32);    // "go" — two quick rising notes
+                     try{ if(navigator.vibrate) navigator.vibrate(90); }catch(e){} }
+  function beep(){
+    // Three ascending tones — much harder to miss than one blip.
+    // NOTE: on iPhone the physical SILENT SWITCH mutes Web Audio completely,
+    // so we also vibrate (works through silent) and flash the button.
+    tone(880,0,.16,.35); tone(1100,.18,.16,.35); tone(1320,.36,.18,.35);
+    try{ if(navigator.vibrate) navigator.vibrate([120,60,120,60,200]); }catch(e){}
+  }
   function fmt(s){var m=Math.floor(s/60),r=s%60;return m>0?(m+':'+(r<10?'0':'')+r):(''+r);}
   document.addEventListener('click',function(e){
     var b=e.target.closest('.tbtn'); if(!b) return;
-    if(b.dataset.state==='running') return;
-    var secs=parseInt(b.getAttribute('data-secs'),10)||20;
     var label=b.getAttribute('data-label')||'hold';
-    var left=secs; b.dataset.state='running'; b.classList.remove('done'); b.classList.add('running'); b.textContent=fmt(left);
+    // tapping a live timer cancels it
+    if(b.dataset.state){
+      clearInterval(parseInt(b.dataset.tid,10));
+      b.dataset.state=''; b.dataset.tid='';
+      b.classList.remove('ready','running','done');
+      b.textContent=label;
+      return;
+    }
+    var secs=parseInt(b.getAttribute('data-secs'),10)||20;
+    var ready=READY_SECS, left=secs;
+    b.dataset.state='ready'; b.classList.remove('done'); b.classList.add('ready');
+    b.textContent='Ready '+ready; tickReady();
     var id=setInterval(function(){
+      if(b.dataset.state==='ready'){
+        ready--;
+        if(ready>0){ b.textContent='Ready '+ready; tickReady(); }
+        else{
+          b.dataset.state='running'; b.classList.remove('ready'); b.classList.add('running');
+          b.textContent=fmt(left); beepGo();
+        }
+        return;
+      }
       left--;
-      if(left<=0){clearInterval(id);b.dataset.state='';b.classList.remove('running');b.classList.add('done');b.textContent='done';beep();
+      if(left<=0){
+        clearInterval(id); b.dataset.state=''; b.dataset.tid='';
+        b.classList.remove('running'); b.classList.add('done');
+        b.textContent='done'; beep();
         setTimeout(function(){b.classList.remove('done');b.textContent=label;},2500);
       } else { b.textContent=fmt(left); }
     },1000);
+    b.dataset.tid=id;
   });
 
 
@@ -704,7 +854,7 @@
     function store(obj){ mem=obj; try{ localStorage.setItem(KEY, JSON.stringify(obj)); }catch(e){} }
     function load(){ try{ var r=localStorage.getItem(KEY); if(r) return JSON.parse(r); }catch(e){} return mem; }
 
-    var blockMap = {"getlow":['getlow-block'],"core":['core-bear-hover', 'core-pilates-chest-lift', 'core-side-plank'],"legs":['legs-ex', 'legs-ex-2', 'legs-ex-3', 'legs-ex-4'],"push":['push-ex', 'push-ex-2'],"pull":['pull-ex', 'pull-ex-2'],"delts":['delts-ex', 'delts-ex-2'],"rise":['rise-if-you-feel-good-end-sta', 'rise-if-you-feel-cooked-end-r']};
+    var blockMap = {"getlow":['getlow-block'],"core":['core-bear-hover', 'core-pilates-chest-lift', 'core-pallof-press'],"legs":['legs-ex', 'legs-ex-2', 'legs-ex-3', 'legs-ex-4'],"push":['push-ex', 'push-ex-2'],"pull":['pull-ex', 'pull-ex-2'],"delts":['delts-ex', 'delts-ex-2'],"rise":['rise-if-you-feel-good-end-sta', 'rise-if-you-feel-cooked-end-r']};
 
     function refresh(){
       var state = load();
@@ -737,6 +887,21 @@
     if(preset) preset.addEventListener('click', function(){ store({}); refresh(); });
     refresh();
   })();
+
+  // keep the sticky timer strip clear of the sticky jump nav
+  function setJumpH(){
+    // Sticky header chain: homebar (top:0) → jump nav (below it) → timer strip
+    // (below that). We measure each bar so they never overlap, whatever the
+    // screen width or however the nav wraps.
+    var hb=document.querySelector('.homebar');
+    var j=document.querySelector('.jump');
+    var root=document.documentElement;
+    if(hb) root.style.setProperty('--hbH', hb.offsetHeight+'px');
+    if(j)  root.style.setProperty('--jumpH', j.offsetHeight+'px');
+  }
+  setJumpH();
+  window.addEventListener('resize', setJumpH);
+  window.addEventListener('orientationchange', setJumpH);
 </script>
 </body>
 </html>
