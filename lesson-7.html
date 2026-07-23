@@ -1,0 +1,889 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="color-scheme" content="light">
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Lesson 7 — Own Your Body</title>
+<!--
+  ============================================================================
+  LESSON 7 — OWN YOUR BODY   (Turn Up the Life / turnupthelife.com)
+  ============================================================================
+  ONE BIG IDEA
+    FLOW. Every exercise in here is already familiar — that is the point. The
+    work is no longer the exercises; it is the SPACES BETWEEN them. Changing
+    position without resetting, without hunting, without looking awkward.
+
+  WHY THIS IS THE LAST LESSON
+    Pilates names six principles: Breath, Concentration, Centering, Control,
+    Precision, and Flow. The course has taught five of them by doing. Flow is
+    the one that only makes sense once the movements are known — you cannot
+    make transitions smooth while you are still working out what comes next.
+    And Breath is not a seventh thing to learn: it lives in the pauses. Where
+    the student used to reset, they now breathe.
+
+  WHAT IS NEW HERE (everything else is deliberately unchanged)
+    · Transition add-on in the warm-up (squat / hinge / lunge, no weight)
+    · Suitcase carry
+    · The Movement Flow sequence — the heart of the lesson
+    · Hip thrust replaces frog pumps: by now they can actually LOAD the glute
+    · Farmer carry finish
+    · A one-minute walking victory lap before the stretches
+
+  NOTE ON THE THREE QUESTIONS
+    In this lesson the ladders ask about QUALITY, not just load. "Too easy"
+    often means slower, smoother, or longer — not heavier.
+
+  SAFE TO EDIT  -  everything inside body.
+  SHARED/FROZEN -  the :root token block and the timer JS are duplicated
+                   byte-for-byte across every lesson file. See the banners.
+  ============================================================================
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;800;900&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400;1,6..72,500&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  /* ██████████████████████████████████████████████████████████████████████
+     DO NOT EDIT HERE — SHARED DESIGN TOKENS
+     This exact :root block is copied in trial-class.html, lesson-2.html,
+     lesson-3.html, and lesson-6.html. If you change a color, font, or token,
+     change it IDENTICALLY in all four, or the lessons will drift apart.
+     (Slated to become one shared stylesheet after Lessons 4/5/7 are tested.)
+     ██████████████████████████████████████████████████████████████████████ */
+  :root{
+    /* LIGHT ONLY — do not remove.
+       Some phone browsers and in-app browsers (Android WebView "force dark",
+       Chrome auto-dark, various in-app viewers) will INVERT a page's colours in
+       dark mode unless the page says which schemes it supports. This one line
+       tells them: this design is light, leave it alone. Without it the warm
+       paper background can render near-black with dark text on top — unreadable. */
+    color-scheme: light;
+    /* ┌─────────────────────────────────────────────────────────────────┐
+       │ THIS IS WHERE YOU ADJUST THE COLORS.                            │
+       │ Everything on the page pulls its color from one of these names  │
+       │ (e.g. background:var(--sun)). Change the hex here and it updates │
+       │ EVERYWHERE that name is used — that's the whole point of tokens: │
+       │ one place to change, not a find-and-replace across the file.    │
+       │ To preview a new color, just swap a hex value and reload.       │
+       └─────────────────────────────────────────────────────────────────┘ */
+    --paper:#FFF7EA; --card:#FFFFFF; --line:#EADFCB;
+      /* --paper = the warm page background · --card = white boxes on top of it
+         --line  = the thin divider/border color (a soft tan) */
+    --ink:#26140A; --ink-2:#7E6A54;
+      /* --ink   = main text (near-black brown) · --ink-2 = muted/subtitle text */
+    --sun:#FFB300; --aqua:#12A14B; --pink:#D62828; --lime:#93D500; --coral:#E8500F;
+      /* the carnival accents. Where each shows up:
+         --sun   (gold)   = active buttons, highlights, "Before You Begin" box
+         --aqua  (green)  = "Feel:" cues, success states, Get Low tag
+         --pink  (red)    = "Not:" cues, Rise tag, warnings, section-step chip
+         --lime  (bright) = "done" states, fertilizer tags, progress fill
+         --coral (orange) = links, section eyebrows, the shimmer + stripe */
+    --display:'Archivo',system-ui,sans-serif;   /* big bold headings */
+    --body:'Newsreader',Georgia,serif;          /* readable body prose */
+    --mono:'JetBrains Mono',ui-monospace,monospace; /* labels, chips, data */
+  }
+  /* ── end shared tokens ── everything below is page styling, edit as needed ── */
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{overflow-x:clip;max-width:100%;margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);font-size:18px;line-height:1.55;-webkit-font-smoothing:antialiased;}
+  .wrap{max-width:760px;margin:0 auto;padding:0 20px;}
+  a{color:var(--pink);text-underline-offset:3px;}
+
+  /* THE TWO SIGNATURE EFFECTS (the brand's visual fingerprint)
+     .shine  = the animated rainbow shimmer on hero words. It works by putting
+               a wide carnival gradient BEHIND the text, clipping it to the
+               letter shapes (background-clip:text), then sliding it forever
+               (the shimmer animation). Want it faster/slower? change "7s".
+               Want it to stop? delete the animation line.
+     .stripe = the flat 5px carnival gradient bar (a divider/accent). Reused
+               top and bottom of pages. Change its thickness with "height". */
+  .shine{background:linear-gradient(100deg,var(--sun) 0%,var(--coral) 28%,var(--pink) 55%,var(--aqua) 85%);background-size:220% auto;-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent;animation:shimmer 7s linear infinite;}
+  @keyframes shimmer{to{background-position:220% center;}}
+  .stripe{height:5px;border:0;margin:0;background:linear-gradient(90deg,var(--sun),var(--coral) 28%,var(--pink) 52%,var(--aqua) 76%,var(--lime));}
+
+  /* HERO — the big lesson title area at the very top.
+     .kick = the small orange eyebrow line ("LESSON 02 · …")
+     h1    = the giant title. font-size uses clamp(min, scales-with-screen, max)
+             so it's big on desktop but never overflows a phone. All headings
+             here use that clamp() trick — that's what makes them responsive.
+     .princ = the italic "principle" line under the intro. */
+  .hero{padding:40px 0 22px;}
+  .hero .kick{font-family:var(--mono);font-size:12px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--coral);}
+  .hero h1{font-family:var(--display);font-weight:900;font-size:clamp(40px,10vw,76px);line-height:.86;letter-spacing:-.03em;margin:12px 0 16px;text-transform:uppercase;}
+  .hero p{max-width:600px;font-size:18px;line-height:1.5;margin:0;}
+  .hero .princ{margin-top:14px;font-style:italic;color:var(--ink-2);}
+
+  /* THIS IS WHERE THE JUMP-NAV BUTTONS ARE STYLED (the row you tap to skip
+     between workout blocks). It "sticks" to the top as you scroll (position:
+     sticky; top:0). The row scrolls sideways on narrow phones instead of
+     wrapping (overflow-x:auto), and we hide its scrollbar for looks.
+     The ACTIVE button turns gold — that's the ".on" rule on the last line;
+     JS adds/removes the "on" class as you scroll. To restyle these buttons
+     (shape, size, color), this is the block. */
+  .jump{position:sticky;top:var(--hbH,40px);z-index:50;background:var(--paper);border-bottom:2px solid var(--ink);padding:9px 0;margin-top:16px;}
+  .jump-row{display:flex;gap:7px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;}
+  .jump-row::-webkit-scrollbar{display:none;}
+  .jump-row button{flex:0 0 auto;height:36px;font-family:var(--mono);font-size:11.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;border:2px solid var(--ink);background:var(--card);color:var(--ink);padding:0 12px;cursor:pointer;}
+  .jump-row button:hover,.jump-row button.on{background:var(--sun);border-color:var(--sun);}
+
+  /* SECTION = one workout block (Get Low, Core, Legs…). Structure of its header:
+     .tag   = the little colored label ("GET LOW" green, "BUILD" orange,
+              "RISE" red — the color is set by .tag.getlow / .tag.rise).
+     h2     = the block's big title.  .sec-min = the "5–7 min" time, pushed
+     to the right with margin-left:auto.  .sec-intro = the gray lead sentence.
+     scroll-margin-top:64px keeps the title from hiding under the sticky nav
+     when you jump to it. */
+  .sec{padding:34px 0 8px;border-top:1px solid var(--line);scroll-margin-top:64px;}
+  .sec-head{display:flex;flex-wrap:wrap;align-items:baseline;gap:12px;margin-bottom:6px;}
+  .sec-head .tag{font-family:var(--mono);font-size:12px;font-weight:700;color:var(--coral);letter-spacing:.14em;}
+  .sec-head .tag.getlow{color:#0B7A3A;}
+  .sec-head .tag.rise{color:var(--pink);}
+  .sec-head h2{font-family:var(--display);font-weight:900;font-size:clamp(26px,6vw,42px);line-height:.95;letter-spacing:-.02em;margin:0;text-transform:uppercase;}
+  .sec-min{font-family:var(--mono);font-size:12.5px;color:var(--ink-2);margin-left:auto;}
+  .sec-intro{max-width:620px;margin:8px 0 0;color:var(--ink-2);font-size:16px;}
+
+  /* ═══ THE EXERCISE CARD ═══ the most important pattern in the file.
+     Every move is one <article class="ex">. Anatomy of a card:
+       .ex-name  = move title.  .idx = the red "A1/A2" superset number.
+                   .sub = the italic one-line description under the title.
+       .cue      = the signature coaching cue, in italics with big orange
+                   quote-marks (added by .cue::before / ::after).
+       .data     = the row of little bordered "chips" (Sets / Reps / Pace…).
+                   A chip's border color signals its type:
+                     .chip.pace   → green (tempo)
+                     .chip.effort → red   (how hard)
+                   (band lessons add .chip.band → gold.)  .k = the gray label
+                   inside a chip ("SETS").
+       .cues     = the bullet list of setup points (orange dash markers).
+       .fert     = the green "🌱 fertilizer" tag on glute moves.
+       .watch    = the solid orange "Watch the form" button (YouTube link).
+       .mw       = the small inline "watch" link used inside bullet lists.
+       .credit   = the gold-bordered "Sequence credit" box.
+     To restyle a card, this is the whole block. */
+  .ex{border:1.5px solid var(--ink);background:var(--card);margin-top:18px;}
+  .ex-body{padding:18px 20px;}
+  .ex-name{font-family:var(--display);font-weight:800;font-size:clamp(18px,4.5vw,23px);letter-spacing:-.01em;margin:0 0 6px;line-height:1.05;text-transform:uppercase;}
+  .ex-name .idx{color:var(--pink);margin-right:.4em;}
+  .ex-name .sub{display:block;font-family:var(--body);font-weight:400;font-style:italic;font-size:15px;color:var(--ink-2);margin-top:4px;letter-spacing:0;text-transform:none;}
+  .cue{margin:10px 0 2px;font-family:var(--body);font-style:italic;font-size:17px;line-height:1.4;color:var(--ink);}
+  .cue::before{content:"\201C";color:var(--coral);font-family:var(--display);font-weight:900;font-size:1.3em;margin-right:2px;}
+  .cue::after{content:"\201D";color:var(--coral);font-family:var(--display);font-weight:900;font-size:1.3em;margin-left:2px;}
+  .data{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0 4px;}
+  .chip{display:inline-flex;align-items:center;gap:.4em;font-family:var(--mono);font-size:11.5px;font-weight:500;letter-spacing:.04em;text-transform:uppercase;border:1.5px solid var(--ink);color:var(--ink);padding:5px 9px;white-space:nowrap;}
+  .chip .k{color:var(--ink-2);}
+  .chip.pace{border-color:var(--aqua);color:#0B7A3A;} .chip.pace .k{color:var(--aqua);}
+  .chip.effort{border-color:var(--pink);color:var(--pink);} .chip.effort .k{color:var(--pink);opacity:.75;}
+  .cues{margin:8px 0 0;padding:0;list-style:none;}
+  .cues li{position:relative;padding:5px 0 5px 20px;font-size:16px;line-height:1.45;}
+  .cues li::before{content:"";position:absolute;left:0;top:12px;width:8px;height:2px;background:var(--coral);}
+  .cues li i{color:var(--ink-2);}
+  .fert{display:inline-block;font-family:var(--mono);font-size:9.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;background:rgba(147,213,0,.22);border:1.5px solid var(--lime);color:#3f5c00;padding:2px 7px;margin-left:6px;vertical-align:middle;white-space:nowrap;}
+  details.ft{margin-top:10px;}
+  details.ft summary{cursor:pointer;list-style:none;font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--coral);}
+  details.ft summary::-webkit-details-marker{display:none;}
+  details.ft summary::after{content:" +";}
+  details.ft[open] summary::after{content:" –";}
+  details.ft p{margin:8px 0 0;font-size:15px;line-height:1.5;color:var(--ink-2);}
+  .watch{display:inline-flex;align-items:center;gap:8px;margin-top:12px;font-family:var(--mono);font-size:11.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;background:var(--coral);color:#fff;padding:11px 15px;text-decoration:none;border:2px solid var(--coral);}
+  .watch::before{content:"▶";font-size:10px;}
+  .mw{font-family:var(--mono);font-size:10.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--coral);text-decoration:none;border-bottom:1.5px solid var(--coral);margin-left:6px;white-space:nowrap;}
+  .mw::before{content:"▶ ";font-size:8px;}
+  .credit{margin-top:12px;padding:11px 13px;border-left:3px solid var(--sun);background:rgba(255,179,0,.12);font-size:14px;line-height:1.5;}
+  .credit b{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#9A6B00;display:block;margin-bottom:4px;}
+
+  /* CORE LIST — a compact alternative to full cards, used only for the Core
+     block (several short moves stacked in one bordered box). .cm = move name,
+     .cr = the red reps (pushed right), .cf = the gray form note below. */
+  .corelist{border:1.5px solid var(--ink);background:var(--card);margin-top:16px;}
+  .ci{display:flex;flex-wrap:wrap;align-items:baseline;column-gap:12px;padding:13px 15px;border-top:1px solid var(--line);}
+  .ci:first-child{border-top:none;}
+  .cm{font-family:var(--display);font-weight:800;text-transform:uppercase;font-size:16px;line-height:1.15;}
+  .cr{margin-left:auto;font-family:var(--mono);font-weight:700;font-size:13px;color:var(--pink);white-space:nowrap;}
+  .cf{flex-basis:100%;margin-top:3px;color:var(--ink-2);font-size:14.5px;line-height:1.4;}
+
+  /* TIMER BUTTON (.tbtn) — the tap-to-start countdown on every timed hold.
+     Three visual states, driven by JS adding a class:
+       (default) = outlined, shows the duration like "30s"
+       .running  = turns lime while counting down
+       .done     = flashes red "done" + beeps, then resets to the label.
+     The clock icon is the ::before. The countdown logic is the SHARED timer
+     JS near the bottom of the file (see its banner). */
+  .tbtn{display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--ink);background:var(--card);border:1.5px solid var(--ink);padding:3px 9px;margin-left:6px;cursor:pointer;vertical-align:baseline;line-height:1.4;}
+  .tbtn::before{content:"⏱";font-size:11px;}
+  .tbtn:hover{background:var(--sun);border-color:var(--sun);}
+  /* TIMER PHASES — yellow "get ready", green working, red done.
+     The yellow phase is Kevin's fix: it gives you ~5 seconds to get into
+     position before anything is actually being timed. */
+  .tbtn.ready{background:var(--sun);border-color:var(--ink);color:var(--ink);}
+  .tbtn.running{background:var(--lime);border-color:var(--ink);}
+  .tbtn.done{background:var(--pink);border-color:var(--pink);color:#fff;}
+
+  .feel{margin-top:10px;font-family:var(--mono);font-size:12px;line-height:1.6;letter-spacing:.02em;}
+  .feel .yes{color:#0B7A3A;font-weight:700;} .feel .no{color:var(--pink);font-weight:700;}
+  .swap{margin-top:10px;font-size:14.5px;line-height:1.5;}
+  .swap b{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;}
+  .swap .easy b{color:#0B7A3A;} .swap .hard b{color:var(--coral);}
+  .note{margin-top:12px;padding:11px 13px;border-left:3px solid var(--aqua);background:rgba(18,161,75,.08);font-size:14.5px;line-height:1.5;}
+  .note b{color:#0B7A3A;}
+  .prebegin{border:2px solid var(--ink);background:rgba(18,161,75,.06);padding:16px 18px;margin-top:16px;}
+  .prebegin h3{font-family:var(--display);font-weight:900;text-transform:uppercase;font-size:16px;margin:0 0 8px;letter-spacing:-.01em;}
+  .prebegin p{margin:0 0 8px;font-size:15.5px;line-height:1.5;}
+  .prebegin ul{margin:0;padding:0;list-style:none;}
+  .prebegin li{position:relative;padding:4px 0 4px 18px;font-size:15px;line-height:1.45;}
+  .prebegin li::before{content:"";position:absolute;left:0;top:11px;width:7px;height:2px;background:var(--aqua);}
+  .mod{display:block;margin-top:4px;font-family:var(--mono);font-size:12px;line-height:1.5;color:#0B7A3A;letter-spacing:.01em;}
+  .mod b{text-transform:uppercase;letter-spacing:.06em;font-size:11px;}
+  .ready{margin-top:18px;padding:13px 15px;border:2px solid var(--sun);background:rgba(255,179,0,.12);font-size:15.5px;line-height:1.5;font-style:italic;}
+  .drink{margin:18px 0 0;padding:13px 15px;border:2px solid var(--lime);background:rgba(147,213,0,.12);font-size:16px;line-height:1.5;font-style:italic;}
+
+  footer{border-top:1px solid var(--line);padding:26px 0 60px;margin-top:30px;}
+  .disclaim{max-width:620px;font-size:12.5px;color:var(--ink-2);line-height:1.5;}
+
+  @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto;}.shine{animation:none;}}
+
+  .homebar{position:sticky;top:0;z-index:60;background:var(--ink);color:var(--paper);}
+  .homebar a{display:inline-flex;align-items:center;gap:8px;color:var(--paper);text-decoration:none;font-family:var(--mono);font-size:11.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:10px 18px;}
+  .homebar a:hover{color:var(--sun);}
+  .homebar a::before{content:"\2190";font-size:14px;}
+
+  .stepno{font-family:var(--mono);font-size:10.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#fff;background:var(--coral);padding:3px 8px;flex:0 0 auto;align-self:center;}
+  .upnext{display:flex;flex-direction:column;gap:2px;margin:22px 0 4px;padding:14px 16px;border:2px solid var(--ink);background:var(--card);text-decoration:none;color:var(--ink);}
+  .upnext:hover{background:var(--sun);border-color:var(--sun);}
+  .un-k{font-family:var(--mono);font-size:10.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--coral);}
+  .upnext:hover .un-k{color:var(--ink);}
+  .un-t{font-family:var(--display);font-weight:800;font-size:20px;text-transform:uppercase;letter-spacing:-.01em;}
+  .workout-done{margin:26px 0 8px;padding:20px 18px;border:2px solid var(--lime);background:rgba(147,213,0,.14);display:flex;flex-direction:column;gap:4px;}
+  .wd-k{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#3f5c00;}
+  .wd-t{font-family:var(--body);font-size:17px;line-height:1.4;}
+
+  /* ---------- done-tracking + progress bar (ported from Lesson 1) ---------- */
+  .ex-top{display:flex;align-items:flex-start;gap:14px;}
+  .ex-top .ex-name{flex:1;margin:0;}
+  .donebox{margin-left:auto;flex:0 0 auto;display:flex;align-items:center;gap:8px;font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-2);cursor:pointer;user-select:none;padding-top:2px;white-space:nowrap;}
+  .donebox input{width:20px;height:20px;accent-color:#93D500;cursor:pointer;}
+  .progresswrap{height:6px;background:var(--line);margin-top:8px;}
+  .progressbar{height:100%;width:0%;background:linear-gradient(90deg,var(--sun),var(--coral),var(--pink));transition:width .35s ease;}
+  .prog-label{font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-2);margin-top:5px;display:flex;justify-content:space-between;gap:10px;padding-bottom:2px;}
+  .prog-label button{font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;background:none;border:none;color:var(--ink-2);cursor:pointer;text-decoration:underline;padding:0;}
+  .jump-row button .dot{width:8px;height:8px;border:1.5px solid currentColor;display:inline-block;border-radius:50%;margin-right:6px;vertical-align:middle;}
+  .jump-row button.done .dot{background:var(--lime);border-color:var(--ink);}
+  .log{border-top:1.5px solid var(--ink);display:flex;flex-wrap:wrap;gap:10px 26px;align-items:center;padding:13px 20px;font-family:var(--mono);font-size:12px;letter-spacing:.04em;text-transform:uppercase;color:var(--ink-2);margin-top:14px;}
+  .log .fail{color:var(--pink);font-weight:700;}
+  .blank{display:inline-block;min-width:46px;border-bottom:2px solid var(--pink);height:1.05em;vertical-align:baseline;}
+  @media (max-width:680px){ .donebox{margin-left:0;} .ex-top{flex-wrap:wrap;} }
+
+  /* TIMER BANK — the 15/20/30/45 choices at the top of each section, so you can
+     start a hold without hunting for the button next to a specific exercise.
+     They're ordinary .tbtn buttons, so they use the same countdown logic. */
+  .timerbank{display:flex;flex-wrap:wrap;align-items:center;gap:7px;margin:10px 0 2px;padding:9px 11px;border:1.5px dashed var(--line);background:var(--card);}
+  .timerbank .tb-k{font-family:var(--mono);font-size:10.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-2);margin-right:2px;}
+  .timerbank .tbtn{margin-left:0;}
+  /* Keep the section's timer strip visible while you read the instructions —
+     it sticks just under the jump nav instead of scrolling away above the set.
+
+     STICKY HEADER CHAIN — three bars stack at the top, each below the one above:
+         .homebar     top: 0
+         .jump        top: var(--hbH)                      (homebar height)
+         .timerbank   top: calc(var(--hbH) + var(--jumpH))
+     Both heights are measured in JS (setJumpH) on load, resize, and orientation
+     change, so they never overlap however the nav wraps. Adding another sticky
+     bar? Add it to this chain — do NOT just give it top:0 or it will land on
+     top of the nav. */
+  .timerbank{position:sticky;top:calc(var(--hbH,40px) + var(--jumpH,54px));z-index:45;}
+
+  /* the finish flash — pulses so you SEE the timer end even with sound off */
+  @keyframes tflash{0%,100%{background:var(--pink);color:#fff;}50%{background:var(--sun);color:var(--ink);}}
+  .tbtn.done{animation:tflash .45s steps(1) 4;}
+
+  /* ═══ MOVEMENT FLOW (Lesson 7) ═══
+     A vertical sequence the student moves THROUGH — carry, park, hinge, press,
+     walk. Built as a real list with CSS connectors rather than ASCII arrows so
+     it scales on a phone and a screen reader gets the steps, not punctuation. */
+  .flowseq{border:2px solid var(--ink);background:var(--card);margin-top:14px;padding:0;}
+  .flowseq-h{background:var(--ink);color:var(--paper);padding:10px 14px;font-family:var(--mono);font-size:11.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;}
+  .flowseq-h b{color:var(--sun);}
+  .flowseq ol{list-style:none;margin:0;padding:14px 16px 16px;counter-reset:fs;}
+  .flowseq li{position:relative;padding:0 0 0 34px;margin:0;min-height:34px;display:flex;align-items:center;font-size:16.5px;line-height:1.4;}
+  .flowseq li::before{counter-increment:fs;content:counter(fs);position:absolute;left:0;top:2px;width:22px;height:22px;border:2px solid var(--ink);background:var(--sun);font-family:var(--mono);font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;}
+  .flowseq li:not(:last-child){padding-bottom:20px;}
+  .flowseq li:not(:last-child)::after{content:"";position:absolute;left:10px;top:26px;bottom:2px;width:2px;background:var(--line);}
+  .flowseq li.pause{color:var(--ink-2);font-style:italic;font-size:15px;}
+  .flowseq li.pause::before{background:var(--paper);color:var(--ink-2);}
+  .flowseq-f{border-top:1px solid var(--line);padding:11px 16px;font-size:14.5px;line-height:1.5;color:var(--ink-2);font-style:italic;}
+</style>
+
+<body>
+<!-- ═══ SAFE TO EDIT BELOW ═══ -->
+<div class="wrap">
+
+  <hr class="stripe"/>
+  <nav class="homebar"><a href="course.html#curriculum">Back to the Academy</a></nav>
+
+  <header class="hero">
+    <p class="kick">Lesson 07 · Turn Up the Life</p>
+    <h1>Own<br><span class="shine">Your Body.</span></h1>
+    <p>Today's challenge isn't remembering exercises. It's making the spaces between the exercises disappear.</p>
+    <p class="princ">Every movement in this lesson is one you already know. Nothing new to learn, nothing to look up. What's left is <b>flow</b> — changing position without resetting, without hunting, without looking awkward.</p>
+    <p class="princ">About 45–60 min · Two dumbbells · one kettlebell · a band (mini, or a long one tied into a loop) · chair or bench.</p>
+    <p style="margin-top:12px;padding:11px 13px;border-left:3px solid var(--aqua);background:rgba(18,161,75,.08);font-size:14.5px;line-height:1.5;"><b style="color:#0B7A3A;">First time through</b><br>Allow up to <b>70 minutes</b> while you learn the movements. It gets faster once the order is familiar — the workout doesn't change, your hunting-for-what's-next time disappears. Don't rush the first one to hit a clock.</p>
+    <p style="margin-top:10px;padding:12px 14px;border-left:3px solid var(--sun);background:rgba(255,179,0,.12);font-size:14.5px;line-height:1.55;"><b style="color:#9A6B00;">The last principle — and the one hiding inside it</b><br>Pilates names six principles: <b>Breath, Concentration, Centering, Control, Precision, and Flow.</b> You've been practising five of them all along — every time you were told ribs down, move small, stop before the back rounds. <b>Flow is last on purpose</b>: you can't smooth out the transitions while you're still working out what comes next.<br><br>And Breath was never a seventh thing to learn. <b>It lives in the pauses.</b> Where you used to stop and reset, you now breathe. That's the whole difference between a workout and a practice.</p>
+  </header>
+
+  <nav class="jump" aria-label="Jump to section">
+    <div class="jump-row" id="jumpRow">
+      <button data-go="getlow">Get Low</button>
+      <button data-go="core">Core</button>
+      <button data-go="lesson">The Lesson</button>
+      <button data-go="legs">Legs</button>
+      <button data-go="push">Push</button>
+      <button data-go="pull">Pull</button>
+      <button data-go="rise">Rise</button>
+    </div>
+    <div class="progresswrap"><div class="progressbar" id="pbar"></div></div>
+    <div class="prog-label"><span id="plabel">0 done</span><button id="preset" type="button">reset</button></div>
+  </nav>
+
+  <!-- ══════════ 1 · GET LOW ══════════ -->
+  <section class="sec" id="getlow">
+    <div class="sec-head"><span class="stepno">Step 1 / 7</span><span class="tag getlow">GET LOW</span><h2>Move Prep</h2><span class="sec-min">6–8 min</span></div>
+    <p class="sec-intro">The same warm-up as every lesson. You know it by heart now — that's the point.</p>
+    <div class="prebegin">
+      <h3>Before you begin</h3>
+      <p>Today's warm-up prepares your body for today's workout — not for a flexibility contest.</p>
+      <ul>
+        <li>Work only in a pain-free range.</li>
+        <li>Hold a chair, wall, or countertop anytime balance limits the movement.</li>
+        <li>Smaller movements done well beat bigger movements done poorly.</li>
+        <li>If something feels sharp, unstable, or wrong, reduce the range or skip that exercise and move on.</li>
+      </ul>
+    </div>
+    <div class="timerbank"><span class="tb-k">Timer</span><button class="tbtn" data-secs="15" data-label="15s">15s</button><button class="tbtn" data-secs="20" data-label="20s">20s</button><button class="tbtn" data-secs="30" data-label="30s">30s</button><button class="tbtn" data-secs="45" data-label="45s">45s</button></div>
+    <article class="ex">
+      <div class="ex-body">
+        <div class="ex-top" style="margin-bottom:6px;"><h3 class="ex-name">Squat &amp; Pistol Prep<span class="sub">easy and controlled — warm, not tired</span></h3><label class="donebox"><input type="checkbox" data-track="getlow-block">Done</label></div>
+        <ul class="cues">
+          <li>Wide deep-squat hold — 20–30 seconds. <a class="mw" href="https://www.youtube.com/results?search_query=wide+stance+deep+squat+hold+mobility" target="_blank" rel="noopener">watch</a> <button class="tbtn" data-secs="30" data-label="30s">30s</button><span class="mod"><b>Mod:</b> hold a chair or countertop, or don't squat as low.</span></li>
+          <li>Weight shifts in the wide squat — rock side to side, 8 each side. <a class="mw" href="https://www.youtube.com/results?search_query=deep+squat+side+to+side+weight+shift" target="_blank" rel="noopener">watch</a></li>
+          <li>Cossack shift (a.k.a. spider-man lunge) — stay low, let your hips travel side to side, 6–8 each way. Keep the working heel down; don't force depth. <a class="mw" href="https://www.youtube.com/results?search_query=cossack+squat+shift+mobility" target="_blank" rel="noopener">watch</a><span class="mod"><b>Mod:</b> stand a little taller, or hold a chair for balance.</span></li>
+          <li>Narrow deep-squat hold — 20 seconds. <a class="mw" href="https://www.youtube.com/results?search_query=narrow+stance+deep+squat+hold" target="_blank" rel="noopener">watch</a> <button class="tbtn" data-secs="20" data-label="20s">20s</button><span class="mod"><b>Mod:</b> hold support, or place a rolled towel under your heels.</span></li>
+          <li>Staggered deep-squat hold — 15–20 seconds each side. <a class="mw" href="https://www.youtube.com/results?search_query=staggered+stance+deep+squat+hold" target="_blank" rel="noopener">watch</a> <button class="tbtn" data-secs="20" data-label="20s/side">20s/side</button><span class="mod"><b>Mod:</b> shorten the stance and reduce the depth.</span></li>
+          <li>Knee-over-toe touches — 8–10 each side, 2-second pause. <a class="mw" href="https://www.youtube.com/results?search_query=knee+over+toe+touch+ankle+mobility" target="_blank" rel="noopener">watch</a><span class="mod"><b>Mod:</b> let the knee travel only as far as comfortable, or hold a chair.</span></li>
+          <li>Assisted one-leg squat practice (hold something) — 3–5 clean each side. <a class="mw" href="https://www.youtube.com/results?search_query=assisted+pistol+squat+progression" target="_blank" rel="noopener">watch</a><span class="mod"><b>Mod:</b> use both hands for support, or squat to a higher chair.</span></li>
+          <li>Shoulder-blade push-ups — 10 reps. <a class="mw" href="https://www.youtube.com/results?search_query=scapular+push+up+form" target="_blank" rel="noopener">watch</a><span class="mod"><b>Mod:</b> perform against a wall, countertop, or bench.</span></li>
+          <li>Band pull-aparts or big shoulder circles — 15 reps. <a class="mw" href="https://www.youtube.com/results?search_query=resistance+band+pull+apart+straight+arms" target="_blank" rel="noopener">watch</a><span class="mod"><b>Mod:</b> use a lighter band, or reduce the range of motion.</span></li>
+        </ul>
+        <p class="ready">Ready to build? If you're breathing a little harder and your joints feel smoother — not tired — you warmed up just right.</p>
+      </div>
+    </article>
+    <div class="prebegin" style="border-color:var(--aqua);background:rgba(18,161,75,.06);">
+      <h3 style="color:#0B7A3A;">Then, transition add-on</h3>
+      <p>No weights. You're not warming muscles here — you're practising <i>changing position without resetting</i>. Move through this twice, slowly:</p>
+      <ul>
+        <li>Deep squat → stand</li>
+        <li>Hip hinge → stand</li>
+        <li>Lunge → stand</li>
+      </ul>
+      <p style="margin-bottom:0;"><i>Watch for the little pause where you gather yourself before standing. That pause is what today is about — first you notice it, then you breathe in it, then it disappears.</i></p>
+    </div>
+    <div class="timerbank"><span class="tb-k">Timer</span><button class="tbtn" data-secs="15" data-label="15s">15s</button><button class="tbtn" data-secs="20" data-label="20s">20s</button><button class="tbtn" data-secs="30" data-label="30s">30s</button><button class="tbtn" data-secs="45" data-label="45s">45s</button></div>
+    <a class="upnext" href="#core" data-go="core"><span class="un-k">Up next · Step 2 of 7</span><span class="un-t">Core →</span></a>
+  </section>
+
+  <!-- ══════════ 2 · CORE ══════════ -->
+  <section class="sec" id="core">
+    <div class="sec-head"><span class="stepno">Step 2 / 7</span><span class="tag">BUILD</span><h2>Core</h2><span class="sec-min">5–7 min</span></div>
+    <p class="sec-intro">Same three as last time. Nothing to learn — just do them better than you did before.</p>
+    <div class="timerbank"><span class="tb-k">Timer</span><button class="tbtn" data-secs="15" data-label="15s">15s</button><button class="tbtn" data-secs="20" data-label="20s">20s</button><button class="tbtn" data-secs="30" data-label="30s">30s</button><button class="tbtn" data-secs="45" data-label="45s">45s</button></div>
+
+    <article class="ex">
+      <div class="ex-body">
+        <div class="ex-top"><h3 class="ex-name">Bear Crawl<span class="sub">left and right, learning to take turns</span></h3><label class="donebox"><input type="checkbox" data-track="core-bear-crawl">Done</label></div>
+        <p class="cue">Move quietly.</p>
+        <div class="data"><span class="chip"><span class="k">Sets</span> 3</span><span class="chip"><span class="k">Time</span> 20–30 sec</span><span class="chip"><span class="k">Weight</span> bodyweight</span><button class="tbtn" data-secs="30" data-label="30s">30s</button></div>
+        <ul class="cues">
+          <li>Hands under shoulders, knees under hips and hovering an inch off the floor.</li>
+          <li>Opposite hand and opposite foot move together — that pairing is the whole exercise.</li>
+          <li>Hips stay level. If they rock side to side, make the steps smaller.</li>
+          <li>Quiet hands and quiet feet mean you're in control.</li>
+        </ul>
+        <p class="feel"><span class="yes">Feel:</span> deep trunk working to stop the rocking. &nbsp; <span class="no">Not:</span> shoulders burning out or hips swinging.</p>
+        
+        <div class="threeq"><span class="tq tq-do"><span class="tq-k">Do this</span>3 rounds of 20&ndash;30 seconds of crawling, opposite hand and foot together.</span><span class="tq tq-down"><span class="tq-k">If that&rsquo;s too difficult</span>Stay in the hover — knees an inch off the floor, no travel yet.</span><span class="tq tq-up"><span class="tq-k">If that&rsquo;s too easy</span>Crawl forward and backward without stopping between directions.</span></div>
+        <a class="watch" href="https://www.youtube.com/results?search_query=bear+crawl+form+hips+level+quiet+hands" target="_blank" rel="noopener">Watch the form</a>
+      </div>
+    </article>
+
+    <article class="ex">
+      <div class="ex-body">
+        <div class="ex-top"><h3 class="ex-name">Offset Dead Bug<span class="sub">one dumbbell, one hand — the first anti-rotation work</span></h3><label class="donebox"><input type="checkbox" data-track="core-offset-dead-bug">Done</label></div>
+        <p class="cue">Don't let the weight twist you.</p>
+        <div class="data"><span class="chip"><span class="k">Sets</span> 2</span><span class="chip"><span class="k">Reps</span> 8–10 / side</span><span class="chip"><span class="k">Weight</span> 1 DB, one hand</span></div>
+        <p class="anchor"><b>Setup</b>On your back, knees stacked over hips. Hold <b>one</b> dumbbell straight up over your shoulder in <b>one</b> hand. The other arm rests on the floor. The load is uneven on purpose.</p>
+        <ul class="cues">
+          <li>Set the shoulders first, ribs down, low back gently connected to the floor.</li>
+          <li>Extend the leg <b>opposite</b> the hand holding the dumbbell.</li>
+          <li>The weight on one side is trying to tip and turn you. Refuse — both shoulder blades stay down.</li>
+          <li>Complete all the repetitions, then switch sides and repeat.</li>
+        </ul>
+        <p class="feel"><span class="yes">Feel:</span> the side of your trunk working to stay square. &nbsp; <span class="no">Not:</span> ribs popping or the low back arching off the floor.</p>
+        
+        <div class="threeq"><span class="tq tq-do"><span class="tq-k">Do this</span>One dumbbell held up in one hand, extend the opposite leg. 8&ndash;10 per side, ribs down throughout.</span><span class="tq tq-down"><span class="tq-k">If that&rsquo;s too difficult</span>Put the dumbbell down. Same offset pattern, bodyweight only — one arm reaching overhead, opposite leg long.</span><span class="tq tq-up"><span class="tq-k">If that&rsquo;s too easy</span>Slide the leg further out, or hold the extended position for 2 seconds before returning.</span></div>
+        <a class="watch" href="https://www.youtube.com/results?search_query=dead+bug+one+dumbbell+held+up+offset+load" target="_blank" rel="noopener">Watch the form</a>
+      </div>
+    </article>
+
+    <article class="ex">
+      <div class="ex-body">
+        <div class="ex-top"><h3 class="ex-name">Side Plank<span class="sub">lateral core — hip and rib stack</span></h3><label class="donebox"><input type="checkbox" data-track="core-side-plank">Done</label></div>
+        <p class="cue">Lift the underside of your waist.</p>
+        <div class="data"><span class="chip"><span class="k">Sets</span> 2</span><span class="chip"><span class="k">Hold</span> 20–40 sec / side</span><button class="tbtn" data-secs="30" data-label="30s/side">30s/side</button></div>
+        <ul class="cues">
+          <li>Stack the ribs over the hips; no sagging into the bottom shoulder.</li>
+        </ul>
+        <p class="note"><b>Coming down</b><br>To come down, place your top hand on the floor before lowering your hips.</p>
+        
+        <div class="threeq"><span class="tq tq-do"><span class="tq-k">Do this</span>Side plank <b>from the knees</b>, 20&ndash;40 seconds per side.</span><span class="tq tq-down"><span class="tq-k">If that&rsquo;s too difficult</span>Bend your knees further underneath you, or shorten the hold to 15 seconds.</span><span class="tq tq-up"><span class="tq-k">If that&rsquo;s too easy</span>Lift the top leg, or extend the hold to 45 seconds.</span></div>
+        <a class="watch" href="https://www.youtube.com/results?search_query=side+plank+on+hand+staggered+feet+straight+arm" target="_blank" rel="noopener">Watch the form</a>
+      </div>
+    </article>
+
+    <a class="upnext" href="#lesson" data-go="lesson"><span class="un-k">Up next · Step 3 of 7</span><span class="un-t">The Lesson →</span></a>
+  </section>
+
+  <!-- ══════════ 3 · THE LESSON ══════════ -->
+  <section class="sec" id="lesson">
+    <div class="sec-head"><span class="stepno">Step 3 / 7</span><span class="tag">THE LESSON</span><h2>Movement Flow</h2><span class="sec-min">10–12 min</span></div>
+    <p class="sec-intro">This block isn't for fatigue. It's for smoothness. If you finish it out of breath, you went too fast.</p>
+    <div class="timerbank"><span class="tb-k">Timer</span><button class="tbtn" data-secs="15" data-label="15s">15s</button><button class="tbtn" data-secs="20" data-label="20s">20s</button><button class="tbtn" data-secs="30" data-label="30s">30s</button><button class="tbtn" data-secs="45" data-label="45s">45s</button></div>
+
+    <article class="ex">
+      <div class="ex-body">
+        <div class="ex-top"><h3 class="ex-name">Suitcase Carry<span class="sub">one weight, one side, walking tall</span> <span class="fert">🌱 fertilizer</span></h3><label class="donebox"><input type="checkbox" data-track="lesson-suitcase-carry">Done</label></div>
+        <p class="cue">Walk like you're carrying groceries without spilling your coffee.</p>
+        <div class="data"><span class="chip"><span class="k">Sets</span> 2</span><span class="chip"><span class="k">Distance</span> 30–40 steps / side</span><span class="chip"><span class="k">Weight</span> 1 KB or DB</span></div>
+        <ul class="cues">
+          <li>One weight, hanging at one side. Shoulders level, ribs down.</li>
+          <li>Walk slowly and deliberately — this is not a race to the other wall.</li>
+          <li>Finish all the steps on one side, then switch hands and walk back.</li>
+        </ul>
+        <p class="feel"><span class="yes">Feel:</span> one side of your trunk working harder than the other. &nbsp; <span class="no">Not:</span> leaning toward or away from the weight.</p>
+        
+        <div class="threeq"><span class="tq tq-do"><span class="tq-k">Do this</span>Carry one dumbbell or kettlebell for 30&ndash;40 slow, controlled steps. Walk tall and let your body resist the pull of the weight.</span><span class="tq tq-down"><span class="tq-k">If that&rsquo;s too difficult</span>Use a lighter weight, shorten the distance, or lightly touch a wall for the first few steps until you find your balance.</span><span class="tq tq-up"><span class="tq-k">If that&rsquo;s too easy</span>Carry the weight overhead, or pause for one second every third step without letting your trunk lean.</span></div>
+        <a class="watch" href="https://www.youtube.com/results?search_query=suitcase+carry+one+dumbbell+walk+tall+anti+lean" target="_blank" rel="noopener">Watch the form</a>
+      </div>
+    </article>
+
+    <article class="ex">
+      <div class="ex-body">
+        <div class="ex-top"><h3 class="ex-name">Transition Practice<span class="sub">the flow itself — no timer, no sets</span></h3><label class="donebox"><input type="checkbox" data-track="lesson-transition-flow">Done</label></div>
+        <p class="cue">Can you change positions without looking awkward?</p>
+        <div class="flowseq">
+          <div class="flowseq-h"><b>3 rounds.</b> Learn the sequence — don't chase fatigue.</div>
+          <ol>
+            <li>Suitcase carry — a short walk</li>
+            <li class="pause">Park the weight (breathe)</li>
+            <li>Contralateral single-leg RDL</li>
+            <li class="pause">Stand tall (breathe)</li>
+            <li>Down to half-kneeling</li>
+            <li>One press</li>
+            <li class="pause">Stand tall (breathe)</li>
+            <li>Walk it out</li>
+            <li>Repeat on the opposite side</li>
+          </ol>
+          <div class="flowseq-f">The greyed steps aren't rests. They're the transitions — the part you're actually practising. Breathe there instead of resetting.</div>
+        </div>
+        <p class="note"><b>Very little fatigue on purpose</b><br>Light weights, few rounds. If you're gasping, you turned a flow practice into a conditioning circuit. Slow it down.</p>
+        
+        <div class="threeq"><span class="tq tq-do"><span class="tq-k">Do this</span>Move through the entire sequence without rushing. Pause only long enough to change positions safely.</span><span class="tq tq-down"><span class="tq-k">If that&rsquo;s too difficult</span>Break the flow into two smaller sequences and practise each separately before linking them together.</span><span class="tq tq-up"><span class="tq-k">If that&rsquo;s too easy</span>Complete the flow continuously for 3&ndash;5 rounds, breathing steadily and never stopping between positions.</span></div>
+      </div>
+    </article>
+
+    <a class="upnext" href="#legs" data-go="legs"><span class="un-k">Up next · Step 4 of 7</span><span class="un-t">Legs →</span></a>
+  </section>
+
+  <!-- ══════════ 4 · LEGS ══════════ -->
+  <section class="sec" id="legs">
+    <div class="sec-head"><span class="stepno">Step 4 / 7</span><span class="tag">BUILD</span><h2>Legs</h2><span class="sec-min">14–16 min</span></div>
+    <p class="sec-intro">Familiar work, done well. One thing is new at the end — and it's the one you've been earning.</p>
+    <div class="timerbank"><span class="tb-k">Timer</span><button class="tbtn" data-secs="15" data-label="15s">15s</button><button class="tbtn" data-secs="20" data-label="20s">20s</button><button class="tbtn" data-secs="30" data-label="30s">30s</button><button class="tbtn" data-secs="45" data-label="45s">45s</button></div>
+
+    <article class="ex">
+      <div class="ex-body">
+        <div class="ex-top"><h3 class="ex-name"><span class="idx">A1</span>Contralateral Single-Leg RDL<span class="sub">one weight — in the opposite hand</span> <span class="fert">🌱 fertilizer</span></h3><label class="donebox"><input type="checkbox" data-track="legs-contra-rdl">Done</label></div>
+        <p class="cue">Close the car door with your butt.</p>
+        <div class="data"><span class="chip"><span class="k">Sets</span> 2</span><span class="chip"><span class="k">Reps</span> 8–10 / side</span><span class="chip"><span class="k">Weight</span> 1 KB, opposite hand</span><span class="chip pace"><span class="k">Pace</span> 3 down · 2 stretch · controlled rise</span></div>
+        <p class="note" style="border-left-color:var(--aqua);background:rgba(18,161,75,.08);"><b style="color:#0B7A3A;">One weight again — but the other hand</b><br>You've done this hinge with the weight on the same side you were standing on, and heavier than this with two dumbbells. Today the kettlebell is in the hand <b>opposite</b> your standing leg. You'll expect it to be easier. Try one rep before you decide.</p>
+        <ul class="cues">
+          <li>Stand on your right leg, kettlebell in your <b>left</b> hand. Then swap.</li>
+          <li>Hinge from the hips, soft bend in the standing knee, long spine.</li>
+          <li>The weight will try to pull that shoulder down and turn you. Stay square to the floor.</li>
+          <li>Feel the line from the working hip to the opposite shoulder — that diagonal is doing the job.</li>
+        </ul>
+        <p class="feel"><span class="yes">Feel:</span> hamstring and glute, plus the whole diagonal across your back. &nbsp; <span class="no">Not:</span> twisting open toward the weight.</p>
+        
+        <div class="threeq"><span class="tq tq-do"><span class="tq-k">Do this</span>One kettlebell in the hand opposite your standing leg. 8&ndash;10 per side, staying square.</span><span class="tq tq-down"><span class="tq-k">If that&rsquo;s too difficult</span>Let the working-leg toe touch down slightly behind your hip plane for balance — same hinge, same weight, just a kickstand.</span><span class="tq tq-up"><span class="tq-k">If that&rsquo;s too easy</span>Stand on a jump box or step and let the weight reach past your foot for a deeper stretch.</span></div>
+        <a class="watch" href="https://www.youtube.com/results?search_query=contralateral+single+leg+romanian+deadlift+opposite+hand+kettlebell" target="_blank" rel="noopener">Watch the form</a>
+      </div>
+    </article>
+
+    <article class="ex">
+      <div class="ex-body">
+        <div class="ex-top"><h3 class="ex-name"><span class="idx">A2</span>Front-Foot Elevated Split Squat<span class="sub">now the working sets</span> <span class="fert">🌱 fertilizer</span></h3><label class="donebox"><input type="checkbox" data-track="legs-ffe-split-squat">Done</label></div>
+        <p class="cue">Imagine your zipper stays vertical.</p>
+        <div class="data"><span class="chip"><span class="k">Sets</span> 3</span><span class="chip"><span class="k">Reps</span> 8–12 / leg</span><span class="chip"><span class="k">Weight</span> 1 DB beside the front leg</span><span class="chip pace"><span class="k">Pace</span> 3 down · 1 pause · controlled rise</span><span class="chip effort"><span class="k">Effort</span> 1–2 good reps left</span></div>
+        <ul class="cues">
+          <li>Front foot elevated, one dumbbell hanging beside the front leg.</li>
+          <li>Resist the pull toward the weighted side the whole set.</li>
+          <li>Drive through the middle of the front foot.</li>
+        </ul>
+        
+        <div class="threeq"><span class="tq tq-do"><span class="tq-k">Do this</span>Front foot elevated, one dumbbell beside the front leg. 8&ndash;12 per leg.</span><span class="tq tq-down"><span class="tq-k">If that&rsquo;s too difficult</span>Hold a chair or wall with your free hand, or put the dumbbell down and go bodyweight.</span><span class="tq tq-up"><span class="tq-k">If that&rsquo;s too easy</span>Slow the lowering to 5 seconds, or elevate the front foot a little higher.</span></div>
+        <a class="watch" href="https://www.youtube.com/results?search_query=front+foot+elevated+split+squat+one+dumbbell+suitcase+hold" target="_blank" rel="noopener">Watch the form</a>
+      </div>
+    </article>
+
+    <article class="ex">
+      <div class="ex-body">
+        <div class="ex-top"><h3 class="ex-name"><span class="idx">A3</span>Hip Thrust<span class="sub">now you can actually load the glute</span> <span class="fert">🌱 fertilizer</span></h3><label class="donebox"><input type="checkbox" data-track="legs-hip-thrust">Done</label></div>
+        <p class="cue">Ribs down, chin down, push the floor away through your heels.</p>
+        <div class="data"><span class="chip"><span class="k">Sets</span> 3</span><span class="chip"><span class="k">Reps</span> 10–15</span><span class="chip"><span class="k">Weight</span> 1 DB or KB across the hips</span><span class="chip pace"><span class="k">Pace</span> 2 up · 2 squeeze · 3 down</span><span class="chip effort"><span class="k">Effort</span> 1–2 good reps left</span></div>
+        <p class="anchor"><b>Setup</b>Upper back resting on a bench, sofa edge, or box. Feet flat, shins vertical at the top. Weight across the hips — pad it with a folded towel.</p>
+        <ul class="cues">
+          <li>Tuck the ribs down before you lift; don't arch the back to get higher.</li>
+          <li>Chin stays tucked, eyes forward — your gaze travels with your hips.</li>
+          <li>Squeeze at the top for 2, shins vertical, then lower with control.</li>
+        </ul>
+        <p class="feel"><span class="yes">Feel:</span> glutes doing all of it. &nbsp; <span class="no">Not:</span> low back or hamstrings taking over.</p>
+        <p class="note" style="border-left-color:var(--aqua);background:rgba(18,161,75,.08);"><b style="color:#0B7A3A;">Why this replaces the frog pumps</b><br>Frog pumps did their job — they taught you to find the squeeze with almost no load. You can find it now without thinking. So this is where you finally load it properly.</p>
+        
+        <div class="threeq"><span class="tq tq-do"><span class="tq-k">Do this</span>Upper back on a bench, weight across the hips. 10&ndash;15 reps with a 2-second squeeze at the top.</span><span class="tq tq-down"><span class="tq-k">If that&rsquo;s too difficult</span>Take the weight off and do a floor glute bridge — same squeeze, no bench.</span><span class="tq tq-up"><span class="tq-k">If that&rsquo;s too easy</span>Single-leg, bodyweight or light — one foot planted, the other knee drawn in.</span></div>
+        <a class="watch" href="https://www.youtube.com/results?search_query=dumbbell+hip+thrust+back+on+bench+ribs+down+form" target="_blank" rel="noopener">Watch the form</a>
+      </div>
+    </article>
+
+    <a class="upnext" href="#push" data-go="push"><span class="un-k">Up next · Step 5 of 7</span><span class="un-t">Push →</span></a>
+  </section>
+
+  <!-- ══════════ 5 · PUSH ══════════ -->
+  <section class="sec" id="push">
+    <div class="sec-head"><span class="stepno">Step 5 / 7</span><span class="tag">BUILD</span><h2>Push</h2><span class="sec-min">8–10 min</span></div>
+    <p class="sec-intro">Unchanged from last time. Same two presses — just smoother getting into and out of them.</p>
+    <div class="timerbank"><span class="tb-k">Timer</span><button class="tbtn" data-secs="15" data-label="15s">15s</button><button class="tbtn" data-secs="20" data-label="20s">20s</button><button class="tbtn" data-secs="30" data-label="30s">30s</button><button class="tbtn" data-secs="45" data-label="45s">45s</button></div>
+
+    <article class="ex">
+      <div class="ex-body">
+        <div class="ex-top"><h3 class="ex-name"><span class="idx">B1</span>Half-Kneeling One-Arm Press<span class="sub">hip connects to the opposite shoulder</span></h3><label class="donebox"><input type="checkbox" data-track="push-half-kneeling-press">Done</label></div>
+        <p class="cue">Press from your back pocket, not your neck.</p>
+        <div class="data"><span class="chip"><span class="k">Sets</span> 2</span><span class="chip"><span class="k">Reps</span> 6–10 / arm</span><span class="chip"><span class="k">Weight</span> 1 DB</span></div>
+        <ul class="cues">
+          <li>Half-kneeling: one knee down, other foot forward, both at right angles.</li>
+          <li>Press with the arm on the <b>same side as the down knee</b> — that's what makes the trunk connect hip to shoulder.</li>
+          <li>Squeeze the glute of the down leg before you press. Ribs stay down.</li>
+          <li>Don't lean away from the weight to get it up.</li>
+        </ul>
+        <p class="feel"><span class="yes">Feel:</span> the side of your trunk and the down-side glute holding you upright. &nbsp; <span class="no">Not:</span> low back arching or the ribs flaring.</p>
+        
+        <div class="threeq"><span class="tq tq-do"><span class="tq-k">Do this</span>Half-kneeling, one dumbbell, pressing on the same side as the down knee. 6&ndash;10 per arm.</span><span class="tq tq-down"><span class="tq-k">If that&rsquo;s too difficult</span>Press from both knees, or lighten the dumbbell until the ribs stay down.</span><span class="tq tq-up"><span class="tq-k">If that&rsquo;s too easy</span>Slow the lowering to 4 seconds, or lift the down-side knee an inch off the floor for the last few reps.</span></div>
+        <a class="watch" href="https://www.youtube.com/results?search_query=half+kneeling+single+arm+dumbbell+press+form" target="_blank" rel="noopener">Watch the form</a>
+      </div>
+    </article>
+
+    <article class="ex">
+      <div class="ex-body">
+        <div class="ex-top"><h3 class="ex-name"><span class="idx">B2</span>Single-Arm Floor Press<span class="sub">one side works, the whole trunk holds</span></h3><label class="donebox"><input type="checkbox" data-track="push-single-arm-floor-press">Done</label></div>
+        <p class="cue">Press without rolling.</p>
+        <div class="data"><span class="chip"><span class="k">Sets</span> 3</span><span class="chip"><span class="k">Reps</span> 8–12 / arm</span><span class="chip"><span class="k">Weight</span> 1 DB</span><span class="chip pace"><span class="k">Pace</span> 3 down · 1 touch · press up strong</span><span class="chip effort"><span class="k">Effort</span> 1–2 good reps left</span></div>
+        <ul class="cues">
+          <li>On your back, knees bent, feet flat, one dumbbell in one hand.</li>
+          <li>Lower until the upper arm lightly touches the floor, then press.</li>
+          <li>The weight on one side wants to roll you toward it. Keep both shoulder blades on the floor.</li>
+          <li>Free hand rests on your belly so you can feel the ribs stay down.</li>
+        </ul>
+        <p class="note" style="border-left-color:var(--pink);background:rgba(214,40,40,.08);"><b style="color:var(--pink);">Rib caution</b><br>Keep the ribs closed the whole set — like the moment right after a laugh or a cough. Don't let them pop open as the weight gets heavy.</p>
+        
+        <div class="threeq"><span class="tq tq-do"><span class="tq-k">Do this</span>Press one arm while the other arm rests on the floor. 8&ndash;12 per arm.</span><span class="tq tq-down"><span class="tq-k">If that&rsquo;s too difficult</span>Press with both dumbbells at the same time instead of one arm — same weight, less rotational demand.</span><span class="tq tq-up"><span class="tq-k">If that&rsquo;s too easy</span>Keep one arm extended while the other presses. Alternate sides.</span></div>
+        <a class="watch" href="https://www.youtube.com/results?search_query=single+arm+dumbbell+floor+press+form" target="_blank" rel="noopener">Watch the form</a>
+      </div>
+    </article>
+
+    <a class="upnext" href="#pull" data-go="pull"><span class="un-k">Up next · Step 6 of 7</span><span class="un-t">Pull →</span></a>
+  </section>
+
+  <!-- ══════════ 6 · PULL ══════════ -->
+  <section class="sec" id="pull">
+    <div class="sec-head"><span class="stepno">Step 6 / 7</span><span class="tag">BUILD</span><h2>Pull</h2><span class="sec-min">6–8 min</span></div>
+    <p class="sec-intro">The pulling you know, then one heavier walk to finish.</p>
+    <div class="timerbank"><span class="tb-k">Timer</span><button class="tbtn" data-secs="15" data-label="15s">15s</button><button class="tbtn" data-secs="20" data-label="20s">20s</button><button class="tbtn" data-secs="30" data-label="30s">30s</button><button class="tbtn" data-secs="45" data-label="45s">45s</button></div>
+
+    <article class="ex">
+      <div class="ex-body">
+        <div class="ex-top"><h3 class="ex-name"><span class="idx">C1</span>Split-Stance One-Arm Row<span class="sub">opposite foot forward — the diagonal again</span></h3><label class="donebox"><input type="checkbox" data-track="pull-split-stance-row">Done</label></div>
+        <p class="cue">Pull into your back pocket.</p>
+        <div class="data"><span class="chip"><span class="k">Sets</span> 3</span><span class="chip"><span class="k">Reps</span> 10–12 / arm</span><span class="chip"><span class="k">Weight</span> 1 DB</span><span class="chip pace"><span class="k">Pace</span> 3 down · pause · controlled pull</span></div>
+        <ul class="cues">
+          <li>Split stance: the foot <b>opposite</b> your rowing arm steps forward.</li>
+          <li>Hinge at the hips, free hand braced on a chair or your thigh.</li>
+          <li>Pull the elbow back toward your back pocket; keep the torso still.</li>
+          <li>No twisting to move the weight — the stance is what makes this cross-body.</li>
+        </ul>
+        <p class="feel"><span class="yes">Feel:</span> mid-back and lat, with the opposite hip helping you stay square. &nbsp; <span class="no">Not:</span> shoulder shrugging or the torso rotating open.</p>
+        
+        <div class="threeq"><span class="tq tq-do"><span class="tq-k">Do this</span>Opposite foot forward, one dumbbell, 10&ndash;12 per arm with the torso still.</span><span class="tq tq-down"><span class="tq-k">If that&rsquo;s too difficult</span>Brace your free hand on a higher surface so you hinge less, or use a lighter dumbbell.</span><span class="tq tq-up"><span class="tq-k">If that&rsquo;s too easy</span>Hold the squeeze for 2 seconds at the top of every rep.</span></div>
+        <a class="watch" href="https://www.youtube.com/results?search_query=split+stance+single+arm+dumbbell+row+opposite+foot+forward" target="_blank" rel="noopener">Watch the form</a>
+      </div>
+    </article>
+
+    <article class="ex">
+      <div class="ex-body">
+        <div class="ex-top"><h3 class="ex-name"><span class="idx">C2</span>Band Pull-Aparts<span class="sub">upper-body fertilizer — you already know this one</span></h3><label class="donebox"><input type="checkbox" data-track="pull-band-pull-aparts">Done</label></div>
+        <p class="cue">Straight arms. Let the shoulder blades do the work.</p>
+        <div class="data"><span class="chip"><span class="k">Sets</span> 2</span><span class="chip"><span class="k">Reps</span> 15–20</span><span class="chip band"><span class="k">Band</span> light</span><span class="chip pace"><span class="k">Pace</span> 2 pull · 2 squeeze · 3 return</span></div>
+        <ul class="cues">
+          <li>Arms straight and level at chest height.</li>
+          <li>Open the band by driving the shoulder blades together and down.</li>
+          <li>Return slowly. Don't let the band snap you closed.</li>
+        </ul>
+        
+        <div class="threeq"><span class="tq tq-do"><span class="tq-k">Do this</span>15&ndash;20 reps, 2 pull &middot; 2 squeeze &middot; 3 return.</span><span class="tq tq-down"><span class="tq-k">If that&rsquo;s too difficult</span>Widen your grip on the band.</span><span class="tq tq-up"><span class="tq-k">If that&rsquo;s too easy</span>Narrow your grip on the band.</span></div>
+        <a class="watch" href="https://www.youtube.com/results?search_query=resistance+band+pull+apart+straight+arms" target="_blank" rel="noopener">Watch the form</a>
+      </div>
+    </article>
+
+    <article class="ex">
+      <div class="ex-body">
+        <div class="ex-top"><h3 class="ex-name">Farmer Carry Finish<span class="sub">one heavier lap — nothing to learn, just posture</span> <span class="fert">🌱 fertilizer</span></h3><label class="donebox"><input type="checkbox" data-track="pull-farmer-carry">Done</label></div>
+        <p class="cue">Tall, level, quiet. One lap.</p>
+        <div class="data"><span class="chip"><span class="k">Sets</span> 1</span><span class="chip"><span class="k">Distance</span> one lap · 40–60 steps</span><span class="chip"><span class="k">Weight</span> 2 DBs or KBs — heavier than the suitcase carry</span></div>
+        <ul class="cues">
+          <li>A weight in each hand. Pick them up, walk, put them down.</li>
+          <li>Shoulders back and down, ribs stacked over hips, eyes up.</li>
+          <li>Walk until your grip tells you to stop, then set them down under control.</li>
+        </ul>
+        <p class="note"><b>Not teaching — practising</b><br>There's nothing new here. It's one honest lap with something heavy so you finish the course standing tall.</p>
+        
+        <div class="threeq"><span class="tq tq-do"><span class="tq-k">Do this</span>One lap, 40&ndash;60 steps, a weight in each hand, walking tall.</span><span class="tq tq-down"><span class="tq-k">If that&rsquo;s too difficult</span>Lighter weights, or split it into two shorter laps with a break to reset your grip.</span><span class="tq tq-up"><span class="tq-k">If that&rsquo;s too easy</span>Heavier weights, or walk until your grip genuinely gives out rather than counting steps.</span></div>
+        <a class="watch" href="https://www.youtube.com/results?search_query=farmer+carry+two+dumbbells+posture+form" target="_blank" rel="noopener">Watch the form</a>
+      </div>
+    </article>
+
+    <a class="upnext" href="#rise" data-go="rise"><span class="un-k">Up next · Step 7 of 7</span><span class="un-t">Rise →</span></a>
+  </section>
+
+  <!-- ══════════ 7 · RISE ══════════ -->
+  <section class="sec" id="rise">
+    <div class="sec-head"><span class="stepno">Step 7 / 7</span><span class="tag rise">RISE</span><h2>Rise</h2><span class="sec-min">6–8 min</span></div>
+    <p class="sec-intro">Don't stretch yet. Walk first.</p>
+    <div class="timerbank"><span class="tb-k">Timer</span><button class="tbtn" data-secs="15" data-label="15s">15s</button><button class="tbtn" data-secs="20" data-label="20s">20s</button><button class="tbtn" data-secs="30" data-label="30s">30s</button><button class="tbtn" data-secs="45" data-label="45s">45s</button></div>
+
+    <article class="ex">
+      <div class="ex-body">
+        <div class="ex-top"><h3 class="ex-name">One Slow Victory Lap<span class="sub">one minute · no phone · no timer</span></h3><label class="donebox"><input type="checkbox" data-track="rise-victory-lap">Done</label></div>
+        <p class="cue">Just walk. Notice what your body is doing without being told.</p>
+        <div class="data"><span class="chip"><span class="k">Time</span> about 1 minute</span><span class="chip"><span class="k">Weight</span> none</span></div>
+        <ul class="cues">
+          <li>Your <b>arm swing</b> — is it even on both sides?</li>
+          <li>Opposite arm with opposite foot — the thing you trained, happening on its own.</li>
+          <li>Your <b>breathing</b> — settling without you managing it.</li>
+          <li>Your <b>posture</b> — taller than when you started, and you didn't have to think about it.</li>
+        </ul>
+        <p class="note" style="border-left-color:var(--sun);background:rgba(255,179,0,.10);"><b style="color:#9A6B00;">Why no timer here</b><br>Every other timed thing in this course exists to keep you honest. This one is the opposite — the last minute of the last lesson isn't work. Walk until you feel like stopping.</p>
+      </div>
+    </article>
+
+    <article class="ex">
+      <div class="ex-body">
+        <div class="ex-top"><h3 class="ex-name">Then stretch<span class="sub">four pieces, unhurried</span></h3><label class="donebox"><input type="checkbox" data-track="rise-stretch">Done</label></div>
+        <ul class="cues">
+          <li><b>Horse stance</b> — 30 seconds. Sit down between your feet, chest proud. <a class="mw" href="https://www.youtube.com/results?search_query=horse+stance+isometric+hold" target="_blank" rel="noopener">watch</a></li>
+          <li><b>Hip flexor stretch</b> — 30 seconds each side. Squeeze the back glute and stand tall. <a class="mw" href="https://www.youtube.com/results?search_query=half+kneeling+hip+flexor+stretch+glute+squeeze" target="_blank" rel="noopener">watch</a></li>
+          <li><b>Forward fold</b> — 30 seconds. Soft knees, heavy head.</li>
+          <li><b>Cross-body reaches</b> — 10 total, slow. Let the ribs turn.</li>
+        </ul>
+        <p class="drink">🥤 That's the last lesson. Drink your water — you own this now.</p>
+      </div>
+    </article>
+
+    <div class="workout-done"><span class="wd-k">That's the whole course</span><span class="wd-t">Seven lessons, one method. You started by learning to own the weight; you finish owning the spaces in between. Now go run the road.</span></div>
+  </section>
+
+  <hr class="stripe"/>
+  <footer>
+    <div class="foot-row"><span class="brand">Turn Up the Life</span><button class="printbtn" onclick="window.print()">Print / Save PDF</button></div>
+    <p class="disclaim">Adjust range, jumping, and depth based on how your toe, knee, hip, and shoulder feel. Pushing close to your limit and adding speed both carry some risk — keep the movement clean, and check with a professional first if anything hurts or you're unsure this suits you.</p>
+    <p class="disclaim" style="margin-top:10px;"><b>Before you start.</b> Turn Up the Life provides general fitness education, not medical advice or personal training. Talk to your doctor before beginning this or any exercise program, especially if you are pregnant, postpartum, over 40 and new to exercise, or managing a heart, joint, bone, or other health condition. Stop immediately and seek medical care for chest pain, dizziness, shortness of breath, or sharp/sudden pain. You are responsible for choosing weights, ranges of motion, and modifications appropriate to your own body. Turn Up the Life, its founder, and its instructors are not liable for injury arising from participation. If something doesn't feel right, don't push through it — modify, rest, or stop.</p>
+  </footer>
+
+</div>
+
+<script>
+  // ── LESSON JS ── three independent pieces:
+  //   1. jump-nav      — click a nav button → smooth-scroll to that section;
+  //                       IntersectionObserver highlights the current one.
+  //   2. done-tracking — checkboxes + progress bar (localStorage, per-lesson key).
+  //   3. hold timers   — the SHARED block below (see its banner).
+  // jump nav: pure scroll, no hash routing
+  document.getElementById('jumpRow').addEventListener('click', function(e){
+    var b = e.target.closest('button[data-go]'); if(!b) return;
+    var t = document.getElementById(b.getAttribute('data-go'));
+    if(t) t.scrollIntoView({behavior:'smooth', block:'start'});
+  });
+  // highlight current section in the jump bar
+  var secs = document.querySelectorAll('.sec');
+  var btns = {};
+  document.querySelectorAll('#jumpRow button').forEach(function(b){ btns[b.getAttribute('data-go')] = b; });
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(en){
+      if(en.isIntersecting){
+        Object.values(btns).forEach(function(b){ b.classList.remove('on'); });
+        var b = btns[en.target.id]; if(b){ b.classList.add('on');
+          // center the active button WITHIN the jump-row only — never scroll the page vertically.
+          // (scrollIntoView() would scroll every scrollable ancestor, including the page, which
+          //  caused the "snap back to a previous section" bug. We scroll the row's own scrollLeft instead.)
+          var row = document.getElementById('jumpRow');
+          if(row){ row.scrollLeft = b.offsetLeft - (row.clientWidth/2) + (b.clientWidth/2); }
+        }
+      }
+    });
+  }, {rootMargin:'-45% 0px -50% 0px'});
+  secs.forEach(function(s){ io.observe(s); });
+
+  // ██████████████████████████████████████████████████████████████████████
+  // DO NOT EDIT HERE — SHARED TIMER JS
+  // beep() + fmt() + the .tbtn click handler are copied byte-for-byte in
+  // trial-class / lesson-2 / lesson-3 / lesson-4 / lesson-6. Change all FIVE together.
+  // What it does: any element with class "tbtn" and data-secs="N" becomes a
+  // tap-to-start countdown (used on every timed hold). data-label is the
+  // resting text; it flashes "done" + beeps at zero, then resets.
+  // ██████████████████████████████████████████████████████████████████████
+  // hold timers — THREE PHASES so you have time to get into position:
+  //   YELLOW "Ready 5…1"  → you set up (nothing is being timed yet)
+  //   GREEN  counts down  → this is the actual hold
+  //   RED    "done"       → triple beep + flash, then resets
+  // Tap a running timer again to cancel it.
+  // Change READY_SECS below if 5 seconds isn't the right lead-in.
+  var READY_SECS = 5;
+
+  function tone(freq, start, dur, vol){
+    try{
+      var C=window.AudioContext||window.webkitAudioContext; if(!C) return;
+      window._tutlAC = window._tutlAC || new C();
+      var a=window._tutlAC, o=a.createOscillator(), g=a.createGain();
+      o.connect(g); g.connect(a.destination); o.type='sine'; o.frequency.value=freq;
+      var s=a.currentTime+start;
+      g.gain.setValueAtTime(.0001,s);
+      g.gain.exponentialRampToValueAtTime(vol||.3, s+.02);
+      g.gain.exponentialRampToValueAtTime(.0001, s+dur);
+      o.start(s); o.stop(s+dur+.02);
+    }catch(e){}
+  }
+  function tickReady(){ tone(660,0,.09,.18); }                       // soft tick each ready second
+  function beepGo(){ tone(880,0,.16,.32); tone(1320,.14,.20,.32);    // "go" — two quick rising notes
+                     try{ if(navigator.vibrate) navigator.vibrate(90); }catch(e){} }
+  function beep(){
+    // Three ascending tones — much harder to miss than one blip.
+    // NOTE: on iPhone the physical SILENT SWITCH mutes Web Audio completely,
+    // so we also vibrate (works through silent) and flash the button.
+    tone(880,0,.16,.35); tone(1100,.18,.16,.35); tone(1320,.36,.18,.35);
+    try{ if(navigator.vibrate) navigator.vibrate([120,60,120,60,200]); }catch(e){}
+  }
+  function fmt(s){var m=Math.floor(s/60),r=s%60;return m>0?(m+':'+(r<10?'0':'')+r):(''+r);}
+  document.addEventListener('click',function(e){
+    var b=e.target.closest('.tbtn'); if(!b) return;
+    var label=b.getAttribute('data-label')||'hold';
+    // tapping a live timer cancels it
+    if(b.dataset.state){
+      clearInterval(parseInt(b.dataset.tid,10));
+      b.dataset.state=''; b.dataset.tid='';
+      b.classList.remove('ready','running','done');
+      b.textContent=label;
+      return;
+    }
+    var secs=parseInt(b.getAttribute('data-secs'),10)||20;
+    var ready=READY_SECS, left=secs;
+    b.dataset.state='ready'; b.classList.remove('done'); b.classList.add('ready');
+    b.textContent='Ready '+ready; tickReady();
+    var id=setInterval(function(){
+      if(b.dataset.state==='ready'){
+        ready--;
+        if(ready>0){ b.textContent='Ready '+ready; tickReady(); }
+        else{
+          b.dataset.state='running'; b.classList.remove('ready'); b.classList.add('running');
+          b.textContent=fmt(left); beepGo();
+        }
+        return;
+      }
+      left--;
+      if(left<=0){
+        clearInterval(id); b.dataset.state=''; b.dataset.tid='';
+        b.classList.remove('running'); b.classList.add('done');
+        b.textContent='done'; beep();
+        setTimeout(function(){b.classList.remove('done');b.textContent=label;},2500);
+      } else { b.textContent=fmt(left); }
+    },1000);
+    b.dataset.tid=id;
+  });
+
+  // ---------- done-tracking + progress bar (ported from Lesson 1) ----------
+  (function(){
+    var KEY = 'tutl-lesson7-progress';
+    var boxes = Array.prototype.slice.call(document.querySelectorAll('input[data-track]'));
+    var pbar = document.getElementById('pbar');
+    var plabel = document.getElementById('plabel');
+    var preset = document.getElementById('preset');
+    if(!pbar || !boxes.length) return;
+
+    var mem = {};
+    function store(obj){ mem=obj; try{ localStorage.setItem(KEY, JSON.stringify(obj)); }catch(e){} }
+    function load(){ try{ var r=localStorage.getItem(KEY); if(r) return JSON.parse(r); }catch(e){} return mem; }
+
+    var blockMap = {"getlow":['getlow-block'],"core":['core-bear-crawl', 'core-offset-dead-bug', 'core-side-plank'],"lesson":['lesson-suitcase-carry', 'lesson-transition-flow'],"legs":['legs-contra-rdl', 'legs-ffe-split-squat', 'legs-hip-thrust'],"push":['push-half-kneeling-press', 'push-single-arm-floor-press'],"pull":['pull-split-stance-row', 'pull-band-pull-aparts', 'pull-farmer-carry'],"rise":['rise-victory-lap', 'rise-stretch']};
+
+    function refresh(){
+      var state = load();
+      var done = 0;
+      boxes.forEach(function(b){
+        b.checked = !!state[b.getAttribute('data-track')];
+        if(b.checked) done++;
+      });
+      var pct = boxes.length ? Math.round(done/boxes.length*100) : 0;
+      pbar.style.width = pct + '%';
+      if(plabel) plabel.textContent = done + ' of ' + boxes.length + ' done' + (pct===100 ? ' — workout complete! \ud83c\udf89' : '');
+      Object.keys(blockMap).forEach(function(blk){
+        var btn = document.querySelector('.jump-row button[data-go="'+blk+'"]');
+        if(!btn) return;
+        var all = blockMap[blk].length>0 && blockMap[blk].every(function(id){ return !!state[id]; });
+        btn.classList.toggle('done', all);
+        if(all && !btn.querySelector('.dot')) btn.insertAdjacentHTML('afterbegin','<span class="dot"></span>');
+        else if(!btn.querySelector('.dot')) btn.insertAdjacentHTML('afterbegin','<span class="dot"></span>');
+      });
+    }
+
+    boxes.forEach(function(b){
+      b.addEventListener('change', function(){
+        var state = load();
+        state[b.getAttribute('data-track')] = b.checked;
+        store(state);
+        refresh();
+      });
+    });
+    if(preset) preset.addEventListener('click', function(){ store({}); refresh(); });
+    refresh();
+  })();
+
+  // keep the sticky timer strip clear of the sticky jump nav
+  function setJumpH(){
+    // Sticky header chain: homebar (top:0) → jump nav (below it) → timer strip
+    // (below that). We measure each bar so they never overlap, whatever the
+    // screen width or however the nav wraps.
+    var hb=document.querySelector('.homebar');
+    var j=document.querySelector('.jump');
+    var root=document.documentElement;
+    if(hb) root.style.setProperty('--hbH', hb.offsetHeight+'px');
+    if(j)  root.style.setProperty('--jumpH', j.offsetHeight+'px');
+  }
+  setJumpH();
+  window.addEventListener('resize', setJumpH);
+  window.addEventListener('orientationchange', setJumpH);
+</script>
+</body>
+</html>

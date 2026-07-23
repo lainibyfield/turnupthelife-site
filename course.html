@@ -274,6 +274,20 @@
   .cue::before{content:"\201C";color:var(--coral);font-family:var(--display);font-weight:900;font-size:1.3em;margin-right:2px;}
   .cue::after{content:"\201D";color:var(--coral);font-family:var(--display);font-weight:900;font-size:1.3em;margin-left:2px;}
   .fert{display:inline-block;font-family:var(--mono);font-size:9.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;background:rgba(147,213,0,.22);border:1.5px solid var(--lime);color:#3f5c00;padding:2px 7px;margin-left:8px;vertical-align:middle;white-space:nowrap;}
+
+  /* ═══ PHASE GROUPING (the curriculum arc) ═══
+     Four phases, each with one guiding question. Phase 1 is built; the rest are
+     announced. If you add lessons, put them under the right phase header — the
+     header is what tells a student WHY they're in this part of the course. */
+  .phase{margin:26px 0 10px;padding:14px 16px;border:2px solid var(--ink);background:var(--ink);color:var(--paper);}
+  .phase .ph-k{display:block;font-family:var(--mono);font-size:10.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--sun);margin-bottom:5px;}
+  .phase h2{font-family:var(--display);font-weight:900;text-transform:uppercase;font-size:22px;line-height:1.05;margin:0 0 7px;color:var(--paper);}
+  .phase .ph-q{font-family:var(--body);font-size:16.5px;font-style:italic;line-height:1.4;margin:0;color:#F4E7D2;}
+  .phase.soon{background:var(--card);color:var(--ink);border-style:dashed;}
+  .phase.soon h2{color:var(--ink);}
+  .phase.soon .ph-k{color:var(--coral);}
+  .phase.soon .ph-q{color:var(--ink-2);}
+  .phase-note{font-size:14.5px;line-height:1.5;color:var(--ink-2);margin:8px 0 0;font-style:italic;}
 </style>
 </head>
 <body>
@@ -332,7 +346,7 @@
     <div class="curric">
       <span class="eyebrow">Course 02 · The Livitarian Kitchen</span>
       <h1>The <span class="shine">kitchen.</span></h1>
-      <p class="lede">Plant-strong, Caribbean-rooted food for a body that trains. A cheap add-on to the movement course — or yours on its own. Three working parts: the <b>Cookbook</b> teaches, the <b>Planner</b> builds your days, the <b>Matrix</b> filters what fits.</p>
+      <p class="lede">Four phases, one curriculum. <b>Phase 1 is live</b> — seven lessons that teach you how to move well, from owning the weight to owning the spaces in between. Each lesson teaches a single skill for making light load do heavy work, then puts it straight into a full session. The Free Trial is complete on its own; the rest run in order, with two travel workouts you can take anywhere. Phases 2–4 follow.</p>
 
       <!-- FREE tier — always open, no unlock -->
       <a class="lesson-row" href="kitchen.html" style="margin-top:8px;">
@@ -378,6 +392,12 @@
       <h1>The <span class="shine">arc.</span></h1>
       <p class="lede">Seven lessons, one journey — from owning the weight to owning your body. Each teaches a single skill for making light load do heavy work, then puts it straight into a full session. The Free Trial is complete on its own; the rest run in order, with two travel workouts you can take anywhere.</p>
 
+      <div class="phase">
+        <span class="ph-k">Phase 1 · Lessons 1–7 · you're here</span>
+        <h2>Learn to Move</h2>
+        <p class="ph-q">How does my body move well?</p>
+        <p class="phase-note">Movement literacy first. Body awareness, control, stability, coordination, and a vocabulary of movements. Resistance is secondary — you're learning the language.</p>
+      </div>
       <a class="lesson-row" href="trial-class.html" data-lessonrow="1" data-free="1">
         <span class="num">01</span>
         <span class="titles"><h3>Free Trial — Get Low. Build. Rise.</h3><span class="sub">Teaches: own the weight — the whole method in one workout</span></span>
@@ -399,9 +419,9 @@
         <span class="titles"><h3>Increase Density</h3><span class="sub">Teaches: paired sets and the clock — same clean reps, less wasted space</span></span>
         <span class="state lock" data-state="4">Locked</span>
       </a>
-      <a class="lesson-row locked" href="#lesson-5" data-lessonrow="5">
+      <a class="lesson-row locked" href="lesson-5.html" data-lessonrow="5" data-standalone="lesson-5.html">
         <span class="num">05</span>
-        <span class="titles"><h3>Link the Body</h3><span class="sub">Teaches: connect upper, lower, and core through rotation, anti-rotation, contralateral loading, crawling, carries, and cross-body work</span></span>
+        <span class="titles"><h3>Link the Body</h3><span class="sub">Teaches: the left side and the right side learn to work together</span></span>
         <span class="state lock" data-state="5">Locked</span>
       </a>
       <a class="lesson-row locked" href="lesson-6.html" data-lessonrow="6" data-standalone="lesson-6.html">
@@ -409,13 +429,54 @@
         <span class="titles"><h3>Pack Light, Train Hard</h3><span class="sub">Travel Workout 2 · Teaches: how to use one fixed anchor — press away from it, pull toward it, resist its rotation</span></span>
         <span class="state lock" data-state="6">Locked</span>
       </a>
-      <a class="lesson-row locked" href="#lesson-7" data-lessonrow="7">
+      <a class="lesson-row locked" href="lesson-7.html" data-lessonrow="7" data-standalone="lesson-7.html">
         <span class="num">07</span>
-        <span class="titles"><h3>Own Your Body</h3><span class="sub">Teaches: body control under fatigue — balance, bodyweight progressions, getting down and up, core control, athletic movement</span></span>
+        <span class="titles"><h3>Own Your Body</h3><span class="sub">Teaches: flow — making the spaces between the exercises disappear</span></span>
         <span class="state lock" data-state="7">Locked</span>
       </a>
 
-      <div class="unlockbar" id="unlockbar">
+      
+      <!-- OPTIONAL SCHEDULES — gated like a lesson (data-standalone), but it's a
+           companion, not a lesson. Uses ★ instead of a number so it doesn't
+           imply an eighth lesson. -->
+      <a class="lesson-row locked" href="schedules.html" data-lessonrow="sched" data-standalone="schedules.html">
+        <span class="num">🗓</span>
+        <span class="titles"><h3>Optional Schedules</h3><span class="sub">Two ways to run Phase 1 — three sessions a week or two. Printable. Entirely optional.</span></span>
+        <span class="state lock" data-state="sched">Locked</span>
+      </a>
+<!-- ── COMING SOON: extras beyond the 7 lessons. Plain rows, no unlock
+           wiring, no data-lessonrow — they're announcements, not products yet. ── -->
+      <div class="lesson-row" style="cursor:default;opacity:.85;">
+        <span class="num">🌱</span>
+        <span class="titles"><h3>Butt Fertilizer</h3><span class="sub">A separate heavy-weights extra for the gym — tack it onto your main workout days if you have an extra 30 minutes. Real weights. Big glutes.</span></span>
+        <span class="state">Coming soon</span>
+      </div>
+      <div class="lesson-row" style="cursor:default;opacity:.85;">
+        <span class="num">💋</span>
+        <span class="titles"><h3>1950s Pinup Abs</h3><span class="sub">20 minutes every morning. Built for looking your best in the costume — showing your belly button with confidence. Who wants a six-pack anyway?</span></span>
+        <span class="state">Coming soon</span>
+      </div>
+
+      
+      <div class="phase soon">
+        <span class="ph-k">Phase 2 · Lessons 8–14 · coming</span>
+        <h2>Learn to Train</h2>
+        <p class="ph-q">How do I create the right stimulus for adaptation?</p>
+        <p class="phase-note">More progression with weights, done differently. Starts with recovery and active rest — because after Phase 1 the next thing you need isn't harder, it's understanding how the body actually grows between sessions.</p>
+      </div>
+      <div class="phase soon">
+        <span class="ph-k">Phase 3 · Lessons 15–21 · coming</span>
+        <h2>Learn to Sustain</h2>
+        <p class="ph-q">How do I stay consistent when life isn't perfect?</p>
+        <p class="phase-note">More progression, now with bands — including different kinds: mini bands, heavy loops, long bands. It's also where consistency lives: hotel rooms, parks, playgrounds, busy weeks. Keeping what you built when conditions aren't ideal.</p>
+      </div>
+      <div class="phase soon">
+        <span class="ph-k">Phase 4 · coming</span>
+        <h2>Understand Hypertrophy</h2>
+        <p class="ph-q">Why does muscle actually grow?</p>
+        <p class="phase-note">Weights and bands combined — the loading you haven't met yet — plus the science behind everything that came before. Last on purpose: you've already felt these ideas, so now they get names.</p>
+      </div>
+<div class="unlockbar" id="unlockbar">
         <h4>Unlock the full program</h4>
         <p>Buy once, get every lesson plus the private video walk-throughs. After purchase you'll receive your unlock code by email.</p>
         <div class="unlockrow">
@@ -456,12 +517,67 @@
 (function(){
   // ── THE UNLOCK CODES ── change these before launch; give the buyer the
   //    matching code after purchase. bundle sets BOTH product flags.
+  // ┌───────────────────────────────────────────────────────────────────┐
+  // │ THE UNLOCK CODES — one code per buyer, batched by season.         │
+  // └───────────────────────────────────────────────────────────────────┘
+  //
+  // HOW THIS WORKS
+  //   Each product holds a LIST of valid codes instead of one shared code.
+  //   You mint a batch per season, hand one code to each buyer, and retire
+  //   the batch when the season closes.
+  //
+  // WHY PER-BUYER
+  //   A single shared code is one leak away from being public — and the
+  //   realistic leak isn't someone clever reading this file, it's one buyer
+  //   pasting her code into a group chat of forty women prepping the same
+  //   road. With per-buyer codes, a leak burns ONE line, and you delete it.
+  //
+  // WHY SEASONS
+  //   Each Carnival is its own season, so the batch retires on its own. That
+  //   gives you expiry with no expiry logic, no revocation system, and no
+  //   "my access stopped working" messages — everyone knew it was a season.
+  //
+  // HOW TO MINT A NEW BATCH
+  //   1. Pick a season prefix (TRIN26, CROP26, MIA27…).
+  //   2. Add 4 random characters per buyer: TRIN26-4K9X. Avoid 0/O and 1/I.
+  //   3. Paste the new codes into the arrays below.
+  //   4. To retire a season, delete its lines. Those buyers stop unlocking.
+  //   5. Keep your own list of which code went to which buyer, somewhere
+  //      outside this file — a spreadsheet is fine. This file can't track it.
+  //
+  // WHAT THIS IS *NOT*
+  //   This is not real access control. The codes are visible to anyone who
+  //   views this page's source, and the unlock is stored in the browser, so a
+  //   determined person can bypass it entirely. It's a speed bump that keeps
+  //   honest people honest — appropriate for a small seasonal product, NOT
+  //   for anything where real money depends on the gate holding. When it
+  //   matters, move to a seller (Gumroad/Payhip/Podia) that issues real
+  //   per-sale licence keys and can disable one.
+  //
+  // NOTE: codes are compared UPPERCASED and trimmed, so buyers can type them
+  //       in lower case or with stray spaces and it still works.
+
   var CODES = {
-    course:  'ROADREADY',   // unlocks the 7-lesson movement course
-    cookbook:'LIVITARIAN',  // unlocks the cookbook only
-    bundle:  'FULLPLATE'    // unlocks both
+
+    // ── MOVEMENT COURSE ───────────────────────────────────────────────
+    course: [
+      // -- SAMPLE BATCH: Trinidad 2026. Replace before you sell anything. --
+      'TRIN26-4K9X', 'TRIN26-7M2P', 'TRIN26-QH3B', 'TRIN26-5RTD',
+      'TRIN26-9WFC', 'TRIN26-2LXK', 'TRIN26-8NVA', 'TRIN26-6JYE',
+      'TRIN26-3PZM', 'TRIN26-KD7S', 'TRIN26-XB4G', 'TRIN26-VC9H',
+      'ROADREADY'    // legacy shared code — DELETE once real batches are out
+    ],
+
+    // ── COOKBOOK ──────────────────────────────────────────────────────
+    cookbook: [
+      'LIVITARIAN'   // legacy shared code — replace with a batch
+    ],
+
+    // ── BUNDLE (unlocks both) ─────────────────────────────────────────
+    bundle: [
+      'FULLPLATE'    // legacy shared code — replace with a batch
+    ]
   };
-  // TODO: change all three before launch; deliver the right code(s) per purchase.
 
   // ── STATE ── we remember what's unlocked in the browser's localStorage
   //    under this key. store() saves the object, load() reads it back.
@@ -512,9 +628,11 @@
   function applyCode(v){
     v = (v||'').trim().toUpperCase();
     var st = load(), hit = false;
-    if(v===CODES.course){ st.course = true; hit='course'; }
-    else if(v===CODES.cookbook){ st.cookbook = true; hit='cookbook'; }
-    else if(v===CODES.bundle){ st.course = true; st.cookbook = true; hit='bundle'; }
+    // each product now holds a LIST of codes — check membership, not equality
+    function inList(list){ return list.indexOf(v) !== -1; }
+    if(inList(CODES.course)){ st.course = true; hit='course'; }
+    else if(inList(CODES.cookbook)){ st.cookbook = true; hit='cookbook'; }
+    else if(inList(CODES.bundle)){ st.course = true; st.cookbook = true; hit='bundle'; }
     if(hit){ store(st); refresh(); }
     return hit;
   }
@@ -569,7 +687,7 @@
       });
       var ub=document.getElementById('unlockbar');
       if(ub){ub.querySelector('h4').textContent='Course unlocked ✓';
-        ub.querySelector('p').textContent='Lessons 2, 3, 4, and 6 are ready — tap any to open. New lessons appear here as they publish; check your email for the private channel link.';}
+        ub.querySelector('p').textContent='All seven lessons are ready — tap any to open. New lessons appear here as they publish; check your email for the private channel link.';}
     } else {
       document.querySelectorAll('.lesson-row[data-standalone]').forEach(function(row){
         row.addEventListener('click', function(e){

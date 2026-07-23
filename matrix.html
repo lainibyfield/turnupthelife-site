@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8"/>
+<meta name="color-scheme" content="light">
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>The Matrix — The Livitarian Way</title>
 <!--
@@ -57,12 +58,19 @@
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;800;900&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
   :root{
+    /* LIGHT ONLY — do not remove.
+       Some phone browsers and in-app browsers (Android WebView "force dark",
+       Chrome auto-dark, various in-app viewers) will INVERT a page's colours in
+       dark mode unless the page says which schemes it supports. This one line
+       tells them: this design is light, leave it alone. Without it the warm
+       paper background can render near-black with dark text on top — unreadable. */
+    color-scheme: light;
     --paper:#FFF7EA;--card:#FFFFFF;--line:#EADFCB;--ink:#26140A;--ink-2:#7E6A54;
     --sun:#FFB300;--aqua:#12A14B;--pink:#D62828;--lime:#93D500;--coral:#E8500F;
     --display:'Archivo',system-ui,sans-serif;--body:'Newsreader',Georgia,serif;--mono:'JetBrains Mono',ui-monospace,monospace;
   }
   *{box-sizing:border-box;}
-  body{overflow-x:hidden;max-width:100%;margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.5;-webkit-font-smoothing:antialiased;}
+  body{overflow-x:clip;max-width:100%;margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.5;-webkit-font-smoothing:antialiased;}
   .wrap{max-width:1080px;margin:0 auto;padding:0 18px 80px;}
   .stripe{height:5px;border:0;margin:0;background:linear-gradient(90deg,var(--sun),var(--coral) 28%,var(--pink) 52%,var(--aqua) 76%,var(--lime));}
   .shine{background:linear-gradient(100deg,var(--sun),var(--coral) 28%,var(--pink) 55%,var(--aqua) 85%);background-size:220% auto;-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent;animation:sh 7s linear infinite;}
