@@ -246,7 +246,15 @@
   .timerbank .tbtn{margin-left:0;}
   /* Keep the section's timer strip visible while you read the instructions —
      it sticks just under the jump nav instead of scrolling away above the set.
-     --jumpH is measured in JS so it always clears the nav, whatever its height. */
+
+     STICKY HEADER CHAIN — three bars stack at the top, each below the one above:
+         .homebar     top: 0
+         .jump        top: var(--hbH)                      (homebar height)
+         .timerbank   top: calc(var(--hbH) + var(--jumpH))
+     Both heights are measured in JS (setJumpH) on load, resize, and orientation
+     change, so they never overlap however the nav wraps. Adding another sticky
+     bar? Add it to this chain — do NOT just give it top:0 or it will land on
+     top of the nav. */
   .timerbank{position:sticky;top:calc(var(--hbH,40px) + var(--jumpH,54px));z-index:45;}
 
   /* the finish flash — pulses so you SEE the timer end even with sound off */
@@ -277,6 +285,17 @@
   .tq-do{background:rgba(18,161,75,.07);}   .tq-do .tq-k{color:#0B7A3A;}
   .tq-down{background:rgba(255,179,0,.10);} .tq-down .tq-k{color:#9A6B00;}
   .tq-up{background:rgba(232,80,15,.07);}   .tq-up .tq-k{color:var(--coral);}
+
+  /* ═══ POSITION DIAGRAM ═══
+     A small top-down SVG for exercises where WHERE YOU STAND is the hard part
+     to describe in words (Pallof press especially). SVG not ASCII art: it
+     scales on a phone, stays crisp, uses the design tokens, and screen readers
+     get the <title>/<desc> instead of a wall of slashes. */
+  .posdiag{border:1.5px solid var(--line);background:var(--card);padding:12px;margin-top:12px;display:flex;flex-wrap:wrap;gap:12px;justify-content:center;}
+  .posdiag .panel{flex:1 1 240px;max-width:320px;margin:0;}
+  .posdiag svg{display:block;width:100%;height:auto;}
+  .posdiag figcaption{font-family:var(--mono);font-size:10.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-2);text-align:center;margin-top:6px;}
+  .posdiag .panel-k{display:block;font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--coral);text-align:center;margin-bottom:4px;}
 </style>
 </head>
 <body>
@@ -289,16 +308,17 @@
   <header class="hero">
     <span class="kick">Lesson 06 · Travel Workout 2</span>
     <h1>Pack Light,<br><span class="shine">Train Hard.</span></h1>
-    <p>Lesson 3 taught you to create tension with your own body as the anchor. Today you add one fixed anchor point and use it to press, pull, and resist rotation — without adding more equipment.</p>
+    <p>Until now you've created tension with your own body as the anchor. Today you add one fixed anchor point and use it to press, pull, and resist rotation — without adding more equipment.</p>
     <p class="princ">Same band. New anchor skill.</p>
 
     <div class="meta">
       <div><span class="k">Principle</span><span>One anchor. A complete workout.</span></div>
       <div><span class="k">Role</span><span>Balanced full body, with anchored push, pull, and anti-rotation work.</span></div>
-      <div><span class="k">Time</span><span>40–55 minutes.</span></div>
+      <div><span class="k">Time</span><span>About 45–60 minutes.</span></div>
       <div><span class="k">Equipment</span><span>Light, medium, and heavy long bands or tubes, plus a door anchor or other secure anchor at chest height.</span></div>
       <div><span class="k">Mood</span><span>Travel · one setup · three directions.</span></div>
     </div>
+    <p style="margin-top:12px;padding:11px 13px;border-left:3px solid var(--aqua);background:rgba(18,161,75,.08);font-size:14.5px;line-height:1.5;"><b style="color:#0B7A3A;">First time through</b><br>Allow up to <b>70 minutes</b> while you learn the movements. It gets faster once the order is familiar — the workout doesn't change, your hunting-for-what's-next time disappears. Don't rush the first one to hit a clock.</p>
 
     <details class="week rules-d">
       <summary>Need the band rules? Tap here</summary>
@@ -339,7 +359,7 @@
   <details class="bandrules" open>
     <summary>Anchor Rules<span class="hint">read first</span></summary>
     <div class="br-body">
-      <p style="margin:0 0 10px;">Lesson 3 used your feet, back, and hands as the anchor. Today you will attach the band at chest height and leave it there for several exercises.</p>
+      <p style="margin:0 0 10px;">Until now your feet, back, and hands were the anchor. Today you will attach the band at chest height and leave it there for several exercises.</p>
       <ol>
         <li><b>Use a real anchor.</b> A door anchor is best. A heavy object is acceptable only if it cannot slide, tip, or open.</li>
         <li><b>Anchor on the closing side of the door.</b> Pulling should make the door more secure, not pull it open.</li>
@@ -348,6 +368,7 @@
         <li><b>Change difficulty with distance.</b> Step farther away for more tension; step closer for less.</li>
         <li><b>Finish every rep with control.</b> The band should never pull you toward the door.</li>
       </ol>
+      <p style="margin-top:13px;padding:11px 13px;border-left:3px solid var(--aqua);background:rgba(18,161,75,.08);font-size:14.5px;line-height:1.5;"><b style="color:#0B7A3A;">Use the band you actually own</b><br>No mini-band? <b>Tie a long band into a loop</b> — that's all a mini-band is. Only got a thick, heavy band? Take a shorter grip, or step closer to whatever it's anchored to, until the starting tension feels moderate. The band you have is the right band; adjust the length, not the exercise.</p>
       <p class="br-note"><b>Set it once</b><br>Pallof press, chest press, and row all use the same chest-height anchor. You will change which direction you face — not keep rebuilding the setup.</p>
     </div>
   </details>
@@ -449,17 +470,65 @@
       <div class="ex-body">
         <div class="ex-top"><h3 class="ex-name">Standing Pallof Press<span class="sub">anti-rotation — the anchor tries to turn you</span></h3><label class="donebox"><input type="checkbox" data-track="core-pallof-press">Done</label></div>
         <p class="cue">The band pulls sideways. You stay square.</p>
-        <div class="data"><span class="chip"><span class="k">Sets</span> 2</span><span class="chip"><span class="k">Reps</span> 8–10 / side</span><span class="chip band"><span class="k">Band</span> light or medium</span><span class="chip pace"><span class="k">Pace</span> press · 2 hold · return</span></div>
+        <p class="note" style="border-left-color:var(--aqua);background:rgba(18,161,75,.08);"><b style="color:#0B7A3A;">You already know this one</b><br>You've practised resisting rotation every time you carried something heavy in one hand and stayed tall instead of leaning. This is the same skill from a fixed anchor — the band tries to twist you instead of a bag pulling you over. Your job isn't to move. It's to stay square.</p>
+        <div class="data"><span class="chip"><span class="k">Sets</span> 2–3</span><span class="chip"><span class="k">Reps</span> 8–12 / side</span><span class="chip band"><span class="k">Band</span> light or medium</span><span class="chip pace"><span class="k">Pace</span> press · 2 hold · return</span></div>
         <p class="anchor"><b>Anchor / setup</b>Anchor the band at chest height. Stand sideways to it and hold the band at the centre of your chest.</p>
+        <div class="posdiag">
+          <figure class="panel">
+            <span class="panel-k">Start</span>
+            <svg viewBox="0 0 300 180" role="img" aria-labelledby="ta da">
+              <title id="ta">Pallof press start position</title>
+              <desc id="da">Top-down view. The anchor is to your left. You stand sideways to it with both hands held together at the centre of your chest.</desc>
+              <!-- anchor post -->
+              <rect x="30" y="62" width="16" height="52" fill="#26140A"/>
+              <text x="38" y="130" font-family="JetBrains Mono, monospace" font-size="10" font-weight="700" fill="#26140A" text-anchor="middle">ANCHOR</text>
+              <!-- band, from anchor to the hands -->
+              <line x1="46" y1="88" x2="180" y2="70" stroke="#D62828" stroke-width="3" stroke-dasharray="7 5"/>
+              <text x="112" y="56" font-family="JetBrains Mono, monospace" font-size="10" font-weight="700" fill="#D62828" text-anchor="middle">BAND</text>
+              <!-- you, seen from above, facing up the page -->
+              <circle cx="180" cy="88" r="18" fill="none" stroke="#26140A" stroke-width="2.5"/>
+              <circle cx="180" cy="88" r="4" fill="#26140A"/>
+              <text x="180" y="128" font-family="JetBrains Mono, monospace" font-size="10" font-weight="700" fill="#26140A" text-anchor="middle">YOU</text>
+              <text x="180" y="143" font-family="JetBrains Mono, monospace" font-size="9" fill="#7E6A54" text-anchor="middle">facing up ↑</text>
+              <!-- hands -->
+              <rect x="164" y="65" width="32" height="10" rx="2" fill="#FFB300" stroke="#26140A" stroke-width="2"/>
+            </svg>
+            <figcaption>Hands at the sternum</figcaption>
+          </figure>
+          <figure class="panel">
+            <span class="panel-k">Press</span>
+            <svg viewBox="0 0 300 180" role="img" aria-labelledby="tb db">
+              <title id="tb">Pallof press finish position</title>
+              <desc id="db">Top-down view. Your hands have pressed straight forward away from your chest. The band is longer and pulling harder sideways, but your body has not turned.</desc>
+              <!-- anchor post -->
+              <rect x="30" y="62" width="16" height="52" fill="#26140A"/>
+              <text x="38" y="130" font-family="JetBrains Mono, monospace" font-size="10" font-weight="700" fill="#26140A" text-anchor="middle">ANCHOR</text>
+              <!-- band, from anchor to the hands -->
+              <line x1="46" y1="88" x2="180" y2="44" stroke="#D62828" stroke-width="3" stroke-dasharray="7 5"/>
+              <text x="112" y="30" font-family="JetBrains Mono, monospace" font-size="10" font-weight="700" fill="#D62828" text-anchor="middle">BAND</text>
+              <!-- you, seen from above, facing up the page -->
+              <circle cx="180" cy="88" r="18" fill="none" stroke="#26140A" stroke-width="2.5"/>
+              <circle cx="180" cy="88" r="4" fill="#26140A"/>
+              <text x="180" y="128" font-family="JetBrains Mono, monospace" font-size="10" font-weight="700" fill="#26140A" text-anchor="middle">YOU</text>
+              <text x="180" y="143" font-family="JetBrains Mono, monospace" font-size="9" fill="#7E6A54" text-anchor="middle">facing up ↑</text>
+              <!-- hands -->
+              <rect x="164" y="39" width="32" height="10" rx="2" fill="#FFB300" stroke="#26140A" stroke-width="2"/>
+              <line x1="180" y1="34" x2="180" y2="34" stroke="#12A14B" stroke-width="3"/>
+              <polygon points="180,24 174,37 186,37" fill="#12A14B"/>
+            </svg>
+            <figcaption>Hands press straight away</figcaption>
+          </figure>
+        </div>
         <ul class="cues">
-          <li>Step away until the band has moderate tension.</li>
-          <li>Stack ribs over hips and soften the knees.</li>
-          <li>Press both hands straight forward.</li>
-          <li>Do not let your ribs, shoulders, or pelvis turn toward the anchor.</li>
-          <li>Return slowly, then repeat on the other side.</li>
+          <li>Stand sideways to the anchor — one shoulder facing it.</li>
+          <li>Hold the handle with <b>both hands at the centre of your chest</b>.</li>
+          <li>Step away until the band has moderate tension; stack ribs over hips, soften the knees.</li>
+          <li>Press straight out from your sternum. Stay facing forward the whole time.</li>
+          <li>Bring it back with control. Don't let the band rotate you.</li>
+          <li>Complete all the reps, then turn around and repeat with the anchor on the other side.</li>
         </ul>
         <p class="feel"><span class="yes">Feel:</span> the front and sides of the trunk resisting rotation. &nbsp; <span class="no">Not:</span> twisting through the back or shrugging.</p>
-        <div class="threeq"><span class="tq tq-do"><span class="tq-k">Do this</span>Stand sideways to the chest-height anchor. Press straight out, hold 2 seconds, and return. 8&ndash;10 per side.</span><span class="tq tq-down"><span class="tq-k">If that&rsquo;s too difficult</span>Step closer to the anchor and shorten the press.</span><span class="tq tq-up"><span class="tq-k">If that&rsquo;s too easy</span>Step farther away or hold the fully extended position for 4 seconds.</span></div>
+        <div class="threeq"><span class="tq tq-do"><span class="tq-k">Do this</span>Stand sideways to the chest-height anchor, both hands centred on the handle. Press straight out, hold 2 seconds, return. 8&ndash;12 per side.</span><span class="tq tq-down"><span class="tq-k">If that&rsquo;s too difficult</span>Step closer to the anchor and shorten the press.</span><span class="tq tq-up"><span class="tq-k">If that&rsquo;s too easy</span>Step farther away or hold the fully extended position for 4 seconds.</span></div>
         <a class="watch" href="https://www.youtube.com/results?search_query=standing+pallof+press+band+anti+rotation" target="_blank" rel="noopener">Watch the form</a>
       </div>
     </article>
@@ -520,7 +589,7 @@
           <li>Stop before the back rounds.</li>
         </ul>
         <p class="feel"><span class="yes">Feel:</span> hamstrings stretching, glutes finishing. &nbsp; <span class="no">Not:</span> low back doing the work.</p>
-        <p class="note"><b>Different from Lesson 3</b><br>Lesson 3 taught the good morning, with the band at your shoulders. This is the RDL — hands beside the thighs. Same hinge, different load path.</p>
+        <p class="note"><b>Not the good morning</b><br>You've hinged with the band up at your shoulders before. This is the RDL — hands stay beside the thighs. Same hinge, different load path.</p>
         <div class="threeq"><span class="tq tq-do"><span class="tq-k">Do this</span>Band under both feet, hands beside the thighs. Hinge 12&ndash;18 reps with a long spine.</span><span class="tq tq-down"><span class="tq-k">If that&rsquo;s too difficult</span>Use a lighter band, or hinge with no band at all.</span><span class="tq tq-up"><span class="tq-k">If that&rsquo;s too easy</span>Step wider on the band, or slow the lowering to 4 seconds.</span></div>
         <a class="watch" href="https://www.youtube.com/results?search_query=long+resistance+band+romanian+deadlift+standing+on+band" target="_blank" rel="noopener">Watch the form</a>
       </div>
@@ -531,14 +600,14 @@
         <div class="ex-top"><h3 class="ex-name"><span class="idx">A4</span>Frog Pumps<span class="sub">bodyweight glute finisher<span class="fert">🌱 fertilizer</span></span></h3><label class="donebox"><input type="checkbox" data-track="legs-ex-4">Done</label></div>
         <p class="cue">Small movement. Big squeeze.</p>
         <div class="data"><span class="chip"><span class="k">Sets</span> 2</span><span class="chip"><span class="k">Reps</span> 20–30</span><span class="chip"><span class="k">Weight</span> bodyweight</span><span class="chip pace"><span class="k">Pace</span> 2 squeeze · controlled lower</span></div>
-        <p class="anchor"><b>Setup</b>On your back, soles of the feet together, knees falling open. No band needed — your legs have already done nine loaded working sets today.</p>
+        <p class="anchor"><b>Setup</b>On your back, soles of the feet together, knees falling open. No band needed — your legs have already done nine loaded working sets today. <b>Already using a mini-band above your knees? Keep it.</b></p>
         <ul class="cues">
           <li>Drive through the outside edges of the feet.</li>
           <li>Squeeze at the top for 2 and lower with control.</li>
           <li>The range is small on purpose — the squeeze is the exercise, not the height.</li>
         </ul>
         <p class="feel"><span class="yes">Feel:</span> glutes, high and deep. &nbsp; <span class="no">Not:</span> low back or hamstrings taking over.</p>
-        <div class="threeq"><span class="tq tq-do"><span class="tq-k">Do this</span>Bodyweight, heels together and knees wide. 20&ndash;30 reps with a 2-second squeeze.</span><span class="tq tq-down"><span class="tq-k">If that&rsquo;s too difficult</span>Make the range smaller — lift an inch, keep the full squeeze.</span><span class="tq tq-up"><span class="tq-k">If that&rsquo;s too easy</span>Hold the top position for 3 seconds on every rep.</span></div>
+        <div class="threeq"><span class="tq tq-do"><span class="tq-k">Do this</span>Bodyweight, heels together and knees wide. 20&ndash;30 reps with a 2-second squeeze.</span><span class="tq tq-down"><span class="tq-k">If that&rsquo;s too difficult</span>Make the range smaller — lift an inch, keep the full squeeze.</span><span class="tq tq-up"><span class="tq-k">If that&rsquo;s too easy</span>If your workout station is already anchored, loop the band across your hips instead.</span></div>
         <a class="watch" href="https://www.youtube.com/results?search_query=bodyweight+frog+pump+glute+exercise+heels+together" target="_blank" rel="noopener">Watch the form</a>
       </div>
     </article>
@@ -549,7 +618,7 @@
   <!-- PUSH -->
   <section class="sec" id="push">
     <div class="sec-head"><span class="stepno">Step 4 / 7</span><span class="tag">BUILD</span><h2>Push</h2><span class="sec-min">8–10 min</span></div>
-    <p class="sec-intro">In Lesson 3, your upper back anchored the press. Today the band is fixed behind you, so your stance and trunk must control the return.</p>
+    <p class="sec-intro">Until today, your upper back anchored the press. Now the band is fixed behind you, so your stance and trunk must control the return.</p>
     <div class="timerbank"><span class="tb-k">Timer</span><button class="tbtn" data-secs="15" data-label="15s">15s</button><button class="tbtn" data-secs="20" data-label="20s">20s</button><button class="tbtn" data-secs="30" data-label="30s">30s</button><button class="tbtn" data-secs="45" data-label="45s">45s</button></div>
 
     <article class="ex">
@@ -595,7 +664,7 @@
   <!-- PULL -->
   <section class="sec" id="pull">
     <div class="sec-head"><span class="stepno">Step 5 / 7</span><span class="tag">BUILD</span><h2>Pull</h2><span class="sec-min">8–10 min</span></div>
-    <p class="sec-intro">In Lesson 3, your feet anchored the row. Today you face a fixed anchor and control your whole body against its pull.</p>
+    <p class="sec-intro">Until today, your feet anchored the row. Now you face a fixed anchor and control your whole body against its pull.</p>
     <div class="timerbank"><span class="tb-k">Timer</span><button class="tbtn" data-secs="15" data-label="15s">15s</button><button class="tbtn" data-secs="20" data-label="20s">20s</button><button class="tbtn" data-secs="30" data-label="30s">30s</button><button class="tbtn" data-secs="45" data-label="45s">45s</button></div>
 
     <article class="ex">
@@ -685,7 +754,7 @@
   <!-- RISE -->
   <section class="sec" id="rise">
     <div class="sec-head"><span class="stepno">Step 7 / 7</span><span class="tag rise">RISE</span><h2>Your Choice</h2><span class="sec-min">3–5 min</span></div>
-    <p class="sec-intro">Familiar work today. You get to pick how it ends.</p>
+    <p class="sec-intro">You learned one new skill today — the anchor. Now let the body settle. You get to pick how it ends.</p>
     <div class="timerbank"><span class="tb-k">Timer</span><button class="tbtn" data-secs="15" data-label="15s">15s</button><button class="tbtn" data-secs="20" data-label="20s">20s</button><button class="tbtn" data-secs="30" data-label="30s">30s</button><button class="tbtn" data-secs="45" data-label="45s">45s</button></div>
 
     <article class="ex">

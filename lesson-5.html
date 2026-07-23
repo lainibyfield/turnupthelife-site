@@ -4,34 +4,35 @@
 <meta charset="UTF-8" />
 <meta name="color-scheme" content="light">
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Lesson 4 — Increase Density</title>
+<title>Lesson 5 — Link the Body</title>
 <!--
   ============================================================================
-  LESSON 4 — INCREASE DENSITY   (Turn Up the Life / turnupthelife.com)
+  LESSON 5 — LINK THE BODY   (Turn Up the Life / turnupthelife.com)
   ============================================================================
-  WHAT THIS FILE IS
-    A single, self-contained workout lesson. All CSS + JS live inline so the
-    page works on its own with no external files (besides Google Fonts).
-    Opened from the Academy curriculum (course.html) as a standalone page.
+  ONE BIG IDEA
+    The left side and the right side learn to work together. Every exercise in
+    here is evidence of that one principle — crawling, cross-body loading,
+    carries, anti-rotation. Nothing is a separate concept to memorise.
 
-  WHAT IS DIFFERENT ABOUT THIS ONE
-    Lesson 4 is the DENSITY lesson: exercises run in PAIRS (A1 straight into
-    A2 = one round), and the student records how long each pair took. So this
-    file has something the other lessons do not: TIME LOG fields. Anything with
-    data-log="..." saves to localStorage, so the times and the "next time" box
-    are still there on the next visit. Search "TIME LOG" in the script.
+  THE MOVE THAT IS THE LESSON
+    The contralateral single-leg RDL. The student has already done this hinge
+    with the weight on the SAME side as the standing leg, and heavier with two
+    dumbbells. Today it is one weight in the OPPOSITE hand. They expect easier;
+    they discover a completely different kind of hard. That surprise IS the
+    teaching — do not spoil it by over-explaining before they try it.
 
-  HOW IT IS ORGANIZED (top to bottom)
-    1. style   — design tokens (SHARED, see banner) + page styles
-    2. body    — hero, sticky jump-nav, one section per block
-                 (Get Low, Core, Pair A, Pair B, Pair C, Rise)
-    3. script  — jump-nav scroll, done-tracking + progress bar, time logs,
-                 and the tap-to-start hold timers
+  ANTI-ROTATION IS INTRODUCED HERE THROUGH MOVEMENT, NOT AN ANCHORED BAND.
+    The offset dead bug and the crawling teach it. The anchored Pallof press in
+    the travel lesson is then the APPLICATION of a skill they already own.
+
+  STRUCTURE NOTE
+    Step 3 ("The Lesson") teaches three cross-body patterns at low volume.
+    Step 4 then does the WORKING SETS of the split squat learned in Step 3.
+    Teach first, load second — that split is deliberate.
 
   SAFE TO EDIT  -  everything inside body.
   SHARED/FROZEN -  the :root token block and the timer JS are duplicated
-                   byte-for-byte in trial-class / lesson-2 / lesson-3 /
-                   lesson-4 / lesson-6. See the "DO NOT EDIT HERE" banners.
+                   byte-for-byte across every lesson file. See the banners.
   ============================================================================
 -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -289,83 +290,45 @@
   /* the finish flash — pulses so you SEE the timer end even with sound off */
   @keyframes tflash{0%,100%{background:var(--pink);color:#fff;}50%{background:var(--sun);color:var(--ink);}}
   .tbtn.done{animation:tflash .45s steps(1) 4;}
-
-  /* ═══ DENSITY PAIRS (Lesson 4 only) ═══
-     A "pair" is two exercises done back-to-back with no rest between them —
-     that is one round. .pairbox wraps the pair so it reads as a single unit;
-     the .pairrule strip states the rounds and the rule; .arrow is the
-     "straight into" divider between the two moves. */
-  .pairbox{border:2px solid var(--ink);background:var(--card);margin-top:16px;}
-  .pairrule{background:var(--ink);color:var(--paper);padding:10px 14px;font-family:var(--mono);font-size:11.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;line-height:1.5;}
-  .pairrule b{color:var(--sun);}
-  .pairbox .ex{border:none;border-top:1px solid var(--line);margin-top:0;}
-  .arrow{text-align:center;font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--coral);padding:7px 0;border-top:1px dashed var(--line);background:rgba(232,80,15,.05);}
-
-  /* TIME LOG — where the student writes how long a pair took. Saved to
-     localStorage alongside the checkboxes, so the numbers survive a reload. */
-  .timelog{display:flex;flex-wrap:wrap;align-items:center;gap:10px;padding:13px 14px;border-top:2px solid var(--ink);background:rgba(255,179,0,.12);}
-  .timelog label{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink);}
-  .timelog input{font-family:var(--mono);font-size:15px;font-weight:700;width:110px;padding:7px 9px;border:2px solid var(--ink);background:var(--card);color:var(--ink);}
-  .timelog .hint{flex-basis:100%;font-size:13.5px;color:var(--ink-2);font-style:italic;}
-
-  /* END STANDING — the reflection block that closes the lesson. */
-  .reflect{border:2px solid var(--ink);background:var(--card);padding:18px;margin-top:18px;}
-  .reflect h3{font-family:var(--display);font-weight:900;text-transform:uppercase;font-size:18px;margin:0 0 10px;}
-  .reflect ul{margin:0 0 12px;padding-left:18px;}
-  .reflect li{padding:3px 0;font-size:16px;}
-  .nexttime{border-top:1px solid var(--line);padding-top:12px;}
-  .nexttime .nk{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--coral);display:block;margin-bottom:8px;}
-  .nexttime label{display:flex;align-items:center;gap:9px;padding:4px 0;font-size:15.5px;cursor:pointer;}
-  .nexttime input{width:18px;height:18px;accent-color:#93D500;cursor:pointer;}
-  /* ═══ THE THREE QUESTIONS ═══
-     Every exercise answers these in the same order, so nobody has to hunt:
-       1. what everyone tries first   2. one regression   3. one progression
-     Keep it to ONE option per box. Two options is a decision; one is an
-     instruction, and people follow instructions mid-workout. */
-  .threeq{margin-top:12px;border:1.5px solid var(--line);}
-  .tq{display:block;padding:10px 13px;border-top:1px solid var(--line);font-size:15.5px;line-height:1.5;}
-  .tq:first-child{border-top:none;}
-  .tq-k{display:block;font-family:var(--mono);font-size:10.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:3px;}
-  .tq-do{background:rgba(18,161,75,.07);}   .tq-do .tq-k{color:#0B7A3A;}
-  .tq-down{background:rgba(255,179,0,.10);} .tq-down .tq-k{color:#9A6B00;}
-  .tq-up{background:rgba(232,80,15,.07);}   .tq-up .tq-k{color:var(--coral);}
 </style>
 
 <body>
-<!-- ═══ SAFE TO EDIT BELOW ═══ the lesson content: hero, jump-nav, and the
-     workout sections. Each <section class="sec" id="..."> is one block; its id
-     must match a <button data-go="..."> in the jump-nav above. -->
+<!-- ═══ SAFE TO EDIT BELOW ═══ hero, jump-nav, and the workout sections.
+     Each <section class="sec" id="..."> is one block; its id must match a
+     <button data-go="..."> in the jump nav. -->
 <div class="wrap">
 
   <hr class="stripe"/>
   <nav class="homebar"><a href="course.html#curriculum">Back to the Academy</a></nav>
 
   <header class="hero">
-    <p class="kick">Lesson 04 · Turn Up the Life</p>
-    <h1>Increase<br><span class="shine">Density.</span></h1>
-    <p>More quality work in less time. Familiar exercises, purposeful pairings — you recover one muscle group while another one works.</p>
-    <p class="princ">Lesson 1 taught you to own the weight. Lesson 2 taught you to create power. Lesson 3 taught you to create tension. Lesson 4 changes none of those — it teaches you to recover while another muscle group works.</p>
-    <p class="princ">About 45–60 min · Two 10 lb dumbbells · sturdy chair or plyo box · optional kettlebell.</p>
+    <p class="kick">Lesson 05 · Turn Up the Life</p>
+    <h1>Link<br><span class="shine">the Body.</span></h1>
+    <p>The left side and the right side learn to work together. Same movements you already own — loaded across your body instead of straight down it.</p>
+    <p class="princ">Until now, load has been even, or on the same side you were standing on. Today it crosses. Your trunk becomes the thing that connects one hip to the opposite shoulder.</p>
+    <p class="princ">About 45–60 min · Two dumbbells · one kettlebell · a band (mini, or a long one tied into a loop) · chair or bench.</p>
     <p style="margin-top:12px;padding:11px 13px;border-left:3px solid var(--aqua);background:rgba(18,161,75,.08);font-size:14.5px;line-height:1.5;"><b style="color:#0B7A3A;">First time through</b><br>Allow up to <b>70 minutes</b> while you learn the movements. It gets faster once the order is familiar — the workout doesn't change, your hunting-for-what's-next time disappears. Don't rush the first one to hit a clock.</p>
-    <p style="margin-top:14px;padding:11px 13px;border-left:3px solid var(--sun);background:rgba(255,179,0,.12);font-size:14.5px;line-height:1.5;"><b style="color:#9A6B00;">What the clock is for</b><br>The clock is here to remove empty space — not to make your form sloppy. Same clean reps, less standing around. If speed starts costing you control, you have missed the point of the lesson.</p>
-    <p style="margin-top:10px;padding:11px 13px;border-left:3px solid var(--aqua);background:rgba(18,161,75,.08);font-size:14.5px;line-height:1.5;"><b style="color:#0B7A3A;">How a pair works</b><br>Do A1, then go straight into A2 with no rest between them. That is <b>one round</b>. Rest after the round, not inside it. Time all the rounds together and write the number down — that is what you try to beat next time, with the same clean reps.</p>
+    <p style="margin-top:10px;padding:11px 13px;border-left:3px solid var(--aqua);background:rgba(18,161,75,.08);font-size:14.5px;line-height:1.5;"><b style="color:#0B7A3A;">Use the band you actually own</b><br>No mini-band? <b>Tie a long band into a loop</b> — that's all a mini-band is. Only got a thick, heavy band? Take a shorter grip, or step closer to whatever it's anchored to, until the starting tension feels moderate. The band you have is the right band; adjust the length, not the exercise.</p>
+    <p style="margin-top:14px;padding:11px 13px;border-left:3px solid var(--sun);background:rgba(255,179,0,.12);font-size:14.5px;line-height:1.5;"><b style="color:#9A6B00;">Harder isn't always heavier</b><br>Some of today's work uses <i>less</i> weight than you've handled before and will feel harder anyway. That's the lesson, not a mistake. Don't chase the number — chase staying square.</p>
   </header>
 
   <nav class="jump" aria-label="Jump to section">
     <div class="jump-row" id="jumpRow">
       <button data-go="getlow">Get Low</button>
       <button data-go="core">Core</button>
-      <button data-go="paira">Pair A</button>
-      <button data-go="pairb">Pair B</button>
-      <button data-go="pairc">Pair C</button>
+      <button data-go="lesson">The Lesson</button>
+      <button data-go="legs">Legs</button>
+      <button data-go="push">Push</button>
+      <button data-go="pull">Pull</button>
       <button data-go="rise">Rise</button>
     </div>
     <div class="progresswrap"><div class="progressbar" id="pbar"></div></div>
     <div class="prog-label"><span id="plabel">0 done</span><button id="preset" type="button">reset</button></div>
   </nav>
 
+  <!-- ══════════ 1 · GET LOW ══════════ -->
   <section class="sec" id="getlow">
-    <div class="sec-head"><span class="stepno">Step 1 / 6</span><span class="tag getlow">GET LOW</span><h2>Move Prep</h2><span class="sec-min">6–7 min</span></div>
+    <div class="sec-head"><span class="stepno">Step 1 / 7</span><span class="tag getlow">GET LOW</span><h2>Move Prep</h2><span class="sec-min">5–7 min</span></div>
     <p class="sec-intro">Warm, not tired. The same warm-up as every lesson — learn it once, own it forever.</p>
     <div class="prebegin">
       <h3>Before you begin</h3>
@@ -395,26 +358,59 @@
         <p class="ready">Ready to build? If you're breathing a little harder and your joints feel smoother — not tired — you warmed up just right.</p>
       </div>
     </article>
-    <a class="upnext" href="#core" data-go="core"><span class="un-k">Up next · Step 2 of 6</span><span class="un-t">Core →</span></a>
+    <div class="prebegin" style="border-color:var(--aqua);background:rgba(18,161,75,.06);">
+      <h3 style="color:#0B7A3A;">Then, rotation add-on</h3>
+      <p>Today asks the body to work across itself — wake rotation up before you load it:</p>
+      <ul>
+        <li>Hip airplanes — 5 each side, hold a chair if needed. <a class="mw" href="https://www.youtube.com/results?search_query=hip+airplane+exercise+hold+chair+for+balance" target="_blank" rel="noopener">watch</a></li>
+        <li>World's greatest stretch with rotation — 5 each side. <i>Reach the top hand to the ceiling and follow it with your eyes.</i> <a class="mw" href="https://www.youtube.com/results?search_query=worlds+greatest+stretch+with+rotation+form" target="_blank" rel="noopener">watch</a></li>
+        <li>Standing cross-body reaches — 10 total. <i>Opposite hand to opposite hip, let the ribs turn.</i> <a class="mw" href="https://www.youtube.com/results?search_query=standing+cross+body+reach+warm+up" target="_blank" rel="noopener">watch</a></li>
+      </ul>
+    </div>
+    
+    <a class="upnext" href="#core" data-go="core"><span class="un-k">Up next · Step 2 of 7</span><span class="un-t">Core Integration →</span></a>
   </section>
 
+  <!-- ══════════ 2 · CORE ══════════ -->
   <section class="sec" id="core">
-    <div class="sec-head"><span class="stepno">Step 2 / 6</span><span class="tag">BUILD</span><h2>Core</h2><span class="sec-min">4–5 min</span></div>
-    <p class="sec-intro">Prepare the trunk before the clock starts. Two moves, unhurried — the last unhurried thing you will do today.</p>
+    <div class="sec-head"><span class="stepno">Step 2 / 7</span><span class="tag">BUILD</span><h2>Core Integration</h2><span class="sec-min">4–6 min</span></div>
+    <p class="sec-intro">Today's core work isn't about abs. It's about keeping the trunk still while opposite limbs move.</p>
     <div class="timerbank"><span class="tb-k">Timer</span><button class="tbtn" data-secs="15" data-label="15s">15s</button><button class="tbtn" data-secs="20" data-label="20s">20s</button><button class="tbtn" data-secs="30" data-label="30s">30s</button><button class="tbtn" data-secs="45" data-label="45s">45s</button></div>
 
     <article class="ex">
       <div class="ex-body">
-        <div class="ex-top"><h3 class="ex-name">Ab Wheel Rollout<span class="sub">or standing walkout — anti-extension</span></h3><label class="donebox"><input type="checkbox" data-track="core-ab-wheel">Done</label></div>
-        <p class="cue">Reach long. Pull the ribs back underneath you.</p>
-        <div class="data"><span class="chip pace"><span class="k">Pace</span> 3 out · 1 pause · controlled return</span><span class="chip effort"><span class="k">Effort</span> stop before the low back arches</span><span class="chip"><span class="k">Sets</span> 2</span><span class="chip"><span class="k">Reps</span> 6–10</span></div>
+        <div class="ex-top"><h3 class="ex-name">Bear Crawl<span class="sub">left and right, learning to take turns</span></h3><label class="donebox"><input type="checkbox" data-track="core-bear-crawl">Done</label></div>
+        <p class="cue">Move quietly.</p>
+        <div class="data"><span class="chip"><span class="k">Sets</span> 3</span><span class="chip"><span class="k">Time</span> 20–30 sec</span><span class="chip"><span class="k">Weight</span> bodyweight</span><button class="tbtn" data-secs="30" data-label="30s">30s</button></div>
         <ul class="cues">
-          <li>Roll out only as far as you can keep the ribs stacked over the pelvis.</li>
-          <li>The moment the low back starts to arch, that was your last rep.</li>
-          <li><b>No wheel?</b> Standing walkout — hinge to the floor, walk the hands out, walk them back.</li>
+          <li>Hands under shoulders, knees under hips and hovering an inch off the floor.</li>
+          <li>Opposite hand and opposite foot move together — that pairing is the whole exercise.</li>
+          <li>Hips stay level. If they rock side to side, make the steps smaller.</li>
+          <li>Quiet hands and quiet feet mean you're in control.</li>
         </ul>
-        <div class="threeq"><span class="tq tq-do"><span class="tq-k">Do this</span>From your knees, roll out 6&ndash;10 reps &mdash; 3 seconds out, controlled return.</span><span class="tq tq-down"><span class="tq-k">If that&rsquo;s too difficult</span>Standing walkout: hinge to the floor, walk the hands out, walk them back.</span><span class="tq tq-up"><span class="tq-k">If that&rsquo;s too easy</span>Roll out further, or pause 2 seconds at full reach.</span></div>
-        <a class="watch" href="https://www.youtube.com/results?search_query=ab+wheel+rollout+from+knees+beginner+no+back+arch" target="_blank" rel="noopener">Watch the form</a>
+        <p class="feel"><span class="yes">Feel:</span> deep trunk working to stop the rocking. &nbsp; <span class="no">Not:</span> shoulders burning out or hips swinging.</p>
+        
+        <div class="threeq"><span class="tq tq-do"><span class="tq-k">Do this</span>3 rounds of 20&ndash;30 seconds of crawling, opposite hand and foot together.</span><span class="tq tq-down"><span class="tq-k">If that&rsquo;s too difficult</span>Stay in the bear hover and just lift one hand an inch, then the other. No travel yet.</span><span class="tq tq-up"><span class="tq-k">If that&rsquo;s too easy</span>Crawl backwards as well as forwards, or slow every step down.</span></div>
+        <a class="watch" href="https://www.youtube.com/results?search_query=bear+crawl+form+hips+level+quiet+hands" target="_blank" rel="noopener">Watch the form</a>
+      </div>
+    </article>
+
+    <article class="ex">
+      <div class="ex-body">
+        <div class="ex-top"><h3 class="ex-name">Offset Dead Bug<span class="sub">one dumbbell, one hand — the first anti-rotation work</span></h3><label class="donebox"><input type="checkbox" data-track="core-offset-dead-bug">Done</label></div>
+        <p class="cue">Don't let the weight twist you.</p>
+        <div class="data"><span class="chip"><span class="k">Sets</span> 2</span><span class="chip"><span class="k">Reps</span> 8–10 / side</span><span class="chip"><span class="k">Weight</span> 1 DB, one hand</span></div>
+        <p class="anchor"><b>Setup</b>On your back, knees stacked over hips. Hold <b>one</b> dumbbell straight up over your shoulder in <b>one</b> hand. The other arm rests on the floor. The load is uneven on purpose.</p>
+        <ul class="cues">
+          <li>Set the shoulders first, ribs down, low back gently connected to the floor.</li>
+          <li>Extend the leg <b>opposite</b> the hand holding the dumbbell.</li>
+          <li>The weight on one side is trying to tip and turn you. Refuse — both shoulder blades stay down.</li>
+          <li>Complete all the repetitions, then switch sides and repeat.</li>
+        </ul>
+        <p class="feel"><span class="yes">Feel:</span> the side of your trunk working to stay square. &nbsp; <span class="no">Not:</span> ribs popping or the low back arching off the floor.</p>
+        
+        <div class="threeq"><span class="tq tq-do"><span class="tq-k">Do this</span>One dumbbell held up in one hand, extend the opposite leg. 8&ndash;10 per side, ribs down throughout.</span><span class="tq tq-down"><span class="tq-k">If that&rsquo;s too difficult</span>Put the dumbbell down. Same offset pattern, bodyweight only — one arm reaching overhead, opposite leg long.</span><span class="tq tq-up"><span class="tq-k">If that&rsquo;s too easy</span>Slide the leg further out, or hold the extended position for 2 seconds before returning.</span></div>
+        <a class="watch" href="https://www.youtube.com/results?search_query=dead+bug+one+dumbbell+held+up+offset+load" target="_blank" rel="noopener">Watch the form</a>
       </div>
     </article>
 
@@ -425,237 +421,226 @@
         <div class="data"><span class="chip"><span class="k">Sets</span> 2</span><span class="chip"><span class="k">Hold</span> 20–40 sec / side</span><button class="tbtn" data-secs="30" data-label="30s/side">30s/side</button></div>
         <ul class="cues">
           <li>Stack the ribs over the hips; no sagging into the bottom shoulder.</li>
-          <li><b>Easier:</b> bottom knee down.</li>
         </ul>
         <p class="note"><b>Coming down</b><br>To come down, place your top hand on the floor before lowering your hips.</p>
+        
         <div class="threeq"><span class="tq tq-do"><span class="tq-k">Do this</span>Side plank <b>from the knees</b>, 20&ndash;40 seconds per side.</span><span class="tq tq-down"><span class="tq-k">If that&rsquo;s too difficult</span>Bend your knees further underneath you, or shorten the hold to 15 seconds.</span><span class="tq tq-up"><span class="tq-k">If that&rsquo;s too easy</span>Lift the top leg, or extend the hold to 45 seconds.</span></div>
         <a class="watch" href="https://www.youtube.com/results?search_query=side+plank+on+hand+staggered+feet+straight+arm" target="_blank" rel="noopener">Watch the form</a>
       </div>
     </article>
 
-    <a class="upnext" href="#paira" data-go="paira"><span class="un-k">Up next · Step 3 of 6</span><span class="un-t">Pair A →</span></a>
+    <a class="upnext" href="#lesson" data-go="lesson"><span class="un-k">Up next · Step 3 of 7</span><span class="un-t">The Lesson →</span></a>
   </section>
 
-  <section class="sec" id="paira">
-    <div class="sec-head"><span class="stepno">Step 3 / 6</span><span class="tag">DENSITY</span><h2>Pair A</h2><span class="sec-min">10–12 min</span></div>
-    <p class="sec-intro">Lower body + push. Your legs rest while your chest works, and the other way round — that is the whole trick.</p>
+  <!-- ══════════ 3 · THE LESSON ══════════ -->
+  <section class="sec" id="lesson">
+    <div class="sec-head"><span class="stepno">Step 3 / 7</span><span class="tag">THE LESSON</span><h2>Cross-Body Loading</h2><span class="sec-min">8–10 min</span></div>
+    <p class="sec-intro">Two patterns, light and unhurried. These are the "oh — <i>that's</i> what this is" exercises. Learn them here; the working sets come after.</p>
     <div class="timerbank"><span class="tb-k">Timer</span><button class="tbtn" data-secs="15" data-label="15s">15s</button><button class="tbtn" data-secs="20" data-label="20s">20s</button><button class="tbtn" data-secs="30" data-label="30s">30s</button><button class="tbtn" data-secs="45" data-label="45s">45s</button></div>
 
-    <div class="pairbox">
-      <div class="pairrule"><b>3 rounds.</b> A1 → straight into A2 = one round. Rest after the round, not inside it. Time all three.</div>
-
-      <article class="ex">
-        <div class="ex-body">
-          <div class="ex-top"><h3 class="ex-name"><span class="idx">A1</span>Bulgarian Split Squat<span class="sub">goblet hold · back foot up on the chair or box</span> <span class="fert">🌱 fertilizer</span></h3><label class="donebox"><input type="checkbox" data-track="paira-bulgarian">Done</label></div>
-          <p class="cue">Imagine your zipper stays vertical.</p>
-          <div class="data"><span class="chip pace"><span class="k">Pace</span> 3 down · 1 pause · controlled rise</span><span class="chip effort"><span class="k">Effort</span> 2 reps left in reserve</span><span class="chip"><span class="k">Reps</span> 8–10 / leg</span><span class="chip"><span class="k">Weight</span> 1 DB or KB at chest (goblet)</span></div>
-          <ul class="cues">
-            <li>Back foot on the chair, box, or step; weight held at your chest in both hands (goblet).</li>
-            <li>Stay more upright than you think; let the front knee travel over the toes.</li>
-            <li>Drive through the middle of the foot.</li>
-            <li>The back leg helps with balance only.</li>
-          </ul>
-        <div class="threeq"><span class="tq tq-do"><span class="tq-k">Do this</span>Back foot on the chair or box, 1 DB or KB at your chest. 8&ndash;10 per leg.</span><span class="tq tq-down"><span class="tq-k">If that&rsquo;s too difficult</span>Put the weight down &mdash; bodyweight only, holding a chair for balance.</span><span class="tq tq-up"><span class="tq-k">If that&rsquo;s too easy</span>Slow the lowering to 4 seconds, or add weight.</span></div>
-          <a class="watch" href="https://www.youtube.com/results?search_query=goblet+bulgarian+split+squat+weight+at+chest+back+foot+elevated" target="_blank" rel="noopener">Watch the form</a>
-        </div>
-      </article>
-
-      <div class="arrow">↓ straight into ↓</div>
-
-      <article class="ex">
-        <div class="ex-body">
-          <div class="ex-top"><h3 class="ex-name"><span class="idx">A2</span>Push-ups<span class="sub">floor · knees · or elevated — choose before you start</span></h3><label class="donebox"><input type="checkbox" data-track="paira-pushups">Done</label></div>
-          <p class="cue">Leave enough in the tank to come back.</p>
-          <div class="data"><span class="chip pace"><span class="k">Pace</span> 3 down · brief hover · controlled press</span><span class="chip effort"><span class="k">Effort</span> 2–3 reps left in reserve</span><span class="chip"><span class="k">Reps</span> 6–12</span></div>
-          <ul class="cues">
-            <li>Pick your version <b>before</b> the round starts — floor, knees, or hands elevated on the box.</li>
-            <li>Ribs down, hips in line; do not let the middle sag as you fatigue.</li>
-            <li>Round 3 should still look like round 1 — that is what the reps in reserve are protecting.</li>
-          </ul>
-        <div class="threeq"><span class="tq tq-do"><span class="tq-k">Do this</span>Choose floor, knees, or hands elevated <b>before</b> the round starts. 6&ndash;12 reps.</span><span class="tq tq-down"><span class="tq-k">If that&rsquo;s too difficult</span>Put your hands higher &mdash; on the box, a bench, or a countertop.</span><span class="tq tq-up"><span class="tq-k">If that&rsquo;s too easy</span>Feet elevated, or slow the lowering to 4 seconds.</span></div>
-          <a class="watch" href="https://www.youtube.com/results?search_query=push+up+progression+knees+or+hands+elevated+on+box" target="_blank" rel="noopener">Watch the form</a>
-        </div>
-      </article>
-
-      <div class="timelog">
-        <label for="timeA">Pair A time</label>
-        <input id="timeA" type="text" placeholder="e.g. 9:40" data-log="pairA">
-        <span class="hint">Saved on this device — next time you are trying to beat this number with the same clean reps.</span>
+    <article class="ex">
+      <div class="ex-body">
+        <div class="ex-top"><h3 class="ex-name">Contralateral Single-Leg RDL<span class="sub">one weight — in the opposite hand</span> <span class="fert">🌱 fertilizer</span></h3><label class="donebox"><input type="checkbox" data-track="lesson-contra-rdl">Done</label></div>
+        <p class="cue">Close the car door with your butt.</p>
+        <div class="data"><span class="chip"><span class="k">Sets</span> 2</span><span class="chip"><span class="k">Reps</span> 8–10 / side</span><span class="chip"><span class="k">Weight</span> 1 KB, opposite hand</span><span class="chip pace"><span class="k">Pace</span> 3 down · 2 stretch · controlled rise</span></div>
+        <p class="note" style="border-left-color:var(--aqua);background:rgba(18,161,75,.08);"><b style="color:#0B7A3A;">One weight again — but the other hand</b><br>You've done this hinge with the weight on the same side you were standing on, and heavier than this with two dumbbells. Today the kettlebell is in the hand <b>opposite</b> your standing leg. You'll expect it to be easier. Try one rep before you decide.</p>
+        <ul class="cues">
+          <li>Stand on your right leg, kettlebell in your <b>left</b> hand. Then swap.</li>
+          <li>Hinge from the hips, soft bend in the standing knee, long spine.</li>
+          <li>The weight will try to pull that shoulder down and turn you. Stay square to the floor.</li>
+          <li>Feel the line from the working hip to the opposite shoulder — that diagonal is doing the job.</li>
+        </ul>
+        <p class="feel"><span class="yes">Feel:</span> hamstring and glute, plus the whole diagonal across your back. &nbsp; <span class="no">Not:</span> twisting open toward the weight.</p>
+        
+        <div class="threeq"><span class="tq tq-do"><span class="tq-k">Do this</span>One kettlebell in the hand opposite your standing leg. 8&ndash;10 per side, staying square.</span><span class="tq tq-down"><span class="tq-k">If that&rsquo;s too difficult</span>Let the working-leg toe touch down slightly behind your hip plane for balance — same hinge, same weight, just a kickstand.</span><span class="tq tq-up"><span class="tq-k">If that&rsquo;s too easy</span>Stand on a jump box or step and let the weight reach past your foot for a deeper stretch.</span></div>
+        <a class="watch" href="https://www.youtube.com/results?search_query=contralateral+single+leg+romanian+deadlift+opposite+hand+kettlebell" target="_blank" rel="noopener">Watch the form</a>
       </div>
-    </div>
+    </article>
 
-    <a class="upnext" href="#pairb" data-go="pairb"><span class="un-k">Up next · Step 4 of 6</span><span class="un-t">Pair B →</span></a>
+    <article class="ex">
+      <div class="ex-body">
+        <div class="ex-top"><h3 class="ex-name">Front-Foot Elevated Split Squat<span class="sub">learn it here — one dumbbell beside the front leg</span> <span class="fert">🌱 fertilizer</span></h3><label class="donebox"><input type="checkbox" data-track="lesson-ffe-split-squat">Done</label></div>
+        <p class="cue">Imagine your zipper stays vertical.</p>
+        <div class="data"><span class="chip"><span class="k">Reps</span> 5–6 / leg · practice only</span><span class="chip"><span class="k">Weight</span> 1 DB beside the front leg</span></div>
+        <ul class="cues">
+          <li>Front foot up on a low plate, book, or the edge of a step. Back foot on the floor behind you.</li>
+          <li>Hold <b>one</b> dumbbell hanging beside your front leg — not at your chest.</li>
+          <li>That offset load pulls you toward it. Your job is to stay square as you lower.</li>
+          <li>Stay more upright than you think; drive through the middle of the front foot.</li>
+        </ul>
+        <p class="note"><b>Just learning it here</b><br>Light and few reps. The working sets are in the next block.</p>
+        <a class="watch" href="https://www.youtube.com/results?search_query=front+foot+elevated+split+squat+one+dumbbell+suitcase+hold" target="_blank" rel="noopener">Watch the form</a>
+      </div>
+    </article>
+
+    <a class="upnext" href="#legs" data-go="legs"><span class="un-k">Up next · Step 4 of 7</span><span class="un-t">Legs →</span></a>
   </section>
 
-  <section class="sec" id="pairb">
-    <div class="sec-head"><span class="stepno">Step 4 / 6</span><span class="tag">DENSITY</span><h2>Pair B</h2><span class="sec-min">10–12 min</span></div>
-    <p class="sec-intro">Hinge + pull. The back of the legs works, then the back itself.</p>
+  <!-- ══════════ 4 · LEGS ══════════ -->
+  <section class="sec" id="legs">
+    <div class="sec-head"><span class="stepno">Step 4 / 7</span><span class="tag">BUILD</span><h2>Legs</h2><span class="sec-min">14–16 min</span></div>
+    <p class="sec-intro">Same rhythm you already know: the big lift, then the glute work, then stability to finish.</p>
     <div class="timerbank"><span class="tb-k">Timer</span><button class="tbtn" data-secs="15" data-label="15s">15s</button><button class="tbtn" data-secs="20" data-label="20s">20s</button><button class="tbtn" data-secs="30" data-label="30s">30s</button><button class="tbtn" data-secs="45" data-label="45s">45s</button></div>
 
-    <div class="pairbox">
-      <div class="pairrule"><b>3 rounds.</b> B1 → straight into B2 = one round. Time all three.</div>
-
-      <article class="ex">
-        <div class="ex-body">
-          <div class="ex-top"><h3 class="ex-name"><span class="idx">B1</span>Single-Leg RDL<span class="sub">two dumbbells — same skill, more work</span> <span class="fert">🌱 fertilizer</span></h3><label class="donebox"><input type="checkbox" data-track="pairb-sldl">Done</label></div>
-          <p class="cue">Close the car door with your butt.</p>
-          <div class="data"><span class="chip pace"><span class="k">Pace</span> 3 down · 2 stretch · controlled rise</span><span class="chip effort"><span class="k">Effort</span> 2 reps left in reserve</span><span class="chip"><span class="k">Reps</span> 8–10 / leg</span><span class="chip"><span class="k">Weight</span> 2 DBs, even</span></div>
-          <ul class="cues">
-            <li>A dumbbell in each hand, weight even on both sides. You already own this hinge — this is the same movement with more load.</li>
-            <li>Hinge from the hips — soft bend in the standing knee, long spine.</li>
-            <li>Let the weights lower straight down under control; stand up strong.</li>
-            <li>Stop before the back rounds. Balance isn't the point here; the hamstring is.</li>
-          </ul>
-        <div class="threeq"><span class="tq tq-do"><span class="tq-k">Do this</span>A dumbbell in each hand, even load. Clean hinge, 8&ndash;10 per leg.</span><span class="tq tq-down"><span class="tq-k">If that&rsquo;s too difficult</span>Let the working-leg toe touch down slightly behind your hip plane for balance — same hinge, same weight, just a kickstand.</span><span class="tq tq-up"><span class="tq-k">If that&rsquo;s too easy</span>Stand on the jump box or a step and let the weights reach past your feet for a deeper stretch.</span></div>
-          <a class="watch" href="https://www.youtube.com/results?search_query=single+leg+romanian+deadlift+two+dumbbells+form" target="_blank" rel="noopener">Watch the form</a>
-        </div>
-      </article>
-
-      <div class="arrow">↓ straight into ↓</div>
-
-      <article class="ex">
-        <div class="ex-body">
-          <div class="ex-top"><h3 class="ex-name"><span class="idx">B2</span>One-Arm Dumbbell Row<span class="sub">upper back — one side at a time</span></h3><label class="donebox"><input type="checkbox" data-track="pairb-row">Done</label></div>
-          <p class="cue">Pull your elbow toward your back pocket.</p>
-          <div class="data"><span class="chip pace"><span class="k">Pace</span> 3 down · pause · controlled pull</span><span class="chip effort"><span class="k">Effort</span> 2 reps left in reserve</span><span class="chip"><span class="k">Reps</span> 10–12 / arm</span><span class="chip"><span class="k">Weight</span> 1 DB</span></div>
-          <ul class="cues">
-            <li>Brace a hand on the chair or box; keep the torso still — no twisting to move the weight.</li>
-            <li>Full stretch at the bottom, squeeze the shoulder blade at the top.</li>
-          </ul>
-        <div class="threeq"><span class="tq tq-do"><span class="tq-k">Do this</span>Hand braced on the bench or box, 10&ndash;12 per arm, torso still.</span><span class="tq tq-down"><span class="tq-k">If that&rsquo;s too difficult</span>Lighter dumbbell, or brace on a higher surface so you hinge less.</span><span class="tq tq-up"><span class="tq-k">If that&rsquo;s too easy</span>Pause 2 seconds at the top of every rep.</span></div>
-          <a class="watch" href="https://www.youtube.com/results?search_query=one+arm+dumbbell+row+hand+braced+on+bench+no+torso+twist" target="_blank" rel="noopener">Watch the form</a>
-        </div>
-      </article>
-
-      <div class="timelog">
-        <label for="timeB">Pair B time</label>
-        <input id="timeB" type="text" placeholder="e.g. 10:15" data-log="pairB">
-        <span class="hint">Same rule — clean reps first, then a faster number.</span>
+    <article class="ex">
+      <div class="ex-body">
+        <div class="ex-top"><h3 class="ex-name"><span class="idx">A1</span>Front-Foot Elevated Split Squat<span class="sub">now the working sets</span> <span class="fert">🌱 fertilizer</span></h3><label class="donebox"><input type="checkbox" data-track="legs-ffe-split-squat">Done</label></div>
+        <p class="cue">Imagine your zipper stays vertical.</p>
+        <div class="data"><span class="chip"><span class="k">Sets</span> 3</span><span class="chip"><span class="k">Reps</span> 8–12 / leg</span><span class="chip"><span class="k">Weight</span> 1 DB beside the front leg</span><span class="chip pace"><span class="k">Pace</span> 3 down · 1 pause · controlled rise</span><span class="chip effort"><span class="k">Effort</span> 1–2 good reps left</span></div>
+        <ul class="cues">
+          <li>Front foot elevated, one dumbbell hanging beside the front leg.</li>
+          <li>Resist the pull toward the weighted side the whole set.</li>
+          <li>Drive through the middle of the front foot.</li>
+        </ul>
+        
+        <div class="threeq"><span class="tq tq-do"><span class="tq-k">Do this</span>Front foot elevated, one dumbbell beside the front leg. 8&ndash;12 per leg.</span><span class="tq tq-down"><span class="tq-k">If that&rsquo;s too difficult</span>Hold a chair or wall with your free hand, or put the dumbbell down and go bodyweight.</span><span class="tq tq-up"><span class="tq-k">If that&rsquo;s too easy</span>Slow the lowering to 5 seconds, or elevate the front foot a little higher.</span></div>
+        <a class="watch" href="https://www.youtube.com/results?search_query=front+foot+elevated+split+squat+one+dumbbell+suitcase+hold" target="_blank" rel="noopener">Watch the form</a>
       </div>
-    </div>
+    </article>
 
-    <a class="upnext" href="#pairc" data-go="pairc"><span class="un-k">Up next · Step 5 of 6</span><span class="un-t">Pair C →</span></a>
+    <article class="ex">
+      <div class="ex-body">
+        <div class="ex-top"><h3 class="ex-name"><span class="idx">A2</span>Frog Pumps<span class="sub">glute work — not teaching, just feeding</span> <span class="fert">🌱 fertilizer</span></h3><label class="donebox"><input type="checkbox" data-track="legs-frog-pumps">Done</label></div>
+        <p class="cue">Small move. Big squeeze.</p>
+        <div class="data"><span class="chip"><span class="k">Sets</span> 2</span><span class="chip"><span class="k">Reps</span> 25–30</span><span class="chip"><span class="k">Weight</span> bodyweight</span><span class="chip pace"><span class="k">Pace</span> 2 squeeze · controlled lower</span></div>
+        <ul class="cues">
+          <li>Soles of the feet together, knees falling open.</li>
+          <li>Drive through the outside edges of the feet, squeeze at the top for 2.</li>
+          <li>The range is small on purpose — the squeeze is the exercise, not the height.</li>
+        </ul>
+        
+        <div class="threeq"><span class="tq tq-do"><span class="tq-k">Do this</span>Bodyweight, heels together and knees wide. 25&ndash;30 reps with a 2-second squeeze.</span><span class="tq tq-down"><span class="tq-k">If that&rsquo;s too difficult</span>Make the lift a little smaller, but keep squeezing at the top.</span><span class="tq tq-up"><span class="tq-k">If that&rsquo;s too easy</span>Once you can keep your knees pressed out for every rep, place one dumbbell across your hips.</span></div>
+        <a class="watch" href="https://www.youtube.com/results?search_query=bodyweight+frog+pump+glute+exercise+heels+together" target="_blank" rel="noopener">Watch the form</a>
+      </div>
+    </article>
+
+    <article class="ex">
+      <div class="ex-body">
+        <div class="ex-top"><h3 class="ex-name"><span class="idx">A3</span>Hip Airplane Hold<span class="sub">single-leg hip control — finish with stability</span> <span class="fert">🌱 fertilizer</span></h3><label class="donebox"><input type="checkbox" data-track="legs-hip-airplane">Done</label></div>
+        <p class="cue">Grow taller before you rotate.</p>
+        <div class="data"><span class="chip"><span class="k">Sets</span> 2</span><span class="chip"><span class="k">Hold</span> 20 sec / side</span><button class="tbtn" data-secs="20" data-label="20s/side">20s/side</button></div>
+        <ul class="cues">
+          <li>Hinge over one leg, hands out for balance, hold a chair if you need it.</li>
+          <li>Open the hip slowly, then close it. Small range, total control.</li>
+        </ul>
+        
+        <div class="threeq"><span class="tq tq-do"><span class="tq-k">Do this</span>2 holds per side, 20 seconds. Grow taller before you rotate.</span><span class="tq tq-down"><span class="tq-k">If that&rsquo;s too difficult</span>Hold a chair, wall, or countertop, or shorten the hold.</span><span class="tq tq-up"><span class="tq-k">If that&rsquo;s too easy</span>Let go of your support for part or all of the hold.</span></div>
+        <a class="watch" href="https://www.youtube.com/results?search_query=hip+airplane+exercise+hold+chair+for+balance" target="_blank" rel="noopener">Watch the form</a>
+      </div>
+    </article>
+
+    <a class="upnext" href="#push" data-go="push"><span class="un-k">Up next · Step 5 of 7</span><span class="un-t">Push →</span></a>
   </section>
 
-  <section class="sec" id="pairc">
-    <div class="sec-head"><span class="stepno">Step 5 / 6</span><span class="tag">DENSITY</span><h2>Pair C</h2><span class="sec-min">8–10 min</span></div>
-    <p class="sec-intro">Glutes + shoulders. Small movements, big squeezes — the easiest pair to rush, and the easiest to ruin by rushing.</p>
+  <!-- ══════════ 5 · PUSH ══════════ -->
+  <section class="sec" id="push">
+    <div class="sec-head"><span class="stepno">Step 5 / 7</span><span class="tag">BUILD</span><h2>Push</h2><span class="sec-min">8–10 min</span></div>
+    <p class="sec-intro">Pressing one side at a time — once upright, once on the floor. Both tell you instantly whether you stayed square.</p>
     <div class="timerbank"><span class="tb-k">Timer</span><button class="tbtn" data-secs="15" data-label="15s">15s</button><button class="tbtn" data-secs="20" data-label="20s">20s</button><button class="tbtn" data-secs="30" data-label="30s">30s</button><button class="tbtn" data-secs="45" data-label="45s">45s</button></div>
 
-    <div class="pairbox">
-      <div class="pairrule"><b>2 rounds — 3 if quality holds.</b> C1 → straight into C2 = one round. Add the third only if the reps still look like round one and the transitions stayed quick.</div>
-
-      <article class="ex">
-        <div class="ex-body">
-          <div class="ex-top"><h3 class="ex-name"><span class="idx">C1</span>Frog Pumps<span class="sub">glutes — heels together, knees wide</span> <span class="fert">🌱 fertilizer</span></h3><label class="donebox"><input type="checkbox" data-track="pairc-frog-pumps">Done</label></div>
-          <p class="cue">Small movement. Big squeeze.</p>
-          <div class="data"><span class="chip pace"><span class="k">Pace</span> 2 squeeze · controlled lower</span><span class="chip"><span class="k">Reps</span> 20–30</span><span class="chip"><span class="k">Weight</span> bodyweight</span></div>
-          <ul class="cues">
-            <li>On your back, soles of the feet together, knees falling open.</li>
-            <li>Drive through the outside edges of the feet; squeeze at the top for 2.</li>
-            <li>The range is small on purpose — the squeeze is the exercise, not the height.</li>
-          </ul>
-          <p class="note"><b>Progression</b><br>Add one dumbbell across the hips only when you can complete all the prescribed reps with a full squeeze and control.</p>
-        <div class="threeq"><span class="tq tq-do"><span class="tq-k">Do this</span>Bodyweight &mdash; heels together, knees wide. 20&ndash;30 reps with a 2-second squeeze.</span><span class="tq tq-down"><span class="tq-k">If that&rsquo;s too difficult</span>Make the range smaller &mdash; lift an inch, keep the full squeeze.</span><span class="tq tq-up"><span class="tq-k">If that&rsquo;s too easy</span>Once you can keep your knees pressed out for every rep, place one dumbbell across your hips.</span></div>
-          <a class="watch" href="https://www.youtube.com/results?search_query=bodyweight+frog+pump+glute+exercise+heels+together" target="_blank" rel="noopener">Watch the form</a>
-        </div>
-      </article>
-
-      <div class="arrow">↓ straight into ↓</div>
-
-      <article class="ex">
-        <div class="ex-body">
-          <div class="ex-top"><h3 class="ex-name"><span class="idx">C2</span>One-Arm Lateral Raise<span class="sub">shoulders — one side at a time</span></h3><label class="donebox"><input type="checkbox" data-track="pairc-lateral-raise">Done</label></div>
-          <p class="cue">Lead with the elbow.</p>
-          <div class="data"><span class="chip pace"><span class="k">Pace</span> 2 up · 1 hold · 3 down</span><span class="chip"><span class="k">Reps</span> 10–15 / arm</span><span class="chip"><span class="k">Weight</span> 1 DB</span></div>
-          <ul class="cues">
-            <li>Heavy shoulders — do not let the neck take over.</li>
-            <li>Stop at shoulder height; the 3-second lower is where the work is.</li>
-          </ul>
-        <div class="threeq"><span class="tq tq-do"><span class="tq-k">Do this</span>One dumbbell, 10&ndash;15 per arm. 2 up &middot; 1 hold &middot; 3 down.</span><span class="tq tq-down"><span class="tq-k">If that&rsquo;s too difficult</span>Lighter weight, or stop at half height.</span><span class="tq tq-up"><span class="tq-k">If that&rsquo;s too easy</span>Slow the lowering to 4 seconds.</span></div>
-          <a class="watch" href="https://www.youtube.com/results?search_query=one+arm+lateral+raise+single+dumbbell+slow+lowering" target="_blank" rel="noopener">Watch the form</a>
-        </div>
-      </article>
-
-      <div class="timelog">
-        <label for="timeC">Pair C time</label>
-        <input id="timeC" type="text" placeholder="e.g. 7:30" data-log="pairC">
-        <span class="hint">Note whether you did 2 rounds or 3 — the time only means something next to the round count.</span>
+    <article class="ex">
+      <div class="ex-body">
+        <div class="ex-top"><h3 class="ex-name"><span class="idx">B1</span>Half-Kneeling One-Arm Press<span class="sub">hip connects to the opposite shoulder</span></h3><label class="donebox"><input type="checkbox" data-track="push-half-kneeling-press">Done</label></div>
+        <p class="cue">Press from your back pocket, not your neck.</p>
+        <div class="data"><span class="chip"><span class="k">Sets</span> 2</span><span class="chip"><span class="k">Reps</span> 6–10 / arm</span><span class="chip"><span class="k">Weight</span> 1 DB</span></div>
+        <ul class="cues">
+          <li>Half-kneeling: one knee down, other foot forward, both at right angles.</li>
+          <li>Press with the arm on the <b>same side as the down knee</b> — that's what makes the trunk connect hip to shoulder.</li>
+          <li>Squeeze the glute of the down leg before you press. Ribs stay down.</li>
+          <li>Don't lean away from the weight to get it up.</li>
+        </ul>
+        <p class="feel"><span class="yes">Feel:</span> the side of your trunk and the down-side glute holding you upright. &nbsp; <span class="no">Not:</span> low back arching or the ribs flaring.</p>
+        
+        <div class="threeq"><span class="tq tq-do"><span class="tq-k">Do this</span>Half-kneeling, one dumbbell, pressing on the same side as the down knee. 6&ndash;10 per arm.</span><span class="tq tq-down"><span class="tq-k">If that&rsquo;s too difficult</span>Press from both knees, or lighten the dumbbell until the ribs stay down.</span><span class="tq tq-up"><span class="tq-k">If that&rsquo;s too easy</span>Slow the lowering to 4 seconds, or lift the down-side knee an inch off the floor for the last few reps.</span></div>
+        <a class="watch" href="https://www.youtube.com/results?search_query=half+kneeling+single+arm+dumbbell+press+form" target="_blank" rel="noopener">Watch the form</a>
       </div>
-    </div>
+    </article>
 
-    <a class="upnext" href="#rise" data-go="rise"><span class="un-k">Up next · Step 6 of 6</span><span class="un-t">Rise →</span></a>
+    <article class="ex">
+      <div class="ex-body">
+        <div class="ex-top"><h3 class="ex-name"><span class="idx">B2</span>Single-Arm Floor Press<span class="sub">one side works, the whole trunk holds</span></h3><label class="donebox"><input type="checkbox" data-track="push-single-arm-floor-press">Done</label></div>
+        <p class="cue">Press without rolling.</p>
+        <div class="data"><span class="chip"><span class="k">Sets</span> 3</span><span class="chip"><span class="k">Reps</span> 8–12 / arm</span><span class="chip"><span class="k">Weight</span> 1 DB</span><span class="chip pace"><span class="k">Pace</span> 3 down · 1 touch · press up strong</span><span class="chip effort"><span class="k">Effort</span> 1–2 good reps left</span></div>
+        <ul class="cues">
+          <li>On your back, knees bent, feet flat, one dumbbell in one hand.</li>
+          <li>Lower until the upper arm lightly touches the floor, then press.</li>
+          <li>The weight on one side wants to roll you toward it. Keep both shoulder blades on the floor.</li>
+          <li>Free hand rests on your belly so you can feel the ribs stay down.</li>
+        </ul>
+        <p class="note" style="border-left-color:var(--pink);background:rgba(214,40,40,.08);"><b style="color:var(--pink);">Rib caution</b><br>Keep the ribs closed the whole set — like the moment right after a laugh or a cough. Don't let them pop open as the weight gets heavy.</p>
+        
+        <div class="threeq"><span class="tq tq-do"><span class="tq-k">Do this</span>Press one arm while the other arm rests on the floor. 8&ndash;12 per arm.</span><span class="tq tq-down"><span class="tq-k">If that&rsquo;s too difficult</span>Press with both dumbbells at the same time instead of one arm — same weight, less rotational demand.</span><span class="tq tq-up"><span class="tq-k">If that&rsquo;s too easy</span>Keep one arm extended while the other presses. Alternate sides.</span></div>
+        <a class="watch" href="https://www.youtube.com/results?search_query=single+arm+dumbbell+floor+press+form" target="_blank" rel="noopener">Watch the form</a>
+      </div>
+    </article>
+
+    <a class="upnext" href="#pull" data-go="pull"><span class="un-k">Up next · Step 6 of 7</span><span class="un-t">Pull / Reset →</span></a>
   </section>
 
+  <!-- ══════════ 6 · PULL ══════════ -->
+  <section class="sec" id="pull">
+    <div class="sec-head"><span class="stepno">Step 6 / 7</span><span class="tag">BUILD</span><h2>Pull / Reset</h2><span class="sec-min">4–5 min</span></div>
+    <p class="sec-intro">Cross-body pulling, then the rear-shoulder work you already know.</p>
+    <div class="timerbank"><span class="tb-k">Timer</span><button class="tbtn" data-secs="15" data-label="15s">15s</button><button class="tbtn" data-secs="20" data-label="20s">20s</button><button class="tbtn" data-secs="30" data-label="30s">30s</button><button class="tbtn" data-secs="45" data-label="45s">45s</button></div>
+
+    <article class="ex">
+      <div class="ex-body">
+        <div class="ex-top"><h3 class="ex-name"><span class="idx">C1</span>Split-Stance One-Arm Row<span class="sub">opposite foot forward — the diagonal again</span></h3><label class="donebox"><input type="checkbox" data-track="pull-split-stance-row">Done</label></div>
+        <p class="cue">Pull into your back pocket.</p>
+        <div class="data"><span class="chip"><span class="k">Sets</span> 3</span><span class="chip"><span class="k">Reps</span> 10–12 / arm</span><span class="chip"><span class="k">Weight</span> 1 DB</span><span class="chip pace"><span class="k">Pace</span> 3 down · pause · controlled pull</span></div>
+        <ul class="cues">
+          <li>Split stance: the foot <b>opposite</b> your rowing arm steps forward.</li>
+          <li>Hinge at the hips, free hand braced on a chair or your thigh.</li>
+          <li>Pull the elbow back toward your back pocket; keep the torso still.</li>
+          <li>No twisting to move the weight — the stance is what makes this cross-body.</li>
+        </ul>
+        <p class="feel"><span class="yes">Feel:</span> mid-back and lat, with the opposite hip helping you stay square. &nbsp; <span class="no">Not:</span> shoulder shrugging or the torso rotating open.</p>
+        
+        <div class="threeq"><span class="tq tq-do"><span class="tq-k">Do this</span>Opposite foot forward, one dumbbell, 10&ndash;12 per arm with the torso still.</span><span class="tq tq-down"><span class="tq-k">If that&rsquo;s too difficult</span>Brace your free hand on a higher surface so you hinge less, or use a lighter dumbbell.</span><span class="tq tq-up"><span class="tq-k">If that&rsquo;s too easy</span>Hold the squeeze for 2 seconds at the top of every rep.</span></div>
+        <a class="watch" href="https://www.youtube.com/results?search_query=split+stance+single+arm+dumbbell+row+opposite+foot+forward" target="_blank" rel="noopener">Watch the form</a>
+      </div>
+    </article>
+
+    <article class="ex">
+      <div class="ex-body">
+        <div class="ex-top"><h3 class="ex-name"><span class="idx">C2</span>Band Pull-Aparts<span class="sub">upper-body fertilizer — you already know this one</span></h3><label class="donebox"><input type="checkbox" data-track="pull-band-pull-aparts">Done</label></div>
+        <p class="cue">Straight arms. Let the shoulder blades do the work.</p>
+        <div class="data"><span class="chip"><span class="k">Sets</span> 2</span><span class="chip"><span class="k">Reps</span> 15–20</span><span class="chip band"><span class="k">Band</span> light</span><span class="chip pace"><span class="k">Pace</span> 2 pull · 2 squeeze · 3 return</span></div>
+        <ul class="cues">
+          <li>Arms straight and level at chest height.</li>
+          <li>Open the band by driving the shoulder blades together and down.</li>
+          <li>Return slowly. Don't let the band snap you closed.</li>
+        </ul>
+        
+        <div class="threeq"><span class="tq tq-do"><span class="tq-k">Do this</span>15&ndash;20 reps, 2 pull &middot; 2 squeeze &middot; 3 return.</span><span class="tq tq-down"><span class="tq-k">If that&rsquo;s too difficult</span>Widen your grip on the band.</span><span class="tq tq-up"><span class="tq-k">If that&rsquo;s too easy</span>Narrow your grip on the band.</span></div>
+        <a class="watch" href="https://www.youtube.com/results?search_query=resistance+band+pull+apart+straight+arms" target="_blank" rel="noopener">Watch the form</a>
+      </div>
+    </article>
+
+    <a class="upnext" href="#rise" data-go="rise"><span class="un-k">Up next · Step 7 of 7</span><span class="un-t">Rise →</span></a>
+  </section>
+
+  <!-- ══════════ 7 · RISE ══════════ -->
   <section class="sec" id="rise">
-    <div class="sec-head"><span class="stepno">Step 6 / 6</span><span class="tag rise">RISE</span><h2>Density Finisher</h2><span class="sec-min">5–6 min</span></div>
-    <p class="sec-intro">Two rounds. Power, then control, then let the breathing settle before you stop.</p>
+    <div class="sec-head"><span class="stepno">Step 7 / 7</span><span class="tag rise">RISE</span><h2>Rise</h2><span class="sec-min">4–5 min</span></div>
+    <p class="sec-intro">Open up what you just asked to work together. Unhurried.</p>
     <div class="timerbank"><span class="tb-k">Timer</span><button class="tbtn" data-secs="15" data-label="15s">15s</button><button class="tbtn" data-secs="20" data-label="20s">20s</button><button class="tbtn" data-secs="30" data-label="30s">30s</button><button class="tbtn" data-secs="45" data-label="45s">45s</button></div>
 
-    <div class="pairbox">
-      <div class="pairrule"><b>2 rounds.</b> Swings → skater hops → walk. Then repeat once.</div>
-
-      <article class="ex">
-        <div class="ex-body">
-          <div class="ex-top"><h3 class="ex-name">Two-Hand Swings<span class="sub">hip snap — kettlebell or one dumbbell</span></h3><label class="donebox"><input type="checkbox" data-track="rise-swings">Done</label></div>
-          <p class="cue">Jump without leaving the floor.</p>
-          <div class="data"><span class="chip"><span class="k">Reps</span> 12</span><span class="chip"><span class="k">Weight</span> KB · or 1 DB held by the head</span></div>
-          <ul class="cues">
-            <li>Snap the hips; the arms only carry the weight.</li>
-            <li>No kettlebell? Hold one dumbbell by its head with both hands.</li>
-          </ul>
-        <div class="threeq"><span class="tq tq-do"><span class="tq-k">Do this</span>Kettlebell or one dumbbell held by the head. 12 reps, snapping the hips.</span><span class="tq tq-down"><span class="tq-k">If that&rsquo;s too difficult</span>Practise the hinge and snap with no weight at all.</span><span class="tq tq-up"><span class="tq-k">If that&rsquo;s too easy</span>Heavier bell, or a second set of 12.</span></div>
-          <a class="watch" href="https://www.youtube.com/results?search_query=two+hand+kettlebell+swing+hip+hinge+not+a+squat" target="_blank" rel="noopener">Watch the form</a>
-        </div>
-      </article>
-
-      <div class="arrow">↓ then ↓</div>
-
-      <article class="ex">
-        <div class="ex-body">
-          <div class="ex-top"><h3 class="ex-name">Skater Hop to Stick<span class="sub">lateral power — own every landing</span></h3><label class="donebox"><input type="checkbox" data-track="rise-skater">Done</label></div>
-          <p class="cue">Land. Own it. Go.</p>
-          <div class="data"><span class="chip"><span class="k">Reps</span> 6 / side</span><span class="chip effort"><span class="k">Effort</span> stick every landing</span></div>
-          <ul class="cues">
-            <li>Hop sideways, land on one leg, hold it still before the next one.</li>
-            <li>If you cannot stick the landing, make the hop smaller.</li>
-          </ul>
-        <div class="threeq"><span class="tq tq-do"><span class="tq-k">Do this</span>Hop side to side, 6 per side &mdash; stick and hold every landing.</span><span class="tq tq-down"><span class="tq-k">If that&rsquo;s too difficult</span>Step side to side instead of hopping, still pausing on each leg.</span><span class="tq tq-up"><span class="tq-k">If that&rsquo;s too easy</span>Wider hop, or hold each landing for 2 full seconds.</span></div>
-          <a class="watch" href="https://www.youtube.com/results?search_query=skater+hop+stick+the+landing+single+leg+lateral" target="_blank" rel="noopener">Watch the form</a>
-        </div>
-      </article>
-
-      <div class="arrow">↓ then ↓</div>
-
-      <article class="ex">
-        <div class="ex-body">
-          <div class="ex-top"><h3 class="ex-name">Walk It Out<span class="sub">until the breathing settles</span></h3><label class="donebox"><input type="checkbox" data-track="rise-walk">Done</label></div>
-          <div class="data"><span class="chip"><span class="k">Time</span> 30–60 sec</span><button class="tbtn" data-secs="45" data-label="45s">45s</button></div>
-          <ul class="cues">
-            <li>Keep moving — recover without sitting down.</li>
-          </ul>
-        </div>
-      </article>
-    </div>
-
-    <div class="reflect">
-      <h3>End standing</h3>
-      <p style="margin:0 0 10px;">Stand tall. Take three slow breaths. Then ask yourself:</p>
-      <ul>
-        <li>Did my reps stay clean?</li>
-        <li>Did my transitions improve?</li>
-        <li>Did I rush — or did I simply waste less time?</li>
-      </ul>
-      <div class="nexttime">
-        <span class="nk">Progress for next time — pick one</span>
-        <label><input type="checkbox" data-log="next-weight">Add weight</label>
-        <label><input type="checkbox" data-log="next-transition">Reduce transition time</label>
-        <label><input type="checkbox" data-log="next-round">Add the third round to Pair C</label>
-        <label><input type="checkbox" data-log="next-same">Stay exactly the same</label>
+    <article class="ex">
+      <div class="ex-body">
+        <div class="ex-top"><h3 class="ex-name">Cool-down sequence<span class="sub">five pieces, no rush</span></h3><label class="donebox"><input type="checkbox" data-track="rise-block">Done</label></div>
+        <ul class="cues">
+          <li><b>Horse stance</b> — 30 seconds. Sit down between your feet, chest proud. <a class="mw" href="https://www.youtube.com/results?search_query=horse+stance+isometric+hold" target="_blank" rel="noopener">watch</a></li>
+          <li><b>Cross-body reaches</b> — 10 total, slow. Let the ribs turn.</li>
+          <li><b>Standing spinal rotation</b> — 8 each way. Turn from the middle of your back, not your neck.</li>
+          <li><b>Hip flexor stretch</b> — 30 seconds each side. Squeeze the back glute and stand tall. <a class="mw" href="https://www.youtube.com/results?search_query=half+kneeling+hip+flexor+stretch+glute+squeeze" target="_blank" rel="noopener">watch</a></li>
+          <li><b>Forward fold</b> — 30 seconds. Soft knees, heavy head.</li>
+        </ul>
+        <p class="drink">🥤 That's Lesson 5. Drink your water — your left and right sides just learned to talk to each other.</p>
       </div>
-    </div>
+    </article>
 
-    <div class="workout-done"><span class="wd-k">That's the whole workout</span><span class="wd-t">All 6 parts done — Get Low through Rise. You didn't just work harder today; you worked more efficiently.</span></div>
+    <div class="workout-done"><span class="wd-k">That's the whole workout</span><span class="wd-t">All 7 parts done — Get Low through Rise. Harder isn't always heavier, and now you've felt it.</span></div>
   </section>
 
   <hr class="stripe"/>
@@ -698,30 +683,6 @@
     });
   }, {rootMargin:'-45% 0px -50% 0px'});
   secs.forEach(function(s){ io.observe(s); });
-
-
-  // ── TIME LOG (Lesson 4 only) ──────────────────────────────────────────────
-  // Lesson 4 asks the student to record how long each density pair took, and to
-  // tick one "progress for next time" box. Anything with data-log="..." is saved
-  // to its own localStorage key, so the numbers and the tick survive a reload.
-  // (The Done checkboxes use data-track and a different key — these are separate
-  // on purpose: one is "did I do it", the other is "how did it go".)
-  (function(){
-    var LKEY = 'tutl-lesson4-log';
-    function lstore(o){ try{localStorage.setItem(LKEY, JSON.stringify(o));}catch(e){} }
-    function lload(){ try{var r=localStorage.getItem(LKEY); return r?JSON.parse(r):{};}catch(e){ return {}; } }
-    var saved = lload();
-    document.querySelectorAll('[data-log]').forEach(function(el){
-      var k = el.getAttribute('data-log');
-      if(el.type === 'checkbox'){ el.checked = !!saved[k]; }
-      else if(saved[k] != null){ el.value = saved[k]; }
-      el.addEventListener(el.type === 'checkbox' ? 'change' : 'input', function(){
-        var s = lload();
-        s[k] = (el.type === 'checkbox') ? el.checked : el.value;
-        lstore(s);
-      });
-    });
-  })();
 
   // ██████████████████████████████████████████████████████████████████████
   // DO NOT EDIT HERE — SHARED TIMER JS
@@ -801,7 +762,7 @@
 
   // ---------- done-tracking + progress bar (ported from Lesson 1) ----------
   (function(){
-    var KEY = 'tutl-lesson4-progress';
+    var KEY = 'tutl-lesson5-progress';
     var boxes = Array.prototype.slice.call(document.querySelectorAll('input[data-track]'));
     var pbar = document.getElementById('pbar');
     var plabel = document.getElementById('plabel');
@@ -812,7 +773,7 @@
     function store(obj){ mem=obj; try{ localStorage.setItem(KEY, JSON.stringify(obj)); }catch(e){} }
     function load(){ try{ var r=localStorage.getItem(KEY); if(r) return JSON.parse(r); }catch(e){} return mem; }
 
-    var blockMap = {"getlow":['getlow-block'],"core":['core-ab-wheel', 'core-side-plank'],"paira":['paira-bulgarian', 'paira-pushups'],"pairb":['pairb-sldl', 'pairb-row'],"pairc":['pairc-frog-pumps', 'pairc-lateral-raise'],"rise":['rise-swings', 'rise-skater', 'rise-walk']};
+    var blockMap = {"getlow":['getlow-block'],"core":['core-bear-crawl', 'core-offset-dead-bug', 'core-side-plank'],"lesson":['lesson-contra-rdl', 'lesson-ffe-split-squat'],"legs":['legs-ffe-split-squat', 'legs-frog-pumps', 'legs-hip-airplane'],"push":['push-half-kneeling-press', 'push-single-arm-floor-press'],"pull":['pull-split-stance-row', 'pull-band-pull-aparts'],"rise":['rise-block']};
 
     function refresh(){
       var state = load();

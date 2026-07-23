@@ -249,7 +249,15 @@
   .timerbank .tbtn{margin-left:0;}
   /* Keep the section's timer strip visible while you read the instructions —
      it sticks just under the jump nav instead of scrolling away above the set.
-     --jumpH is measured in JS so it always clears the nav, whatever its height. */
+
+     STICKY HEADER CHAIN — three bars stack at the top, each below the one above:
+         .homebar     top: 0
+         .jump        top: var(--hbH)                      (homebar height)
+         .timerbank   top: calc(var(--hbH) + var(--jumpH))
+     Both heights are measured in JS (setJumpH) on load, resize, and orientation
+     change, so they never overlap however the nav wraps. Adding another sticky
+     bar? Add it to this chain — do NOT just give it top:0 or it will land on
+     top of the nav. */
   .timerbank{position:sticky;top:calc(var(--hbH,40px) + var(--jumpH,54px));z-index:45;}
 
   /* the finish flash — pulses so you SEE the timer end even with sound off */
@@ -299,10 +307,11 @@
     <div class="meta">
       <div><span class="k">Principle</span><span>Make bands feel heavy.</span></div>
       <div><span class="k">Role</span><span>Full body, biased toward pull and upper back.</span></div>
-      <div><span class="k">Time</span><span>40–50 minutes.</span></div>
+      <div><span class="k">Time</span><span>About 45–60 minutes.</span></div>
       <div><span class="k">Equipment</span><span>Light, medium, and heavy long bands or tubes. No anchor required.</span></div>
       <div><span class="k">Mood</span><span>New · travel · self-directed.</span></div>
     </div>
+    <p style="margin-top:12px;padding:11px 13px;border-left:3px solid var(--aqua);background:rgba(18,161,75,.08);font-size:14.5px;line-height:1.5;"><b style="color:#0B7A3A;">First time through</b><br>Allow up to <b>70 minutes</b> while you learn the movements. It gets faster once the order is familiar — the workout doesn't change, your hunting-for-what's-next time disappears. Don't rush the first one to hit a clock.</p>
 
     <details class="week rules-d">
       <summary>Need the band rules? Tap here</summary>
@@ -350,6 +359,7 @@
         <li>If the band <b>rubs your neck or shoulders</b>, widen your grip or shorten your range.</li>
         <li>Choose the <b>easiest variation that lets you feel the intended muscle</b> — not the hardest one you can survive.</li>
       </ol>
+      <p style="margin-top:13px;padding:11px 13px;border-left:3px solid var(--aqua);background:rgba(18,161,75,.08);font-size:14.5px;line-height:1.5;"><b style="color:#0B7A3A;">Use the band you actually own</b><br>No mini-band? <b>Tie a long band into a loop</b> — that's all a mini-band is. Only got a thick, heavy band? Take a shorter grip, or step closer to whatever it's anchored to, until the starting tension feels moderate. The band you have is the right band; adjust the length, not the exercise.</p>
       <p class="br-note"><b>Setting band length</b><br>Choose the band position that gives you moderate tension <i>at the starting position</i> — not slack, and not already stretched to its limit. Everything else follows from this.</p>
       <p class="br-note" style="border-left-color:var(--aqua);background:rgba(18,161,75,.08);"><b style="color:#0B7A3A;">Why cross the bands (the X)</b><br>Standing on a band with one end in each hand, each side pulls straight up its own line. The two lines are parallel and independent — so if one arm is stronger or drifts slightly, the band slides under your foot and the tension shifts to one side. <b>Crossing the bands into an X</b> means each hand pulls against the <i>opposite</i> foot. The lines cross at your middle and brace against each other, so the pull is anchored to your centre instead of to each foot separately. The band stops wandering and both arms get the same tension. <b>X-band is the default; single-arm is the modification.</b></p>
     </div>

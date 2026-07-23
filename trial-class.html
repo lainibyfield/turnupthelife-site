@@ -352,12 +352,32 @@
   .timerbank .tbtn{margin-left:0;}
   /* Keep the section's timer strip visible while you read the instructions —
      it sticks just under the jump nav instead of scrolling away above the set.
-     --jumpH is measured in JS so it always clears the nav, whatever its height. */
+
+     STICKY HEADER CHAIN — three bars stack at the top, each below the one above:
+         .homebar     top: 0
+         .jump        top: var(--hbH)                      (homebar height)
+         .timerbank   top: calc(var(--hbH) + var(--jumpH))
+     Both heights are measured in JS (setJumpH) on load, resize, and orientation
+     change, so they never overlap however the nav wraps. Adding another sticky
+     bar? Add it to this chain — do NOT just give it top:0 or it will land on
+     top of the nav. */
   .timerbank{position:sticky;top:calc(var(--hbH,40px) + var(--jumpH,54px));z-index:45;}
 
   /* the finish flash — pulses so you SEE the timer end even with sound off */
   @keyframes tflash{0%,100%{background:var(--pink);color:#fff;}50%{background:var(--sun);color:var(--ink);}}
   .tbtn.done{animation:tflash .45s steps(1) 4;}
+  /* ═══ THE THREE QUESTIONS ═══
+     Every exercise answers these in the same order, so nobody has to hunt:
+       1. what everyone tries first   2. one regression   3. one progression
+     Keep it to ONE option per box. Two options is a decision; one is an
+     instruction, and people follow instructions mid-workout. */
+  .threeq{margin-top:12px;border:1.5px solid var(--line);}
+  .tq{display:block;padding:10px 13px;border-top:1px solid var(--line);font-size:15.5px;line-height:1.5;}
+  .tq:first-child{border-top:none;}
+  .tq-k{display:block;font-family:var(--mono);font-size:10.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:3px;}
+  .tq-do{background:rgba(18,161,75,.07);}   .tq-do .tq-k{color:#0B7A3A;}
+  .tq-down{background:rgba(255,179,0,.10);} .tq-down .tq-k{color:#9A6B00;}
+  .tq-up{background:rgba(232,80,15,.07);}   .tq-up .tq-k{color:var(--coral);}
 </style>
 </head>
 <body>
@@ -371,9 +391,10 @@
   <header class="hero">
     <div class="kicker">
       <span class="eyebrow">Turn Up the Life · Lesson 1 · Free Trial Class</span>
-      <span class="chip"><span class="k">Total</span> ≈48 min</span>
+      <span class="chip"><span class="k">Total</span> About 45–60 min</span>
       <span class="chip"><span class="k">Goal</span> Road-ready</span>
     </div>
+    <p style="margin-top:12px;padding:11px 13px;border-left:3px solid var(--aqua);background:rgba(18,161,75,.08);font-size:14.5px;line-height:1.5;"><b style="color:#0B7A3A;">First time through</b><br>Allow up to <b>70 minutes</b> while you learn the movements. It gets faster once the order is familiar — the workout doesn't change, your hunting-for-what's-next time disappears. Don't rush the first one to hit a clock.</p>
 
     <h1>Get low. Build. <span class="shine">Rise.</span></h1>
 
@@ -510,6 +531,7 @@
         </ul>
         <p class="note"><b>Too difficult?</b><br>Keep your arms pointed at the ceiling instead of reaching overhead. Your torso still stays the statue — only the legs move.</p>
         <p class="feel"><span class="yes">Feel:</span> deep belly, ribs pinned down. &nbsp; <span class="no">Not:</span> back arching or ribs popping up — if that happens, shorten the movement.</p>
+        <div class="threeq"><span class="tq tq-do"><span class="tq-k">Do this</span>2 sets of 10 per side. Set up first, freeze the statue, then move arms and legs together.</span><span class="tq tq-down"><span class="tq-k">If that&rsquo;s too difficult</span>Keep your arms pointed at the ceiling instead of reaching overhead. Your torso stays the statue &mdash; only the legs move.</span></div>
         <a class="watch" href="https://www.youtube.com/results?search_query=dead+bug+exercise+ribs+down+low+back+flat+slow" target="_blank" rel="noopener">Watch the form</a>
       </div>
     </article>
@@ -727,7 +749,7 @@
           <thead><tr><th>Move</th><th>Do</th><th>Focus on</th></tr></thead>
           <tbody>
             <tr><td>Single-leg RDL reaches <span class="fert">🌱 fertilizer</span></td><td class="reps">3 × 6 / side</td><td><span class="foc">Reach long, hips square, control the balance <a class="mw" href="https://www.youtube.com/results?search_query=single+leg+romanian+deadlift+two+dumbbells+toe+down+balance" target="_blank" rel="noopener">watch</a></span></td></tr>
-            <tr><td>Kettlebell swings <span class="fert">🌱 fertilizer</span></td><td class="reps">3 × 10</td><td><span class="foc">Snap. Float. Catch — launch it, don’t lift it. No KB? Swing one dumbbell <a class="mw" href="https://www.youtube.com/results?search_query=two+hand+kettlebell+swing+hip+hinge+not+a+squat" target="_blank" rel="noopener">watch</a></span></td></tr>
+            <tr><td>Kettlebell swings <span class="fert">🌱 fertilizer</span></td><td class="reps">3 × 10–12</td><td><span class="foc">Snap. Float. Catch — launch it, don’t lift it. Too hard? Fewer reps. No KB? Swing one dumbbell, both hands <a class="mw" href="https://www.youtube.com/results?search_query=two+hand+kettlebell+swing+hip+hinge+not+a+squat" target="_blank" rel="noopener">watch</a></span></td></tr>
             <tr><td>Squat jumps</td><td class="reps">3 × 6</td><td><span class="foc">Soft landing; swap squat-to-calf raise if the toe objects <a class="mw" href="https://www.youtube.com/results?search_query=bodyweight+squat+jump+soft+quiet+landing" target="_blank" rel="noopener">watch</a></span></td></tr>
             <tr><td>Walk</td><td class="reps">30–60 s</td><td><span class="foc">Recover without sitting — let the heart settle while you move</span></td></tr>
           </tbody>
@@ -752,6 +774,7 @@
         </ul>
         <p class="drink">🥤 That's the class. Grab your drink — you're road ready.</p>
         <p class="note" style="margin-top:14px;"><b>If you're sore after the trial class, that is not failure.</b><br>That is your body confirming the weights were not too light. Take the recovery day. Then come back for Lesson 2 when your form is ready.</p>
+        <div class="threeq"><span class="tq tq-do"><span class="tq-k">Do this</span>Hold each position 20&ndash;30 seconds. Don&rsquo;t chase the floor &mdash; chase the position.</span><span class="tq tq-down"><span class="tq-k">If that&rsquo;s too difficult</span>Hold onto a chair, wall, or countertop, or don&rsquo;t move as far into the position.</span></div>
       </div>
     </article>
     <div class="workout-done"><span class="wd-k">That's the whole class</span><span class="wd-t">All 7 parts done — Move Prep through the Finisher. This was Lesson 1; the Academy picks up from here.</span></div>

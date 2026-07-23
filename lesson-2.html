@@ -272,7 +272,15 @@
   .timerbank .tbtn{margin-left:0;}
   /* Keep the section's timer strip visible while you read the instructions —
      it sticks just under the jump nav instead of scrolling away above the set.
-     --jumpH is measured in JS so it always clears the nav, whatever its height. */
+
+     STICKY HEADER CHAIN — three bars stack at the top, each below the one above:
+         .homebar     top: 0
+         .jump        top: var(--hbH)                      (homebar height)
+         .timerbank   top: calc(var(--hbH) + var(--jumpH))
+     Both heights are measured in JS (setJumpH) on load, resize, and orientation
+     change, so they never overlap however the nav wraps. Adding another sticky
+     bar? Add it to this chain — do NOT just give it top:0 or it will land on
+     top of the nav. */
   .timerbank{position:sticky;top:calc(var(--hbH,40px) + var(--jumpH,54px));z-index:45;}
 
   /* the finish flash — pulses so you SEE the timer end even with sound off */
@@ -297,7 +305,9 @@
     <p>Drive the Hips teaches you how to make light weight harder by creating power from the strongest part of your body. The hips start the movement. The core organizes it. The arms and legs finish without stealing the job.</p>
     <p>This is not a cardio day. This is not flinging weights around. This is controlled power: hinge, snap, float, land, reset.</p>
     <p class="princ">Lesson 1 taught you to own the weight. Lesson 2 teaches you to move it with power — and still stay in charge.</p>
-    <p class="princ">≈45–55 min · Two 10 lb dumbbells · mini-band · chair or bench · optional kettlebell.</p>
+    <p class="princ">About 45–60 min · Two 10 lb dumbbells · a band (mini, or a long one tied into a loop) · chair or bench · optional kettlebell.</p>
+    <p style="margin-top:12px;padding:11px 13px;border-left:3px solid var(--aqua);background:rgba(18,161,75,.08);font-size:14.5px;line-height:1.5;"><b style="color:#0B7A3A;">First time through</b><br>Allow up to <b>70 minutes</b> while you learn the movements. It gets faster once the order is familiar — the workout doesn't change, your hunting-for-what's-next time disappears. Don't rush the first one to hit a clock.</p>
+    <p style="margin-top:10px;padding:11px 13px;border-left:3px solid var(--aqua);background:rgba(18,161,75,.08);font-size:14.5px;line-height:1.5;"><b style="color:#0B7A3A;">Use the band you actually own</b><br>No mini-band? <b>Tie a long band into a loop</b> — that's all a mini-band is. Only got a thick, heavy band? Take a shorter grip, or step closer to whatever it's anchored to, until the starting tension feels moderate. The band you have is the right band; adjust the length, not the exercise.</p>
     <p style="margin-top:14px;padding:11px 13px;border-left:3px solid var(--pink);background:rgba(214,40,40,.08);font-size:14.5px;line-height:1.5;"><b style="color:var(--pink);">If your hips are sensitive today</b><br>Go as far into this lesson as feels good within the 45 minutes, then pick one finisher (swings, skater hops, or the floor press) and end there. A partial Lesson 2 done well beats a full one pushed through.</p>
     <p style="margin-top:10px;padding:11px 13px;border-left:3px solid var(--aqua);background:rgba(18,161,75,.08);font-size:14.5px;line-height:1.5;"><b style="color:#0B7A3A;">If you already work out</b><br>You won't see a prescribed rest time (no "rest 60–90 sec"). That's on purpose — this follows the Pilates model of many reps, then straight into a stretch or the next move, rather than a timed rest. Even where sets are written, move to the next set as soon as you're ready, not on a clock.</p>
   </header>
@@ -350,7 +360,7 @@
     </article>
     <div class="prebegin" style="border-color:var(--aqua);background:rgba(18,161,75,.06);">
       <h3 style="color:#0B7A3A;">Then, hip-power add-on</h3>
-      <p>Lesson 2 drives the hips hard — give them two extra rotational pieces first:</p>
+      <p>Today drives the hips hard — give them two extra rotational pieces first:</p>
       <ul>
         <li>90/90 hip switches — 2 × 8 each direction. <i>Turn the hips, keep the chest proud.</i> <a class="mw" href="https://www.youtube.com/results?search_query=Upright+Health+90+90+hip+switches" target="_blank" rel="noopener">watch</a></li>
         <li>Hip airplanes — 2 × 5 each side, hold a chair if needed. <a class="mw" href="https://www.youtube.com/results?search_query=Squat+University+hip+airplanes" target="_blank" rel="noopener">watch</a></li>
@@ -384,7 +394,7 @@
       <div class="ex-body">
         <div class="ex-top"><h3 class="ex-name"><span class="idx">1</span>Two-Hand Swing<span class="sub">hip snap — kettlebell or one dumbbell</span> <span class="fert">🌱 fertilizer</span></h3><label class="donebox"><input type="checkbox" data-track="tool-ex">Done</label></div>
         <p class="cue">Jump without leaving the floor.</p>
-        <div class="data"><span class="chip"><span class="k">Sets</span> 3</span><span class="chip"><span class="k">Reps</span> 12–15</span><span class="chip effort"><span class="k">Effort</span> crisp reps only</span><span class="chip"><span class="k">Weight</span> KB or 1 DB at chest</span></div>
+        <div class="data"><span class="chip"><span class="k">Sets</span> 3</span><span class="chip"><span class="k">Reps</span> 12–15</span><span class="chip effort"><span class="k">Effort</span> crisp reps only</span><span class="chip"><span class="k">Weight</span> KB or 1 DB, both hands</span></div>
         <ul class="cues">
           <li>Feet hip-width to slightly wider.</li>
           <li>Hinge back; don't squat it.</li>
@@ -394,6 +404,7 @@
         </ul>
         <p class="note"><b>Form note</b><br>If it feels like a shoulder raise, reset. The swing comes from the hinge.</p>
         <details class="ft"><summary>Field test</summary><p>Did your arms stay relaxed? They should just be ropes — the hips do everything.</p></details>
+        <div class="threeq"><span class="tq tq-do"><span class="tq-k">Do this</span>12&ndash;15 swings, KB or one DB in both hands. Every rep crisp.</span><span class="tq tq-down"><span class="tq-k">If that&rsquo;s too difficult</span>Use a lighter kettlebell or dumbbell.</span><span class="tq tq-up"><span class="tq-k">If that&rsquo;s too easy</span>Use a heavier kettlebell or dumbbell while every rep stays crisp.</span></div>
         <a class="watch" href="https://www.youtube.com/results?search_query=Mark+Wildman+kettlebell+swing" target="_blank" rel="noopener">Watch · Mark Wildman</a>
       </div>
     </article>
@@ -411,6 +422,7 @@
         </ul>
         <p class="feel"><span class="yes">Feel:</span> front-thigh control on the way down. &nbsp; <span class="no">Not:</span> knee caving in or dropping fast.</p>
         <p class="note"><b>Knee note</b><br>Lower the step or shorten the range if the knee feels sharp. This is the brake that protects the skater-hop landings next.</p>
+        <div class="threeq"><span class="tq tq-do"><span class="tq-k">Do this</span>8&ndash;10 per side, 5 seconds down, light tap, stand tall.</span><span class="tq tq-down"><span class="tq-k">If that&rsquo;s too difficult</span>Use a lower step or shorten the range.</span><span class="tq tq-up"><span class="tq-k">If that&rsquo;s too easy</span>Use a slightly higher step while keeping the same slow control.</span></div>
         <a class="watch" href="https://www.youtube.com/results?search_query=controlled+step+down+from+box+slow+eccentric+hand+support" target="_blank" rel="noopener">Watch the form</a>
       </div>
     </article>
@@ -428,6 +440,7 @@
           <li>Land quietly enough so that nobody downstairs complains.</li>
         </ul>
         <details class="ft"><summary>Field test</summary><p>Could you own every landing before taking the next jump? Reset if not.</p></details>
+        <div class="threeq"><span class="tq tq-do"><span class="tq-k">Do this</span>6&ndash;8 per side. Land, own it, then go again.</span><span class="tq tq-down"><span class="tq-k">If that&rsquo;s too difficult</span>Step side-to-side instead of hopping. Still stick every landing.</span><span class="tq tq-up"><span class="tq-k">If that&rsquo;s too easy</span>Jump a little farther while still owning every landing.</span></div>
         <a class="watch" href="https://www.youtube.com/results?search_query=PJF+Performance+skater+hop" target="_blank" rel="noopener">Watch · PJF Performance</a>
       </div>
     </article>
@@ -443,7 +456,7 @@
 
     <article class="ex">
       <div class="ex-body">
-        <div class="ex-top"><h3 class="ex-name"><span class="idx">A1</span>Bulgarian Split Squat<span class="sub">quad focus — back foot up on a box, bench, or chair</span></h3><label class="donebox"><input type="checkbox" data-track="legs-ex">Done</label></div>
+        <div class="ex-top"><h3 class="ex-name"><span class="idx">A1</span>Bulgarian Split Squat<span class="sub">quad focus — back foot up on a box, bench, or chair</span> <span class="fert">🌱 fertilizer</span></h3><label class="donebox"><input type="checkbox" data-track="legs-ex">Done</label></div>
         <p class="cue">Imagine your zipper stays vertical.</p>
         <div class="data"><span class="chip"><span class="k">Sets</span> 1–2 working / leg</span><span class="chip"><span class="k">Reps</span> 8–12 / leg</span><span class="chip pace"><span class="k">Pace</span> 5 down · 2 hold · controlled up</span><span class="chip effort"><span class="k">Effort</span> hard, but clean</span><span class="chip"><span class="k">Weight</span> 1 DB or KB at chest</span></div>
         <ul class="cues">
@@ -456,6 +469,7 @@
         <p class="feel"><span class="yes">Feel:</span> front thigh, not low back. &nbsp; <span class="no">Not:</span> sharp knee pain or low-back strain.</p>
         <p class="note"><b>Knee note</b><br>If your knee feels sharp or sketchy, shorten the range or keep the back foot on the floor.</p>
         <p class="swap"><span class="easy"><b>Make it easier:</b> keep the back foot on the floor (split squat).</span><br><span class="hard"><b>If too easy:</b> add the bodyweight burnout after the weighted reps.</span></p>
+        <div class="threeq"><span class="tq tq-do"><span class="tq-k">Do this</span>8&ndash;12 per leg, 1 DB or KB at your chest, 5 down &middot; 2 hold.</span><span class="tq tq-down"><span class="tq-k">If that&rsquo;s too difficult</span>Hold a chair or wall with one hand.</span><span class="tq tq-up"><span class="tq-k">If that&rsquo;s too easy</span>Let the kettlebell or dumbbell hang beside your front leg instead of holding it at your chest.</span></div>
         <a class="watch" href="https://www.youtube.com/results?search_query=goblet+bulgarian+split+squat+weight+at+chest+back+foot+elevated" target="_blank" rel="noopener">Watch · Bulgarian split squat form</a>
       </div>
     </article>
@@ -472,32 +486,32 @@
           <li>If you feel this in your low back, make it smaller or switch to a regular glute bridge.</li>
         </ul>
         <details class="ft"><summary>Field test</summary><p>Does this produce enough glute burn to earn a permanent spot? You decide.</p></details>
+        <div class="threeq"><span class="tq tq-do"><span class="tq-k">Do this</span>30 reps, bodyweight. Small move, big squeeze &mdash; 2 up, 2 down.</span><span class="tq tq-down"><span class="tq-k">If that&rsquo;s too difficult</span>Make the lift a little smaller, but keep squeezing at the top.</span><span class="tq tq-up"><span class="tq-k">If that&rsquo;s too easy</span>Once you can keep your knees pressed out for every rep, place one dumbbell across your hips.</span></div>
         <a class="watch" href="https://www.youtube.com/results?search_query=Bret+Contreras+frog+pumps" target="_blank" rel="noopener">Watch · Bret Contreras</a>
       </div>
     </article>
 
     <article class="ex">
       <div class="ex-body">
-        <div class="ex-top"><h3 class="ex-name"><span class="idx">A3</span>Deficit Single-Leg RDL<span class="sub">hamstring and glute loading — standing on a box, step, or low platform</span> <span class="fert">🌱 fertilizer</span></h3><label class="donebox"><input type="checkbox" data-track="legs-ex-3">Done</label></div>
+        <div class="ex-top"><h3 class="ex-name"><span class="idx">A3</span>Single-Leg RDL<span class="sub">first time under load — one kettlebell on the standing-leg side</span> <span class="fert">🌱 fertilizer</span></h3><label class="donebox"><input type="checkbox" data-track="legs-ex-3">Done</label></div>
         <p class="cue">Close the car door with your butt.</p>
-        <div class="data"><span class="chip"><span class="k">Sets</span> 1–2 working / side</span><span class="chip pace"><span class="k">Pace</span> 3 down · 3 stretch</span><span class="chip effort"><span class="k">Effort</span> 1–2 good reps left</span><span class="chip"><span class="k">Reps</span> 10–12 / side</span><span class="chip"><span class="k">Weight</span> 2 DBs</span></div>
+        <div class="data"><span class="chip"><span class="k">Sets</span> 1–2 working / side</span><span class="chip pace"><span class="k">Pace</span> 3 down · 3 stretch · controlled rise</span><span class="chip effort"><span class="k">Effort</span> 1–2 good reps left</span><span class="chip"><span class="k">Reps</span> 10–12 / side</span><span class="chip"><span class="k">Weight</span> 1 KB, standing-leg side</span></div>
         <ul class="cues">
-          <li>Stand near the edge of the box so the dumbbells can travel below your foot.</li>
+          <li>Hold one <b>kettlebell</b> in the hand on the <b>same side as your standing leg</b> (no KB? one dumbbell). The weight lowers down that same leg — almost tracing it to the floor.</li>
           <li>Soft bend in the standing knee; hinge from the hips.</li>
           <li>Reach the hips back; keep the spine long.</li>
-          <li>Pause in the stretch, then stand up with control.</li>
-          <li>Touch a wall or chair if balance starts stealing the exercise.</li>
+          <li>Don't fight to stop short. Control the weight and let gravity carry it all the way down that leg, then stand up with control.</li>
         </ul>
-        <p class="note"><b>Back note</b><br>Don't chase the floor. If your back rounds, you went too low.</p>
-        <p class="note"><b>Progression</b><br>Start on the floor with the working leg's toe touching down behind you for balance. Once that's steady, move up to the box or step (below) for a deeper stretch. When you own that range, advance to the full single-leg version — the working leg lifts and extends fully behind you, no toe down.</p>
+        <p class="note"><b>Back note</b><br>Don't chase the floor with a rounded back. Long spine down, long spine up — the depth comes from your hips, not your lower back.</p>
+        <div class="threeq"><span class="tq tq-do"><span class="tq-k">Do this</span>One kettlebell on the standing-leg side. Hinge and let it lower down that same leg, 10&ndash;12 per side, same clean form throughout.</span><span class="tq tq-down"><span class="tq-k">If that&rsquo;s too difficult</span>Let the toe of your working leg touch down slightly behind your hip plane for balance — same hinge, same weight, just a kickstand.</span><span class="tq tq-up"><span class="tq-k">If that&rsquo;s too easy</span>Stand on a jump box or step and let the weight reach past your foot for a deeper stretch.</span></div>
         <details class="ft"><summary>Field test</summary><p>Did flexibility stop you before strength did? That tells you what to work on.</p></details>
-        <a class="watch" href="https://www.youtube.com/results?search_query=single+leg+romanian+deadlift+two+dumbbells+toe+down+balance" target="_blank" rel="noopener">Watch the form</a>
+        <a class="watch" href="https://www.youtube.com/results?search_query=single+leg+romanian+deadlift+one+dumbbell+same+side+as+standing+leg" target="_blank" rel="noopener">Watch the form</a>
       </div>
     </article>
 
     <article class="ex">
       <div class="ex-body">
-        <div class="ex-top"><h3 class="ex-name"><span class="idx">A4</span>Hip Airplane Hold<span class="sub">single-leg hip control — hold on if needed</span></h3><label class="donebox"><input type="checkbox" data-track="legs-ex-4">Done</label></div>
+        <div class="ex-top"><h3 class="ex-name"><span class="idx">A4</span>Hip Airplane Hold<span class="sub">single-leg hip control — hold on if needed</span> <span class="fert">🌱 fertilizer</span></h3><label class="donebox"><input type="checkbox" data-track="legs-ex-4">Done</label></div>
         <p class="cue">Grow taller before you rotate.</p>
         <div class="data"><span class="chip"><span class="k">Hold</span> 2 / side · 20 sec <button class="tbtn" data-secs="20" data-label="20s/side">20s/side</button></span><span class="chip effort"><span class="k">Effort</span> controlled, not heroic</span><span class="chip"><span class="k">Support</span> chair, wall, or counter allowed</span></div>
         <ul class="cues">
@@ -508,6 +522,7 @@
           <li>Use support. This is hip work, not a balance stunt.</li>
         </ul>
         <p class="note"><b>Knee note</b><br>If the knee caves in, make the movement smaller or hold on.</p>
+        <div class="threeq"><span class="tq tq-do"><span class="tq-k">Do this</span>2 holds per side, 20 seconds. Grow taller before you rotate.</span><span class="tq tq-down"><span class="tq-k">If that&rsquo;s too difficult</span>Hold a chair, wall, or countertop, or shorten the hold.</span><span class="tq tq-up"><span class="tq-k">If that&rsquo;s too easy</span>Let go of your support for part or all of the hold.</span></div>
         <a class="watch" href="https://www.youtube.com/results?search_query=Squat+University+hip+airplanes" target="_blank" rel="noopener">Watch · Squat University</a>
       </div>
     </article>
@@ -535,6 +550,7 @@
         </ul>
         <p class="note" style="border-left-color:var(--pink);background:rgba(214,40,40,.08);"><b style="color:var(--pink);">Shoulder note</b><br>More range is the point, but deeper is not automatically better. Stop before the front of the shoulder feels pinched.</p>
         <p class="note" style="border-left-color:var(--pink);background:rgba(214,40,40,.08);"><b style="color:var(--pink);">Rib caution</b><br>Keep the ribs closed the whole set — like the moment right after a laugh or a cough, when the ribs pull back down. Don't let them pop open as the weight gets heavy.</p>
+        <div class="threeq"><span class="tq tq-do"><span class="tq-k">Do this</span>10&ndash;15 reps, 2 DBs, 4 down &middot; 2 in the stretch &middot; press up strong.</span><span class="tq tq-down"><span class="tq-k">If that&rsquo;s too difficult</span>Lower only as far as you can control without shoulder discomfort.</span><span class="tq tq-up"><span class="tq-k">If that&rsquo;s too easy</span>Lower one dumbbell while holding the other at the top. Alternate sides.</span></div>
         <a class="watch" href="https://www.youtube.com/results?search_query=dumbbell+chest+press+shoulders+supported+on+box+hips+bridged" target="_blank" rel="noopener">Watch the form</a>
       </div>
     </article>
@@ -549,6 +565,7 @@
           <li>10–15 controlled presses with a constant inward squeeze.</li>
           <li>Stop the moment the squeeze disappears — that's the set, not the rep count.</li>
         </ul>
+        <div class="threeq"><span class="tq tq-do"><span class="tq-k">Do this</span>Press the DBs firmly together &mdash; 10&ndash;15 controlled presses with a constant inward squeeze.</span><span class="tq tq-down"><span class="tq-k">If that&rsquo;s too difficult</span>Stop when you can no longer keep the dumbbells squeezed together.</span></div>
         <a class="watch" href="https://www.youtube.com/results?search_query=dumbbell+crush+press+squeeze+dumbbells+together" target="_blank" rel="noopener">Watch the form</a>
       </div>
     </article>
@@ -573,6 +590,7 @@
           <li>Don't let the band snap you back.</li>
           <li>Heavy shoulders. Your neck is still not invited.</li>
         </ul>
+        <div class="threeq"><span class="tq tq-do"><span class="tq-k">Do this</span>15&ndash;20 reps, 2 pull &middot; 2 squeeze &middot; 3 return.</span><span class="tq tq-down"><span class="tq-k">If that&rsquo;s too difficult</span>Widen your grip on the band.</span><span class="tq tq-up"><span class="tq-k">If that&rsquo;s too easy</span>Narrow your grip on the band.</span></div>
         <a class="watch" href="https://www.youtube.com/results?search_query=resistance+band+pull+apart+straight+arms" target="_blank" rel="noopener">Watch the form</a>
       </div>
     </article>
