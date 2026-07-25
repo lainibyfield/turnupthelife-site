@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="color-scheme" content="light">
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>The Booty Garden — Lesson 3 · The Outer Garden</title>
+<!--
+  ============================================================================
+  THE BOOTY GARDEN — LESSON 3 — booty-garden-3.html
+  ============================================================================
+  WHAT THIS FILE IS
+    Lesson 3 of Course 03 (The Booty Garden): the second "feel it before we
+    name it" lesson — glute medius, via abduction (a supported standing
+    abduction drill, then a circuit combining it with the mini-band lateral
+    walk), closing with a reveal of which muscle just did the work.
+    Self-contained, same approach as Lessons 1–2.
+
+  ITS SIBLINGS → booty-garden.html (course entry), booty-garden-1.html
+                 (Lesson 1 — band calibration), booty-garden-2.html
+                 (Lesson 2 — The Back of the Garden).
+  ITS SUCCESSOR → booty-garden-4.html (The Roots of the Garden — not built).
+
+  ONE TEACHING CARD, NOT TWO — Lesson 2 taught the thrust and the kickback
+  as two separate practice cards before the circuit. Lesson 3's source only
+  teaches ONE drill before the circuit (the standing abduction pattern —
+  "Find the Outer Garden"). The lateral walk gets no separate practice card;
+  it's introduced directly in the circuit, same as the source text. Don't
+  "even up" the structure by inventing a lateral-walk teaching card that
+  isn't in the source — it wasn't an oversight, it's how this lesson reads.
+
+  NO SETUP DIAGRAM THIS TIME — Lesson 2 got a 3-panel diagram because the
+  self-anchored thrust was a genuinely new, safety-relevant setup. Lesson 3
+  reuses the mini-band-above-the-knees setup already covered in Lesson 1.
+  Same reasoning, different conclusion: no new equipment risk, no diagram.
+
+  ONE-PROGRESSION-PER-LESSON, APPLIED HERE TOO — the source text's "too
+  easy" boxes originally offered a stronger band, ankle placement, AND a
+  tempo change all at once. Trimmed to match this lesson's actual lever
+  (see "Today's Way to Grow" at the bottom): a 2-second pause at end range.
+  Nothing here introduces a stronger band or ankle placement — those stay
+  future-lesson territory, same fix as Lesson 2.
+
+  NO "DON'T RUSH" TRANSITION CALLOUT — that was specific to exiting a
+  self-anchored band under tension in Lesson 2. Both circuit exercises here
+  share the same mini-band already on the legs; there's no risky exit
+  between them.
+
+  LOCALSTORAGE KEYS — namespaced "bg3".
+
+  REVISED AFTER HER REVIEW — four fixes: (1) the hero goal chip said "Feel
+  abduction," naming the anatomy before the reveal — changed to "Feel the
+  outer hip"; the word "abduction" now only appears at the reveal, next to
+  the muscle name; (2) Garden Notes' "Next time" list offered band changes
+  for a lesson whose only sanctioned lever is the pause — replaced with
+  pause-only options (continuous / 1s / full 2s / shorter on the harder
+  side / keep current band); band calibration stays in the "too difficult"
+  box, just not in the final choice; (3) time estimate corrected to
+  12–15 min, same reasoning as Lesson 4 — no complex new setup, meant to
+  stay a short add-on; (4) the abduction cue said "slide your foot," which
+  could read as dragging it along the floor — changed to "move your knee,"
+  since the band sits above the knees, not the ankles.
+
+  "NEXT TIME" IS RADIO, NOT CHECKBOX — the label says "pick one," so the
+  inputs are type="radio" (shared name per lesson) so the browser enforces
+  a single choice. The data-log persistence script treats radio the same
+  as checkbox (reads/writes .checked). If you ever add a new pick-one
+  group, give it its own name= or it'll fight with this one.
+
+  SAFE TO EDIT → all of <body>.
+  ============================================================================
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;800;900&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400;1,6..72,500&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    color-scheme: light;
+    --paper:#F2F6E8; --card:#FFFFFF; --line:#DCE6C7;
+    --ink:#1C2A15; --ink-2:#66754C;
+    --sun:#E4A93A; --aqua:#2E8B4F; --pink:#7A3B2E; --lime:#8DBF3E; --coral:#C97C2E;
+    --display:'Archivo',system-ui,sans-serif;
+    --body:'Newsreader',Georgia,serif;
+    --mono:'JetBrains Mono',ui-monospace,monospace;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{overflow-x:clip;max-width:100%;margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);font-size:18px;line-height:1.55;-webkit-font-smoothing:antialiased;}
+  .wrap{max-width:940px;margin:0 auto;padding:0 24px;position:relative;}
+
+  .eyebrow{font-family:var(--mono);font-size:12px;font-weight:500;letter-spacing:.22em;text-transform:uppercase;color:var(--ink-2);}
+  a{color:var(--pink);text-underline-offset:3px;}
+  .shine{background:linear-gradient(100deg,var(--sun) 0%,var(--coral) 28%,var(--pink) 55%,var(--aqua) 85%);background-size:220% auto;-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent;animation:shimmer 7s linear infinite;}
+  @keyframes shimmer{to{background-position:220% center;}}
+  .stripe{height:5px;border:0;margin:0;background:linear-gradient(90deg,var(--sun),var(--coral) 28%,var(--pink) 52%,var(--aqua) 76%,var(--lime));}
+
+  .chip{display:inline-flex;align-items:center;gap:.4em;font-family:var(--mono);font-size:12px;font-weight:500;letter-spacing:.04em;text-transform:uppercase;border:1.5px solid var(--ink);color:var(--ink);padding:5px 9px;white-space:nowrap;}
+  .chip .k{color:var(--ink-2);}
+
+  /* ---------- compact hero ---------- */
+  .hero{position:relative;padding:44px 0 28px;}
+  .hero::before{content:"";position:absolute;left:-12%;right:-12%;top:-40px;height:260px;background:radial-gradient(56% 100% at 50% 0,rgba(141,191,62,.28),rgba(46,139,79,.18) 42%,rgba(228,169,58,.12) 64%,transparent 78%);pointer-events:none;z-index:0;}
+  .hero > *{position:relative;z-index:1;}
+  .hero .kicker{display:flex;flex-wrap:wrap;gap:12px;align-items:baseline;margin-bottom:20px;}
+  .hero h1{font-family:var(--display);font-weight:900;font-size:clamp(38px,8vw,76px);line-height:.88;letter-spacing:-.03em;margin:0 0 18px;text-transform:uppercase;}
+  .hero-sub{max-width:640px;font-size:19px;line-height:1.5;margin:0 0 8px;}
+
+  /* ---------- sticky jump nav + progress ---------- */
+  .jump{position:sticky;top:var(--hbH,40px);z-index:50;background:var(--paper);border-bottom:2px solid var(--ink);padding:10px 0;}
+  .jump-row{display:flex;gap:8px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;align-items:center;}
+  .jump-row::-webkit-scrollbar{display:none;}
+  .jump-btn{flex:0 0 auto;height:38px;line-height:1;font-family:var(--mono);font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;border:2px solid var(--ink);background:var(--card);color:var(--ink);padding:0 14px;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:7px;}
+  .jump-btn:hover{background:var(--sun);border-color:var(--sun);}
+  .jump-btn .dot{width:9px;height:9px;border:2px solid var(--ink);display:inline-block;border-radius:50%;}
+  .jump-btn.done .dot{background:var(--lime);border-color:var(--ink);}
+  .progresswrap{height:6px;background:var(--line);margin-top:10px;}
+  .progressbar{height:100%;width:0%;background:linear-gradient(90deg,var(--sun),var(--coral),var(--pink));transition:width .35s ease;}
+  .prog-label{font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-2);margin-top:5px;display:flex;justify-content:space-between;gap:10px;}
+  .prog-label button{font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;background:none;border:none;color:var(--ink-2);cursor:pointer;text-decoration:underline;padding:0;}
+
+  /* ---------- sections ---------- */
+  .sec{padding:44px 0;border-top:1px solid var(--line);scroll-margin-top:120px;}
+  .sec-head{display:flex;flex-wrap:wrap;align-items:baseline;gap:14px;margin-bottom:8px;}
+  .sec-head .tag{font-family:var(--mono);font-size:13px;font-weight:700;color:var(--coral);letter-spacing:.14em;}
+  .sec-intro{max-width:660px;margin:12px 0 0;color:var(--ink-2);font-size:16.5px;}
+  p{margin:0 0 16px;}
+  .lede{font-size:20px;line-height:1.5;color:var(--ink);max-width:660px;}
+  .sec h3{font-family:var(--display);font-weight:800;font-size:20px;letter-spacing:-.01em;margin:26px 0 8px;text-transform:uppercase;}
+  h2.sec-title{font-family:var(--display);font-weight:900;font-size:clamp(26px,6vw,42px);line-height:.95;letter-spacing:-.02em;margin:0;text-transform:uppercase;}
+
+  /* the three glute jobs, plain list */
+  .jobs{list-style:none;margin:18px 0 0;padding:0;counter-reset:j;}
+  .jobs li{counter-increment:j;position:relative;padding:14px 0 14px 46px;border-top:1px solid var(--line);font-size:17px;}
+  .jobs li:first-child{border-top:none;}
+  .jobs li::before{content:counter(j,decimal-leading-zero);position:absolute;left:0;top:16px;font-family:var(--mono);font-size:13px;font-weight:700;color:var(--coral);}
+  .jobs b{font-family:var(--display);font-weight:800;text-transform:uppercase;letter-spacing:-.01em;}
+
+  /* ═══ THE EXERCISE CARD ═══ */
+  .ex{border:1.5px solid var(--ink);background:var(--card);margin-top:22px;}
+  .ex-body{padding:22px 24px;}
+  .ex-top{display:flex;align-items:flex-start;gap:14px;}
+  .ex-name{font-family:var(--display);font-weight:800;font-size:clamp(19px,3vw,25px);letter-spacing:-.01em;margin:0 0 6px;line-height:1.05;text-transform:uppercase;color:var(--ink);}
+  .ex-name .sub{display:block;font-family:var(--body);font-weight:400;font-style:italic;font-size:15.5px;color:var(--ink-2);margin-top:4px;letter-spacing:0;text-transform:none;}
+  .donebox{margin-left:auto;flex:0 0 auto;display:flex;align-items:center;gap:8px;font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-2);cursor:pointer;user-select:none;}
+  .donebox input{width:20px;height:20px;accent-color:#8DBF3E;cursor:pointer;}
+  .ex-data{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0 16px;}
+  .cues{margin:0;padding:0;list-style:none;}
+  .cues li{position:relative;padding:5px 0 5px 20px;font-size:16.5px;line-height:1.45;}
+  .cues li::before{content:"";position:absolute;left:0;top:12px;width:8px;height:2px;background:var(--coral);}
+  .cue{margin:12px 0 2px;font-family:var(--body);font-style:italic;font-size:17.5px;line-height:1.4;color:var(--ink);}
+  .cue::before{content:"\201C";color:var(--coral);font-family:var(--display);font-weight:900;font-size:1.3em;margin-right:2px;}
+  .cue::after{content:"\201D";color:var(--coral);font-family:var(--display);font-weight:900;font-size:1.3em;margin-left:2px;}
+  .watch{display:inline-flex;align-items:center;gap:8px;margin-top:16px;font-family:var(--mono);font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;background:var(--coral);color:#fff;padding:10px 15px;text-decoration:none;border:2px solid var(--coral);}
+
+  /* ═══ BAND CHECK — the calibration three-box (see header note) ═══ */
+  .threeq{margin-top:14px;border:1.5px solid var(--line);}
+  .tq{display:block;padding:12px 14px;border-top:1px solid var(--line);font-size:15.5px;line-height:1.5;}
+  .tq:first-child{border-top:none;}
+  .tq-k{display:block;font-family:var(--mono);font-size:10.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:6px;}
+  .tq-do{background:rgba(46,139,79,.07);}   .tq-do .tq-k{color:#1F6B3A;}
+  .tq-down{background:rgba(228,169,58,.10);} .tq-down .tq-k{color:#8C6A1E;}
+  .tq-up{background:rgba(201,124,46,.07);}   .tq-up .tq-k{color:var(--coral);}
+  .tq ul.cues{margin-top:2px;}
+  .tq ul.cues li::before{background:currentColor;opacity:.55;}
+
+  /* ---------- record your choice (same pattern as Lesson 4's time log) ---------- */
+  .timelog{display:flex;flex-wrap:wrap;align-items:center;gap:10px;padding:13px 14px;border-top:2px solid var(--ink);background:rgba(228,169,58,.12);margin-top:16px;}
+  .timelog label{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink);}
+  .timelog input{font-family:var(--mono);font-size:15px;font-weight:700;width:180px;max-width:100%;padding:7px 9px;border:2px solid var(--ink);background:var(--card);color:var(--ink);}
+  .timelog .hint{flex-basis:100%;font-size:13.5px;color:var(--ink-2);font-style:italic;}
+
+  /* ---------- inline hold timers ---------- */
+  .tbtn{display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--ink);background:var(--card);border:1.5px solid var(--ink);padding:3px 9px;margin-left:8px;cursor:pointer;vertical-align:baseline;line-height:1.4;}
+  .tbtn:hover{background:var(--sun);border-color:var(--sun);}
+  .tbtn.ready{background:var(--sun);border-color:var(--ink);color:var(--ink);}
+  .tbtn.running{background:var(--lime);border-color:var(--ink);}
+  .tbtn.done{background:var(--pink);border-color:var(--pink);color:#fff;}
+  .tbtn::before{content:"⏱";font-size:11px;}
+  @keyframes tflash{0%,100%{background:var(--pink);color:#fff;}50%{background:var(--sun);color:var(--ink);}}
+  .tbtn.done{animation:tflash .45s steps(1) 4;}
+  .bigtimer{display:inline-flex;align-items:center;gap:8px;font-size:15px;padding:12px 20px;margin:12px 0 0;}
+
+  /* ---------- reflection / next-time ---------- */
+  .reflect{border:2px solid var(--ink);background:var(--card);padding:18px;margin-top:18px;}
+
+  /* "How Did Your Garden Grow?" — closed by default so the reflection
+     questions get answered before the muscle name is revealed. */
+  .reveal{border:2px solid var(--ink);background:var(--card);padding:18px;margin-top:18px;}
+  .reveal summary{cursor:pointer;font-family:var(--display);font-weight:800;font-size:18px;text-transform:uppercase;letter-spacing:-.01em;list-style:none;}
+  .reveal summary::-webkit-details-marker{display:none;}
+  .reveal summary::before{content:"🌱  ";}
+  .reveal summary .after{display:none;}
+  .reveal[open] summary .before{display:none;}
+  .reveal[open] summary .after{display:inline;}
+  .reveal .answer{margin-top:14px;padding-top:14px;border-top:1px solid var(--line);}
+  .reveal .answer b{color:var(--coral);}
+
+  .reflect h3{font-family:var(--display);font-weight:900;text-transform:uppercase;font-size:18px;margin:0 0 10px;}
+  .reflect ul{margin:0 0 12px;padding-left:18px;}
+  .reflect li{padding:3px 0;font-size:16px;}
+  .nexttime{border-top:1px solid var(--line);padding-top:12px;}
+  .nexttime .nk{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--coral);display:block;margin-bottom:8px;}
+  .nexttime label{display:flex;align-items:center;gap:9px;padding:4px 0;font-size:15.5px;cursor:pointer;}
+  .nexttime input{width:18px;height:18px;accent-color:#8DBF3E;cursor:pointer;}
+
+  .mens{max-width:660px;font-size:16.5px;margin:10px 0 0;padding:12px 16px;border:2px solid var(--ink);background:var(--card);}
+  .mens b{font-family:var(--mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--coral);}
+  .mens.beginner{border-color:var(--aqua);}
+  .mens.beginner b{color:#1F6B3A;}
+  .callout{border-left:3px solid var(--coral);padding:2px 0 2px 18px;margin:18px 0;font-style:italic;color:var(--ink);}
+
+  .homebar{position:sticky;top:0;z-index:60;background:var(--ink);color:var(--paper);}
+  .homebar a{display:inline-flex;align-items:center;gap:8px;color:var(--paper);text-decoration:none;font-family:var(--mono);font-size:11.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:10px 18px;}
+  .homebar a:hover{color:var(--sun);}
+  .homebar a::before{content:"\2190";font-size:14px;}
+
+  footer{border-top:1px solid var(--line);padding:30px 0 70px;margin-top:44px;}
+  .disc{font-size:13px;color:var(--ink-2);line-height:1.55;max-width:640px;}
+
+  @media (max-width:600px){
+    .ex-body{padding:18px;}
+    .ex-top{flex-wrap:wrap;}
+    .donebox{margin-left:0;}
+    .timelog input{width:100%;}
+  }
+  @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto;}.shine{animation:none;}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <hr class="stripe"/>
+  <nav class="homebar"><a href="booty-garden.html">Back to the Booty Garden</a></nav>
+
+  <!-- ============ HERO ============ -->
+  <header class="hero">
+    <div class="kicker">
+      <span class="eyebrow">The Booty Garden · Lesson 3</span>
+      <span class="chip"><span class="k">Total</span> About 12–15 min</span>
+      <span class="chip"><span class="k">Goal</span> Feel the outer hip</span>
+    </div>
+    <h1>The Outer <span class="shine">Garden.</span></h1>
+    <p class="hero-sub">Today, pay attention to the upper and outer part of your booty. Don't worry about the muscle's name yet. Notice what you feel when you press the band outward, when you control the leg coming back in, when one leg moves, and when one leg stays underneath you. Your moving side and standing side may feel different — both are part of today's lesson.</p>
+  </header>
+
+  <!-- ============ STICKY QUICK NAV ============ -->
+  <nav class="jump" aria-label="Lesson quick navigation">
+    <div class="jump-row">
+      <a class="jump-btn" href="#feel">Feel It First</a>
+      <a class="jump-btn" href="#outer" data-go="outer"><span class="dot"></span>Find the Outer Garden</a>
+      <a class="jump-btn" href="#circuit" data-go="circuit"><span class="dot"></span>The Circuit</a>
+      <a class="jump-btn" href="#final">How It Grew</a>
+    </div>
+    <div class="progresswrap"><div class="progressbar" id="pbar"></div></div>
+    <div class="prog-label"><span id="plabel">0 of 2 done</span><button id="preset" type="button">reset</button></div>
+  </nav>
+
+  <hr class="stripe" />
+
+  <!-- ============ FEEL IT FIRST ============ -->
+  <section class="sec" id="feel">
+    <div class="sec-head"><span class="tag">Before you start</span></div>
+    <h2 class="sec-title">Feel It Before We Name It</h2>
+    <p class="sec-intro">Notice what you feel when you press the band outward, when you control the leg coming back in, when one leg moves, and when one leg stays underneath you.</p>
+    <h3>Today's Movements</h3>
+    <p>You'll use a mini-band lateral walk and a supported standing abduction. Both movements take your leg out to the side. The difference is what stays still.</p>
+    <p>During the lateral walk, your entire body travels. During standing abduction, your body stays tall while one leg moves.</p>
+  </section>
+
+  <!-- ============ FIND THE OUTER GARDEN — one teaching card, not two;
+       see header note on why the lateral walk has no separate practice
+       card here. ============ -->
+  <section class="sec" id="outer">
+    <div class="sec-head"><span class="tag">Learn it</span></div>
+    <h2 class="sec-title">Find the Outer Garden</h2>
+
+    <article class="ex">
+      <div class="ex-body">
+        <div class="ex-top">
+          <h3 class="ex-name">Standing Abduction<span class="sub">band above the knees</span></h3>
+          <label class="donebox"><input type="checkbox" data-track="outer-done">Done</label>
+        </div>
+        <p class="cue">Stand tall and hold a wall or another stable surface. Keep your toes facing forward.</p>
+        <div class="ex-data"><span class="chip"><span class="k">Reps</span> 5 slow each side</span></div>
+        <p>Move one leg directly out to the side. Do not:</p>
+        <ul class="cues">
+          <li>lean away</li>
+          <li>turn your toes upward</li>
+          <li>hike your hip</li>
+          <li>swing the leg</li>
+        </ul>
+        <p>Use a range you can control. The goal isn't to lift your foot as high as possible — it's to let the outer hip move the leg.</p>
+      </div>
+    </article>
+  </section>
+
+
+  <!-- ============ THE CIRCUIT ============ -->
+  <section class="sec" id="circuit">
+    <div class="sec-head"><span class="tag">🌱 Booty Garden</span></div>
+    <h2 class="sec-title">Grow Outward</h2>
+    <p class="sec-intro">Set a timer for five minutes. Move continuously through the sequence below. Keep the movement deliberate — the mini band should resist you without deciding how far you're allowed to move.</p>
+
+    <article class="ex">
+      <div class="ex-body">
+        <div class="ex-top">
+          <h3 class="ex-name">1. Mini-Band Lateral Walk<span class="sub">8 steps right, 8 steps left</span></h3>
+        </div>
+        <a class="watch" href="https://www.youtube.com/results?search_query=lateral+band+walk+beginner+form" rel="noopener">Watch · Lateral band walk demonstration</a>
+        <p style="margin-top:14px;">Soften your knees. Send your hips slightly behind you. Keep space between your feet. Control the trailing leg instead of letting the band snap it inward.</p>
+        <p class="cue">Your feet are riding on two separate train tracks. Step sideways without letting the tracks crash into each other.</p>
+        <div class="threeq">
+          <div class="tq tq-down">
+            <span class="tq-k">If this is too difficult, try</span>
+            <ul class="cues">
+              <li>A lighter mini band.</li>
+              <li>Placing the band above your knees.</li>
+              <li>Taking smaller steps while maintaining space between your feet.</li>
+            </ul>
+          </div>
+          <div class="tq tq-up">
+            <span class="tq-k">If this is too easy</span>
+            <ul class="cues">
+              <li>Keep the same band and setup. Complete today's steps with full control. At the end of the lesson, you'll learn when to add a pause.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <article class="ex">
+      <div class="ex-body">
+        <div class="ex-top">
+          <h3 class="ex-name">2. Supported Standing Abduction<span class="sub">8 reps right, 8 reps left</span></h3>
+        </div>
+        <a class="watch" href="https://www.youtube.com/results?search_query=standing+hip+abduction+mini+band+chair" rel="noopener">Watch · Supported standing abduction</a>
+        <p style="margin-top:14px;">Stand tall. Keep your toes facing forward. Move the leg out and return it slowly.</p>
+        <p class="cue">Move your knee toward the wall beside you, then bring it home quietly. No leaning tower.</p>
+        <div class="threeq">
+          <div class="tq tq-down">
+            <span class="tq-k">If this is too difficult, try</span>
+            <ul class="cues">
+              <li>A lighter mini band.</li>
+              <li>Keeping the band above your knees.</li>
+              <li>A smaller range while keeping your torso tall.</li>
+            </ul>
+          </div>
+          <div class="tq tq-up">
+            <span class="tq-k">If this is too easy</span>
+            <ul class="cues">
+              <li>Keep the same band and setup. Complete today's repetitions with full control. At the end of the lesson, you'll learn when to add a pause.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <div class="ex" style="border-style:dashed;">
+      <div class="ex-body">
+        <div class="ex-top">
+          <h3 class="ex-name">Continue for Five Minutes</h3>
+          <label class="donebox"><input type="checkbox" data-track="circuit-done">Done</label>
+        </div>
+        <p>Return to the lateral walk and repeat the sequence until the timer ends.</p>
+        <button class="tbtn bigtimer" data-secs="300" data-label="Start 5:00">Start the 5:00 circuit</button>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ============ HOW DID YOUR GARDEN GROW ============ -->
+  <section class="sec" id="final">
+    <div class="sec-head"><span class="tag">Wrap-up</span></div>
+    <h2 class="sec-title">How Did Your Garden Grow?</h2>
+
+    <details class="reveal">
+      <summary><span class="before">Place your hand on the upper, outer part of the hip that worked. Did you feel it on the leg that moved, the leg that stayed underneath you, or both? Tap to find out what you just trained.</span><span class="after">Gluteus Medius — abduction</span></summary>
+      <div class="answer">
+        <p>The broad muscle beneath your hand is your <b>gluteus medius</b>. It helps move your leg away from your body, keep your thigh aligned, and control your pelvis while you stand on one leg. Moving the leg out to the side is called <b>abduction</b> — you don't need to memorize the word, just the feeling of creating and controlling space between your legs.</p>
+        <p>Your moving leg used the outer glutes to press against the band. Your standing leg used its outer glutes to help keep your pelvis over your foot — the garden was working on both sides, even when only one leg appeared to be moving. You may feel this lesson high on the outer hip, and you may notice one side tires sooner or feels less coordinated. That's information, not failure.</p>
+        <p class="callout">Today's job: create and control movement out to the side.</p>
+      </div>
+    </details>
+
+    <div class="reflect">
+      <h3>Garden Notes</h3>
+      <div class="timelog" style="border-top:none;background:transparent;padding:0 0 14px;">
+        <label for="strongerSideNote">The side that felt stronger was</label>
+        <input id="strongerSideNote" type="text" placeholder="e.g. right" data-log="stronger-side-note">
+      </div>
+      <div class="timelog" style="border-top:none;background:transparent;padding:0 0 14px;">
+        <label for="controlSideNote">The side that needed more control was</label>
+        <input id="controlSideNote" type="text" placeholder="e.g. left" data-log="control-side-note">
+      </div>
+      <div class="nexttime">
+        <span class="nk">Next time, I will — pick one</span>
+        <label><input type="radio" name="next-bg3" data-log="next-continuous">Keep moving continuously</label>
+        <label><input type="radio" name="next-bg3" data-log="next-one-sec-pause">Add a one-second pause</label>
+        <label><input type="radio" name="next-bg3" data-log="next-two-sec-pause">Add the full two-second pause</label>
+        <label><input type="radio" name="next-bg3" data-log="next-shorter-pause-hard-side">Use a shorter pause on my harder side</label>
+        <label><input type="radio" name="next-bg3" data-log="next-keep-band">Keep my current band</label>
+      </div>
+    </div>
+
+    <h3 style="margin-top:30px;">Today's Way to Grow: Add a Pause</h3>
+    <p>Next time, hold the widest part of each step or leg lift for two seconds. Add the pause when you can complete today's repetitions without the band snapping your legs back together.</p>
+    <p class="callout">If you have to lean, twist, or hold your breath to stay there, keep the shorter pause. Today, the repetitions stay the same — only the pause grows.</p>
+  </section>
+
+
+  <hr class="stripe"/>
+  <footer>
+    <p class="disc"><b>Before you start.</b> Turn Up the Life provides general fitness education, not medical advice or personal training. Talk to your doctor before beginning this or any exercise program, especially if you are pregnant, postpartum, over 40 and new to exercise, or managing a heart, joint, bone, or other health condition. Stop immediately and seek medical care for chest pain, dizziness, shortness of breath, or sharp/sudden pain. You are responsible for choosing bands, ranges of motion, and modifications appropriate to your own body. Turn Up the Life, its founder, and its instructors are not liable for injury arising from participation. If something doesn't feel right, don't push through it — modify, rest, or stop.</p>
+  </footer>
+
+</div>
+
+<!-- ============ DONE-TRACKING + PROGRESS BAR ============ -->
+<script>
+(function(){
+  var KEY = 'tutl-bg3-progress';
+  var boxes = Array.prototype.slice.call(document.querySelectorAll('input[data-track]'));
+  var pbar = document.getElementById('pbar');
+  var plabel = document.getElementById('plabel');
+  var preset = document.getElementById('preset');
+
+  var mem = {};
+  function store(obj){ mem = obj; try { localStorage.setItem(KEY, JSON.stringify(obj)); } catch(e){} }
+  function load(){
+    try { var raw = localStorage.getItem(KEY); if(raw) return JSON.parse(raw); } catch(e){}
+    return mem;
+  }
+
+  var secMap = {"outer":['outer-done'],"circuit":['circuit-done']};
+
+  function refresh(){
+    var state = load();
+    var done = 0;
+    boxes.forEach(function(b){
+      b.checked = !!state[b.getAttribute('data-track')];
+      if(b.checked) done++;
+    });
+    var pct = boxes.length ? Math.round(done / boxes.length * 100) : 0;
+    pbar.style.width = pct + '%';
+    plabel.textContent = done + ' of ' + boxes.length + ' done' + (pct === 100 ? ' — garden planted! 🌱' : '');
+    Object.keys(secMap).forEach(function(blk){
+      var btn = document.querySelector('.jump-btn[data-go="' + blk + '"]');
+      if(!btn) return;
+      var all = secMap[blk].every(function(id){ return !!state[id]; });
+      btn.classList.toggle('done', all);
+    });
+  }
+
+  boxes.forEach(function(b){
+    b.addEventListener('change', function(){
+      var state = load();
+      state[b.getAttribute('data-track')] = b.checked;
+      store(state);
+      refresh();
+    });
+  });
+
+  preset.addEventListener('click', function(){ store({}); refresh(); });
+
+  refresh();
+})();
+</script>
+
+<!-- ============ RECORD YOUR CHOICE — saved separately from Done state ============ -->
+<script>
+(function(){
+  var LKEY = 'tutl-bg3-log';
+  function lstore(o){ try{ localStorage.setItem(LKEY, JSON.stringify(o)); }catch(e){} }
+  function lload(){ try{ var r = localStorage.getItem(LKEY); return r ? JSON.parse(r) : {}; }catch(e){ return {}; } }
+  var saved = lload();
+  document.querySelectorAll('[data-log]').forEach(function(el){
+    var k = el.getAttribute('data-log');
+    var isToggle = (el.type === 'checkbox' || el.type === 'radio');
+    if(isToggle){ el.checked = !!saved[k]; }
+    else if(saved[k] != null){ el.value = saved[k]; }
+    el.addEventListener(isToggle ? 'change' : 'input', function(){
+      var s = lload();
+      if(el.type === 'radio' && el.name){
+        // radios in the same group share one choice — clear every other
+        // option's stored value so an earlier pick can't come back after
+        // a reload (each option has its own data-log key, so unchecking
+        // one in the DOM doesn't by itself clear its saved key).
+        document.querySelectorAll('input[type="radio"][name="' + el.name + '"]').forEach(function(r){
+          var rk = r.getAttribute('data-log');
+          if(rk && rk !== k){ s[rk] = false; }
+        });
+      }
+      s[k] = isToggle ? el.checked : el.value;
+      lstore(s);
+    });
+  });
+})();
+</script>
+
+<script>
+(function(){
+  // ██████████████████████████████████████████████████████████████████████
+  // SHARED TIMER JS — copied from Lesson 1 / the Movement lessons. Own copy,
+  // tracked independently (see header note).
+  // ██████████████████████████████████████████████████████████████████████
+  var READY_SECS = 5;
+
+  function tone(freq, start, dur, vol){
+    try{
+      var C=window.AudioContext||window.webkitAudioContext; if(!C) return;
+      window._tutlAC = window._tutlAC || new C();
+      var a=window._tutlAC, o=a.createOscillator(), g=a.createGain();
+      o.connect(g); g.connect(a.destination); o.type='sine'; o.frequency.value=freq;
+      var s=a.currentTime+start;
+      g.gain.setValueAtTime(.0001,s);
+      g.gain.exponentialRampToValueAtTime(vol||.3, s+.02);
+      g.gain.exponentialRampToValueAtTime(.0001, s+dur);
+      o.start(s); o.stop(s+dur+.02);
+    }catch(e){}
+  }
+  function tickReady(){ tone(660,0,.09,.18); }
+  function beepGo(){ tone(880,0,.16,.32); tone(1320,.14,.20,.32);
+                     try{ if(navigator.vibrate) navigator.vibrate(90); }catch(e){} }
+  function beep(){
+    tone(880,0,.16,.35); tone(1100,.18,.16,.35); tone(1320,.36,.18,.35);
+    try{ if(navigator.vibrate) navigator.vibrate([120,60,120,60,200]); }catch(e){}
+  }
+  function fmt(s){var m=Math.floor(s/60),r=s%60;return m>0?(m+':'+(r<10?'0':'')+r):(''+r);}
+  document.addEventListener('click',function(e){
+    var b=e.target.closest('.tbtn'); if(!b) return;
+    var label=b.getAttribute('data-label')||'hold';
+    if(b.dataset.state){
+      clearInterval(parseInt(b.dataset.tid,10));
+      b.dataset.state=''; b.dataset.tid='';
+      b.classList.remove('ready','running','done');
+      b.textContent=label;
+      return;
+    }
+    var secs=parseInt(b.getAttribute('data-secs'),10)||20;
+    var ready=READY_SECS, left=secs;
+    b.dataset.state='ready'; b.classList.remove('done'); b.classList.add('ready');
+    b.textContent='Ready '+ready; tickReady();
+    var id=setInterval(function(){
+      if(b.dataset.state==='ready'){
+        ready--;
+        if(ready>0){ b.textContent='Ready '+ready; tickReady(); }
+        else{
+          b.dataset.state='running'; b.classList.remove('ready'); b.classList.add('running');
+          b.textContent=fmt(left); beepGo();
+        }
+        return;
+      }
+      left--;
+      if(left<=0){
+        clearInterval(id); b.dataset.state=''; b.dataset.tid='';
+        b.classList.remove('running'); b.classList.add('done');
+        b.textContent='done'; beep();
+        setTimeout(function(){b.classList.remove('done');b.textContent=label;},2500);
+      } else { b.textContent=fmt(left); }
+    },1000);
+    b.dataset.tid=id;
+  });
+})();
+
+  function setJumpH(){
+    var hb=document.querySelector('.homebar');
+    var j=document.querySelector('.jump');
+    var root=document.documentElement;
+    if(hb) root.style.setProperty('--hbH', hb.offsetHeight+'px');
+    if(j)  root.style.setProperty('--jumpH', j.offsetHeight+'px');
+  }
+  setJumpH();
+  window.addEventListener('resize', setJumpH);
+  window.addEventListener('orientationchange', setJumpH);
+
+  (function(){
+    try{
+      var touch = window.matchMedia && window.matchMedia('(hover: none) and (pointer: coarse)').matches;
+      if(touch) return;
+      document.querySelectorAll('a[href*="youtube.com"]').forEach(function(a){
+        a.setAttribute('target','_blank');
+        a.setAttribute('rel','noopener');
+      });
+    }catch(e){}
+  })();
+</script>
+
+</body>
+</html>

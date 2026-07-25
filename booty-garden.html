@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="color-scheme" content="light">
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>The Booty Garden — A Workout Booster</title>
+<!--
+  ============================================================================
+  THE BOOTY GARDEN — booty-garden.html
+  ============================================================================
+  WHAT THIS FILE IS
+    The manifesto/entry page for Course 03: The Booty Garden — a workout
+    BOOSTER (not a full program) built around two resistance bands: a mini
+    band and a long-loop band. It's the band-based answer to the "Butt
+    Fertilizer" idea from the build notes — that one was blocked on gym
+    access to film; this one needs nothing but two bands and a doorway.
+    Pure content, no JavaScript, same pattern as kitchen.html.
+
+  ITS SIBLINGS (separate files, same course)
+    booty-garden-1.html … Lesson 1: Choose Your Fertilizer (band calibration)
+    booty-garden-2.html, -3.html … future lessons, same naming pattern
+
+  HOW IT'S ORGANIZED
+    hero (the pitch) → what this is (booster, not a program) → meet the
+    garden (the three glute jobs, condensed — the full version lives in
+    Lesson 1) → why bands → CTA into Lesson 1.
+
+  SAFE TO EDIT → all of <body>. This is your writing.
+
+  NOT YET WIRED INTO THE HUB — course.html doesn't know about this course
+  yet. When you're ready, give it a shelf card (#view-home) and its own
+  view section (like #view-cookbook does for the Kitchen), then change the
+  homebar links below from "course.html" to "course.html#booty-garden" to
+  match how the Kitchen's pages link back to "course.html#cookbook".
+
+  DESIGN TOKENS — the :root block below is copied from kitchen.html /
+  trial-class.html / etc. (same palette, same fonts, same font-size as
+  kitchen.html). Keep it in sync with those if you ever change a color.
+  ============================================================================
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;800;900&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400;1,6..72,500&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    color-scheme: light;
+    --paper:#F2F6E8;--card:#FFFFFF;--line:#DCE6C7;--ink:#1C2A15;--ink-2:#66754C;
+    --sun:#E4A93A;--aqua:#2E8B4F;--pink:#7A3B2E;--lime:#8DBF3E;--coral:#C97C2E;--earth:#4A3820;
+    --display:'Archivo',system-ui,sans-serif;--body:'Newsreader',Georgia,serif;--mono:'JetBrains Mono',ui-monospace,monospace;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{overflow-x:clip;max-width:100%;margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);font-size:18px;line-height:1.6;-webkit-font-smoothing:antialiased;}
+  .wrap{max-width:760px;margin:0 auto;padding:0 20px;}
+  .stripe{height:5px;border:0;margin:0;background:linear-gradient(90deg,var(--sun),var(--coral) 28%,var(--pink) 52%,var(--aqua) 76%,var(--lime));}
+  .shine{background:linear-gradient(100deg,var(--sun),var(--coral) 28%,var(--pink) 55%,var(--aqua) 85%);background-size:220% auto;-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent;animation:sh 7s linear infinite;}
+  @keyframes sh{to{background-position:220% center;}}
+
+  /* HERO — the pitch, full-screen, before anything.
+     .hero::before is the "shifting shadows" effect: four soft blurred
+     radial-gradient blobs (leaf green / dappled gold / deep shade / new-
+     growth lime) layered behind the text. The @keyframes below don't move
+     each blob's baked-in position — they translate/scale the WHOLE layered
+     background as one unit, which is simpler than animating four separate
+     background-position values and still reads as light drifting through a
+     moving canopy. Respects prefers-reduced-motion (see below). */
+  .hero{position:relative;min-height:78vh;display:flex;flex-direction:column;justify-content:center;padding:60px 0 40px;overflow:hidden;}
+  .hero::before{
+    content:"";position:absolute;inset:-60px -20%;
+    background:
+      radial-gradient(30% 50% at 15% 25%, rgba(46,139,79,.32), transparent 70%),
+      radial-gradient(26% 42% at 85% 15%, rgba(228,169,58,.26), transparent 72%),
+      radial-gradient(42% 62% at 58% 85%, rgba(28,42,21,.20), transparent 75%),
+      radial-gradient(22% 36% at 90% 68%, rgba(141,191,62,.24), transparent 70%);
+    filter:blur(8px);
+    animation:dapple 22s ease-in-out infinite alternate;
+    pointer-events:none;z-index:0;
+  }
+  .hero>*{position:relative;z-index:1;}
+  @keyframes dapple{
+    0%{transform:translate(0,0) scale(1);opacity:.85;}
+    50%{transform:translate(2%,-3%) scale(1.04);opacity:1;}
+    100%{transform:translate(-2%,2%) scale(1.01);opacity:.9;}
+  }
+  .hero .kick{font-family:var(--mono);font-size:12px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--coral);margin-bottom:26px;}
+  .hero .q{font-family:var(--display);font-weight:800;font-size:clamp(30px,6.4vw,54px);line-height:1.04;letter-spacing:-.02em;margin:0;}
+  .hero .q b{font-weight:900;}
+  .hero .q .em{font-family:var(--body);font-style:italic;font-weight:500;}
+  .hero .scroll{margin-top:44px;font-family:var(--mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-2);}
+  .hero .scroll::after{content:" ↓";}
+
+  .sec{padding:54px 0 8px;border-top:1px solid var(--line);}
+  .eyebrow{font-family:var(--mono);font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--coral);}
+  h2{font-family:var(--display);font-weight:900;font-size:clamp(28px,6vw,44px);line-height:.95;letter-spacing:-.02em;margin:10px 0 18px;text-transform:uppercase;}
+  h3{font-family:var(--display);font-weight:800;font-size:20px;letter-spacing:-.01em;margin:26px 0 8px;}
+  p{margin:0 0 16px;}
+  .lede{font-size:20px;line-height:1.5;color:var(--ink);}
+
+  /* the three glute jobs — reuses the Kitchen's numbered "principles" look */
+  .principles{list-style:none;margin:20px 0 0;padding:0;counter-reset:p;}
+  .principles li{counter-increment:p;position:relative;padding:16px 0 16px 60px;border-top:1px solid var(--line);font-family:var(--display);font-weight:800;font-size:clamp(18px,4vw,24px);letter-spacing:-.01em;text-transform:uppercase;}
+  .principles li::before{content:counter(p,decimal-leading-zero);position:absolute;left:0;top:18px;font-family:var(--mono);font-size:13px;font-weight:700;color:var(--coral);letter-spacing:.05em;}
+  .principles li:first-child{border-top:none;}
+  .principles li span{display:block;font-family:var(--body);font-weight:400;font-style:italic;text-transform:none;font-size:15.5px;color:var(--ink-2);margin-top:4px;letter-spacing:0;}
+
+  .namebox{border:2px solid var(--ink);background:rgba(141,191,62,.08);padding:22px 24px;margin-top:14px;}
+  .namebox p:last-child{margin-bottom:0;}
+  em.term{font-style:italic;color:var(--earth);font-weight:500;}
+  .callout{border-left:3px solid var(--coral);padding:2px 0 2px 18px;margin:18px 0;font-style:italic;color:var(--ink);}
+
+  .cta{display:block;border:2px solid var(--ink);background:var(--sun);padding:26px 24px;margin:30px 0 10px;text-decoration:none;color:var(--ink);}
+  .cta .k{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--earth);}
+  .cta h3{font-family:var(--display);font-weight:900;font-size:26px;margin:6px 0 4px;text-transform:uppercase;}
+  .cta p{margin:0;font-size:15px;}
+  .free-tag{display:inline-block;font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;background:var(--lime);border:1.5px solid var(--ink);padding:3px 8px;margin-bottom:10px;}
+
+  footer{border-top:1px solid var(--line);padding:30px 0 70px;margin-top:44px;}
+  .disc{font-size:13px;color:var(--ink-2);line-height:1.55;max-width:640px;}
+  @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto;}.shine{animation:none;}}
+
+  .homebar{position:sticky;top:0;z-index:60;background:var(--ink);color:var(--paper);}
+  .homebar a{display:inline-flex;align-items:center;gap:8px;color:var(--paper);text-decoration:none;font-family:var(--mono);font-size:11.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:10px 18px;}
+  .homebar a:hover{color:var(--sun);}
+  .homebar a::before{content:"\2190";font-size:14px;}
+</style>
+</head>
+<body>
+<hr class="stripe"/>
+<nav class="homebar"><a href="course.html">To the Academy</a></nav>
+
+<div class="wrap">
+
+  <section class="hero">
+    <span class="kick">Course 03 · The Booty Garden</span>
+    <p class="q">What if the glute work you keep <b>putting off</b> — because it needs a gym, a bench, or someone spotting you — could grow just as much from <span class="em">two bands and a doorway</span>?</p>
+    <span class="scroll">A workout booster. Nothing to book, nothing to load in a car</span>
+  </section>
+
+  <section class="sec" id="what-this-is">
+    <span class="free-tag">Booster · Add-on</span>
+    <h2>What This Is</h2>
+    <p class="lede">Not a full program — a booster. Short sessions built around two resistance bands, meant to tack onto a main Movement training day when you've got extra time, or to stand alone on a day the Academy doesn't call for one.</p>
+    <p>Every lesson starts the same way this one does: you calibrate your equipment before you train with it. A band that's right for someone else's video isn't automatically right for you — five minutes of honest testing beats guessing.</p>
+  </section>
+
+  <section class="sec" id="garden">
+    <span class="eyebrow">The foundation</span>
+    <h2>Meet the Garden</h2>
+    <p>Your glutes are a team of three, and this course trains all three jobs on purpose:</p>
+    <ol class="principles">
+      <li>Create force<span>Driving through the hips — the engine.</span></li>
+      <li>Move the leg<span>Out to the side, under control — the steering.</span></li>
+      <li>Keep the pelvis steady<span>While the rest of you moves — the frame.</span></li>
+    </ol>
+    <p class="callout">No exercise in this course belongs to only one job. We're changing the task and noticing where you feel the greatest demand — that's the whole method.</p>
+  </section>
+
+  <section class="sec" id="why-bands">
+    <span class="eyebrow">Why bands</span>
+    <h2>Grows Anywhere</h2>
+    <p>Heavier glute work usually means a gym: a cable stack for kickbacks, a bench for hip thrusts, a rack for loaded squats. That's real training, but it isn't always reachable — no gym access, no time to drive there, no one to spot you.</p>
+    <p>Two bands and a stretch of floor cover the same three jobs. A long-loop band worn over the shoulders loads a squat the way a barbell would. A mini band above the knees turns a simple step or kick into real, felt resistance. Nothing to anchor, nothing to book.</p>
+  </section>
+
+  <a class="cta" href="booty-garden-1.html">
+    <span class="k">Start here →</span>
+    <h3>Lesson 1 · Choose Your Fertilizer</h3>
+    <p>Test a mini band and a long-loop band, find the ones that actually challenge you, then prove the choice under five minutes of real work.</p>
+  </a>
+
+  <hr class="stripe"/>
+  <footer>
+    <p class="disc"><b>Before you start.</b> Turn Up the Life provides general fitness education, not medical advice or personal training. Talk to your doctor before beginning this or any exercise program, especially if you are pregnant, postpartum, over 40 and new to exercise, or managing a heart, joint, bone, or other health condition. Stop immediately and seek medical care for chest pain, dizziness, shortness of breath, or sharp/sudden pain. You are responsible for choosing bands, ranges of motion, and modifications appropriate to your own body. Turn Up the Life, its founder, and its instructors are not liable for injury arising from participation. If something doesn't feel right, don't push through it — modify, rest, or stop.</p>
+  </footer>
+
+</div>
+</body>
+</html>

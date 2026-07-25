@@ -176,7 +176,27 @@
   details.ft summary::after{content:" +";}
   details.ft[open] summary::after{content:" –";}
   details.ft p{margin:8px 0 0;font-size:15px;line-height:1.5;color:var(--ink-2);}
+
   .watch{display:inline-flex;align-items:center;gap:8px;margin-top:12px;font-family:var(--mono);font-size:11.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;background:var(--coral);color:#fff;padding:11px 15px;text-decoration:none;border:2px solid var(--coral);}
+
+  /* ═══ THE THREE QUESTIONS ═══
+     Every exercise answers these in the same order, so nobody has to hunt:
+       1. what everyone tries first   2. one regression   3. one progression
+     Keep it to ONE option per box. Two options is a decision; one is an
+     instruction, and people follow instructions mid-workout.
+     RESTORED — this rule block was missing from this file (present in
+     trial-class/3/4/6, absent here and in the other two files that share
+     this gap). Without it the .tq-k label ran directly into its own
+     content with no space or line break — e.g. "Do thisOne dumbbell..." —
+     which is what looked like a punctuation bug but was actually a
+     missing-CSS bug. */
+  .threeq{margin-top:12px;border:1.5px solid var(--line);}
+  .tq{display:block;padding:10px 13px;border-top:1px solid var(--line);font-size:15.5px;line-height:1.5;}
+  .tq:first-child{border-top:none;}
+  .tq-k{display:block;font-family:var(--mono);font-size:10.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:3px;}
+  .tq-do{background:rgba(18,161,75,.07);}   .tq-do .tq-k{color:#0B7A3A;}
+  .tq-down{background:rgba(255,179,0,.10);} .tq-down .tq-k{color:#9A6B00;}
+  .tq-up{background:rgba(232,80,15,.07);}   .tq-up .tq-k{color:var(--coral);}
   .watch::before{content:"▶";font-size:10px;}
   .mw{font-family:var(--mono);font-size:10.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--coral);text-decoration:none;border-bottom:1.5px solid var(--coral);margin-left:6px;white-space:nowrap;}
   .mw::before{content:"▶ ";font-size:8px;}
@@ -345,15 +365,15 @@
       <div class="ex-body">
         <div class="ex-top" style="margin-bottom:6px;"><h3 class="ex-name">Squat &amp; Pistol Prep<span class="sub">easy and controlled — warm, not tired</span></h3><label class="donebox"><input type="checkbox" data-track="getlow-block">Done</label></div>
         <ul class="cues">
-          <li>Wide deep-squat hold — 20–30 seconds. <a class="mw" href="https://www.youtube.com/results?search_query=wide+stance+deep+squat+hold+mobility" target="_blank" rel="noopener">watch</a> <button class="tbtn" data-secs="30" data-label="30s">30s</button><span class="mod"><b>Mod:</b> hold a chair or countertop, or don't squat as low.</span></li>
-          <li>Weight shifts in the wide squat — rock side to side, 8 each side. <a class="mw" href="https://www.youtube.com/results?search_query=deep+squat+side+to+side+weight+shift" target="_blank" rel="noopener">watch</a></li>
-          <li>Cossack shift (a.k.a. spider-man lunge) — stay low, let your hips travel side to side, 6–8 each way. Keep the working heel down; don't force depth. <a class="mw" href="https://www.youtube.com/results?search_query=cossack+squat+shift+mobility" target="_blank" rel="noopener">watch</a><span class="mod"><b>Mod:</b> stand a little taller, or hold a chair for balance.</span></li>
-          <li>Narrow deep-squat hold — 20 seconds. <a class="mw" href="https://www.youtube.com/results?search_query=narrow+stance+deep+squat+hold" target="_blank" rel="noopener">watch</a> <button class="tbtn" data-secs="20" data-label="20s">20s</button><span class="mod"><b>Mod:</b> hold support, or place a rolled towel under your heels.</span></li>
-          <li>Staggered deep-squat hold — 15–20 seconds each side. <a class="mw" href="https://www.youtube.com/results?search_query=staggered+stance+deep+squat+hold" target="_blank" rel="noopener">watch</a> <button class="tbtn" data-secs="20" data-label="20s/side">20s/side</button><span class="mod"><b>Mod:</b> shorten the stance and reduce the depth.</span></li>
-          <li>Knee-over-toe touches — 8–10 each side, 2-second pause. <a class="mw" href="https://www.youtube.com/results?search_query=knee+over+toe+touch+ankle+mobility" target="_blank" rel="noopener">watch</a><span class="mod"><b>Mod:</b> let the knee travel only as far as comfortable, or hold a chair.</span></li>
-          <li>Assisted one-leg squat practice (hold something) — 3–5 clean each side. <a class="mw" href="https://www.youtube.com/results?search_query=assisted+pistol+squat+progression" target="_blank" rel="noopener">watch</a><span class="mod"><b>Mod:</b> use both hands for support, or squat to a higher chair.</span></li>
-          <li>Shoulder-blade push-ups — 10 reps. <a class="mw" href="https://www.youtube.com/results?search_query=scapular+push+up+form" target="_blank" rel="noopener">watch</a><span class="mod"><b>Mod:</b> perform against a wall, countertop, or bench.</span></li>
-          <li>Band pull-aparts or big shoulder circles — 15 reps. <a class="mw" href="https://www.youtube.com/results?search_query=resistance+band+pull+apart+straight+arms" target="_blank" rel="noopener">watch</a><span class="mod"><b>Mod:</b> use a lighter band, or reduce the range of motion.</span></li>
+          <li>Wide deep-squat hold — 20–30 seconds. <a class="mw" href="https://www.youtube.com/results?search_query=wide+stance+deep+squat+hold+mobility" rel="noopener">watch</a> <button class="tbtn" data-secs="30" data-label="30s">30s</button><span class="mod"><b>Mod:</b> hold a chair or countertop, or don't squat as low.</span></li>
+          <li>Weight shifts in the wide squat — rock side to side, 8 each side. <a class="mw" href="https://www.youtube.com/results?search_query=deep+squat+side+to+side+weight+shift" rel="noopener">watch</a></li>
+          <li>Cossack shift (a.k.a. spider-man lunge) — stay low, let your hips travel side to side, 6–8 each way. Keep the working heel down; don't force depth. <a class="mw" href="https://www.youtube.com/results?search_query=cossack+squat+shift+mobility" rel="noopener">watch</a><span class="mod"><b>Mod:</b> stand a little taller, or hold a chair for balance.</span></li>
+          <li>Narrow deep-squat hold — 20 seconds. <a class="mw" href="https://www.youtube.com/results?search_query=narrow+stance+deep+squat+hold" rel="noopener">watch</a> <button class="tbtn" data-secs="20" data-label="20s">20s</button><span class="mod"><b>Mod:</b> hold support, or place a rolled towel under your heels.</span></li>
+          <li>Staggered deep-squat hold — 15–20 seconds each side. <a class="mw" href="https://www.youtube.com/results?search_query=staggered+stance+deep+squat+hold" rel="noopener">watch</a> <button class="tbtn" data-secs="20" data-label="20s/side">20s/side</button><span class="mod"><b>Mod:</b> shorten the stance and reduce the depth.</span></li>
+          <li>Knee-over-toe touches — 8–10 each side, 2-second pause. <a class="mw" href="https://www.youtube.com/results?search_query=knee+over+toe+touch+ankle+mobility" rel="noopener">watch</a><span class="mod"><b>Mod:</b> let the knee travel only as far as comfortable, or hold a chair.</span></li>
+          <li>Assisted one-leg squat practice (hold something) — 3–5 clean each side. <a class="mw" href="https://www.youtube.com/results?search_query=assisted+pistol+squat+progression" rel="noopener">watch</a><span class="mod"><b>Mod:</b> use both hands for support, or squat to a higher chair.</span></li>
+          <li>Shoulder-blade push-ups — 10 reps. <a class="mw" href="https://www.youtube.com/results?search_query=scapular+push+up+form" rel="noopener">watch</a><span class="mod"><b>Mod:</b> perform against a wall, countertop, or bench.</span></li>
+          <li>Band pull-aparts or big shoulder circles — 15 reps. <a class="mw" href="https://www.youtube.com/results?search_query=resistance+band+pull+apart+straight+arms" rel="noopener">watch</a><span class="mod"><b>Mod:</b> use a lighter band, or reduce the range of motion.</span></li>
         </ul>
         <p class="ready">Ready to build? If you're breathing a little harder and your joints feel smoother — not tired — you warmed up just right.</p>
       </div>
@@ -362,8 +382,8 @@
       <h3 style="color:#0B7A3A;">Then, hip-power add-on</h3>
       <p>Today drives the hips hard — give them two extra rotational pieces first:</p>
       <ul>
-        <li>90/90 hip switches — 2 × 8 each direction. <i>Turn the hips, keep the chest proud.</i> <a class="mw" href="https://www.youtube.com/results?search_query=Upright+Health+90+90+hip+switches" target="_blank" rel="noopener">watch</a></li>
-        <li>Hip airplanes — 2 × 5 each side, hold a chair if needed. <a class="mw" href="https://www.youtube.com/results?search_query=Squat+University+hip+airplanes" target="_blank" rel="noopener">watch</a></li>
+        <li>90/90 hip switches — 2 × 8 each direction. <i>Turn the hips, keep the chest proud.</i> <a class="mw" href="https://www.youtube.com/results?search_query=Upright+Health+90+90+hip+switches" rel="noopener">watch</a></li>
+        <li>Hip airplanes — 2 × 5 each side, hold a chair if needed. <a class="mw" href="https://www.youtube.com/results?search_query=Squat+University+hip+airplanes" rel="noopener">watch</a></li>
       </ul>
     </div>
   <a class="upnext" href="#core" data-go="core"><span class="un-k">Up next · Step 2 of 7</span><span class="un-t">Core Activation →</span></a>
@@ -376,9 +396,9 @@
     <div class="timerbank"><span class="tb-k">Timer</span><button class="tbtn" data-secs="15" data-label="15s">15s</button><button class="tbtn" data-secs="20" data-label="20s">20s</button><button class="tbtn" data-secs="30" data-label="30s">30s</button><button class="tbtn" data-secs="45" data-label="45s">45s</button></div>
     <div class="ex-top" style="margin-bottom:6px;"><span></span><label class="donebox"><input type="checkbox" data-track="core-block">Done</label></div>
     <div class="corelist">
-      <div class="ci"><span class="cm">Bear hover</span><span class="cr">3 × 15–25 s</span><span class="cf">Hands under shoulders, knees hover one inch off the floor. Knees barely up. Back wide. Don't let your ribs spill <a class="mw" href="https://www.youtube.com/results?search_query=bear+hover+knees+one+inch+off+floor" target="_blank" rel="noopener">watch</a> <button class="tbtn" data-secs="20" data-label="20s">20s</button></span></div>
-      <div class="ci"><span class="cm">Small Pilates crunch / chest lift</span><span class="cr">2 × 8–12</span><span class="cf">Curl your ribs toward your hips. Don't yank your neck — your pelvis stays quiet. Make it small: this is not a sit-up. The one rectus abdominis exercise of the day <a class="mw" href="https://www.youtube.com/results?search_query=pilates+chest+lift+small+curl+ribs+to+hips+small+curl+ribs+to+hips" target="_blank" rel="noopener">watch</a></span></div>
-      <div class="ci"><span class="cm">Side plank on the hand</span><span class="cr">2 × 8 / side · or 20 s hold</span><span class="cf">Start with knees bent, then push out through straight legs until your shoulders stack right over your hand. Feet staggered, not stacked — that staggered base helps you learn to push into a straight arm. Lift the bottom waist. <b>Easier:</b> drop to your forearm, elbow under shoulder. <b>Harder:</b> once staggered feels easy, move to stacked feet with the arm fully extended — the classic side plank. <a class="mw" href="https://www.youtube.com/results?search_query=side+plank+on+hand+staggered+feet+straight+arm" target="_blank" rel="noopener">watch</a> <button class="tbtn" data-secs="20" data-label="20s/side">20s/side</button> <b>To come down:</b> place your top hand on the floor before lowering your hips.</span></div>
+      <div class="ci"><span class="cm">Bear hover</span><span class="cr">3 × 15–25 s</span><span class="cf">Hands under shoulders, knees hover one inch off the floor. Knees barely up. Back wide. Don't let your ribs spill <a class="mw" href="https://www.youtube.com/results?search_query=bear+hover+knees+one+inch+off+floor" rel="noopener">watch</a> <button class="tbtn" data-secs="20" data-label="20s">20s</button></span></div>
+      <div class="ci"><span class="cm">Small Pilates crunch / chest lift</span><span class="cr">2 × 8–12</span><span class="cf">Curl your ribs toward your hips. Don't yank your neck — your pelvis stays quiet. Make it small: this is not a sit-up. The one rectus abdominis exercise of the day <a class="mw" href="https://www.youtube.com/results?search_query=pilates+chest+lift+small+curl+ribs+to+hips+small+curl+ribs+to+hips" rel="noopener">watch</a></span></div>
+      <div class="ci"><span class="cm">Side plank on the hand</span><span class="cr">2 × 8 / side · or 20 s hold</span><span class="cf">Start with knees bent, then push out through straight legs until your shoulders stack right over your hand. Feet staggered, not stacked — that staggered base helps you learn to push into a straight arm. Lift the bottom waist. <b>Easier:</b> drop to your forearm, elbow under shoulder. <b>Harder:</b> once staggered feels easy, move to stacked feet with the arm fully extended — the classic side plank. <a class="mw" href="https://www.youtube.com/results?search_query=side+plank+on+hand+staggered+feet+straight+arm" rel="noopener">watch</a> <button class="tbtn" data-secs="20" data-label="20s/side">20s/side</button> <b>To come down:</b> place your top hand on the floor before lowering your hips.</span></div>
     </div>
   
     <a class="upnext" href="#tool" data-go="tool"><span class="un-k">Up next · Step 3 of 7</span><span class="un-t">Hip Power →</span></a>
@@ -405,7 +425,7 @@
         <p class="note"><b>Form note</b><br>If it feels like a shoulder raise, reset. The swing comes from the hinge.</p>
         <details class="ft"><summary>Field test</summary><p>Did your arms stay relaxed? They should just be ropes — the hips do everything.</p></details>
         <div class="threeq"><span class="tq tq-do"><span class="tq-k">Do this</span>12&ndash;15 swings, KB or one DB in both hands. Every rep crisp.</span><span class="tq tq-down"><span class="tq-k">If that&rsquo;s too difficult</span>Use a lighter kettlebell or dumbbell.</span><span class="tq tq-up"><span class="tq-k">If that&rsquo;s too easy</span>Use a heavier kettlebell or dumbbell while every rep stays crisp.</span></div>
-        <a class="watch" href="https://www.youtube.com/results?search_query=Mark+Wildman+kettlebell+swing" target="_blank" rel="noopener">Watch · Mark Wildman</a>
+        <a class="watch" href="https://www.youtube.com/results?search_query=Mark+Wildman+kettlebell+swing" rel="noopener">Watch · Mark Wildman</a>
       </div>
     </article>
 
@@ -423,7 +443,7 @@
         <p class="feel"><span class="yes">Feel:</span> front-thigh control on the way down. &nbsp; <span class="no">Not:</span> knee caving in or dropping fast.</p>
         <p class="note"><b>Knee note</b><br>Lower the step or shorten the range if the knee feels sharp. This is the brake that protects the skater-hop landings next.</p>
         <div class="threeq"><span class="tq tq-do"><span class="tq-k">Do this</span>8&ndash;10 per side, 5 seconds down, light tap, stand tall.</span><span class="tq tq-down"><span class="tq-k">If that&rsquo;s too difficult</span>Use a lower step or shorten the range.</span><span class="tq tq-up"><span class="tq-k">If that&rsquo;s too easy</span>Use a slightly higher step while keeping the same slow control.</span></div>
-        <a class="watch" href="https://www.youtube.com/results?search_query=controlled+step+down+from+box+slow+eccentric+hand+support" target="_blank" rel="noopener">Watch the form</a>
+        <a class="watch" href="https://www.youtube.com/results?search_query=controlled+step+down+from+box+slow+eccentric+hand+support" rel="noopener">Watch the form</a>
       </div>
     </article>
 
@@ -441,7 +461,7 @@
         </ul>
         <details class="ft"><summary>Field test</summary><p>Could you own every landing before taking the next jump? Reset if not.</p></details>
         <div class="threeq"><span class="tq tq-do"><span class="tq-k">Do this</span>6&ndash;8 per side. Land, own it, then go again.</span><span class="tq tq-down"><span class="tq-k">If that&rsquo;s too difficult</span>Step side-to-side instead of hopping. Still stick every landing.</span><span class="tq tq-up"><span class="tq-k">If that&rsquo;s too easy</span>Jump a little farther while still owning every landing.</span></div>
-        <a class="watch" href="https://www.youtube.com/results?search_query=PJF+Performance+skater+hop" target="_blank" rel="noopener">Watch · PJF Performance</a>
+        <a class="watch" href="https://www.youtube.com/results?search_query=PJF+Performance+skater+hop" rel="noopener">Watch · PJF Performance</a>
       </div>
     </article>
   
@@ -470,7 +490,7 @@
         <p class="note"><b>Knee note</b><br>If your knee feels sharp or sketchy, shorten the range or keep the back foot on the floor.</p>
         <p class="swap"><span class="easy"><b>Make it easier:</b> keep the back foot on the floor (split squat).</span><br><span class="hard"><b>If too easy:</b> add the bodyweight burnout after the weighted reps.</span></p>
         <div class="threeq"><span class="tq tq-do"><span class="tq-k">Do this</span>8&ndash;12 per leg, 1 DB or KB at your chest, 5 down &middot; 2 hold.</span><span class="tq tq-down"><span class="tq-k">If that&rsquo;s too difficult</span>Hold a chair or wall with one hand.</span><span class="tq tq-up"><span class="tq-k">If that&rsquo;s too easy</span>Let the kettlebell or dumbbell hang beside your front leg instead of holding it at your chest.</span></div>
-        <a class="watch" href="https://www.youtube.com/results?search_query=goblet+bulgarian+split+squat+weight+at+chest+back+foot+elevated" target="_blank" rel="noopener">Watch · Bulgarian split squat form</a>
+        <a class="watch" href="https://www.youtube.com/results?search_query=goblet+bulgarian+split+squat+weight+at+chest+back+foot+elevated" rel="noopener">Watch · Bulgarian split squat form</a>
       </div>
     </article>
 
@@ -487,7 +507,7 @@
         </ul>
         <details class="ft"><summary>Field test</summary><p>Does this produce enough glute burn to earn a permanent spot? You decide.</p></details>
         <div class="threeq"><span class="tq tq-do"><span class="tq-k">Do this</span>30 reps, bodyweight. Small move, big squeeze &mdash; 2 up, 2 down.</span><span class="tq tq-down"><span class="tq-k">If that&rsquo;s too difficult</span>Make the lift a little smaller, but keep squeezing at the top.</span><span class="tq tq-up"><span class="tq-k">If that&rsquo;s too easy</span>Once you can keep your knees pressed out for every rep, place one dumbbell across your hips.</span></div>
-        <a class="watch" href="https://www.youtube.com/results?search_query=Bret+Contreras+frog+pumps" target="_blank" rel="noopener">Watch · Bret Contreras</a>
+        <a class="watch" href="https://www.youtube.com/results?search_query=Bret+Contreras+frog+pumps" rel="noopener">Watch · Bret Contreras</a>
       </div>
     </article>
 
@@ -505,7 +525,7 @@
         <p class="note"><b>Back note</b><br>Don't chase the floor with a rounded back. Long spine down, long spine up — the depth comes from your hips, not your lower back.</p>
         <div class="threeq"><span class="tq tq-do"><span class="tq-k">Do this</span>One kettlebell on the standing-leg side. Hinge and let it lower down that same leg, 10&ndash;12 per side, same clean form throughout.</span><span class="tq tq-down"><span class="tq-k">If that&rsquo;s too difficult</span>Let the toe of your working leg touch down slightly behind your hip plane for balance — same hinge, same weight, just a kickstand.</span><span class="tq tq-up"><span class="tq-k">If that&rsquo;s too easy</span>Stand on a jump box or step and let the weight reach past your foot for a deeper stretch.</span></div>
         <details class="ft"><summary>Field test</summary><p>Did flexibility stop you before strength did? That tells you what to work on.</p></details>
-        <a class="watch" href="https://www.youtube.com/results?search_query=single+leg+romanian+deadlift+one+dumbbell+same+side+as+standing+leg" target="_blank" rel="noopener">Watch the form</a>
+        <a class="watch" href="https://www.youtube.com/results?search_query=single+leg+romanian+deadlift+one+dumbbell+same+side+as+standing+leg" rel="noopener">Watch the form</a>
       </div>
     </article>
 
@@ -523,7 +543,7 @@
         </ul>
         <p class="note"><b>Knee note</b><br>If the knee caves in, make the movement smaller or hold on.</p>
         <div class="threeq"><span class="tq tq-do"><span class="tq-k">Do this</span>2 holds per side, 20 seconds. Grow taller before you rotate.</span><span class="tq tq-down"><span class="tq-k">If that&rsquo;s too difficult</span>Hold a chair, wall, or countertop, or shorten the hold.</span><span class="tq tq-up"><span class="tq-k">If that&rsquo;s too easy</span>Let go of your support for part or all of the hold.</span></div>
-        <a class="watch" href="https://www.youtube.com/results?search_query=Squat+University+hip+airplanes" target="_blank" rel="noopener">Watch · Squat University</a>
+        <a class="watch" href="https://www.youtube.com/results?search_query=Squat+University+hip+airplanes" rel="noopener">Watch · Squat University</a>
       </div>
     </article>
   
@@ -551,7 +571,7 @@
         <p class="note" style="border-left-color:var(--pink);background:rgba(214,40,40,.08);"><b style="color:var(--pink);">Shoulder note</b><br>More range is the point, but deeper is not automatically better. Stop before the front of the shoulder feels pinched.</p>
         <p class="note" style="border-left-color:var(--pink);background:rgba(214,40,40,.08);"><b style="color:var(--pink);">Rib caution</b><br>Keep the ribs closed the whole set — like the moment right after a laugh or a cough, when the ribs pull back down. Don't let them pop open as the weight gets heavy.</p>
         <div class="threeq"><span class="tq tq-do"><span class="tq-k">Do this</span>10&ndash;15 reps, 2 DBs, 4 down &middot; 2 in the stretch &middot; press up strong.</span><span class="tq tq-down"><span class="tq-k">If that&rsquo;s too difficult</span>Lower only as far as you can control without shoulder discomfort.</span><span class="tq tq-up"><span class="tq-k">If that&rsquo;s too easy</span>Lower one dumbbell while holding the other at the top. Alternate sides.</span></div>
-        <a class="watch" href="https://www.youtube.com/results?search_query=dumbbell+chest+press+shoulders+supported+on+box+hips+bridged" target="_blank" rel="noopener">Watch the form</a>
+        <a class="watch" href="https://www.youtube.com/results?search_query=dumbbell+chest+press+shoulders+supported+on+box+hips+bridged" rel="noopener">Watch the form</a>
       </div>
     </article>
 
@@ -566,7 +586,7 @@
           <li>Stop the moment the squeeze disappears — that's the set, not the rep count.</li>
         </ul>
         <div class="threeq"><span class="tq tq-do"><span class="tq-k">Do this</span>Press the DBs firmly together &mdash; 10&ndash;15 controlled presses with a constant inward squeeze.</span><span class="tq tq-down"><span class="tq-k">If that&rsquo;s too difficult</span>Stop when you can no longer keep the dumbbells squeezed together.</span></div>
-        <a class="watch" href="https://www.youtube.com/results?search_query=dumbbell+crush+press+squeeze+dumbbells+together" target="_blank" rel="noopener">Watch the form</a>
+        <a class="watch" href="https://www.youtube.com/results?search_query=dumbbell+crush+press+squeeze+dumbbells+together" rel="noopener">Watch the form</a>
       </div>
     </article>
 
@@ -591,7 +611,7 @@
           <li>Heavy shoulders. Your neck is still not invited.</li>
         </ul>
         <div class="threeq"><span class="tq tq-do"><span class="tq-k">Do this</span>15&ndash;20 reps, 2 pull &middot; 2 squeeze &middot; 3 return.</span><span class="tq tq-down"><span class="tq-k">If that&rsquo;s too difficult</span>Widen your grip on the band.</span><span class="tq tq-up"><span class="tq-k">If that&rsquo;s too easy</span>Narrow your grip on the band.</span></div>
-        <a class="watch" href="https://www.youtube.com/results?search_query=resistance+band+pull+apart+straight+arms" target="_blank" rel="noopener">Watch the form</a>
+        <a class="watch" href="https://www.youtube.com/results?search_query=resistance+band+pull+apart+straight+arms" rel="noopener">Watch the form</a>
       </div>
     </article>
   
@@ -605,11 +625,11 @@
     <div class="ex-top" style="margin-bottom:2px;"><span></span><label class="donebox"><input type="checkbox" data-track="rise-block">Done</label></div>
     <div class="timerbank"><span class="tb-k">Timer</span><button class="tbtn" data-secs="15" data-label="15s">15s</button><button class="tbtn" data-secs="20" data-label="20s">20s</button><button class="tbtn" data-secs="30" data-label="30s">30s</button><button class="tbtn" data-secs="45" data-label="45s">45s</button></div>
     <ul class="cues" style="margin-top:6px;">
-      <li>Weighted overhead squat hold — 20–30 sec. <i>Ribs down.</i> <a class="mw" href="https://www.youtube.com/results?search_query=overhead+squat+hold+mobility" target="_blank" rel="noopener">watch</a> <button class="tbtn" data-secs="30" data-label="30s">30s</button></li>
-      <li>Horse stance — 20–30 sec. <i>Push the floor apart.</i> <a class="mw" href="https://www.youtube.com/results?search_query=horse+stance+isometric+hold" target="_blank" rel="noopener">watch</a> <button class="tbtn" data-secs="30" data-label="30s">30s</button></li>
-      <li>Forward fold — 30 sec. <i>Don't chase the floor. Chase the position.</i> <a class="mw" href="https://www.youtube.com/results?search_query=standing+forward+fold+hamstring+stretch" target="_blank" rel="noopener">watch</a> <button class="tbtn" data-secs="30" data-label="30s">30s</button></li>
-      <li>90/90 stretch — 30 sec / side. <a class="mw" href="https://www.youtube.com/results?search_query=90+90+hip+stretch" target="_blank" rel="noopener">watch</a> <button class="tbtn" data-secs="30" data-label="30s">30s</button></li>
-      <li>Hero stretch — 30 sec / side. <i>Breathe where you're tight.</i> <a class="mw" href="https://www.youtube.com/results?search_query=hero+pose+quad+stretch" target="_blank" rel="noopener">watch</a> <button class="tbtn" data-secs="30" data-label="30s">30s</button></li>
+      <li>Weighted overhead squat hold — 20–30 sec. <i>Ribs down.</i> <a class="mw" href="https://www.youtube.com/results?search_query=overhead+squat+hold+mobility" rel="noopener">watch</a> <button class="tbtn" data-secs="30" data-label="30s">30s</button></li>
+      <li>Horse stance — 20–30 sec. <i>Push the floor apart.</i> <a class="mw" href="https://www.youtube.com/results?search_query=horse+stance+isometric+hold" rel="noopener">watch</a> <button class="tbtn" data-secs="30" data-label="30s">30s</button></li>
+      <li>Forward fold — 30 sec. <i>Don't chase the floor. Chase the position.</i> <a class="mw" href="https://www.youtube.com/results?search_query=standing+forward+fold+hamstring+stretch" rel="noopener">watch</a> <button class="tbtn" data-secs="30" data-label="30s">30s</button></li>
+      <li>90/90 stretch — 30 sec / side. <a class="mw" href="https://www.youtube.com/results?search_query=90+90+hip+stretch" rel="noopener">watch</a> <button class="tbtn" data-secs="30" data-label="30s">30s</button></li>
+      <li>Hero stretch — 30 sec / side. <i>Breathe where you're tight.</i> <a class="mw" href="https://www.youtube.com/results?search_query=hero+pose+quad+stretch" rel="noopener">watch</a> <button class="tbtn" data-secs="30" data-label="30s">30s</button></li>
     </ul>
     <p class="drink">🥤 That's Lesson 2. Go get your drink — you drove the hips today.</p>
   
@@ -700,6 +720,11 @@
   document.addEventListener('click',function(e){
     var b=e.target.closest('.tbtn'); if(!b) return;
     var label=b.getAttribute('data-label')||'hold';
+    // BUGFIX: a pending done->resting reset from a PREVIOUS run of this
+    // same button could fire mid-way through a freshly started timer and
+    // stomp its live countdown back to the resting label. Cancel it first,
+    // every time this handler runs, before anything else.
+    if(b._doneTimeout){ clearTimeout(b._doneTimeout); b._doneTimeout = null; }
     // tapping a live timer cancels it
     if(b.dataset.state){
       clearInterval(parseInt(b.dataset.tid,10));
@@ -727,7 +752,7 @@
         clearInterval(id); b.dataset.state=''; b.dataset.tid='';
         b.classList.remove('running'); b.classList.add('done');
         b.textContent='done'; beep();
-        setTimeout(function(){b.classList.remove('done');b.textContent=label;},2500);
+        b._doneTimeout = setTimeout(function(){b.classList.remove('done');b.textContent=label;b._doneTimeout=null;},2500);
       } else { b.textContent=fmt(left); }
     },1000);
     b.dataset.tid=id;
@@ -794,6 +819,29 @@
   setJumpH();
   window.addEventListener('resize', setJumpH);
   window.addEventListener('orientationchange', setJumpH);
+
+  // ── VIDEO LINKS: same tab on a phone, new tab on a desktop ───────────────
+  // On a phone, a SAME-TAB navigation to youtube.com lets iOS and Android hand
+  // the link to the native app (universal links / app links). That is what gives
+  // picture-in-picture, so the demo can float over the lesson while you move.
+  // Opening in a new tab usually breaks that handoff and dumps you in a browser.
+  //
+  // On a desktop there is no app to hand off to, and navigating away from the
+  // lesson is just annoying — so there we put target="_blank" back.
+  //
+  // Detection is by INPUT TYPE, not screen width: a touch device with no hover
+  // is a phone or tablet, whatever size the window is.
+  (function(){
+    try{
+      var touch = window.matchMedia &&
+                  window.matchMedia('(hover: none) and (pointer: coarse)').matches;
+      if(touch) return;                    // phone/tablet → leave same-tab
+      document.querySelectorAll('a[href*="youtube.com"]').forEach(function(a){
+        a.setAttribute('target','_blank');
+        a.setAttribute('rel','noopener');
+      });
+    }catch(e){}
+  })();
 </script>
 </body>
 </html>

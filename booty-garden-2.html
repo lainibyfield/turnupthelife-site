@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="color-scheme" content="light">
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>The Booty Garden — Lesson 2 · The Back of the Garden</title>
+<!--
+  ============================================================================
+  THE BOOTY GARDEN — LESSON 2 — booty-garden-2.html
+  ============================================================================
+  WHAT THIS FILE IS
+    Lesson 2 of Course 03 (The Booty Garden): the first of three "feel it
+    before we name it" lessons — glute maximus, via hip extension (a
+    self-anchored long-loop hip thrust + a mini-band standing kickback),
+    closing with a reveal of which muscle just did the work. Self-contained,
+    same approach as Lesson 1 and the Movement lessons.
+
+  ITS SIBLINGS → booty-garden.html (course entry), booty-garden-1.html
+                 (Lesson 1 — band calibration).
+  ITS SUCCESSOR → booty-garden-3.html (The Outer Garden — not built yet).
+
+  A THIRD USE OF .threeq/.tq — Lesson 1 repurposed the three-box shape for
+  band calibration (keep/lighter/stronger). Here it shows up TWICE, two
+  different ways:
+    1. The thrust's band check reuses the calibration meaning (3 boxes).
+    2. The circuit's "if too easy / if too difficult" branches use only
+       .tq-up + .tq-down (2 boxes, no .tq-do) — this is actually the
+       ORIGINAL Movement meaning (progression ladder), just without the
+       "do this" box, since the circuit itself IS the "do this."
+
+  A NEW COMPONENT — <details class="reveal"> wraps "How Did Your Garden
+  Grow?". It's native HTML, no JS needed: closed by default so the student
+  answers the reflection questions before clicking to reveal the muscle
+  name. Don't add JS to auto-open it — the pause is the point.
+
+  LOCALSTORAGE KEYS — namespaced "bg2" (not "bg1" or "lesson2") — every
+  lesson on this site needs its own key or two of them will silently
+  overwrite each other's saved progress on the same origin.
+
+  "NEXT TIME" IS RADIO, NOT CHECKBOX — the label says "pick one," so the
+  inputs are type="radio" (shared name per lesson) so the browser enforces
+  a single choice. The data-log persistence script treats radio the same
+  as checkbox (reads/writes .checked). If you ever add a new pick-one
+  group, give it its own name= or it'll fight with this one.
+
+  SAFE TO EDIT → all of <body>.
+  ============================================================================
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;800;900&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400;1,6..72,500&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    color-scheme: light;
+    --paper:#F2F6E8; --card:#FFFFFF; --line:#DCE6C7;
+    --ink:#1C2A15; --ink-2:#66754C;
+    --sun:#E4A93A; --aqua:#2E8B4F; --pink:#7A3B2E; --lime:#8DBF3E; --coral:#C97C2E;
+    --display:'Archivo',system-ui,sans-serif;
+    --body:'Newsreader',Georgia,serif;
+    --mono:'JetBrains Mono',ui-monospace,monospace;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{overflow-x:clip;max-width:100%;margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);font-size:18px;line-height:1.55;-webkit-font-smoothing:antialiased;}
+  .wrap{max-width:940px;margin:0 auto;padding:0 24px;position:relative;}
+
+  .eyebrow{font-family:var(--mono);font-size:12px;font-weight:500;letter-spacing:.22em;text-transform:uppercase;color:var(--ink-2);}
+  a{color:var(--pink);text-underline-offset:3px;}
+  .shine{background:linear-gradient(100deg,var(--sun) 0%,var(--coral) 28%,var(--pink) 55%,var(--aqua) 85%);background-size:220% auto;-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent;animation:shimmer 7s linear infinite;}
+  @keyframes shimmer{to{background-position:220% center;}}
+  .stripe{height:5px;border:0;margin:0;background:linear-gradient(90deg,var(--sun),var(--coral) 28%,var(--pink) 52%,var(--aqua) 76%,var(--lime));}
+
+  .chip{display:inline-flex;align-items:center;gap:.4em;font-family:var(--mono);font-size:12px;font-weight:500;letter-spacing:.04em;text-transform:uppercase;border:1.5px solid var(--ink);color:var(--ink);padding:5px 9px;white-space:nowrap;}
+  .chip .k{color:var(--ink-2);}
+
+  /* ---------- compact hero ---------- */
+  .hero{position:relative;padding:44px 0 28px;}
+  .hero::before{content:"";position:absolute;left:-12%;right:-12%;top:-40px;height:260px;background:radial-gradient(56% 100% at 50% 0,rgba(141,191,62,.28),rgba(46,139,79,.18) 42%,rgba(228,169,58,.12) 64%,transparent 78%);pointer-events:none;z-index:0;}
+  .hero > *{position:relative;z-index:1;}
+  .hero .kicker{display:flex;flex-wrap:wrap;gap:12px;align-items:baseline;margin-bottom:20px;}
+  .hero h1{font-family:var(--display);font-weight:900;font-size:clamp(38px,8vw,76px);line-height:.88;letter-spacing:-.03em;margin:0 0 18px;text-transform:uppercase;}
+  .hero-sub{max-width:640px;font-size:19px;line-height:1.5;margin:0 0 8px;}
+
+  /* ---------- sticky jump nav + progress ---------- */
+  .jump{position:sticky;top:var(--hbH,40px);z-index:50;background:var(--paper);border-bottom:2px solid var(--ink);padding:10px 0;}
+  .jump-row{display:flex;gap:8px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;align-items:center;}
+  .jump-row::-webkit-scrollbar{display:none;}
+  .jump-btn{flex:0 0 auto;height:38px;line-height:1;font-family:var(--mono);font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;border:2px solid var(--ink);background:var(--card);color:var(--ink);padding:0 14px;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:7px;}
+  .jump-btn:hover{background:var(--sun);border-color:var(--sun);}
+  .jump-btn .dot{width:9px;height:9px;border:2px solid var(--ink);display:inline-block;border-radius:50%;}
+  .jump-btn.done .dot{background:var(--lime);border-color:var(--ink);}
+  .progresswrap{height:6px;background:var(--line);margin-top:10px;}
+  .progressbar{height:100%;width:0%;background:linear-gradient(90deg,var(--sun),var(--coral),var(--pink));transition:width .35s ease;}
+  .prog-label{font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-2);margin-top:5px;display:flex;justify-content:space-between;gap:10px;}
+  .prog-label button{font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;background:none;border:none;color:var(--ink-2);cursor:pointer;text-decoration:underline;padding:0;}
+
+  /* ---------- sections ---------- */
+  .sec{padding:44px 0;border-top:1px solid var(--line);scroll-margin-top:120px;}
+  .sec-head{display:flex;flex-wrap:wrap;align-items:baseline;gap:14px;margin-bottom:8px;}
+  .sec-head .tag{font-family:var(--mono);font-size:13px;font-weight:700;color:var(--coral);letter-spacing:.14em;}
+  .sec-intro{max-width:660px;margin:12px 0 0;color:var(--ink-2);font-size:16.5px;}
+  p{margin:0 0 16px;}
+  .lede{font-size:20px;line-height:1.5;color:var(--ink);max-width:660px;}
+  .sec h3{font-family:var(--display);font-weight:800;font-size:20px;letter-spacing:-.01em;margin:26px 0 8px;text-transform:uppercase;}
+  h2.sec-title{font-family:var(--display);font-weight:900;font-size:clamp(26px,6vw,42px);line-height:.95;letter-spacing:-.02em;margin:0;text-transform:uppercase;}
+
+  /* the three glute jobs, plain list */
+  .jobs{list-style:none;margin:18px 0 0;padding:0;counter-reset:j;}
+  .jobs li{counter-increment:j;position:relative;padding:14px 0 14px 46px;border-top:1px solid var(--line);font-size:17px;}
+  .jobs li:first-child{border-top:none;}
+  .jobs li::before{content:counter(j,decimal-leading-zero);position:absolute;left:0;top:16px;font-family:var(--mono);font-size:13px;font-weight:700;color:var(--coral);}
+  .jobs b{font-family:var(--display);font-weight:800;text-transform:uppercase;letter-spacing:-.01em;}
+
+  /* ═══ THE EXERCISE CARD ═══ */
+  .ex{border:1.5px solid var(--ink);background:var(--card);margin-top:22px;}
+  .ex-body{padding:22px 24px;}
+  .ex-top{display:flex;align-items:flex-start;gap:14px;}
+  .ex-name{font-family:var(--display);font-weight:800;font-size:clamp(19px,3vw,25px);letter-spacing:-.01em;margin:0 0 6px;line-height:1.05;text-transform:uppercase;color:var(--ink);}
+  .ex-name .sub{display:block;font-family:var(--body);font-weight:400;font-style:italic;font-size:15.5px;color:var(--ink-2);margin-top:4px;letter-spacing:0;text-transform:none;}
+  .donebox{margin-left:auto;flex:0 0 auto;display:flex;align-items:center;gap:8px;font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-2);cursor:pointer;user-select:none;}
+  .donebox input{width:20px;height:20px;accent-color:#8DBF3E;cursor:pointer;}
+  .ex-data{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0 16px;}
+  .cues{margin:0;padding:0;list-style:none;}
+  .cues li{position:relative;padding:5px 0 5px 20px;font-size:16.5px;line-height:1.45;}
+  .cues li::before{content:"";position:absolute;left:0;top:12px;width:8px;height:2px;background:var(--coral);}
+  .cue{margin:12px 0 2px;font-family:var(--body);font-style:italic;font-size:17.5px;line-height:1.4;color:var(--ink);}
+  .cue::before{content:"\201C";color:var(--coral);font-family:var(--display);font-weight:900;font-size:1.3em;margin-right:2px;}
+  .cue::after{content:"\201D";color:var(--coral);font-family:var(--display);font-weight:900;font-size:1.3em;margin-left:2px;}
+  .watch{display:inline-flex;align-items:center;gap:8px;margin-top:16px;font-family:var(--mono);font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;background:var(--coral);color:#fff;padding:10px 15px;text-decoration:none;border:2px solid var(--coral);}
+
+  /* ═══ BAND CHECK — the calibration three-box (see header note) ═══ */
+  .threeq{margin-top:14px;border:1.5px solid var(--line);}
+  .tq{display:block;padding:12px 14px;border-top:1px solid var(--line);font-size:15.5px;line-height:1.5;}
+  .tq:first-child{border-top:none;}
+  .tq-k{display:block;font-family:var(--mono);font-size:10.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:6px;}
+  .tq-do{background:rgba(46,139,79,.07);}   .tq-do .tq-k{color:#1F6B3A;}
+  .tq-down{background:rgba(228,169,58,.10);} .tq-down .tq-k{color:#8C6A1E;}
+  .tq-up{background:rgba(201,124,46,.07);}   .tq-up .tq-k{color:var(--coral);}
+  .tq ul.cues{margin-top:2px;}
+  .tq ul.cues li::before{background:currentColor;opacity:.55;}
+
+  /* ---------- record your choice (same pattern as Lesson 4's time log) ---------- */
+  .timelog{display:flex;flex-wrap:wrap;align-items:center;gap:10px;padding:13px 14px;border-top:2px solid var(--ink);background:rgba(228,169,58,.12);margin-top:16px;}
+  .timelog label{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink);}
+  .timelog input{font-family:var(--mono);font-size:15px;font-weight:700;width:180px;max-width:100%;padding:7px 9px;border:2px solid var(--ink);background:var(--card);color:var(--ink);}
+  .timelog .hint{flex-basis:100%;font-size:13.5px;color:var(--ink-2);font-style:italic;}
+
+  /* ---------- inline hold timers ---------- */
+  .tbtn{display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--ink);background:var(--card);border:1.5px solid var(--ink);padding:3px 9px;margin-left:8px;cursor:pointer;vertical-align:baseline;line-height:1.4;}
+  .tbtn:hover{background:var(--sun);border-color:var(--sun);}
+  .tbtn.ready{background:var(--sun);border-color:var(--ink);color:var(--ink);}
+  .tbtn.running{background:var(--lime);border-color:var(--ink);}
+  .tbtn.done{background:var(--pink);border-color:var(--pink);color:#fff;}
+  .tbtn::before{content:"⏱";font-size:11px;}
+  @keyframes tflash{0%,100%{background:var(--pink);color:#fff;}50%{background:var(--sun);color:var(--ink);}}
+  .tbtn.done{animation:tflash .45s steps(1) 4;}
+  .bigtimer{display:inline-flex;align-items:center;gap:8px;font-size:15px;padding:12px 20px;margin:12px 0 0;}
+
+  /* ---------- reflection / next-time ---------- */
+  .reflect{border:2px solid var(--ink);background:var(--card);padding:18px;margin-top:18px;}
+
+  /* "How Did Your Garden Grow?" — closed by default so the reflection
+     questions get answered before the muscle name is revealed. */
+  .reveal{border:2px solid var(--ink);background:var(--card);padding:18px;margin-top:18px;}
+  .reveal summary{cursor:pointer;font-family:var(--display);font-weight:800;font-size:18px;text-transform:uppercase;letter-spacing:-.01em;list-style:none;}
+  .reveal summary::-webkit-details-marker{display:none;}
+  .reveal summary::before{content:"🌱  ";}
+  .reveal summary .after{display:none;}
+  .reveal[open] summary .before{display:none;}
+  .reveal[open] summary .after{display:inline;}
+  .reveal .answer{margin-top:14px;padding-top:14px;border-top:1px solid var(--line);}
+  .reveal .answer b{color:var(--coral);}
+
+  .setup-warn{border:2px solid var(--pink);background:rgba(122,59,46,.06);padding:14px 16px;margin:14px 0;font-size:15.5px;}
+  .setup-warn b{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--pink);display:block;margin-bottom:6px;}
+
+  /* position diagram — same component as Movement Lesson 6's Pallof-press
+     diagram. Abstract/schematic on purpose: simple shapes, not an attempt
+     at a realistic figure. A stand-in for the real photo sequence this
+     setup still needs (see header note + open item). */
+  .posdiag{border:1.5px solid var(--line);background:var(--card);padding:12px;margin-top:12px;display:flex;flex-wrap:wrap;gap:12px;justify-content:center;}
+  .posdiag .panel{flex:1 1 200px;max-width:260px;margin:0;}
+  .posdiag svg{display:block;width:100%;height:auto;}
+  .posdiag figcaption{font-family:var(--mono);font-size:10.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-2);text-align:center;margin-top:6px;}
+  .posdiag .panel-k{display:block;font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--coral);text-align:center;margin-bottom:4px;}
+  .reflect h3{font-family:var(--display);font-weight:900;text-transform:uppercase;font-size:18px;margin:0 0 10px;}
+  .reflect ul{margin:0 0 12px;padding-left:18px;}
+  .reflect li{padding:3px 0;font-size:16px;}
+  .nexttime{border-top:1px solid var(--line);padding-top:12px;}
+  .nexttime .nk{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--coral);display:block;margin-bottom:8px;}
+  .nexttime label{display:flex;align-items:center;gap:9px;padding:4px 0;font-size:15.5px;cursor:pointer;}
+  .nexttime input{width:18px;height:18px;accent-color:#8DBF3E;cursor:pointer;}
+
+  .mens{max-width:660px;font-size:16.5px;margin:10px 0 0;padding:12px 16px;border:2px solid var(--ink);background:var(--card);}
+  .mens b{font-family:var(--mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--coral);}
+  .mens.beginner{border-color:var(--aqua);}
+  .mens.beginner b{color:#1F6B3A;}
+  .callout{border-left:3px solid var(--coral);padding:2px 0 2px 18px;margin:18px 0;font-style:italic;color:var(--ink);}
+
+  .homebar{position:sticky;top:0;z-index:60;background:var(--ink);color:var(--paper);}
+  .homebar a{display:inline-flex;align-items:center;gap:8px;color:var(--paper);text-decoration:none;font-family:var(--mono);font-size:11.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:10px 18px;}
+  .homebar a:hover{color:var(--sun);}
+  .homebar a::before{content:"\2190";font-size:14px;}
+
+  footer{border-top:1px solid var(--line);padding:30px 0 70px;margin-top:44px;}
+  .disc{font-size:13px;color:var(--ink-2);line-height:1.55;max-width:640px;}
+
+  @media (max-width:600px){
+    .ex-body{padding:18px;}
+    .ex-top{flex-wrap:wrap;}
+    .donebox{margin-left:0;}
+    .timelog input{width:100%;}
+  }
+  @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto;}.shine{animation:none;}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <hr class="stripe"/>
+  <nav class="homebar"><a href="booty-garden.html">Back to the Booty Garden</a></nav>
+
+  <!-- ============ HOW YOUR GARDEN GROWS — shared framing for Lessons
+       2–4, placed once here at the start of Lesson 2. Front matter, not
+       tracked in the jump-nav or progress bar. ============ -->
+  <section class="sec" id="howitgrows" style="border-top:none;padding-top:34px;">
+    <p class="lede">Your booty is made of three glute muscles: gluteus maximus, gluteus medius, and gluteus minimus.</p>
+    <p>They do not work alone. Every time you walk, squat, climb, balance, or change direction, all three parts of your garden cooperate. But changing the movement can change which part does more of the work.</p>
+    <p>Over the next three lessons, you'll learn how to emphasize:</p>
+    <ul class="cues">
+      <li>the large muscle that creates most of your booty's size and power</li>
+      <li>the upper and outer muscle that helps shape and control your hips</li>
+      <li>the deeper muscle that helps keep your pelvis steady</li>
+    </ul>
+    <p class="callout">No anatomy degree required. You're going to learn by moving.</p>
+  </section>
+
+  <!-- ============ HERO ============ -->
+  <header class="hero">
+    <div class="kicker">
+      <span class="eyebrow">The Booty Garden · Lesson 2</span>
+      <span class="chip"><span class="k">Total</span> About 20–25 min</span>
+      <span class="chip"><span class="k">Goal</span> Feel hip extension</span>
+    </div>
+    <h1>The Back of the <span class="shine">Garden.</span></h1>
+    <p class="hero-sub">Today, pay attention to the large area across the back of your booty. Don't worry about the muscle's name yet — during each movement, notice where the squeeze begins, where it feels strongest, whether you feel the same place on both sides, and whether the feeling changes when your hips reach the top.</p>
+  </header>
+
+  <!-- ============ STICKY QUICK NAV ============ -->
+  <nav class="jump" aria-label="Lesson quick navigation">
+    <div class="jump-row">
+      <a class="jump-btn" href="#feel">Feel It First</a>
+      <a class="jump-btn" href="#thrust" data-go="thrust"><span class="dot"></span>The Thrust</a>
+      <a class="jump-btn" href="#kickback" data-go="kickback"><span class="dot"></span>The Kickback</a>
+      <a class="jump-btn" href="#circuit" data-go="circuit"><span class="dot"></span>The Circuit</a>
+      <a class="jump-btn" href="#final">How It Grew</a>
+    </div>
+    <div class="progresswrap"><div class="progressbar" id="pbar"></div></div>
+    <div class="prog-label"><span id="plabel">0 of 3 done</span><button id="preset" type="button">reset</button></div>
+  </nav>
+
+  <hr class="stripe" />
+
+  <!-- ============ FEEL IT FIRST ============ -->
+  <section class="sec" id="feel">
+    <div class="sec-head"><span class="tag">Before you start</span></div>
+    <h2 class="sec-title">Feel It Before We Name It</h2>
+    <p class="sec-intro">You've already practiced creating power from your hips in Turn Up the Life. Today, you're going to connect that movement to a specific feeling.</p>
+    <h3>Today's Movements</h3>
+    <p>You'll use a long-loop hip thrust and a mini-band standing kickback. The thrust asks the back of your garden to drive your hips forward against serious resistance. The kickback asks that same area to move your leg behind you.</p>
+    <p>These are different movements with the same underlying job:</p>
+    <p class="lede" style="text-align:center;text-transform:uppercase;font-family:var(--display);font-weight:900;">Hip Extension</p>
+    <p>You've already performed glute bridges in Turn Up the Life. The hip thrust builds on that movement, but the long-loop setup is new. We'll learn the setup before we begin the workout — the movement principle will feel familiar, the way we create resistance will not.</p>
+  </section>
+
+  <!-- ============ THE THRUST ============ -->
+  <section class="sec" id="thrust">
+    <div class="sec-head"><span class="tag">Learn it</span></div>
+    <h2 class="sec-title">The Long-Loop Hip Thrust</h2>
+
+    <article class="ex">
+      <div class="ex-body">
+        <div class="ex-top">
+          <h3 class="ex-name">Set Up the Band<span class="sub">self-anchored — no equipment to attach to</span></h3>
+          <label class="donebox"><input type="checkbox" data-track="thrust-done">Done</label>
+        </div>
+        <a class="watch" href="https://www.youtube.com/results?search_query=Bret+Contreras+band+hip+thrust" rel="noopener">Watch · Bret Contreras band hip thrust</a>
+        <p class="cue" style="margin-top:14px;">Most popular demonstrations anchor the band to equipment. Watch for the thrust itself, then use the self-anchored setup taught below.</p>
+
+        <div class="ex-data">
+          <span class="chip"><span class="k">Needs</span> long-loop band</span>
+          <span class="chip"><span class="k">Needs</span> a firm couch, bench, or platform</span>
+          <span class="chip"><span class="k">Needs</span> open floor space</span>
+        </div>
+        <p>If your support can move, place it against a wall before you begin.</p>
+
+        <ul class="cues">
+          <li>Sit on the floor with your upper back against your support.</li>
+          <li>Place both feet inside the long loop.</li>
+          <li>Position one side of the loop underneath the middle of both feet.</li>
+          <li>Bring the opposite side of the loop across the crease at the front of your hips.</li>
+          <li>Keep the band flat, centered across your hips, and securely trapped beneath your feet.</li>
+        </ul>
+        <p>The band should now travel: under both feet, alongside your legs, and across the front of your hips.</p>
+
+        <h3>Check Yourself Against These</h3>
+        <p>This setup is new, so check each of these before your first repetition — not just the first time, every time:</p>
+        <ol class="cues">
+          <li>Both feet have entered the loop.</li>
+          <li>The band sits beneath both feet, not off to one side.</li>
+          <li>The band crosses the front of your hip crease — flat, not twisted.</li>
+          <li>Pressing your feet down and pulling gently against the band doesn't shift, roll, or slip it.</li>
+        </ol>
+
+        <div class="posdiag">
+          <figure class="panel">
+            <span class="panel-k">Setup</span>
+            <svg viewBox="0 0 300 180" role="img" aria-labelledby="t2a d2a">
+              <title id="t2a">Starting position, hips down</title>
+              <desc id="d2a">Side view. Upper back against a support on the left. Hips are low, knees bent, feet on the floor to the right with the band beneath them and crossing up over the hip crease.</desc>
+              <line x1="10" y1="152" x2="290" y2="152" stroke="#DCE6C7" stroke-width="2"/>
+              <rect x="16" y="98" width="52" height="54" fill="#1C2A15"/>
+              <text x="42" y="168" font-family="JetBrains Mono, monospace" font-size="10" font-weight="700" fill="#1C2A15" text-anchor="middle">SUPPORT</text>
+              <line x1="68" y1="104" x2="150" y2="132" stroke="#1C2A15" stroke-width="3"/>
+              <line x1="150" y1="132" x2="196" y2="112" stroke="#1C2A15" stroke-width="3"/>
+              <line x1="196" y1="112" x2="206" y2="150" stroke="#1C2A15" stroke-width="3"/>
+              <circle cx="60" cy="94" r="10" fill="none" stroke="#1C2A15" stroke-width="2.5"/>
+              <ellipse cx="206" cy="152" rx="14" ry="5" fill="none" stroke="#1C2A15" stroke-width="2"/>
+              <line x1="206" y1="152" x2="150" y2="132" stroke="#7A3B2E" stroke-width="3" stroke-dasharray="6 5"/>
+              <text x="178" y="128" font-family="JetBrains Mono, monospace" font-size="9" font-weight="700" fill="#7A3B2E" text-anchor="middle">BAND</text>
+              <text x="150" y="146" font-family="JetBrains Mono, monospace" font-size="9" font-weight="700" fill="#1C2A15" text-anchor="middle">HIPS DOWN</text>
+            </svg>
+            <figcaption>Band under feet, over the hip crease</figcaption>
+          </figure>
+          <figure class="panel">
+            <span class="panel-k">Top of the thrust</span>
+            <svg viewBox="0 0 300 180" role="img" aria-labelledby="t2b d2b">
+              <title id="t2b">Finished position, hips up</title>
+              <desc id="d2b">Side view. Hips have risen so the torso and thighs are in one line. Shins are close to vertical. The band is stretched tighter across the hips.</desc>
+              <line x1="10" y1="152" x2="290" y2="152" stroke="#DCE6C7" stroke-width="2"/>
+              <rect x="16" y="98" width="52" height="54" fill="#1C2A15"/>
+              <text x="42" y="168" font-family="JetBrains Mono, monospace" font-size="10" font-weight="700" fill="#1C2A15" text-anchor="middle">SUPPORT</text>
+              <line x1="68" y1="104" x2="150" y2="98" stroke="#1C2A15" stroke-width="3"/>
+              <line x1="150" y1="98" x2="196" y2="104" stroke="#1C2A15" stroke-width="3"/>
+              <line x1="196" y1="104" x2="202" y2="150" stroke="#1C2A15" stroke-width="3"/>
+              <circle cx="60" cy="94" r="10" fill="none" stroke="#1C2A15" stroke-width="2.5"/>
+              <ellipse cx="202" cy="152" rx="14" ry="5" fill="none" stroke="#1C2A15" stroke-width="2"/>
+              <line x1="202" y1="152" x2="150" y2="98" stroke="#7A3B2E" stroke-width="4" stroke-dasharray="6 5"/>
+              <text x="182" y="90" font-family="JetBrains Mono, monospace" font-size="9" font-weight="700" fill="#7A3B2E" text-anchor="middle">BAND</text>
+              <text x="130" y="88" font-family="JetBrains Mono, monospace" font-size="9" font-weight="700" fill="#1C2A15" text-anchor="middle">RIBS + PELVIS STACKED</text>
+            </svg>
+            <figcaption>Belt buckle tips toward your chin</figcaption>
+          </figure>
+          <figure class="panel">
+            <span class="panel-k">Exit</span>
+            <svg viewBox="0 0 300 180" role="img" aria-labelledby="t2c d2c">
+              <title id="t2c">Exiting the band safely</title>
+              <desc id="d2c">Side view. Hips are lowered back down first to slacken the band, then one foot at a time slides out sideways, away from the loop.</desc>
+              <line x1="10" y1="152" x2="290" y2="152" stroke="#DCE6C7" stroke-width="2"/>
+              <rect x="16" y="98" width="52" height="54" fill="#1C2A15"/>
+              <text x="42" y="168" font-family="JetBrains Mono, monospace" font-size="10" font-weight="700" fill="#1C2A15" text-anchor="middle">SUPPORT</text>
+              <line x1="68" y1="104" x2="150" y2="132" stroke="#1C2A15" stroke-width="3"/>
+              <line x1="150" y1="132" x2="196" y2="112" stroke="#1C2A15" stroke-width="3"/>
+              <line x1="196" y1="112" x2="230" y2="145" stroke="#1C2A15" stroke-width="3" stroke-dasharray="4 4"/>
+              <circle cx="60" cy="94" r="10" fill="none" stroke="#1C2A15" stroke-width="2.5"/>
+              <ellipse cx="206" cy="153" rx="14" ry="5" fill="none" stroke="#1C2A15" stroke-width="2" stroke-dasharray="3 3"/>
+              <path d="M206 153 Q178 145 150 132" stroke="#7A3B2E" stroke-width="3" stroke-dasharray="6 5" fill="none"/>
+              <text x="170" y="118" font-family="JetBrains Mono, monospace" font-size="9" font-weight="700" fill="#7A3B2E" text-anchor="middle">BAND (SLACK)</text>
+              <polygon points="238,140 250,145 238,150" fill="#1C2A15"/>
+              <text x="215" y="90" font-family="JetBrains Mono, monospace" font-size="9" font-weight="700" fill="#1C2A15" text-anchor="middle">STEP OUT →</text>
+            </svg>
+            <figcaption>Hips down first, then step out — one foot at a time</figcaption>
+          </figure>
+        </div>
+        <!-- Diagram above stands in for a real photo sequence or short
+             video of this setup — still an open item, tracked in
+             video-worksheet.pdf. Don't surface that to students; beta
+             testers already know this course is in beta. -->
+
+        <div class="setup-warn">
+          <b>Before you lift</b>
+          Wear shoes that let the band stay secure. Don't rest it against a sharp edge or set it up so it can roll off your feet. Press both feet firmly into the floor and gently pull against the band before your first rep — if it shifts, rolls, or feels like it could slip, stop and reset it.
+        </div>
+        <div class="setup-warn" style="border-color:var(--aqua);background:rgba(46,139,79,.06);">
+          <b style="color:#1F6B3A;">To exit safely</b>
+          Lower your hips back to the floor first — this slackens the band. Then slide one foot out of the loop at a time. Never stand up while your feet are still inside a stretched band.
+        </div>
+
+        <h3>Find Your Position</h3>
+        <ul class="cues">
+          <li>Place the lower edge of your shoulder blades against the support.</li>
+          <li>Set your feet about hip-width apart.</li>
+          <li>At the top of the thrust, your shins should be close to vertical.</li>
+          <li>Keep your chin gently tucked.</li>
+          <li>Bring your ribs toward your pelvis instead of opening your chest and arching your back.</li>
+        </ul>
+        <p class="cue">Your hips are an elevator. They travel up and down — not up and back. At the top, imagine your belt buckle tipping slightly toward your chin. You're finishing the thrust, not trying to win a backbend contest.</p>
+
+        <h3>Practice the Movement</h3>
+        <div class="ex-data"><span class="chip"><span class="k">Reps</span> 5 slow</span></div>
+        <ol class="cues">
+          <li>Lower your hips with control.</li>
+          <li>Press both feet into the floor.</li>
+          <li>Drive your hips forward into the band.</li>
+          <li>Finish with your ribs and pelvis stacked.</li>
+          <li>Pause for one second at the top.</li>
+        </ol>
+        <p>You should feel the band become more demanding as your hips rise. You should feel your glutes finish the movement — not your lower back.</p>
+
+        <h3>Check Your Long-Loop Band</h3>
+        <div class="threeq">
+          <div class="tq tq-do">
+            <span class="tq-k">Keep this band if</span>
+            <ul class="cues">
+              <li>The setup remains secure.</li>
+              <li>You can use the full intended range.</li>
+              <li>The band becomes meaningfully harder near the top.</li>
+              <li>You could perform only a few more controlled repetitions.</li>
+            </ul>
+          </div>
+          <div class="tq tq-down">
+            <span class="tq-k">Use a lighter band if</span>
+            <ul class="cues">
+              <li>You cannot arrange it safely.</li>
+              <li>It pulls your feet out of position.</li>
+              <li>You cannot reach the top of the thrust.</li>
+              <li>You must arch your back to finish.</li>
+              <li>You cannot control the lowering portion.</li>
+            </ul>
+          </div>
+          <div class="tq tq-up">
+            <span class="tq-k">Try a stronger band if</span>
+            <ul class="cues">
+              <li>It provides very little resistance at the top.</li>
+              <li>All five repetitions feel easy.</li>
+              <li>You could perform many more repetitions without slowing down.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </article>
+  </section>
+
+  <!-- ============ THE KICKBACK ============ -->
+  <section class="sec" id="kickback">
+    <div class="sec-head"><span class="tag">Learn it</span></div>
+    <h2 class="sec-title">Find the Back of Your Garden</h2>
+
+    <article class="ex">
+      <div class="ex-body">
+        <div class="ex-top">
+          <h3 class="ex-name">Mini-Band Standing Kickback<span class="sub">band above the knees</span></h3>
+          <label class="donebox"><input type="checkbox" data-track="kickback-done">Done</label>
+        </div>
+        <p class="cue">Stand tall and hold a wall or another stable surface. Keep a soft bend in your standing knee.</p>
+        <div class="ex-data"><span class="chip"><span class="k">Reps</span> 5 slow each side</span></div>
+        <p>Move one leg behind you without:</p>
+        <ul class="cues">
+          <li>throwing your chest forward</li>
+          <li>arching your lower back</li>
+          <li>turning your toes outward</li>
+          <li>swinging the leg</li>
+        </ul>
+        <p>The movement may be small. That's fine — your goal is to feel the back of your hip shorten as your leg travels behind you.</p>
+      </div>
+    </article>
+  </section>
+
+  <!-- ============ THE CIRCUIT ============ -->
+  <section class="sec" id="circuit">
+    <div class="sec-head"><span class="tag">🌱 Booty Garden</span></div>
+    <h2 class="sec-title">Back-Bed Builder</h2>
+    <p class="sec-intro">Set a timer for five minutes. Move continuously through the sequence below. Do not race — make the back of your garden finish every repetition.</p>
+
+    <article class="ex">
+      <div class="ex-body">
+        <div class="ex-top">
+          <h3 class="ex-name">1. Long-Loop Hip Thrust<span class="sub">8 repetitions</span></h3>
+        </div>
+        <p>Upper back against a stable bench, couch, or padded platform. One side of the long loop securely beneath both feet, the opposite side across the crease at the front of your hips — flat, balanced, unable to slip before you begin.</p>
+        <ul class="cues">
+          <li>Lower your hips with control.</li>
+          <li>Press through your feet.</li>
+          <li>Drive your hips into the band.</li>
+          <li>Finish with ribs and pelvis stacked, not an arched lower back.</li>
+          <li>Pause briefly at the top.</li>
+        </ul>
+        <p class="cue">Send your hips up like an elevator, then show your belt buckle to your chin.</p>
+        <div class="threeq">
+          <div class="tq tq-down">
+            <span class="tq-k">If this is too difficult, try</span>
+            <ul class="cues">
+              <li>A lighter long-loop band.</li>
+              <li>A slightly smaller lowering range.</li>
+              <li>Practicing the setup without the band before trying again.</li>
+            </ul>
+          </div>
+          <div class="tq tq-up">
+            <span class="tq-k">If this is too easy</span>
+            <ul class="cues">
+              <li>Keep the same setup. Complete today's 8 clean repetitions. At the end of the lesson, you'll learn when to try 10.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <p class="callout">The timer measures the workout, not your band-wrestling speed. Stop long enough to exit and reset every band safely.</p>
+
+    <article class="ex">
+      <div class="ex-body">
+        <div class="ex-top">
+          <h3 class="ex-name">2. Mini-Band Standing Kickback<span class="sub">8 reps right, 8 reps left</span></h3>
+        </div>
+        <a class="watch" href="https://www.youtube.com/results?search_query=standing+mini+band+glute+kickback+beginner" rel="noopener">Watch · Beginner standing kickback</a>
+        <p style="margin-top:14px;">Stay tall. Move from the hip. Pause briefly behind you without leaning or arching.</p>
+        <p class="cue">There is a door behind you. Push it closed with your heel without spilling the drink balanced on your head.</p>
+        <div class="threeq">
+          <div class="tq tq-down">
+            <span class="tq-k">If this is too difficult, try</span>
+            <ul class="cues">
+              <li>A lighter mini band.</li>
+              <li>Keeping the band above your knees.</li>
+              <li>A smaller range without leaning forward.</li>
+            </ul>
+          </div>
+          <div class="tq tq-up">
+            <span class="tq-k">If this is too easy</span>
+            <ul class="cues">
+              <li>Keep the same band and setup. Complete today's 8 clean repetitions each side. At the end of the lesson, you'll learn when to try 10.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <div class="ex" style="border-style:dashed;">
+      <div class="ex-body">
+        <div class="ex-top">
+          <h3 class="ex-name">Continue for Five Minutes</h3>
+          <label class="donebox"><input type="checkbox" data-track="circuit-done">Done</label>
+        </div>
+        <p>Return to the thrust and repeat the sequence until the timer ends.</p>
+        <button class="tbtn bigtimer" data-secs="300" data-label="Start 5:00">Start the 5:00 circuit</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ HOW DID YOUR GARDEN GROW ============ -->
+  <section class="sec" id="final">
+    <div class="sec-head"><span class="tag">Wrap-up</span></div>
+    <h2 class="sec-title">How Did Your Garden Grow?</h2>
+
+    <details class="reveal">
+      <summary><span class="before">Point to where you felt the thrust. Now point to where you felt the kickback. Was it the same place? Tap to find out what you just trained.</span><span class="after">Gluteus Maximus — hip extension</span></summary>
+      <div class="answer">
+        <p>The large muscle across the back of your booty is your <b>gluteus maximus</b> — the largest muscle in your garden, creating much of the size you see from the back and side. Its biggest job is hip extension: driving your hips forward, or moving your thigh behind you.</p>
+        <p>During the thrust, you challenged it most as your hips approached the top. During the kickback, you challenged it by moving your thigh behind you. You may have felt other muscles helping — that's normal. The goal isn't to isolate one muscle completely; it's to recognize the job that received the greatest emphasis.</p>
+        <p class="callout">Today's job: create force through hip extension.</p>
+      </div>
+    </details>
+
+    <div class="reflect">
+      <h3>Garden Notes</h3>
+      <div class="timelog" style="border-top:none;background:transparent;padding:0 0 14px;">
+        <label for="thrustNote">I felt the thrust most in</label>
+        <input id="thrustNote" type="text" placeholder="e.g. right glute, top of the rep" data-log="thrust-note">
+      </div>
+      <div class="timelog" style="border-top:none;background:transparent;padding:0 0 14px;">
+        <label for="kickbackNote">I felt the kickback most in</label>
+        <input id="kickbackNote" type="text" placeholder="e.g. left glute" data-log="kickback-note">
+      </div>
+      <div class="nexttime">
+        <span class="nk">Next time, I will — pick one</span>
+        <label><input type="radio" name="next-bg2" data-log="next-keep-both">Keep both bands</label>
+        <label><input type="radio" name="next-bg2" data-log="next-stronger-mini">Use a stronger mini band</label>
+        <label><input type="radio" name="next-bg2" data-log="next-lighter-mini">Use a lighter mini band</label>
+        <label><input type="radio" name="next-bg2" data-log="next-stronger-loop">Use a stronger long-loop band</label>
+        <label><input type="radio" name="next-bg2" data-log="next-lighter-loop">Use a lighter long-loop band</label>
+      </div>
+    </div>
+
+    <h3 style="margin-top:30px;">Today's Way to Grow: Add Repetitions</h3>
+    <p>Next time, try 10 repetitions instead of 8. Add those repetitions when you can finish today's 8 with the full movement and know you had at least 3 more good ones available.</p>
+    <p class="callout">If repetition 8 already makes you shorten, swing, or arch, stay at 8. Today, the only thing growing is the number of good repetitions.</p>
+  </section>
+
+  <hr class="stripe"/>
+  <footer>
+    <p class="disc"><b>Before you start.</b> Turn Up the Life provides general fitness education, not medical advice or personal training. Talk to your doctor before beginning this or any exercise program, especially if you are pregnant, postpartum, over 40 and new to exercise, or managing a heart, joint, bone, or other health condition. Stop immediately and seek medical care for chest pain, dizziness, shortness of breath, or sharp/sudden pain. You are responsible for choosing bands, ranges of motion, and modifications appropriate to your own body. Turn Up the Life, its founder, and its instructors are not liable for injury arising from participation. If something doesn't feel right, don't push through it — modify, rest, or stop.</p>
+  </footer>
+
+</div>
+
+<!-- ============ DONE-TRACKING + PROGRESS BAR ============ -->
+<script>
+(function(){
+  var KEY = 'tutl-bg2-progress';
+  var boxes = Array.prototype.slice.call(document.querySelectorAll('input[data-track]'));
+  var pbar = document.getElementById('pbar');
+  var plabel = document.getElementById('plabel');
+  var preset = document.getElementById('preset');
+
+  var mem = {};
+  function store(obj){ mem = obj; try { localStorage.setItem(KEY, JSON.stringify(obj)); } catch(e){} }
+  function load(){
+    try { var raw = localStorage.getItem(KEY); if(raw) return JSON.parse(raw); } catch(e){}
+    return mem;
+  }
+
+  var secMap = {"thrust":['thrust-done'],"kickback":['kickback-done'],"circuit":['circuit-done']};
+
+  function refresh(){
+    var state = load();
+    var done = 0;
+    boxes.forEach(function(b){
+      b.checked = !!state[b.getAttribute('data-track')];
+      if(b.checked) done++;
+    });
+    var pct = boxes.length ? Math.round(done / boxes.length * 100) : 0;
+    pbar.style.width = pct + '%';
+    plabel.textContent = done + ' of ' + boxes.length + ' done' + (pct === 100 ? ' — garden planted! 🌱' : '');
+    Object.keys(secMap).forEach(function(blk){
+      var btn = document.querySelector('.jump-btn[data-go="' + blk + '"]');
+      if(!btn) return;
+      var all = secMap[blk].every(function(id){ return !!state[id]; });
+      btn.classList.toggle('done', all);
+    });
+  }
+
+  boxes.forEach(function(b){
+    b.addEventListener('change', function(){
+      var state = load();
+      state[b.getAttribute('data-track')] = b.checked;
+      store(state);
+      refresh();
+    });
+  });
+
+  preset.addEventListener('click', function(){ store({}); refresh(); });
+
+  refresh();
+})();
+</script>
+
+<!-- ============ RECORD YOUR CHOICE — saved separately from Done state ============ -->
+<script>
+(function(){
+  var LKEY = 'tutl-bg2-log';
+  function lstore(o){ try{ localStorage.setItem(LKEY, JSON.stringify(o)); }catch(e){} }
+  function lload(){ try{ var r = localStorage.getItem(LKEY); return r ? JSON.parse(r) : {}; }catch(e){ return {}; } }
+  var saved = lload();
+  document.querySelectorAll('[data-log]').forEach(function(el){
+    var k = el.getAttribute('data-log');
+    var isToggle = (el.type === 'checkbox' || el.type === 'radio');
+    if(isToggle){ el.checked = !!saved[k]; }
+    else if(saved[k] != null){ el.value = saved[k]; }
+    el.addEventListener(isToggle ? 'change' : 'input', function(){
+      var s = lload();
+      if(el.type === 'radio' && el.name){
+        // radios in the same group share one choice — clear every other
+        // option's stored value so an earlier pick can't come back after
+        // a reload (each option has its own data-log key, so unchecking
+        // one in the DOM doesn't by itself clear its saved key).
+        document.querySelectorAll('input[type="radio"][name="' + el.name + '"]').forEach(function(r){
+          var rk = r.getAttribute('data-log');
+          if(rk && rk !== k){ s[rk] = false; }
+        });
+      }
+      s[k] = isToggle ? el.checked : el.value;
+      lstore(s);
+    });
+  });
+})();
+</script>
+
+<script>
+(function(){
+  // ██████████████████████████████████████████████████████████████████████
+  // SHARED TIMER JS — copied from Lesson 1 / the Movement lessons. Own copy,
+  // tracked independently (see header note).
+  // ██████████████████████████████████████████████████████████████████████
+  var READY_SECS = 5;
+
+  function tone(freq, start, dur, vol){
+    try{
+      var C=window.AudioContext||window.webkitAudioContext; if(!C) return;
+      window._tutlAC = window._tutlAC || new C();
+      var a=window._tutlAC, o=a.createOscillator(), g=a.createGain();
+      o.connect(g); g.connect(a.destination); o.type='sine'; o.frequency.value=freq;
+      var s=a.currentTime+start;
+      g.gain.setValueAtTime(.0001,s);
+      g.gain.exponentialRampToValueAtTime(vol||.3, s+.02);
+      g.gain.exponentialRampToValueAtTime(.0001, s+dur);
+      o.start(s); o.stop(s+dur+.02);
+    }catch(e){}
+  }
+  function tickReady(){ tone(660,0,.09,.18); }
+  function beepGo(){ tone(880,0,.16,.32); tone(1320,.14,.20,.32);
+                     try{ if(navigator.vibrate) navigator.vibrate(90); }catch(e){} }
+  function beep(){
+    tone(880,0,.16,.35); tone(1100,.18,.16,.35); tone(1320,.36,.18,.35);
+    try{ if(navigator.vibrate) navigator.vibrate([120,60,120,60,200]); }catch(e){}
+  }
+  function fmt(s){var m=Math.floor(s/60),r=s%60;return m>0?(m+':'+(r<10?'0':'')+r):(''+r);}
+  document.addEventListener('click',function(e){
+    var b=e.target.closest('.tbtn'); if(!b) return;
+    var label=b.getAttribute('data-label')||'hold';
+    if(b.dataset.state){
+      clearInterval(parseInt(b.dataset.tid,10));
+      b.dataset.state=''; b.dataset.tid='';
+      b.classList.remove('ready','running','done');
+      b.textContent=label;
+      return;
+    }
+    var secs=parseInt(b.getAttribute('data-secs'),10)||20;
+    var ready=READY_SECS, left=secs;
+    b.dataset.state='ready'; b.classList.remove('done'); b.classList.add('ready');
+    b.textContent='Ready '+ready; tickReady();
+    var id=setInterval(function(){
+      if(b.dataset.state==='ready'){
+        ready--;
+        if(ready>0){ b.textContent='Ready '+ready; tickReady(); }
+        else{
+          b.dataset.state='running'; b.classList.remove('ready'); b.classList.add('running');
+          b.textContent=fmt(left); beepGo();
+        }
+        return;
+      }
+      left--;
+      if(left<=0){
+        clearInterval(id); b.dataset.state=''; b.dataset.tid='';
+        b.classList.remove('running'); b.classList.add('done');
+        b.textContent='done'; beep();
+        setTimeout(function(){b.classList.remove('done');b.textContent=label;},2500);
+      } else { b.textContent=fmt(left); }
+    },1000);
+    b.dataset.tid=id;
+  });
+})();
+
+  function setJumpH(){
+    var hb=document.querySelector('.homebar');
+    var j=document.querySelector('.jump');
+    var root=document.documentElement;
+    if(hb) root.style.setProperty('--hbH', hb.offsetHeight+'px');
+    if(j)  root.style.setProperty('--jumpH', j.offsetHeight+'px');
+  }
+  setJumpH();
+  window.addEventListener('resize', setJumpH);
+  window.addEventListener('orientationchange', setJumpH);
+
+  (function(){
+    try{
+      var touch = window.matchMedia && window.matchMedia('(hover: none) and (pointer: coarse)').matches;
+      if(touch) return;
+      document.querySelectorAll('a[href*="youtube.com"]').forEach(function(a){
+        a.setAttribute('target','_blank');
+        a.setAttribute('rel','noopener');
+      });
+    }catch(e){}
+  })();
+</script>
+
+</body>
+</html>
