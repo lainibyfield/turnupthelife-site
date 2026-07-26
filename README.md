@@ -526,6 +526,84 @@ var CODES = {
 One code per buyer, minted in batches. Codes are compared uppercased and
 trimmed, so buyers can type them in lower case or with stray spaces.
 
+### How gating actually works
+
+Three moving parts, in order:
+
+1. **`CODES`** — the lists above. Which strings are valid, grouped by product.
+2. **Saved state** — `applyCode()` matches a typed code to a product and sets a
+   flag in `localStorage` under `tutl-academy`. The saved object is just
+   `{course:true, cookbook:true, bootygarden:true}` — one boolean per product.
+3. **`refresh()`** — reads those flags and shows or hides rows. Nothing else
+   decides what's visible.
+
+A code never points at a *page*. It sets a flag, and `refresh()` decides what
+that flag reveals. That indirection is what lets one code open rows across
+different courses, and lets one course answer to two different codes.
+
+### The gate map
+
+This site runs three courses off one `course.html`. Each row falls into one of
+three states:
+
+| Tier | What opens it | Where it lives |
+|---|---|---|
+| **Free** | nothing — always visible | Movement Lesson 1 · Kitchen Manifesto · Booty Garden intro + Lesson 1 |
+| **Product** | that product's own code | Movement 2–7 (`course`) · Kitchen list (`cookbook`) · Booty Garden 2–4 (`bootygarden`) |
+| **Cross-granted** | a *different* product's code | Booty Garden Lesson 5 — opens with any `course` code |
+| **Bundle** | one code sets every flag | all of the above |
+
+Every course keeps a free tier on purpose: someone who never buys anything still
+gets a complete, usable lesson, and the paid rows sit visibly beneath it.
+
+### Two gates on one page
+
+The Booty Garden view is the case worth understanding, because one page holds
+**two independent gates**:
+
+- Lessons 2–4 need `CODES.bootygarden` — its own small add-on.
+- Lesson 5 opens with `CODES.course` — the Academy code, at no extra cost.
+
+In `refresh()` those are two separate checks against two separate flags:
+
+```js
+// Lessons 2–4: this product only
+if(st.bootygarden){ /* show the list */ }
+
+// Lesson 5: either flag will do
+if(st.course || st.bootygarden){ /* unlock the row */ }
+```
+
+The `||` is the whole cross-grant. To give an Academy member a lesson from
+another course, add their flag to that row's condition — you don't need a new
+code, a new product, or a duplicate page.
+
+**Handle the near-miss.** A member who types their Academy code into the Booty
+Garden box has entered a *valid* code that doesn't unlock *that* row. Don't let
+that read as failure — `applyCode()` returns which product was hit, so say what
+it did and didn't do:
+
+```js
+if(hit==='bootygarden' || hit==='bundle'){ /* unlocked */ }
+else if(hit==='course'){ /* "That's your Academy code — it opens Lesson 5.
+                            Lessons 2–4 need a Booty Garden code." */ }
+else { /* genuinely wrong code */ }
+```
+
+A correct code that silently does nothing is the fastest way to generate a
+support email.
+
+### Adding a fourth product
+
+1. Add a key to `CODES` with its list of codes.
+2. Add its flag to the `bundle` branch of `applyCode()` — easy to forget, and
+   the symptom is a bundle buyer who paid for everything and can't open the new
+   thing.
+3. Add a `refresh()` branch that shows its rows when the flag is set.
+4. Give it a free row so the course isn't a closed door.
+
+`applyCode()` already checks list membership, so none of this is a rewrite.
+
 **Minting:** pick a batch prefix, add four random characters per buyer, avoid
 `0`/`O` and `1`/`I` (people transcribe by hand). Keep your own record of which
 code went to which buyer **outside this file** — the site can't track that.
@@ -549,9 +627,6 @@ counts, or a free analytics script — against codes sold. On a static site that
 gives you no enforcement, but it tells you *when to graduate* to a seller
 (Gumroad, Payhip, Podia) that issues real per-sale licence keys.
 
-Adding a new product or phase is adding a key to `CODES` — `applyCode()` already
-checks list membership, so it's not a rewrite.
-
 ---
 
 ## Where to change common things
@@ -564,6 +639,9 @@ checks list membership, so it's not a rewrite.
 | Add/remove a section | the `<section class="sec">`, its nav button, the step numbers, then `blockMap` |
 | Change the timer lead-in | `READY_SECS` in the shared timer JS (every file) |
 | Mint/retire codes | `course.html`, search `var CODES` |
+| Change what a code unlocks | `refresh()` in `course.html` — the flag checks, not `CODES` |
+| Let one course's code open another's lesson | widen that row's check in `refresh()` to accept the other flag too |
+| Add a whole new product | `CODES` key → `bundle` branch → `refresh()` branch → a free row |
 | Mark a new lesson live | `course.html`: `data-standalone="file.html"` on its row **and** the unlock-bar text |
 
 ---

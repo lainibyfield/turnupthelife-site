@@ -707,6 +707,10 @@
   document.addEventListener('click',function(e){
     var b=e.target.closest('.tbtn'); if(!b) return;
     var label=b.getAttribute('data-label')||'hold';
+    // BUGFIX (same as Movement lessons): a pending done->resting reset from
+    // a PREVIOUS run of this button could fire mid-way through a freshly
+    // started timer and stomp its live countdown. Cancel it first.
+    if(b._doneTimeout){ clearTimeout(b._doneTimeout); b._doneTimeout = null; }
     if(b.dataset.state){
       clearInterval(parseInt(b.dataset.tid,10));
       b.dataset.state=''; b.dataset.tid='';
@@ -733,7 +737,7 @@
         clearInterval(id); b.dataset.state=''; b.dataset.tid='';
         b.classList.remove('running'); b.classList.add('done');
         b.textContent='done'; beep();
-        setTimeout(function(){b.classList.remove('done');b.textContent=label;},2500);
+        b._doneTimeout = setTimeout(function(){b.classList.remove('done');b.textContent=label;b._doneTimeout=null;},2500);
       } else { b.textContent=fmt(left); }
     },1000);
     b.dataset.tid=id;

@@ -288,6 +288,32 @@
   .phase.soon .ph-k{color:var(--coral);}
   .phase.soon .ph-q{color:var(--ink-2);}
   .phase-note{font-size:14.5px;line-height:1.5;color:var(--ink-2);margin:8px 0 0;font-style:italic;}
+
+  /* ═══ COURSE 03 · BOOTY GARDEN — leafy accent ═══
+     Scoped to .gardenwrap and .course-card.garden ONLY, so the garden's
+     green palette can't leak into the carnival-coloured Movement/Kitchen
+     views that share this page. Colours match the Booty Garden lesson
+     files' tokens (paper #F2F6E8, leaf #2E8B4F, bloom #C97C2E) so the hub
+     card and the course itself read as the same product. */
+  .course-card.garden{background:#F2F6E8;border-color:#1C2A15;position:relative;overflow:hidden;}
+  .course-card.garden::after{
+    content:"";position:absolute;right:-26px;bottom:-30px;width:150px;height:150px;pointer-events:none;
+    background:
+      radial-gradient(34% 46% at 30% 30%, rgba(46,139,79,.30), transparent 70%),
+      radial-gradient(30% 40% at 70% 60%, rgba(141,191,62,.28), transparent 72%),
+      radial-gradient(26% 34% at 50% 85%, rgba(228,169,58,.22), transparent 70%);
+    filter:blur(3px);
+  }
+  .course-card.garden .cc-kicker{color:#2E8B4F;}
+  .course-card.garden .cc-cta{color:#1C2A15;}
+  .course-card.garden .cc-cta::before{content:"\1F331  ";}
+
+  .gardenwrap .eyebrow{color:#2E8B4F;}
+  .gardenwrap .bloom{margin:14px 0 18px;max-width:240px;}
+  .gardenwrap .bloom svg{display:block;width:100%;height:auto;}
+  .gardenwrap .lesson-row{border-left:3px solid #8DBF3E;}
+  .gardenwrap .lesson-row:hover{border-left-color:#2E8B4F;}
+  .garden-note{margin:6px 0 18px;padding:10px 13px;border-left:3px solid #2E8B4F;background:rgba(46,139,79,.07);font-size:14.5px;line-height:1.5;}
 </style>
 </head>
 <body>
@@ -302,6 +328,7 @@
         <a href="#curriculum" data-nav="curriculum">The Arc</a>
         <a href="trial-class.html" data-nav="lesson">Lesson 1</a>
         <a href="#cookbook" data-nav="cookbook">Kitchen</a>
+        <a href="#booty-garden" data-nav="booty-garden">Booty Garden</a>
       </nav>
     </div>
   </div>
@@ -327,6 +354,13 @@
         <span class="cc-cta" id="home-resume">Start with Lesson 1 — free →</span>
       </a>
 
+      <a class="course-card garden" href="#booty-garden">
+        <div class="cc-top"><span class="cc-kicker">Course 03 · Booster</span><span class="cc-badge addon" id="garden-badge">Add-on</span></div>
+        <h2>The Booty<br><span class="shine">Garden.</span></h2>
+        <p>A short bands-only glute course you bolt onto any training day. Two bands and a doorway — no gym, nothing to book. Lesson 1 is free; Lesson 5 opens with your Academy code.</p>
+        <span class="cc-cta">Walk the garden →</span>
+      </a>
+
       <a class="course-card cookbook" href="#cookbook">
         <div class="cc-top"><span class="cc-kicker">Course 02 · Food</span><span class="cc-badge addon" id="cook-badge">Add-on</span></div>
         <h2>The Livitarian<br><span class="shine">Kitchen.</span></h2>
@@ -339,6 +373,84 @@
       <div class="in-rule"></div>
       <p><b>From your instructor.</b> This isn't a workout PDF. It's a practice — one repertoire you'll learn well enough to carry anywhere, scaled to whoever you are on any given day. Lesson 1 is free and complete on its own. The rest of the arc teaches you to make light weight hard, on purpose, forever — and the kitchen keeps you fed while you do it.</p>
     </section>
+  </section>
+
+  <!-- ================= BOOTY GARDEN (Course 03) =================
+       Structure mirrors the cookbook view: a free row always open, a
+       locked panel with its own code box, then the paid rows. The garden
+       styling (leaf motif, bloom divider) lives in .gardenwrap below and
+       is scoped so it can't leak into the carnival-palette views. -->
+  <section class="view" id="view-booty-garden">
+    <div class="curric gardenwrap">
+      <span class="eyebrow">Course 03 · The Booty Garden</span>
+      <h1>The booty <span class="shine">garden.</span></h1>
+
+      <div class="bloom" aria-hidden="true">
+        <svg viewBox="0 0 240 46" role="presentation">
+          <line x1="0" y1="30" x2="98" y2="30" stroke="#DCE6C7" stroke-width="2"/>
+          <line x1="142" y1="30" x2="240" y2="30" stroke="#DCE6C7" stroke-width="2"/>
+          <path d="M120 42 V22" stroke="#2E8B4F" stroke-width="2.5" fill="none"/>
+          <path d="M120 34 C110 34 104 30 102 25 C111 23 118 27 120 32 Z" fill="#2E8B4F" opacity=".75"/>
+          <path d="M120 30 C130 30 137 26 139 21 C130 19 122 23 120 28 Z" fill="#8DBF3E" opacity=".8"/>
+          <circle cx="120" cy="14" r="5.5" fill="#E4A93A"/>
+          <ellipse cx="120" cy="5" rx="4.5" ry="6" fill="#C97C2E" opacity=".85"/>
+          <ellipse cx="129" cy="11" rx="6" ry="4.5" fill="#C97C2E" opacity=".85"/>
+          <ellipse cx="125" cy="21" rx="5.5" ry="5" fill="#C97C2E" opacity=".85"/>
+          <ellipse cx="115" cy="21" rx="5.5" ry="5" fill="#C97C2E" opacity=".85"/>
+          <ellipse cx="111" cy="11" rx="6" ry="4.5" fill="#C97C2E" opacity=".85"/>
+        </svg>
+      </div>
+
+      <p class="lede">A <b>booster</b>, not a program. Short bands-only sessions you add to a training day when you have the time, or run alone on a day the Academy doesn't call for one. Lesson 1 calibrates your bands. Lessons 2&ndash;4 each grow one part of the garden. Lesson 5 grows all three together.</p>
+
+      <!-- FREE tier — always open, no unlock -->
+      <a class="lesson-row" href="booty-garden.html" style="margin-top:8px;">
+        <span class="num" style="background:var(--lime);">&#127793;</span>
+        <span class="titles"><h3>Meet the Garden</h3><span class="sub">what the course is, why bands, and the three jobs your glutes do</span></span>
+        <span class="state" style="background:var(--lime);border:1.5px solid var(--ink);">Free &rarr;</span>
+      </a>
+      <a class="lesson-row" href="booty-garden-1.html">
+        <span class="num" style="background:var(--lime);">01</span>
+        <span class="titles"><h3>Choose Your Fertilizer</h3><span class="sub">test your mini band and long-loop band, then prove the choice under five minutes of work</span></span>
+        <span class="state" style="background:var(--lime);border:1.5px solid var(--ink);">Free &rarr;</span>
+      </a>
+
+      <!-- ACADEMY TIER — Lesson 5 opens with the Movement course code, no
+           separate purchase. Handled in refresh() via st.course. -->
+      <a class="lesson-row locked" href="booty-garden-5.html" id="garden-row-5" data-gardenrow="5">
+        <span class="num">05</span>
+        <span class="titles"><h3>The Three Sisters</h3><span class="sub">the two-band thrust &mdash; the whole garden working at once</span></span>
+        <span class="state lock">Academy code</span>
+      </a>
+      <p class="garden-note" id="garden-academy-note">Already in the Academy? Lesson 5 opens with the same code that unlocked your Movement course &mdash; no extra purchase.</p>
+
+      <div class="cook-locked" id="garden-locked">
+        <p><b>The rest of the garden is a small add-on.</b> Lesson 1 is free and complete on its own, and Academy members get Lesson 5 with their course code. Lessons 2&ndash;4 &mdash; one for each part of the garden &mdash; unlock together.</p>
+        <div class="unlockrow">
+          <input id="gardencode" type="text" placeholder="Booty Garden or bundle code" autocomplete="off" />
+          <button class="btn" id="gardenbtn">Unlock the garden</button>
+        </div>
+        <div class="unlockmsg" id="gardenmsg"></div>
+      </div>
+
+      <div id="garden-list" style="display:none;">
+        <a class="lesson-row" href="booty-garden-2.html" data-gardenrow="2">
+          <span class="num">02</span>
+          <span class="titles"><h3>The Back of the Garden</h3><span class="sub">hip extension &mdash; the self-anchored long-loop thrust and the standing kickback</span></span>
+          <span class="state" style="background:var(--aqua);color:#fff;">Open &rarr;</span>
+        </a>
+        <a class="lesson-row" href="booty-garden-3.html" data-gardenrow="3">
+          <span class="num">03</span>
+          <span class="titles"><h3>The Outer Garden</h3><span class="sub">working out to the side &mdash; lateral walks and standing abduction</span></span>
+          <span class="state" style="background:var(--aqua);color:#fff;">Open &rarr;</span>
+        </a>
+        <a class="lesson-row" href="booty-garden-4.html" data-gardenrow="4">
+          <span class="num">04</span>
+          <span class="titles"><h3>The Roots of the Garden</h3><span class="sub">keeping the pelvis steady &mdash; clock taps and the lateral step and hold</span></span>
+          <span class="state" style="background:var(--aqua);color:#fff;">Open &rarr;</span>
+        </a>
+      </div>
+    </div>
   </section>
 
   <!-- ================= COOKBOOK (Course 02) ================= -->
@@ -573,7 +685,14 @@
       'LIVITARIAN'   // legacy shared code — replace with a batch
     ],
 
-    // ── BUNDLE (unlocks both) ─────────────────────────────────────────
+    // ── BOOTY GARDEN (Course 03) ──────────────────────────────────────
+    //    NOTE: Lesson 5 does NOT need one of these — it opens with any
+    //    CODES.course code (see refresh()). These unlock Lessons 2–4.
+    bootygarden: [
+      'BOOTYGARDEN'  // legacy shared code — replace with a batch
+    ],
+
+    // ── BUNDLE (unlocks everything) ───────────────────────────────────
     bundle: [
       'FULLPLATE'    // legacy shared code — replace with a batch
     ]
@@ -598,12 +717,13 @@
   //    top-nav link, scrolls to top, and calls refresh() to update unlock UI.
   //    #lesson-1 is special: it jumps out to the standalone trial page.
   //    Any other #lesson-N just lands on the curriculum (those are separate files).
-  var views = {home:'view-home', curriculum:'view-curriculum', cookbook:'view-cookbook', locked:'view-locked'};
+  var views = {home:'view-home', curriculum:'view-curriculum', cookbook:'view-cookbook', 'booty-garden':'view-booty-garden', locked:'view-locked'};
   function route(){
     var h = (location.hash||'#home').slice(1);
     var view='home', navKey='home';
     if(h==='curriculum'){view='curriculum';navKey='curriculum';}
     else if(h==='cookbook'){view='cookbook';navKey='cookbook';}
+    else if(h==='booty-garden'){view='booty-garden';navKey='booty-garden';}
     else if(h==='lesson-1'){ window.location.href='trial-class.html'; return; }
     else if(/^lesson-\d+$/.test(h)){
       // paid lessons are standalone pages (opened via curriculum links);
@@ -632,7 +752,8 @@
     function inList(list){ return list.indexOf(v) !== -1; }
     if(inList(CODES.course)){ st.course = true; hit='course'; }
     else if(inList(CODES.cookbook)){ st.cookbook = true; hit='cookbook'; }
-    else if(inList(CODES.bundle)){ st.course = true; st.cookbook = true; hit='bundle'; }
+    else if(inList(CODES.bootygarden)){ st.bootygarden = true; hit='bootygarden'; }
+    else if(inList(CODES.bundle)){ st.course = true; st.cookbook = true; st.bootygarden = true; hit='bundle'; }
     if(hit){ store(st); refresh(); }
     return hit;
   }
@@ -647,6 +768,20 @@
       else if(hit==='bundle'){ msg.textContent='Full plate unlocked — course and kitchen both open.'; msg.className='unlockmsg ok'; }
       else if(hit==='cookbook'){ msg.textContent='That\'s a kitchen code — the kitchen is now unlocked (see the Kitchen tab).'; msg.className='unlockmsg ok'; }
       else { msg.textContent='That code didn\'t match — check your purchase email.'; msg.className='unlockmsg bad'; }
+    });
+  }
+
+  var gardenbtn=document.getElementById('gardenbtn');
+  if(gardenbtn){
+    gardenbtn.addEventListener('click', function(){
+      var v=document.getElementById('gardencode').value;
+      var msg=document.getElementById('gardenmsg');
+      var hit=applyCode(v);
+      if(msg){
+        if(hit==='bootygarden' || hit==='bundle'){ msg.textContent='Unlocked — the whole garden is open.'; msg.style.color='var(--aqua)'; }
+        else if(hit==='course'){ msg.textContent='That is your Academy code — it opens Lesson 5. Lessons 2–4 need a Booty Garden code.'; msg.style.color='var(--ink-2)'; }
+        else { msg.textContent='That code did not match. Check for typos, or use the code from your receipt.'; msg.style.color='var(--pink)'; }
+      }
     });
   }
 
@@ -711,6 +846,39 @@
       if(cookLocked) cookLocked.style.display='';
       if(cookList) cookList.style.display='none';
       if(cookBadge){ cookBadge.textContent='Add-on'; cookBadge.className='cc-badge addon'; }
+    }
+
+    // booty garden state — TWO independent gates on one view:
+    //   Lessons 2–4 need st.bootygarden (its own add-on)
+    //   Lesson 5 needs st.course (any Academy/Movement code) — no extra buy
+    var gardenLocked=document.getElementById('garden-locked');
+    var gardenList=document.getElementById('garden-list');
+    var gardenBadge=document.getElementById('garden-badge');
+    if(st.bootygarden){
+      if(gardenLocked) gardenLocked.style.display='none';
+      if(gardenList) gardenList.style.display='';
+      if(gardenBadge){ gardenBadge.textContent='Yours ✓'; gardenBadge.className='cc-badge owned'; }
+    } else {
+      if(gardenLocked) gardenLocked.style.display='';
+      if(gardenList) gardenList.style.display='none';
+      if(gardenBadge){ gardenBadge.textContent='Add-on'; gardenBadge.className='cc-badge addon'; }
+    }
+    var g5=document.getElementById('garden-row-5');
+    var g5note=document.getElementById('garden-academy-note');
+    if(g5 && (st.course || st.bootygarden)){
+      g5.classList.remove('locked');
+      var g5s=g5.querySelector('.state');
+      if(g5s){ g5s.textContent='Open →'; g5s.classList.remove('lock');
+        g5s.style.background='var(--aqua)'; g5s.style.color='#fff'; }
+      if(g5note) g5note.style.display='none';
+    } else if(g5){
+      g5.addEventListener('click', function(e){
+        if(!load().course && !load().bootygarden){ e.preventDefault();
+          var gl=document.getElementById('garden-locked');
+          if(gl) gl.scrollIntoView({behavior:'smooth', block:'center'});
+        }
+      });
+      if(g5note) g5note.style.display='';
     }
 
     // home resume — Lesson 1 is a free standalone page now, so no in-course progress to resume

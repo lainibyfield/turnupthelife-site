@@ -183,6 +183,14 @@
 
   .watch{display:inline-flex;align-items:center;gap:8px;margin-top:12px;font-family:var(--mono);font-size:11.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;background:var(--coral);color:#fff;padding:11px 15px;text-decoration:none;border:2px solid var(--coral);}
 
+  /* ⚓ the anchor line — the boxed Setup note on band/position exercises.
+     RESTORED — this rule was defined in lesson-3/lesson-6 but missing here,
+     so <p class="anchor"><b>Setup</b>...</p> rendered as run-together plain
+     text ("SetupOn your back...") — the same missing-CSS bug as .threeq. */
+  .anchor{margin:12px 0 0;padding:11px 13px;border:2px dashed var(--ink);background:rgba(255,179,0,.12);font-size:15.5px;line-height:1.45;}
+  .anchor b{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--coral);display:block;margin-bottom:4px;}
+  .anchor b::before{content:"\2693 ";}
+
   /* ═══ THE THREE QUESTIONS ═══
      Every exercise answers these in the same order, so nobody has to hunt:
        1. what everyone tries first   2. one regression   3. one progression
@@ -336,6 +344,7 @@
     <h1>Link<br><span class="shine">the Body.</span></h1>
     <p>The left side and the right side learn to work together. Same movements you already own — loaded across your body instead of straight down it.</p>
     <p class="princ">Until now, load has been even, or on the same side you were standing on. Today it crosses. Your trunk becomes the thing that connects one hip to the opposite shoulder.</p>
+    <p class="princ"><b>Ask this of every movement today:</b> how does this teach the body to connect across itself? The cross-body rib reach warms up the diagonal. The offset dead bug holds that diagonal while resisting movement. The single-dumbbell split squat manages an uneven load through the whole body. The hip airplane controls the pelvis and trunk over one standing leg. Same question, four answers.</p>
     <p class="princ">About 45–60 min · Two dumbbells · one kettlebell · a band (mini, or a long one tied into a loop) · chair or bench.</p>
     <p style="margin-top:12px;padding:11px 13px;border-left:3px solid var(--aqua);background:rgba(18,161,75,.08);font-size:14.5px;line-height:1.5;"><b style="color:#0B7A3A;">First time through</b><br>Allow up to <b>70 minutes</b> while you learn the movements. It gets faster once the order is familiar — the workout doesn't change, your hunting-for-what's-next time disappears. Don't rush the first one to hit a clock.</p>
     <p style="margin-top:10px;padding:11px 13px;border-left:3px solid var(--aqua);background:rgba(18,161,75,.08);font-size:14.5px;line-height:1.5;"><b style="color:#0B7A3A;">Use the band you actually own</b><br>No mini-band? <b>Tie a long band into a loop</b> — that's all a mini-band is. Only got a thick, heavy band? Take a shorter grip, or step closer to whatever it's anchored to, until the starting tension feels moderate. The band you have is the right band; adjust the length, not the exercise.</p>
@@ -393,8 +402,8 @@
       <p>Today asks the body to work across itself — wake rotation up before you load it:</p>
       <ul>
         <li>Hip airplanes — 5 each side, hold a chair if needed. <a class="mw" href="https://www.youtube.com/results?search_query=hip+airplane+exercise+hold+chair+for+balance" rel="noopener">watch</a></li>
-        <li>World's greatest stretch with rotation — 5 each side. <i>Reach the top hand to the ceiling and follow it with your eyes.</i> <a class="mw" href="https://www.youtube.com/results?search_query=worlds+greatest+stretch+with+rotation+form" rel="noopener">watch</a></li>
-        <li>Standing cross-body reaches — 10 total. <i>Opposite hand to opposite hip, let the ribs turn.</i> <a class="mw" href="https://www.youtube.com/results?search_query=standing+cross+body+reach+warm+up" rel="noopener">watch</a></li>
+        <li>World's greatest stretch with rotation — 5 each side. <i>Keep your front foot beside your hand. Reach the arm on the same side as the front leg toward the ceiling, and let your chest turn toward the bent knee.</i> <a class="mw" href="https://www.youtube.com/results?search_query=lunge+worlds+greatest+stretch+elbow+to+instep+same+arm+rotation" rel="noopener">watch</a></li>
+        <li>Cross-body rib reach — 10 total. <i>Feet about hip-width. Reach the right hand toward and slightly past the left hip, letting the ribs rotate with the reach while the pelvis mostly stays facing forward. Return to center, then switch sides. You should feel a diagonal line from the reaching shoulder through the ribs toward the opposite hip.</i> <a class="mw" href="https://www.youtube.com/results?search_query=standing+cross+body+rib+reach+thoracic+rotation+warm+up" rel="noopener">watch</a></li>
       </ul>
     </div>
     
@@ -438,6 +447,7 @@
           <li>Complete all the repetitions, then switch sides and repeat.</li>
         </ul>
         <p class="feel"><span class="yes">Feel:</span> the side of your trunk working to stay square. &nbsp; <span class="no">Not:</span> ribs popping or the low back arching off the floor.</p>
+        <p class="anchor"><b>If it feels unfamiliar</b>You should feel strong abdominal effort, and possibly an unfamiliar challenge through the trunk — that's the anti-rotation work, and it's expected. You should <b>not</b> feel sharp pain, pinching, back pain, or an inability to keep the ribs and pelvis controlled. If you do, lighten the dumbbell or put it down and use the bodyweight version.</p>
         
         <div class="threeq"><span class="tq tq-do"><span class="tq-k">Do this</span>One dumbbell held up in one hand, extend the opposite leg. 8&ndash;10 per side, ribs down throughout.</span><span class="tq tq-down"><span class="tq-k">If that&rsquo;s too difficult</span>Put the dumbbell down. Same offset pattern, bodyweight only — one arm reaching overhead, opposite leg long.</span><span class="tq tq-up"><span class="tq-k">If that&rsquo;s too easy</span>Slide the leg further out, or hold the extended position for 2 seconds before returning.</span></div>
         <a class="watch" href="https://www.youtube.com/results?search_query=dead+bug+one+dumbbell+held+up+offset+load" rel="noopener">Watch the form</a>
@@ -520,6 +530,7 @@
         <div class="ex-top"><h3 class="ex-name"><span class="idx">A1</span>Front-Foot Elevated Split Squat<span class="sub">the working sets — this is the one that counts</span> <span class="fert">🌱 fertilizer</span></h3><label class="donebox"><input type="checkbox" data-track="legs-ffe-split-squat">Done</label></div>
         <p class="cue">Imagine your zipper stays vertical.</p>
         <div class="data"><span class="chip"><span class="k">Sets</span> 3</span><span class="chip"><span class="k">Reps</span> 8–12 / leg</span><span class="chip"><span class="k">Weight</span> 1 DB beside the front leg</span><span class="chip pace"><span class="k">Pace</span> 3 down · 1 pause · controlled rise</span><span class="chip effort"><span class="k">Effort</span> 1–2 good reps left</span></div>
+        <p class="anchor"><b>Why one dumbbell</b>Hold one dumbbell at your side. The uneven load is intentional. Today's lesson is about teaching your body to connect across itself while remaining stable. Most demonstrations you'll find online use two dumbbells — that's a different exercise, not a harder one. You're not doing a simplified version; you're doing the version this lesson is teaching.</p>
         <ul class="cues">
           <li>Front foot elevated, one dumbbell hanging beside the front leg.</li>
           <li>Resist the pull toward the weighted side the whole set.</li>
@@ -549,15 +560,16 @@
 
     <article class="ex">
       <div class="ex-body">
-        <div class="ex-top"><h3 class="ex-name"><span class="idx">A3</span>Hip Airplane Hold<span class="sub">single-leg hip control — finish with stability</span> <span class="fert">🌱 fertilizer</span></h3><label class="donebox"><input type="checkbox" data-track="legs-hip-airplane">Done</label></div>
+        <div class="ex-top"><h3 class="ex-name"><span class="idx">A3</span>Hip Airplane with 2-Second Pause<span class="sub">single-leg hip control — finish with stability</span> <span class="fert">🌱 fertilizer</span></h3><label class="donebox"><input type="checkbox" data-track="legs-hip-airplane">Done</label></div>
         <p class="cue">Grow taller before you rotate.</p>
-        <div class="data"><span class="chip"><span class="k">Sets</span> 2</span><span class="chip"><span class="k">Hold</span> 20 sec / side</span><button class="tbtn" data-secs="20" data-label="20s/side">20s/side</button></div>
+        <div class="data"><span class="chip"><span class="k">Sets</span> 2</span><span class="chip"><span class="k">Work</span> 20 sec / side</span><button class="tbtn" data-secs="20" data-label="20s/side">20s/side</button></div>
         <ul class="cues">
           <li>Hinge over one leg, hands out for balance, hold a chair if you need it.</li>
-          <li>Open the hip slowly, then close it. Small range, total control.</li>
+          <li>Slowly open the pelvis. Pause for two seconds. Slowly return to square. Pause before repeating.</li>
+          <li>Small range, total control.</li>
         </ul>
         
-        <div class="threeq"><span class="tq tq-do"><span class="tq-k">Do this</span>2 holds per side, 20 seconds. Grow taller before you rotate.</span><span class="tq tq-down"><span class="tq-k">If that&rsquo;s too difficult</span>Hold a chair, wall, or countertop, or shorten the hold.</span><span class="tq tq-up"><span class="tq-k">If that&rsquo;s too easy</span>Let go of your support for part or all of the hold.</span></div>
+        <div class="threeq"><span class="tq tq-do"><span class="tq-k">Do this</span>2 sets per side, 20 seconds of open-pause-return-pause. Grow taller before you rotate.</span><span class="tq tq-down"><span class="tq-k">If that&rsquo;s too difficult</span>Hold a chair, wall, or countertop, or shorten the pauses.</span><span class="tq tq-up"><span class="tq-k">If that&rsquo;s too easy</span>Let go of your support for part or all of the set.</span></div>
         <a class="watch" href="https://www.youtube.com/results?search_query=hip+airplane+exercise+hold+chair+for+balance" rel="noopener">Watch the form</a>
       </div>
     </article>
@@ -664,7 +676,7 @@
         <div class="ex-top"><h3 class="ex-name">Cool-down sequence<span class="sub">five pieces, no rush</span></h3><label class="donebox"><input type="checkbox" data-track="rise-block">Done</label></div>
         <ul class="cues">
           <li><b>Horse stance</b> — 30 seconds. Sit down between your feet, chest proud. <a class="mw" href="https://www.youtube.com/results?search_query=horse+stance+isometric+hold" rel="noopener">watch</a></li>
-          <li><b>Cross-body reaches</b> — 10 total, slow. Let the ribs turn.</li>
+          <li><b>Cross-body rib reach</b> — 10 total, slow. Let the ribs turn.</li>
           <li><b>Standing spinal rotation</b> — 8 each way. Turn from the middle of your back, not your neck.</li>
           <li><b>Hip flexor stretch</b> — 30 seconds each side. Squeeze the back glute and stand tall. <a class="mw" href="https://www.youtube.com/results?search_query=half+kneeling+hip+flexor+stretch+glute+squeeze" rel="noopener">watch</a></li>
           <li><b>Forward fold</b> — 30 seconds. Soft knees, heavy head.</li>
