@@ -314,6 +314,17 @@
   .gardenwrap .lesson-row{border-left:3px solid #8DBF3E;}
   .gardenwrap .lesson-row:hover{border-left-color:#2E8B4F;}
   .garden-note{margin:6px 0 18px;padding:10px 13px;border-left:3px solid #2E8B4F;background:rgba(46,139,79,.07);font-size:14.5px;line-height:1.5;}
+
+  /* inline "coming soon" badge — .soon-tag, NOT .soon (that name is
+     already taken by the .phase.soon modifier further up; don't merge them).
+     Sits next to a row title so an unbuilt
+     extra reads as unbuilt even where the right-hand .state chip wraps
+     away or gets scanned past (it does, on narrow screens). Pair it with
+     the .state chip, don't replace it. */
+  .lesson-row h3 .soon-tag{display:inline-block;vertical-align:middle;margin-left:8px;
+    font-family:var(--mono);font-size:9.5px;font-weight:700;letter-spacing:.1em;
+    text-transform:uppercase;background:var(--line);color:var(--ink-2);
+    border:1.5px solid var(--ink-2);padding:2px 7px;white-space:nowrap;}
 </style>
 </head>
 <body>
@@ -556,16 +567,19 @@
         <span class="titles"><h3>Optional Schedules</h3><span class="sub">Two ways to run Phase 1 — three sessions a week or two. Printable. Entirely optional.</span></span>
         <span class="state lock" data-state="sched">Locked</span>
       </a>
-<!-- ── COMING SOON: extras beyond the 7 lessons. Plain rows, no unlock
-           wiring, no data-lessonrow — they're announcements, not products yet. ── -->
-      <div class="lesson-row" style="cursor:default;opacity:.85;">
-        <span class="num">🌱</span>
-        <span class="titles"><h3>Butt Fertilizer</h3><span class="sub">A separate heavy-weights extra for the gym — tack it onto your main workout days if you have an extra 30 minutes. Real weights. Big glutes.</span></span>
-        <span class="state">Coming soon</span>
-      </div>
+<!-- ── EXTRAS beyond the 7 lessons. The Booty Garden is LIVE and links
+           out like any other course; the rest are announcements, not products
+           yet — plain <div> rows, no unlock wiring, no data-lessonrow.
+           When one of those ships: swap its <div> for an <a href>, drop the
+           .soon-tag badge, and change the state to "Open →". ── -->
+      <a class="lesson-row" href="booty-garden.html">
+        <span class="num" style="background:var(--lime);">🌱</span>
+        <span class="titles"><h3>The Booty Garden</h3><span class="sub">A short bands-only glute booster — two bands and a doorway, no gym and nothing to book. Bolt it onto a training day when you have fifteen extra minutes. Lesson 1 is free.</span></span>
+        <span class="state" style="background:var(--lime);border:1.5px solid var(--ink);">Open &rarr;</span>
+      </a>
       <div class="lesson-row" style="cursor:default;opacity:.85;">
         <span class="num">💋</span>
-        <span class="titles"><h3>1950s Pinup Abs</h3><span class="sub">20 minutes every morning. Built for looking your best in the costume — showing your belly button with confidence. Who wants a six-pack anyway?</span></span>
+        <span class="titles"><h3>1950s Pinup Abs <span class="soon-tag">Coming soon</span></h3><span class="sub">20 minutes every morning. Built for looking your best in the costume — showing your belly button with confidence. Who wants a six-pack anyway?</span></span>
         <span class="state">Coming soon</span>
       </div>
 
